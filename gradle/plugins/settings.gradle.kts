@@ -9,4 +9,4 @@ dependencyResolutionManagement {
 }
 
 include("conventions")
-
+include("versioning")
