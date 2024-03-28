@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: ERROR
+    org.springframework: ERROR
+    mmm.coffee: ERROR
+
+spring:
+  main:
+    banner-mode: off

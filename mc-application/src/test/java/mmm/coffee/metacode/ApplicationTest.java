@@ -8,8 +8,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import picocli.CommandLine;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
 /**
@@ -17,7 +15,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = NONE, classes = Application.class)
-public class ApplicationTest {
+class ApplicationTest {
 
     @Autowired
     CommandLine.IFactory factory;
@@ -28,9 +26,9 @@ public class ApplicationTest {
     @Test
     void shouldBeAbleToLaunchApp() throws Exception {
         Application app = new Application(myCommand, factory);
-        app.run(toArgArray("-x abc sub -y 123"));
+        app.run(toArgArray("-x abc"));
         int exitcode = app.getExitCode();
-        assertTrue(exitcode > 0);
+        assertThat(exitcode).isZero();
     }
 
     @Test
