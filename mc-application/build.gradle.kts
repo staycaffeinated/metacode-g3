@@ -2,6 +2,7 @@
 plugins {
     id("buildlogic.java-application-conventions")
     id("buildlogic.versioning")
+    alias(libs.plugins.versions)
 }
 
 dependencies {
@@ -13,11 +14,11 @@ dependencies {
     implementation(libs.spring.core)
     implementation(libs.spring.boot.starter.logging)
 
-    testImplementation(libs.junitJupiter)
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.assertJ)
     testImplementation(libs.mockito)
     testImplementation(libs.spring.boot.starter.test)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 application {
