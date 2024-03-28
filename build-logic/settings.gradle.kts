@@ -13,3 +13,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "metacode-g3-build-logic"
+
+include("plugins")
+
