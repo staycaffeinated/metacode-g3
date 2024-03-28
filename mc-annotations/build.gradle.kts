@@ -9,5 +9,6 @@ plugins {
 }
 
 dependencies {
-    //api(project(":list"))
+    implementation(libs.guice)
+    implementation(libs.jakartaInject)
 }
