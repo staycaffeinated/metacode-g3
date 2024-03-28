@@ -13,6 +13,8 @@ rootProject.name = "metacode-g3"
 include("mc-application") 
 include("mc-annotations")
 include("mc-common")
+include("mc-adapter-spring-spi")
+include("mc-adapter-spring-core")
 
 dependencyResolutionManagement {
   includeBuild("gradle/plugins")

@@ -1,0 +1,146 @@
+#
+# WHAT THE FIELDS MEAN
+#
+# Template paths are resource-path based
+# Destination paths are relative to the project.root directory.
+# The Context indicates both when the template is used and
+# what kind of data is passed to the template 'compiler' to resolve template variables.
+# At the moment, 2 kinds of contexts are supported: 'project' and 'endpoint' since,
+# from the command-line interface, there are two subcommands, 'create-project'
+# and 'create-endpoint'. Hence, templates in the 'project' context are used
+# when invoking the 'create-project' command, while the templates in 'endpoint' context
+# are used when invoking the 'create-endpoint' command.
+#
+# The 'feature' attribute indicates that particular template is only applied
+# when the declared feature (i.e., library integration) was specified. For example,
+# some templates are only applicable when PostgreSQL support is wanted.  Features
+# come into play when the '-s' ('--suport') option is given on the command line.
+# For instance, ``rest-api create-project --package org.example --add postgres``
+#
+catalog:
+# ------------------------------------------------
+# -- BASE DIRECTORY
+# ------------------------------------------------
+  - entry:
+      template: "/gradle/RootProjectBuildDotGradle.ftl"
+      destination: "build.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/JavaVersion.ftl"
+      destination: ".java-version"
+      context: "project"
+  - entry:
+      template: "/gradle/BuildDotGradle.ftl"
+      destination: "{{appModule}}/build.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/GradleDotProperties.ftl"
+      destination: "gradle.properties"
+      context: "project"
+  - entry:
+      template: "/gradle/SettingsDotGradle.ftl"
+      destination: "settings.gradle"
+      context: "project"
+
+# ------------------------------------------------
+# -- Version Catalog
+# ------------------------------------------------
+  - entry:
+      template: "/gradle/VersionCatalog.ftl"
+      destination: "gradle/libs.versions.toml"
+      context: "project"
+
+# ------------------------------------------------
+# -- PLATFORM
+# ------------------------------------------------
+
+  - entry:
+      template: "/gradle/platform/BuildDotGradle.ftl"
+      destination: "gradle/platform/build.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/platform/SettingsDotGradle.ftl"
+      destination: "gradle/platform/settings.gradle"
+      context: "project"
+
+# ------------------------------------------------
+# -- PLUGINS
+# ------------------------------------------------
+
+  - entry:
+      template: "/gradle/plugins/SettingsDotGradle.ftl"
+      destination: "gradle/plugins/settings.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/BuildDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/build.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/SettingsDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/settings.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/DockerDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.docker.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/JacocoDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.jacoco.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/JavaConventionsDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.java-conventions.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/LintDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.lint.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/SonarJacocoDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.sonar-jacoco.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/SpotlessDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.spotless.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/TestingDotGradle.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.testing.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/ApplicationConventions.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.application-conventions.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/LibraryConventions.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.library-conventions.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/plugins/java-conventions/src-main-groovy/SubprojectConfigurations.ftl"
+      destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.subproject-configurations.gradle"
+      context: "project"
+
+# ------------------------------------------------
+# -- SETTINGS
+# ------------------------------------------------
+
+  - entry:
+      template: "/gradle/settings/BuildDotGradle.ftl"
+      destination: "gradle/settings/build.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/settings/SettingsDotGradle.ftl"
+      destination: "gradle/settings/settings.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/settings/src-main-groovy/RepositoriesDotSettingsDotGradle.ftl"
+      destination: "gradle/settings/src/main/groovy/org.example.repositories.settings.gradle"
+      context: "project"
+# ------------------------------------------------
+# -- H2 SCHEMA.SQL
+# ------------------------------------------------
+  - entry:
+      template: "/spring/common/main/resources/SchemaDotSql.ftl"
+      destination: "{{appModule}}/src/main/resources/schema.sql"
+      context: "project"
+      # when: "database is 'h2' and (project is webmvc or project is webflux)"
