@@ -15,7 +15,6 @@
  */
 package mmm.coffee.metacode.common.freemarker;
 
-import com.google.inject.Inject;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import lombok.NonNull;
@@ -41,17 +40,18 @@ public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplate
 
     /**
      * Constructor
+     *
      * @param configuration the freemarker configuration
      */
-    @Inject
     public FreemarkerTemplateResolver(@NonNull Configuration configuration) {
         this.configuration = configuration;
     }
 
     /**
      * Render the template
+     *
      * @param templateClassPath the path to the template file (a freemarker FTL file, for example)
-     * @param dataModel the data model used to resolve template variables
+     * @param dataModel         the data model used to resolve template variables
      * @return the rendered content of the template, as a String
      */
     @Override
@@ -69,7 +69,7 @@ public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplate
             // _that_ object as a POJO to resolve the rest of the expression.
             // The POJO simply needs matching getter methods, like 'getApplicationName()'
             // or 'getResourceName()'.
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put(dataModel.getTopLevelVariable(), dataModel);
 
             // Add a top-level variable, YEAR, that has the current year.
@@ -81,8 +81,7 @@ public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplate
             var writer = new StringWriter();
             template.process(map, writer);
             return writer.toString();
-        }
-        catch (TemplateException | IOException e) {
+        } catch (TemplateException | IOException e) {
             throw new RuntimeApplicationError(e.getMessage());
         }
     }

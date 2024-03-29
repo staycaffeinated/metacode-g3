@@ -15,7 +15,6 @@
  */
 package mmm.coffee.metacode.cli.commands.create.project;
 
-import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.annotations.guice.SpringWebMvc;
 import mmm.coffee.metacode.cli.validation.PackageNameValidator;
@@ -23,6 +22,9 @@ import mmm.coffee.metacode.cli.validation.SpringIntegrationValidator;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
 /**
@@ -40,6 +42,7 @@ import picocli.CommandLine;
 )
 @Slf4j
 @SuppressWarnings({ "java:S1854", "java:S1481" } ) // S1854, S1481: allow  unused vars for now
+@Component
 public class SubcommandCreateWebMvcProject extends AbstractCreateSpringProject {
     
     /**
@@ -52,8 +55,8 @@ public class SubcommandCreateWebMvcProject extends AbstractCreateSpringProject {
      * Construct with the given code generator
      * @param codeGenerator the code generator to use
      */
-    @Inject
-    public SubcommandCreateWebMvcProject(@SpringWebMvc ICodeGenerator<RestProjectDescriptor> codeGenerator) {
+    // TODO: create springWebMvcCodeGenerator bean
+    public SubcommandCreateWebMvcProject(@SpringWebMvc @Qualifier("springWebmvcGenerator") ICodeGenerator<RestProjectDescriptor> codeGenerator) {
         this.codeGenerator = codeGenerator;
     }
 

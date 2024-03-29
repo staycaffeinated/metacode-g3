@@ -13,12 +13,14 @@ dependencies {
     implementation(project(":mc-annotations"))
     implementation(project(":mc-common"))
     implementation(project(":mc-adapter-spring-spi"))
+    implementation(project(":mc-generator-spring"))
 
     implementation(libs.picocli.spring.boot.starter)
     implementation(libs.spring.context)
     implementation(libs.spring.core)
     implementation(libs.spring.boot.starter.logging)
-    implementation(libs.guice);
+    implementation(libs.guava)
+    implementation(libs.commonsConfig)
 
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.assertJ)
