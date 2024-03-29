@@ -15,6 +15,7 @@ include("mc-annotations")
 include("mc-common")
 include("mc-adapter-spring-spi")
 include("mc-adapter-spring-core")
+include("mc-adapter-spring-webmvc")
 
 dependencyResolutionManagement {
   includeBuild("gradle/plugins")
