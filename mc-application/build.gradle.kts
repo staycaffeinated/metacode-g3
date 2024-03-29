@@ -18,6 +18,7 @@ dependencies {
     implementation(libs.spring.context)
     implementation(libs.spring.core)
     implementation(libs.spring.boot.starter.logging)
+    implementation(libs.guice);
 
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.assertJ)
