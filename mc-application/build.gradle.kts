@@ -12,6 +12,7 @@ plugins {
 dependencies {
     implementation(project(":mc-annotations"))
     implementation(project(":mc-common"))
+    implementation(project(":mc-adapter-spring-spi"))
 
     implementation(libs.picocli.spring.boot.starter)
     implementation(libs.spring.context)
