@@ -7,9 +7,16 @@
 plugins {
     // Apply the java Plugin to add support for Java.
     java
+    id("buildlogic.jacoco-conventions")
+    id("buildlogic.lint-conventions")
+    id("buildlogic.sonar-jacoco-conventions")
 }
 
 repositories {
+    // Allow mavenLocal to enable using snapshot versions of libraries
+    // that are build+published locally before said library is published
+    // to a main repository.
+    mavenLocal()
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
