@@ -16,13 +16,11 @@
 package mmm.coffee.metacode.cli.commands.create.project;
 
 import lombok.extern.slf4j.Slf4j;
-import mmm.coffee.metacode.annotations.guice.SpringWebMvc;
 import mmm.coffee.metacode.cli.validation.PackageNameValidator;
 import mmm.coffee.metacode.cli.validation.SpringIntegrationValidator;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
@@ -31,20 +29,20 @@ import picocli.CommandLine;
  * CLI to create a Spring WebMVC project
  */
 @CommandLine.Command(
-        name="spring-webmvc",
+        name = "spring-webmvc",
         mixinStandardHelpOptions = true,
         headerHeading = "%nSynopsis:%n",
         header = "  Generate a Spring WebMVC project",
         descriptionHeading = "%nDescription:%n",
-        description="  Creates a Spring project that leverages Spring WebMVC",
+        description = "  Creates a Spring project that leverages Spring WebMVC",
         synopsisHeading = "%nUsage:%n",
         optionListHeading = "%nOptions:%n"
 )
 @Slf4j
-@SuppressWarnings({ "java:S1854", "java:S1481" } ) // S1854, S1481: allow  unused vars for now
+@SuppressWarnings({"java:S1854", "java:S1481"}) // S1854, S1481: allow  unused vars for now
 @Component
 public class SubcommandCreateWebMvcProject extends AbstractCreateSpringProject {
-    
+
     /**
      * Handle to the code generator
      */
@@ -53,18 +51,20 @@ public class SubcommandCreateWebMvcProject extends AbstractCreateSpringProject {
 
     /**
      * Construct with the given code generator
+     *
      * @param codeGenerator the code generator to use
      */
-    // TODO: create springWebMvcCodeGenerator bean
-    public SubcommandCreateWebMvcProject(@SpringWebMvc @Qualifier("springWebmvcGenerator") ICodeGenerator<RestProjectDescriptor> codeGenerator) {
+    public SubcommandCreateWebMvcProject(@Qualifier("springWebmvcGenerator") ICodeGenerator<RestProjectDescriptor> codeGenerator) {
         this.codeGenerator = codeGenerator;
     }
 
     /**
      * Entry point by PicoCLI
+     *
      * @return the exit code
      */
-    @Override public Integer call() {
+    @Override
+    public Integer call() {
         SpringIntegrationValidator siv = SpringIntegrationValidator.of(features);
         PackageNameValidator pnv = PackageNameValidator.of(packageName);
         super.runValidations(pnv, siv);

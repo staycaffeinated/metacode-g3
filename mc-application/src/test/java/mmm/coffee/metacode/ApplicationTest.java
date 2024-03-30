@@ -1,5 +1,8 @@
 package mmm.coffee.metacode;
 
+import mmm.coffee.metacode.cli.commands.MetaCodeCommand;
+import mmm.coffee.metacode.cli.commands.create.CreateCommand;
+import mmm.coffee.metacode.cli.commands.create.project.SubcommandCreateProject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,29 +24,37 @@ class ApplicationTest {
     CommandLine.IFactory factory;
 
     @Autowired
-    MyCommand myCommand;
+    MetaCodeCommand metaCodeCommand;
+
+    @Autowired
+    CreateCommand createCommand;
 
     @Test
     void shouldBeAbleToLaunchApp() throws Exception {
-        Application app = new Application(myCommand, factory);
-        app.run(toArgArray("-x abc"));
-        int exitcode = app.getExitCode();
-        assertThat(exitcode).isZero();
+        Application app = new Application(metaCodeCommand, factory);
+        app.run(toArgArray("create --help"));
+        int exitCode = app.getExitCode();
+        assertThat(exitCode).isZero();
     }
 
     @Test
     void testParsingCommandLineArgs() {
-        CommandLine.ParseResult parseResult = new CommandLine(myCommand, factory)
-                .parseArgs(toArgArray("-x=someX"));
+        // Start with the `create` command
+        CommandLine.ParseResult projectCmd = new CommandLine(createCommand, factory)
+                .parseArgs(toArgArray("project spring-webmvc --name petstore --package io.acme.petstore"));
 
-        assertThat(myCommand.getX()).isEqualTo("someX");
-        assertThat(myCommand.positionals).isEmpty();
+        // The first subcommand encountered after `create` is 'project'
+        assertThat(projectCmd).isNotNull();
+        assertThat(projectCmd.hasSubcommand()).isTrue();
 
-//        assertTrue(parseResult.hasSubcommand());
-//        CommandLine.ParseResult subParseResult = parseResult.subcommand();
-//        MyCommand.Sub sub = (MyCommand.Sub) subParseResult.commandSpec().userObject();
-//        assertEquals("123", sub.y);
-//        // assertNull(sub.positionals);
+        // The next subcommand is `spring-webmvc`
+        CommandLine.ParseResult springWebMvcCmd = projectCmd.subcommand();
+        assertThat(springWebMvcCmd).isNotNull();
+        assertThat(springWebMvcCmd.hasSubcommand()).isTrue();
+
+        // As an example of how to drill down on the objects.
+        SubcommandCreateProject obj = (SubcommandCreateProject) springWebMvcCmd.commandSpec().userObject();
+        assertThat(obj).isNotNull();
     }
 
     private String[] toArgArray(String inputs) {
