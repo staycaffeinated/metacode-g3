@@ -7,7 +7,7 @@ plugins {
 dependencies {
     api(project(":mc-common"))
     api(project(":mc-annotations"))
-    api(project(":mc-adapter-spring-spi"))
+    api(project(":mc-adapter-spring-shared"))
     api(project(":mc-adapter-spring-core"))
     api(project(":mc-adapter-spring-webmvc"))
 
