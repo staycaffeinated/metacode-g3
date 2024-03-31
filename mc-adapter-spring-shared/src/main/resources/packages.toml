@@ -1,0 +1,85 @@
+# This is a TOML document
+
+title = "Default Project Structure"
+version = "1.0"
+
+# All paths are relative to basePath.
+# As such, prefixing all paths with ```_BASEPATH_``` is unnecessary.
+# TOML syntax does not allow keys containing the characters '$', '{' or '}'.
+# Instead, the underscore ("_") is used.
+
+[exceptions]
+classes = [ "BadRequestException", "ResourceNotFoundException", "UnprocessableEntityException" ]
+
+# This handles the base path, "/".
+[home]
+classes = [ "ServiceImpl", "Controller" ]
+
+# This package contains infrastructure
+[infra]
+
+    [infra.advice]
+    classes = "GlobalExceptionHandler"
+
+    [infra.config]
+    classes = [ "ApplicationConfiguration",
+                "DateTimeFormatConfiguration",
+                "ProblemConfiguration",
+                "LocalDateConverter",
+                "WebMvcConfiguration" ]
+
+    [infra.profiles]
+    classes = "SpringProfiles"
+
+    [infra.utils]
+    classes = "SecureRandomSeries"
+
+    [infra.utils.classNames]
+    SecureRandomSeries = "ResourceIdGenerator"
+
+    [infra.trait]
+    classes = [ "ResourceIdTrait"]
+
+    [infra.trait.classNames]
+    ResourceIdTrait = "ResourceIdAware"
+
+    [infra.validation]
+    classes = [ "AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator" ]
+
+# These are resource-specific packages, such as the individual
+# packages you'd want to create for Pet, Store, Owner.
+# As represented here, the package structure will be, say:
+# org.example.pet.api
+# org.example.pet.domain
+# org.example.store.api
+# org.example.owner.api
+[_RESOURCE_]
+
+    [_RESOURCE_.api]
+    classes = [ "ServiceApi", "Controller", "Routes", "ServiceImpl" ]
+
+    [_RESOURCE_.api.classNames]
+    ServiceApi = "_RESOURCE_Service"
+    Controller = "_RESOURCE_Controller"
+    ServiceImpl = "_RESOURCE_ServiceProvider"
+    Routes = "_RESOURCE_Routes"
+
+    [_RESOURCE_.domain]
+    classes = [ "ResourcePojo" ]
+
+    [_RESOURCE_.domain.classNames]
+    ResourcePojo = "_RESOURCE_View"
+
+    [_RESOURCE_.spi.database]
+    classes = [ "DataStoreApi", "DataStoreImpl", "Entity", "Repository"]
+
+    [_RESOURCE_.spi.database.converter]
+    classes = [ "EntityToPojoConverter", "PojoToEntityConverter" ]
+
+
+[spi.database]
+classes = [ "CustomRepository", "GenericDataStore"]
+
+[Internal.TestClassSuffixes]
+unitTest = "Test"
+integrationTest = "IntegrationTest"
