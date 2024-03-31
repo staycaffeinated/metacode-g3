@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("buildlogic.java-application-conventions")
@@ -29,9 +30,11 @@ dependencies {
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 
+
 application {
-    // Define the main class for the application.
-    mainClass = "mmm.coffee.metacode.Application"
+    //mainClass.set("mmm.coffee.zen.cli.CodeZenApplication")
+    mainClass.set("mmm.coffee.metacode.Application") // shadowJar needs this syntax
+    applicationName = "metacode"
 }
 
 /**
@@ -52,5 +55,24 @@ tasks.named<Jar>("jar") {
     // manifest.attributes["Main-Class"] = "mmm.coffee.metacode.Application"
     manifest.attributes["Implementation-Title"] = "MetaCode"
     manifest.attributes["Implementation-Version"] = archiveVersion.getOrElse("0.1")
+}
+
+/**
+ * Shadowjar is used to build an uber-jar that's handy for local
+ * testing since it doesn't require installing the distribution jar
+ */
+tasks.named<ShadowJar>("shadowJar") {
+    archiveBaseName.set(application.applicationName)
+    // This wasn't being added before, so not if this line is necessary
+    manifest.attributes["Main-Class"] = "mmm.coffee.metacode.cli.Application"
+    manifest.attributes["Implementation-Title"] = "MetaCode"
+    manifest.attributes["Implementation-Version"] = archiveVersion.getOrElse("0.1")
+}
+
+tasks {
+    build {
+        dependsOn(shadowJar)
+        dependsOn(jar)
+    }
 }
 
