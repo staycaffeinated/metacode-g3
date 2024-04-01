@@ -1,6 +1,7 @@
 plugins {
     id("buildlogic.java-library-conventions")
     alias(libs.plugins.lombok)
+    alias(libs.plugins.versions)
 }
 
 dependencies {
@@ -16,6 +17,7 @@ dependencies {
     implementation(libs.picocli)
     implementation(libs.freemarker)
     implementation(libs.jacksonYaml)
+    implementation(libs.toml)
     implementation(libs.slf4jApi)
 
     testImplementation(platform(libs.junitBillOfMaterial))
