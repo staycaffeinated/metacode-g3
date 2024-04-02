@@ -6,6 +6,7 @@
 
 plugins {
     id("buildlogic.java-library-conventions")
+    alias(libs.plugins.versions)
 }
 
 dependencies {

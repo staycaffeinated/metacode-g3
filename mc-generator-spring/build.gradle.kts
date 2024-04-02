@@ -2,6 +2,7 @@ plugins {
     id("buildlogic.java-library-conventions")
     id("buildlogic.versioning")
     alias(libs.plugins.lombok)
+    alias(libs.plugins.versions)
 }
 
 dependencies {
