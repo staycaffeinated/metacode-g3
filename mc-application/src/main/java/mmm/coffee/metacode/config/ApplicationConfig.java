@@ -1,15 +1,23 @@
 package mmm.coffee.metacode.config;
 
+import mmm.coffee.metacode.common.toml.DefaultPackageDataDictionary;
+import mmm.coffee.metacode.common.toml.PackageDataDictionary;
+import mmm.coffee.metacode.common.toml.PackageDataDictionaryFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * TODO: Fill me in
+ * Configuration of application beans
  */
 @Configuration
 public class ApplicationConfig {
+
+    @Value("${app.package-schema:packages.toml}")
+    private String packageSchema;
 
     /**
      * Added to resolve warning:
@@ -25,5 +33,16 @@ public class ApplicationConfig {
     @Bean
     java.util.List<String> stringList() {
         return new ArrayList<>();
+    }
+
+
+    @Bean
+    public PackageDataDictionaryFactory packageDataDictionaryFactory() {
+        return new PackageDataDictionaryFactory();
+    }
+
+    @Bean
+    public PackageDataDictionary packageDataDictionary(PackageDataDictionaryFactory factory) throws IOException {
+        return factory.createDictionary(packageSchema);
     }
 }

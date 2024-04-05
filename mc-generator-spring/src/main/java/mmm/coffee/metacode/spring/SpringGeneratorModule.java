@@ -16,7 +16,6 @@
 package mmm.coffee.metacode.spring;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
 import freemarker.template.Configuration;
 import mmm.coffee.metacode.annotations.guice.*;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
@@ -34,7 +33,8 @@ import mmm.coffee.metacode.common.io.MetaPropertiesWriter;
 import mmm.coffee.metacode.common.stereotype.DependencyCollector;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.common.writer.ContentToFileWriter;
-import mmm.coffee.metacode.spring.catalog.*;
+import mmm.coffee.metacode.spring.catalog.SpringEndpointCatalog;
+import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
 import mmm.coffee.metacode.spring.converter.NameConverter;
 import mmm.coffee.metacode.spring.converter.RouteConstantsConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToPredicateConverter;
@@ -52,6 +52,7 @@ import mmm.coffee.metacode.spring.project.io.SpringMetaPropertiesHandler;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -90,6 +91,7 @@ public class SpringGeneratorModule extends AbstractModule {
                 .build();
     }
 
+
     @Bean
     @FreemarkerConfigurationProvider
     Configuration providesFreemarkerConfiguration() {
@@ -97,21 +99,24 @@ public class SpringGeneratorModule extends AbstractModule {
         // code generator that's plugged in. For instance, Micronaut templates will
         // be in a different folder than the Spring templates.  When the Configuration
         // object is created, the base folder used by the Configuration instance varies.
-        return ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY); }
+        return ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY);
+    }
 
     /**
      * The code generator needs a class that will handle writing content to a file.
      * Specifically, once a template is parsed and rendered as a String, that String
      * gets written to a file (such as a .java source file). The WriteOutputProvider
      * provides the class that handles that.
-     *
+     * <p>
      * The WriteOutputProvider is made "pluggable" so that, during testing, a NullWriter
      * can be used to exercise the code w/o producing files that need to be cleaned up
      * after the tests finish.
      */
     @Bean
     @WriteOutputProvider
-    WriteOutputTrait providesWriteOutput() { return new ContentToFileWriter(); }
+    WriteOutputTrait providesWriteOutput() {
+        return new ContentToFileWriter();
+    }
 
     @Bean
     @DependencyCatalogProvider
@@ -121,7 +126,7 @@ public class SpringGeneratorModule extends AbstractModule {
 
     @Bean
     @MetaPropertiesHandlerProvider
-    MetaPropertiesHandler<RestProjectDescriptor> providesMetaPropertiesHandler() {
+    public MetaPropertiesHandler<RestProjectDescriptor> providesMetaPropertiesHandler() {
         return SpringMetaPropertiesHandler.builder()
                 .converter(new DescriptorToMetaProperties())
                 .reader(MetaPropertiesReader.builder()

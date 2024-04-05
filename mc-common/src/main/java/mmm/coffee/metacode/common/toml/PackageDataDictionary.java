@@ -1,6 +1,7 @@
 package mmm.coffee.metacode.common.toml;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PackageDataDictionary {
 
@@ -16,6 +17,8 @@ public interface PackageDataDictionary {
     String basePackage();
     String dictionaryVersion();
     String canonicalClassNameOf(String classKey);
+    void add(ClassKey classKey, String packageName);
+    void addAll(Map<ClassKey,String> klassToPkgMap);
 
     /**
      * The number of entries in the dictionary
