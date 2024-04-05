@@ -12,10 +12,11 @@ public class DefaultPackageDataDictionaryTest {
 
     private final String basePackage = "org.example.petstore";
 
-    DefaultPackageDataDictionary classUnderTest = new DefaultPackageDataDictionary(basePackage);
+    DefaultPackageDataDictionary classUnderTest = new DefaultPackageDataDictionary();
 
     @BeforeEach
     public void setUp() {
+        classUnderTest.setBasePackage(basePackage);
         initDictionary();
     }
 

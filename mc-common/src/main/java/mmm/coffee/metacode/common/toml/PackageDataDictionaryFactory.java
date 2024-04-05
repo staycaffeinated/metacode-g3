@@ -18,7 +18,7 @@ public class PackageDataDictionaryFactory {
     public PackageDataDictionary createDictionary(String tomlFile) throws IOException {
         TomlParseResult result = Toml.parse(openFile(tomlFile));
 
-        DefaultPackageDataDictionary dictionary = new DefaultPackageDataDictionary("org.example");
+        DefaultPackageDataDictionary dictionary = new DefaultPackageDataDictionary();
 
         Map<ClassKey, String> map = extractClassNames(result);
         dictionary.addAll(map);

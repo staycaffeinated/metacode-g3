@@ -20,15 +20,22 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
     // key: the package name
     // values: list of proto-classes within the package
     private final ListMultimap<String, ClassKey> packageToClassMap = ArrayListMultimap.create();
-    private final String projectBasePackage;
+
+    // This value isn't known at boot time, it's provided at runtime as a CLI argument
+    private String projectBasePackage;
 
     /**
      * Constructor
-     *
-     * @param projectBasePackage the base package of the project, such as 'org.acme.petstore'
      */
-    public DefaultPackageDataDictionary(String projectBasePackage) {
-        this.projectBasePackage = projectBasePackage;
+    public DefaultPackageDataDictionary() {
+
+    }
+
+    public String getBasePackage() {
+        return projectBasePackage;
+    }
+    public void setBasePackage(String basePackage) {
+        this.projectBasePackage = basePackage;
     }
 
     public void add(@NonNull ClassKey key, @NonNull String packageName) {
