@@ -10,3 +10,13 @@ spring:
 
 app:
   package-schema: packages.toml
+  spring:
+    dependency-file: /spring/dependencies/dependencies.yml
+    templates:
+      base-directory: /spring/templates
+      docker: /spring/templates/docker
+      lombok: /spring/templates/lombok
+      gradle: /spring/templates/gradle
+      spring-common: /spring/templates/common
+      spring-webmvc: /spring/templates/webmvc
+

@@ -19,6 +19,7 @@ public class ApplicationConfig {
     @Value("${app.package-schema:packages.toml}")
     private String packageSchema;
 
+
     /**
      * Added to resolve warning:
      * <code>
