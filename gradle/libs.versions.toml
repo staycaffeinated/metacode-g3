@@ -13,6 +13,7 @@ jakartaAnnotations  = '2.1.1'
 jakartaInject       = '2.0.1'
 jmustache           = '1.16'
 junit               = '5.10.2'
+junitPlatform       = '1.10.2'
 log4j               = '2.18.0'
 logback             = '1.4.7'
 lombok              = '1.18.26'
@@ -44,7 +45,7 @@ jmustache           = { module = "com.samskivert:jmustache", version.ref = "jmus
 junitBillOfMaterial = { module = "org.junit:junit-bom", version.ref="junit" }
 junit-jupiter        = { module = "org.junit.jupiter:junit-jupiter", version.ref="junit" }
 junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", version.ref="junit" }
-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version="" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref="junitPlatform" }
 jakartaAnnotations  = { module = "jakarta.annotation:jakarta.annotation-api", version.ref="jakartaAnnotations" }
 jakartaInject       = { module = "jakarta.inject:jakarta.inject-api", version.ref="jakartaInject" }
 junitSystemRules    = { module = "com.github.stefanbirkner:system-rules", version.ref="systemRules" }
