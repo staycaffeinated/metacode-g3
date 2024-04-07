@@ -1,5 +1,6 @@
 plugins {
     id("buildlogic.java-library-conventions")
+    id("buildlogic.integration-test")
     id("buildlogic.versioning")
     alias(libs.plugins.lombok)
     alias(libs.plugins.versions)
@@ -29,7 +30,29 @@ dependencies {
     testImplementation(libs.junitSystemRules)
     testImplementation(libs.truth)
     testImplementation(libs.mockito)
+    testRuntimeOnly(libs.junit.platform.runner)
 }
+
+/**
+// https://blog.gradle.org/introducing-test-suites
+val integrationTest = sourceSets.create("integrationTest") {}
+
+configurations["integrationTestImplementation"].extendsFrom(configurations["testImplementation"])
+configurations["integrationTestRuntimeOnly"].extendsFrom(configurations["testRuntimeOnly"])
+
+val integrationTestTask = tasks.register<Test>("integrationTest") {
+    description = "Runs integration tests"
+    group = "verification"
+    useJUnitPlatform()
+
+    classpath = configurations[integrationTest.runtimeClasspathConfigurationName] + integrationTest.output
+    testClassesDirs = integrationTest.output.classesDirs
+}
+
+dependencies {
+    // configurations["integrationTestImplementation"](project)
+}
+**/
 
 
 

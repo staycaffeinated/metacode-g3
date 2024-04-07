@@ -3,6 +3,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     id("buildlogic.java-application-conventions")
     id("buildlogic.versioning")     // reads version.txt file to acquire this app's version number
+    id("buildlogic.integration-test")
     id("application")
     id("distribution")              // builds a distribution of the application for the homebrew tap
     alias(libs.plugins.shadow.jar)  // builds runnable jar containing all dependencies; use for local testing

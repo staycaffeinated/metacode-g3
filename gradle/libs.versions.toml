@@ -44,7 +44,7 @@ jacksonYaml         = { module = "com.fasterxml.jackson.dataformat:jackson-dataf
 jmustache           = { module = "com.samskivert:jmustache", version.ref = "jmustache" }
 junitBillOfMaterial = { module = "org.junit:junit-bom", version.ref="junit" }
 junit-jupiter        = { module = "org.junit.jupiter:junit-jupiter", version.ref="junit" }
-junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", version.ref="junit" }
+junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", version.ref="junitPlatform" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref="junitPlatform" }
 jakartaAnnotations  = { module = "jakarta.annotation:jakarta.annotation-api", version.ref="jakartaAnnotations" }
 jakartaInject       = { module = "jakarta.inject:jakarta.inject-api", version.ref="jakartaInject" }
