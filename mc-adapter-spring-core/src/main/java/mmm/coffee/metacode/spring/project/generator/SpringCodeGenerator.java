@@ -85,7 +85,9 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);
 
-        // Is there a better way? Would really like the generator to agnostic of this
+        // Is there a better way? I would really like the generator to be agnostic of this approach.
+        // This method maps the metadata in the templateModel into a Map<TokenName,TokenValue>
+        // to enable resolving mustache expressions, which have the form `{{tokenName}}`.
         mustacheDecoder.configure(templateModel);
 
         // Render the templates

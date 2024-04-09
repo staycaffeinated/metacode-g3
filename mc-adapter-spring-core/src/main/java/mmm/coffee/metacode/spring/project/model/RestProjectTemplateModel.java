@@ -114,6 +114,10 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
      * state of this template model object. There's information in
      * the DependencyCatalog that needs to be available to the Template
      * engine to enable resolving some template variables.
+     * <p></p>
+     * The dependency catalog lists the 3rd-party libraries in use and their version.
+     * This enables the code generator to render the `libs.versions.toml` file and
+     * the `build.gradle` files. 
      *
      * @param dependencyCatalog the dependency data to add to the template model
      */
@@ -137,7 +141,7 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
     // with first letter of fieldName capitalized
     String conjureSetterMethod(String fieldName) {
         String firstLetter = fieldName.substring(0,1);
-        String remainder = fieldName.substring(1, fieldName.length());
+        String remainder = fieldName.substring(1);
         firstLetter = firstLetter.toUpperCase(Locale.ROOT);
         return "set" + firstLetter + remainder + "Version";
     }
