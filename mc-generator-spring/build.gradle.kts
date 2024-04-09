@@ -32,27 +32,3 @@ dependencies {
     testImplementation(libs.mockito)
     testRuntimeOnly(libs.junit.platform.runner)
 }
-
-/**
-// https://blog.gradle.org/introducing-test-suites
-val integrationTest = sourceSets.create("integrationTest") {}
-
-configurations["integrationTestImplementation"].extendsFrom(configurations["testImplementation"])
-configurations["integrationTestRuntimeOnly"].extendsFrom(configurations["testRuntimeOnly"])
-
-val integrationTestTask = tasks.register<Test>("integrationTest") {
-    description = "Runs integration tests"
-    group = "verification"
-    useJUnitPlatform()
-
-    classpath = configurations[integrationTest.runtimeClasspathConfigurationName] + integrationTest.output
-    testClassesDirs = integrationTest.output.classesDirs
-}
-
-dependencies {
-    // configurations["integrationTestImplementation"](project)
-}
-**/
-
-
-
