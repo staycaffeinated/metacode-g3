@@ -159,7 +159,7 @@ class SpringWebMvcTemplateCatalogTest {
             RestProjectDescriptor mockProjectDescriptor = Mockito.mock(RestProjectDescriptor.class);
             when(mockProjectDescriptor.getIntegrations()).thenReturn(integrations);
             
-            catalogUnderTest.beforeCollection(mockProjectDescriptor);
+            catalogUnderTest.prepare(mockProjectDescriptor);
             assertThat(catalogUnderTest.getActiveCatalog()).isEqualTo(SpringWebMvcTemplateCatalog.WEBMVC_MONGODB_CATALOG);
         }
 
@@ -170,7 +170,7 @@ class SpringWebMvcTemplateCatalogTest {
             RestProjectDescriptor mockProjectDescriptor = Mockito.mock(RestProjectDescriptor.class);
             when(mockProjectDescriptor.getIntegrations()).thenReturn(integrations);
 
-            catalogUnderTest.beforeCollection(mockProjectDescriptor);
+            catalogUnderTest.prepare(mockProjectDescriptor);
             assertThat(catalogUnderTest.getActiveCatalog()).isEqualTo(SpringWebMvcTemplateCatalog.WEBMVC_CATALOG);
         }
 
@@ -179,7 +179,7 @@ class SpringWebMvcTemplateCatalogTest {
             RestEndpointDescriptor mockEndpointDescriptor = Mockito.mock(RestEndpointDescriptor.class);
             when(mockEndpointDescriptor.isWithMongoDb()).thenReturn(true);
 
-            catalogUnderTest.beforeCollection(mockEndpointDescriptor);
+            catalogUnderTest.prepare(mockEndpointDescriptor);
             assertThat(catalogUnderTest.getActiveCatalog()).isEqualTo(SpringWebMvcTemplateCatalog.WEBMVC_MONGODB_CATALOG);
         }
 
@@ -188,7 +188,7 @@ class SpringWebMvcTemplateCatalogTest {
             RestEndpointDescriptor mockEndpointDescriptor = Mockito.mock(RestEndpointDescriptor.class);
             when(mockEndpointDescriptor.isWithMongoDb()).thenReturn(false);
 
-            catalogUnderTest.beforeCollection(mockEndpointDescriptor);
+            catalogUnderTest.prepare(mockEndpointDescriptor);
             assertThat(catalogUnderTest.getActiveCatalog()).isEqualTo(SpringWebMvcTemplateCatalog.WEBMVC_MONGODB_CATALOG);
 
         }
@@ -205,7 +205,7 @@ class SpringWebMvcTemplateCatalogTest {
         void whenDescriptorIsOfWrongType_expectDefaultCatalog() {
             Descriptor mockDescriptor = Mockito.mock(Descriptor.class);
 
-            catalogUnderTest.beforeCollection(mockDescriptor);
+            catalogUnderTest.prepare(mockDescriptor);
             assertThat(catalogUnderTest.getActiveCatalog()).isEqualTo(SpringWebMvcTemplateCatalog.WEBMVC_CATALOG);
         }
     }

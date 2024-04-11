@@ -167,7 +167,7 @@ class RestProjectTemplateModelTests {
     @Test
     void shouldApplyDependencyData() {
         // when: our sample dependencies are applied to the TemplateModel
-        modelUnderTest.apply(mockDependencyCatalog);
+        modelUnderTest.configureLibraryVersions(mockDependencyCatalog);
 
         // expect: a 1:1 map of each Dependency to a setter method,
         // with the getter method returning the expected value

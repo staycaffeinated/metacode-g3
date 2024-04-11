@@ -50,13 +50,13 @@ class SpringEndpointCatalogTests {
 
     @Test
     void shouldPreProcess() {
-        var collector = catalogUnderTest.beforeCollection(endpointDescriptor);
+        var collector = catalogUnderTest.prepare(endpointDescriptor);
         assertThat(collector).isNotNull();
     }
 
     @Test
     void shouldReadTemplates() {
-        var resultSet = catalogUnderTest.beforeCollection(endpointDescriptor).collect();
+        var resultSet = catalogUnderTest.prepare(endpointDescriptor).collect();
         assertThat(resultSet).isNotNull();
         assertThat(resultSet.size()).isGreaterThan(0);
     }
@@ -65,7 +65,7 @@ class SpringEndpointCatalogTests {
     void shouldWorkWithAllArgsConstructor() {
         var catalog = new SpringEndpointCatalog(new CatalogFileReader());
         assertThat(catalog.reader).isNotNull();
-        assertThat(catalog.beforeCollection(endpointDescriptor).collect().size()).isGreaterThan(0);
+        assertThat(catalog.prepare(endpointDescriptor).collect().size()).isGreaterThan(0);
     }
 
     @Test
@@ -79,7 +79,7 @@ class SpringEndpointCatalogTests {
 
         // When an IOException occurs when collecting templates,
         // then expect a RuntimeApplicationError is thrown instead
-        var collector = catalog.beforeCollection(endpointDescriptor);
+        var collector = catalog.prepare(endpointDescriptor);
         assertThrows(RuntimeApplicationError.class, collector::collect);
     }
 
@@ -90,7 +90,7 @@ class SpringEndpointCatalogTests {
     void shouldQuietlyIgnoreNonEndpointDescriptor() {
         RestProjectDescriptor mockDescriptor = Mockito.mock(RestProjectDescriptor.class);
 
-        catalogUnderTest.beforeCollection(mockDescriptor);
+        catalogUnderTest.prepare(mockDescriptor);
 
         // When generating endpoints, only RestEndpointDescriptors can determine the
         // catalogs to load.  With a RestProjectDescriptor, the catalog list will be
@@ -106,7 +106,7 @@ class SpringEndpointCatalogTests {
             when(mockDescriptor.isWebFlux()).thenReturn(false);
             when(mockDescriptor.isWithMongoDb()).thenReturn(false);
 
-            catalogUnderTest.beforeCollection(mockDescriptor);
+            catalogUnderTest.prepare(mockDescriptor);
 
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
@@ -117,7 +117,7 @@ class SpringEndpointCatalogTests {
             when(mockDescriptor.isWebFlux()).thenReturn(false);
             when(mockDescriptor.isWithMongoDb()).thenReturn(false);
 
-            catalogUnderTest.beforeCollection(mockDescriptor);
+            catalogUnderTest.prepare(mockDescriptor);
 
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
@@ -126,7 +126,7 @@ class SpringEndpointCatalogTests {
         void whenWebFlux() {
             RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);
             when(mockDescriptor.isWebFlux()).thenReturn(true);
-            catalogUnderTest.beforeCollection(mockDescriptor);
+            catalogUnderTest.prepare(mockDescriptor);
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
     }

@@ -114,14 +114,21 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
      * state of this template model object. There's information in
      * the DependencyCatalog that needs to be available to the Template
      * engine to enable resolving some template variables.
-     * <p></p>
+     *
      * The dependency catalog lists the 3rd-party libraries in use and their version.
      * This enables the code generator to render the `libs.versions.toml` file and
-     * the `build.gradle` files. 
+     * the `build.gradle` files.
      *
      * @param dependencyCatalog the dependency data to add to the template model
      */
-    public void apply(@NonNull DependencyCatalog dependencyCatalog) {
+    public void configureLibraryVersions(@NonNull DependencyCatalog dependencyCatalog) {
+        // Update one of the above xxxVersion instance variables with the version string
+        // found in the dependencyCatalog, using reflection. Without reflection, the
+        // code would look something like:
+        //      this.setH2Version(...)
+        //      this.setPostgresqlVersion(...)
+        //      this.setReactorTestVersion(...)
+        // through all the dependency's found in the DependencyCatalog. 
         dependencyCatalog.collect().forEach(it -> setField(it.getName(), it.getVersion()));
     }
 

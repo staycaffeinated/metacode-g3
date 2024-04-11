@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Jon Caulfield
+ * Copyright 2022-2024 Jon Caulfield
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ package mmm.coffee.metacode.common.trait;
  * We'll use this to convert, say, a ProjectDescriptor into a SpringProjectContext,
  * or an EndpointDescriptor into a SpringEndpointContext.
  */
+@FunctionalInterface
 public interface ConvertTrait<F,T> {
     /**
      * Converts an instance of class {@code FROM} into an instance of class {@code TO}.

@@ -100,7 +100,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         log.debug("[generateCode] collector is-a {}", collector.getClass().getName());
 
         // Render the templates
-        collector.beforeCollection(descriptor).collect().stream().filter(keepThese).forEach( it -> {
+        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
             // essentially: it -> { writeIt ( renderIt(it) ) }
             outputHandler.writeOutput(
                     // CatalogEntry's use mustache expressions for destinations;

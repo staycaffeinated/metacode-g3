@@ -21,6 +21,7 @@ public class DescriptorToTemplateModelConverter implements ConvertTrait<RestProj
                 .applicationName(descriptor.getApplicationName())
                 .basePackage(descriptor.getBasePackage())
                 .basePath(descriptor.getBasePath())
+                .groupId(descriptor.getGroupId())
                 .isWebFlux(descriptor.getFramework().equals(Framework.SPRING_WEBFLUX.frameworkName()))
                 .isWebMvc(descriptor.getFramework().equals(Framework.SPRING_WEBMVC.frameworkName()))
                 .isSpringBatch(descriptor.getFramework().equals(Framework.SPRING_BATCH.frameworkName()))

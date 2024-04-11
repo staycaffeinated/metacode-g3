@@ -56,7 +56,7 @@ public class SpringWebMvcTemplateCatalog extends SpringTemplateCatalog {
     }
 
     @Override
-    public Collector beforeCollection(Descriptor descriptor) {
+    public Collector prepare(Descriptor descriptor) {
         log.debug("[beforeCollection] entered...");
         boolean useMongoDbCatalog = false;
         if (descriptor instanceof RestProjectDescriptor restProjectDescriptor) {

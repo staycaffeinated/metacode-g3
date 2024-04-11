@@ -38,7 +38,7 @@ public class SpringEndpointCatalog implements Collector {
     final ICatalogReader reader;
 
     @Override
-    public Collector beforeCollection(Descriptor descriptor) {
+    public Collector prepare(Descriptor descriptor) {
         // Select the catalog to apply based on the framework and database flavor
         if (descriptor instanceof RestEndpointDescriptor restEndpointDescriptor) {
             if (restEndpointDescriptor.isWebFlux()) {

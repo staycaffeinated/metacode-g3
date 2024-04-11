@@ -30,6 +30,7 @@ import mmm.coffee.metacode.common.stereotype.TemplateResolver;
 import mmm.coffee.metacode.common.trait.ConvertTrait;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
+import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModelFactory;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 
 /**
@@ -75,12 +76,40 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
      * 1 = general error
      *
      * @return the exit code, with zero indicating success.
+     *
+     * Hypothetically, can we do something like:
+     * <code>
+     * Function<ProjectRestDescriptor,TemplateModel> mapToTemplateModel => (x) -> map(x)
+     * Function<TemplateModel,DependencyCatalog,TemplateModel> mapToTemplateModel => (x,y) -> map(x,y)
+     * Function<ProjectRestDescriptor,Predicate> mapToPredicate => (x) -> map(x)
+     *
+     * var templateModel = TemplateModelBuilder.builder()
+     *                        .usingProjectDescriptor(restProjectDescriptor)
+     *                        .usingLibraryVersions(dependencyCatalog)
+     *                        .usingPackageSchema(packageSchema)
+     *                        .build();
+     *
+     * Function<TemplateModel,Map<String,Object> toFreeMarker -> x -> {
+     *      // hard-coded mapping?? tedious but offers precise control
+     * }
+     *
+     * bookshelf().buildCollector().collect().etc()
+     * collector.collect().filter(keepThese).stream().forEach(template -> {
+     *     var content = render(it, templateMetaModel)
+     *     handler.write(content)
+     * }
+     * </code>
+     * A Template needs to tell us:
+     *  a) the file source of the template mark-up  
+     *  b) the file destination of the rendered template
+     *
      */
     public int generateCode(RestProjectDescriptor descriptor) {
         log.debug("generateCode: descriptor: {}", descriptor);
         // Build the TemplateModel consumed by Freemarker to resolve template variables
-        var templateModel = descriptor2templateModel.convert(descriptor);
-        templateModel.apply(dependencyCatalog);
+        var templateModel = RestProjectTemplateModelFactory.create()
+                .usingDependencyCatalog(dependencyCatalog)
+                .usingProjectDescriptor(descriptor).build();
 
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);
@@ -91,11 +120,11 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
         mustacheDecoder.configure(templateModel);
 
         // Render the templates
-        collector.beforeCollection(descriptor).collect().stream().filter(keepThese).forEach( it -> {
-            // essentially: it -> { writeIt ( renderIt(it) ) }
+        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
+            // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             outputHandler.writeOutput (
                     // CatalogEntry's use mustache expressions for destinations;
-                    // we need to translate that expression that to its actual path
+                    // we need to translate that expression to its actual path
                     mustacheDecoder.decode(it.getDestination()),
                     templateRenderer.render (it.getTemplate(), templateModel));
         });

@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * Functional interface for collection items
  */
+@FunctionalInterface
 public interface CollectTrait<T> {
 
     /**

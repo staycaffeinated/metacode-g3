@@ -4,7 +4,6 @@
 package mmm.coffee.metacode.common.freemarker;
 
 import com.google.common.base.Predicate;
-import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
@@ -85,7 +84,7 @@ class FreemarkerTemplateResolverIntegrationTest {
         // prelim: create a Predicate to include project templates
         // and exclude endpoint templates.
         Predicate<CatalogEntry> keepThese = converter.convert(projectDescriptor);
-        webMvcProject.apply(dependencyCatalog);
+        webMvcProject.configureLibraryVersions(dependencyCatalog);
         
         templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(it -> {
             var content = resolverUnderTest.render(it.getTemplate(), webMvcProject);
@@ -104,7 +103,7 @@ class FreemarkerTemplateResolverIntegrationTest {
         // prelim: create a Predicate to include project templates
         // and exclude endpoint templates.
         Predicate<CatalogEntry> keepThese = converter.convert(projectDescriptor);
-        webFluxProject.apply(dependencyCatalog);
+        webFluxProject.configureLibraryVersions(dependencyCatalog);
 
         templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(it -> {
             var content = resolverUnderTest.render(it.getTemplate(), webFluxProject);
