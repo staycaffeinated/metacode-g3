@@ -77,3 +77,15 @@ tasks {
     }
 }
 
+/**
+ * Short-cut to copy the jar to my scratch directory for testing
+ */
+tasks.register("stage") {
+    doLast {
+        exec {
+            workingDir = File(".")
+            commandLine("./stageIt.sh")
+        }
+    }
+}
+

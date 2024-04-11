@@ -121,6 +121,7 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
 
         // Render the templates
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
+            log.debug("template path: {}", it.getTemplate());
             // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             outputHandler.writeOutput (
                     // CatalogEntry's use mustache expressions for destinations;
