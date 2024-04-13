@@ -1,14 +1,13 @@
-
 <#if (project.applicationName)??>
-spring.application.name=${project.applicationName}
+    spring.application.name=${project.applicationName}
 <#else>
-spring.application.name=example-service
+    spring.application.name=example-service
 </#if>
 server.port=8080
 <#if (project.basePath)??>
-server.servlet.context-path=${project.basePath}
+    server.servlet.context-path=${project.basePath}
 <#else>
-server.servlet.context-path=/
+    server.servlet.context-path=/
 </#if>
 
 # -------------------------------------------------------------------------------------------------------
@@ -44,45 +43,45 @@ management.endpoint.health.probes.enabled=true
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.id.new_generator_mappings=false
 <#if (project.isWithPostgres())>
-spring.jpa.database=POSTGRESQL
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgresPlusDialect
-spring.jpa.properties.id.new_generator_mappings=false
+    spring.jpa.database=POSTGRESQL
+    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgresPlusDialect
+    spring.jpa.properties.id.new_generator_mappings=false
 </#if>
 
 
 <#-- define the jdbc driver -->
 <#if (project.isWithPostgres())>
-# POSTGRES
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-spring.datasource.driver-class-name=org.postgresql.Driver
+    # POSTGRES
+    spring.datasource.username=postgres
+    spring.datasource.password=postgres
+    spring.datasource.driver-class-name=org.postgresql.Driver
 <#else>
-# H2
-spring.datasource.username=root
-spring.datasource.password=secret
-spring.datasource.driver-class-name=org.h2.Driver
+    # H2
+    spring.datasource.username=root
+    spring.datasource.password=secret
+    spring.datasource.driver-class-name=org.h2.Driver
 </#if>
 <#-- define the jdbc url -->
 <#if (project.isWithPostgres())>
     <#if project.schema?? && project.schema?has_content>
-spring.datasource.url=jdbc:postgresql://localhost:5432/postgres?currentSchema=${project.schema}
+        spring.datasource.url=jdbc:postgresql://localhost:5432/postgres?currentSchema=${project.schema}
     <#else>
-spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+        spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
     </#if>
 <#else>
     <#if (project.schema)??>
-spring.datasource.url=jdbc:h2:mem:${project.schema}
+        spring.datasource.url=jdbc:h2:mem:${project.schema}
     <#elseif (project.applicationName)??>
-spring.datasource.url=jdbc:h2:mem:${project.applicationName}
+        spring.datasource.url=jdbc:h2:mem:${project.applicationName}
     <#else>
-spring.datasource.url=jdbc:h2:mem:testdb
+        spring.datasource.url=jdbc:h2:mem:testdb
     </#if>
 </#if>
 <#if (project.isWithLiquibase())>
-# Liquibase
-# Enabled is 'true' by default; change it to 'false' to turn if off
-spring.liquibase.enabled=true
-spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.yaml
+    # Liquibase
+    # Enabled is 'true' by default; change it to 'false' to turn if off
+    spring.liquibase.enabled=true
+    spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.yaml
 </#if>
 
 # -------------------------------------------------------------------------

@@ -19,7 +19,7 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 
 /**
  * Exit codes
- *
+ * <p>
  * This is used as our rough guide: https://tldp.org/LDP/abs/html/exitcodes.html, where:
  * 0 = Success
  * 1 = Catch-all for general errors
@@ -40,5 +40,6 @@ public class ExitCodes {
     public static final int ENDPOINTS_ARE_NOT_SUPPORTED_BY_THE_FRAMEWORK = 3;
 
     /* Hidden constructor */
-    private ExitCodes() {}
+    private ExitCodes() {
+    }
 }

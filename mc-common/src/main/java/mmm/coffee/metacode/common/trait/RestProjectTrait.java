@@ -27,6 +27,7 @@ public interface RestProjectTrait extends MetaSpecification, DryRunTrait {
      * The application name; sometimes doubles as the project name
      */
     String getApplicationName();
+
     void setApplicationName(@NonNull String applicationName);
 
     /**
@@ -34,11 +35,13 @@ public interface RestProjectTrait extends MetaSpecification, DryRunTrait {
      * Other endpoints within the web service will be relative to this base URL.
      */
     String getBasePath();
+
     void setBasePath(@NonFinal String basePath);
 
     /**
      * The base Java package of the generated code. For example: {@code com.acme.petstore}
      */
     String getBasePackage();
+
     void setBasePackage(@NonNull String basePackage);
 }

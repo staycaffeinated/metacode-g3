@@ -8,16 +8,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 <#if (project.isWithTestContainers())>
-import org.testcontainers.junit.jupiter.Testcontainers;
+    import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 
 @ActiveProfiles({INTEGRATION_TEST})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 <#if project.isWithTestContainers()>
-@Testcontainers
+    @Testcontainers
 </#if>
 <#if project.isWithTestContainers() && project.isWithPostgres()>
-@TestPropertySource(properties = {
+    @TestPropertySource(properties = {
     "spring.datasource.url=jdbc:tc:postgresql:13.2-alpine:///public",
     "spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver",
     "spring.jpa.hibernate.ddl-auto=create-drop"})

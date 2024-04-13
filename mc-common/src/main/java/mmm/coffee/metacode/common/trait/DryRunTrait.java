@@ -15,5 +15,7 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 @ExcludeFromJacocoGeneratedReport
 public interface DryRunTrait {
 
-    default boolean isDryRun() { return false; }
+    default boolean isDryRun() {
+        return false;
+    }
 }

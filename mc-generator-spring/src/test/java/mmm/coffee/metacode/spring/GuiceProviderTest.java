@@ -53,6 +53,7 @@ class GuiceProviderTest {
     void verifySpringBatchProviderIsBound() {
         verifyBindingOf(SpringBatchProvider.class);
     }
+
     /**
      * The point of this test is to verify everything Guice needs to bind together
      * a SpringBootProvider is well-defined and configured.
@@ -67,7 +68,7 @@ class GuiceProviderTest {
     /**
      * Checks the Bindings that are available and confirms `klass` is one of them.
      */
-    private void verifyBindingOf (Class<?> klass) {
+    private void verifyBindingOf(Class<?> klass) {
         Map<Key<?>, Binding<?>> map = injector.getBindings();
         map.keySet().forEach(key -> {
             if (key.getAnnotationType() != null) {

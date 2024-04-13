@@ -9,42 +9,42 @@ version = "1.0"
 # Instead, the underscore ("_") is used.
 
 [exceptions]
-classes = [ "BadRequestException", "ResourceNotFoundException", "UnprocessableEntityException" ]
+classes = ["BadRequestException", "ResourceNotFoundException", "UnprocessableEntityException"]
 
 # This handles the base path, "/".
 [home]
-classes = [ "ServiceImpl", "Controller" ]
+classes = ["ServiceImpl", "Controller"]
 
 # This package contains infrastructure
 [infra]
 
-    [infra.advice]
-    classes = "GlobalExceptionHandler"
+[infra.advice]
+classes = "GlobalExceptionHandler"
 
-    [infra.config]
-    classes = [ "ApplicationConfiguration",
-                "DateTimeFormatConfiguration",
-                "ProblemConfiguration",
-                "LocalDateConverter",
-                "WebMvcConfiguration" ]
+[infra.config]
+classes = ["ApplicationConfiguration",
+    "DateTimeFormatConfiguration",
+    "ProblemConfiguration",
+    "LocalDateConverter",
+    "WebMvcConfiguration"]
 
-    [infra.profiles]
-    classes = "SpringProfiles"
+[infra.profiles]
+classes = "SpringProfiles"
 
-    [infra.utils]
-    classes = "SecureRandomSeries"
+[infra.utils]
+classes = "SecureRandomSeries"
 
-    [infra.utils.classNames]
-    SecureRandomSeries = "ResourceIdGenerator"
+[infra.utils.classNames]
+SecureRandomSeries = "ResourceIdGenerator"
 
-    [infra.trait]
-    classes = [ "ResourceIdTrait"]
+[infra.trait]
+classes = ["ResourceIdTrait"]
 
-    [infra.trait.classNames]
-    ResourceIdTrait = "ResourceIdAware"
+[infra.trait.classNames]
+ResourceIdTrait = "ResourceIdAware"
 
-    [infra.validation]
-    classes = [ "AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator" ]
+[infra.validation]
+classes = ["AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator"]
 
 # These are resource-specific packages, such as the individual
 # packages you'd want to create for Pet, Store, Owner.
@@ -55,30 +55,30 @@ classes = [ "ServiceImpl", "Controller" ]
 # org.example.owner.api
 [_RESOURCE_]
 
-    [_RESOURCE_.api]
-    classes = [ "ServiceApi", "Controller", "Routes", "ServiceImpl" ]
+[_RESOURCE_.api]
+classes = ["ServiceApi", "Controller", "Routes", "ServiceImpl"]
 
-    [_RESOURCE_.api.classNames]
-    ServiceApi = "_RESOURCE_Service"
-    Controller = "_RESOURCE_Controller"
-    ServiceImpl = "_RESOURCE_ServiceProvider"
-    Routes = "_RESOURCE_Routes"
+[_RESOURCE_.api.classNames]
+ServiceApi = "_RESOURCE_Service"
+Controller = "_RESOURCE_Controller"
+ServiceImpl = "_RESOURCE_ServiceProvider"
+Routes = "_RESOURCE_Routes"
 
-    [_RESOURCE_.domain]
-    classes = [ "ResourcePojo" ]
+[_RESOURCE_.domain]
+classes = ["ResourcePojo"]
 
-    [_RESOURCE_.domain.classNames]
-    ResourcePojo = "_RESOURCE_View"
+[_RESOURCE_.domain.classNames]
+ResourcePojo = "_RESOURCE_View"
 
-    [_RESOURCE_.spi.database]
-    classes = [ "DataStoreApi", "DataStoreImpl", "Entity", "Repository"]
+[_RESOURCE_.spi.database]
+classes = ["DataStoreApi", "DataStoreImpl", "Entity", "Repository"]
 
-    [_RESOURCE_.spi.database.converter]
-    classes = [ "EntityToPojoConverter", "PojoToEntityConverter" ]
+[_RESOURCE_.spi.database.converter]
+classes = ["EntityToPojoConverter", "PojoToEntityConverter"]
 
 
 [spi.database]
-classes = [ "CustomRepository", "GenericDataStore"]
+classes = ["CustomRepository", "GenericDataStore"]
 
 [Internal.TestClassSuffixes]
 unitTest = "Test"

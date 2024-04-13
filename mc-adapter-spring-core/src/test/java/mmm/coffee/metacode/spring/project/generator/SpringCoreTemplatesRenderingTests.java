@@ -18,13 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * This collection of tests help us verify the content
  * rendered by the TemplateResolver contains expected content.
- *
+ * <p>
  * These tests are helpful for verifying the expression syntax in
  * the templates, especially relative to the template model.
  * For example, if the templateModel has the field 'testContainer'
  * but the template is expecting 'templatecontainer', this group of
  * tests can catch those errors.
- *
  */
 class SpringCoreTemplatesRenderingTests {
 
@@ -34,6 +33,27 @@ class SpringCoreTemplatesRenderingTests {
 
     private final TemplateResolver<MetaTemplateModel> templateResolver = new FreemarkerTemplateResolver(configuration);
 
+    /**
+     * Builds a RestProjectTemplateModel populated with properties
+     * likely to be needed across several tests
+     */
+    private RestProjectTemplateModel buildBasicModel() {
+        // the version numbers here are hypothetical
+        return RestProjectTemplateModel.builder()
+                .applicationName("petstore")
+                .benManesPluginVersion("1.0")
+                .coditoryPluginVersion("1.4")
+                .javaVersion("11")
+                .springBootVersion("2.5")
+                .springDependencyManagementVersion("1.1")
+                .sonarqubeVersion("3.3")
+                .jibPluginVersion("1.0")
+                .spotlessVersion("1.0")
+                .lombokPluginVersion("1.3")
+                .build();
+
+
+    }
 
     @Nested
     class BuildDotGradleTests {
@@ -64,7 +84,7 @@ class SpringCoreTemplatesRenderingTests {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithTestContainers(true);
             templateModel.setWebMvc(true);
-            
+
             String content = templateResolver.render(template, templateModel);
 
             assertThat(content).isNotNull();
@@ -190,7 +210,7 @@ class SpringCoreTemplatesRenderingTests {
             assertThat(content).contains("spring.datasource.url=jdbc:postgresql:");
             assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
         }
-        
+
         @Disabled("Move this to SpringWebMvc")
         void whenPostgresFlagIsNotEnabled_expectH2JdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
@@ -205,7 +225,6 @@ class SpringCoreTemplatesRenderingTests {
             assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
         }
     }
-
 
     @Nested
     class ApplicationTestDotYamlTests {
@@ -244,6 +263,12 @@ class SpringCoreTemplatesRenderingTests {
         }
     }
 
+    // ------------------------------------------------------------------------------------------------
+    //
+    // Helper Methods
+    //
+    // ------------------------------------------------------------------------------------------------
+
     @Nested
     class DockerComposeTests {
         // This path is relative to TEMPLATE_DIRECTORY
@@ -278,36 +303,6 @@ class SpringCoreTemplatesRenderingTests {
             assertThat(content).doesNotContain("SPRING_DATASOURCE_USERNAME=postgres");
         }
     }
-
-    // ------------------------------------------------------------------------------------------------
-    //
-    // Helper Methods
-    //
-    // ------------------------------------------------------------------------------------------------
-
-    /**
-     * Builds a RestProjectTemplateModel populated with properties
-     * likely to be needed across several tests
-     */
-    private RestProjectTemplateModel buildBasicModel() {
-        // the version numbers here are hypothetical
-        return RestProjectTemplateModel.builder()
-                .applicationName("petstore")
-                .benManesPluginVersion("1.0")
-                .coditoryPluginVersion("1.4")
-                .javaVersion("11")
-                .springBootVersion("2.5")
-                .springDependencyManagementVersion("1.1")
-                .sonarqubeVersion("3.3")
-                .jibPluginVersion("1.0")
-                .spotlessVersion("1.0")
-                .lombokPluginVersion("1.3")
-                .build();
-
-
-    }
-
-
 
 
 }

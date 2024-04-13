@@ -29,18 +29,18 @@ public class MetaPropertiesReader {
      */
     private final Configurations configurations;
 
-    
+
     /**
      * Returns the content of the {@code metacode.properties} file as a {@code Configuration}
      * instance. Each invocation of {@code read} causes the file to be read.
+     *
      * @return the content o
      */
     public Configuration read() {
         log.trace("[read]", new Exception("Who called me?"));
         try {
             return configurations.properties(new File(propertyFileName));
-        }
-        catch (ConfigurationException ex) {
+        } catch (ConfigurationException ex) {
             throw new RuntimeApplicationError(ex.getMessage(), ex);
         }
     }

@@ -27,8 +27,7 @@ public class RestEndpointDescriptorToPredicateConverter implements ConvertTrait<
             // isEndpointTemplate AND isWebFluxTemplate
             return Predicates.and(CatalogEntryPredicates.isEndpointArtifact(),
                     CatalogEntryPredicates.isWebFluxArtifact());
-        }
-        else {
+        } else {
             // isEndpointTemplate and isWebMvcTemplate
             return Predicates.and(CatalogEntryPredicates.isEndpointArtifact(),
                     CatalogEntryPredicates.isWebMvcArtifact());

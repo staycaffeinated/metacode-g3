@@ -26,8 +26,9 @@ public interface TemplateResolver<T> {
 
     /**
      * Renders the {@code template}, using {@code dataModel} to resolve template variables
+     *
      * @param templateClassPath the resource path to the template file
-     * @param dataModel the data model processed by the template engine to resolve variables
+     * @param dataModel         the data model processed by the template engine to resolve variables
      * @return the rendered content
      */
     String render(String templateClassPath, T dataModel);

@@ -74,12 +74,12 @@ class WebMvcGeneratorIntegrationTest {
     @Test
     void shouldRenderAllTemplates() {
         RestEndpointDescriptor descriptor = RestEndpointDescriptor.builder()
-                                .resource("Pet").route("/pet").build();
+                .resource("Pet").route("/pet").build();
 
         int exitCode = generatorUnderTest.doPreprocessing(descriptor).generateCode(descriptor);
         assertThat(exitCode).isEqualTo(ExitCodes.OK);
     }
-    
+
     // ------------------------------------------------------------------------------------------------------------
     //
     // Helper classes

@@ -25,5 +25,7 @@ import java.util.concurrent.Callable;
  */
 @ExcludeFromJacocoGeneratedReport
 public interface CallTrait extends Callable<Integer> {
-    default Integer call() { return ExitCodes.OK; }
+    default Integer call() {
+        return ExitCodes.OK;
+    }
 }

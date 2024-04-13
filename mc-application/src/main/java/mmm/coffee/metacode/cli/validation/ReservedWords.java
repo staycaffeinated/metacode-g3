@@ -24,24 +24,11 @@ public class ReservedWords {
 
     private static final String[] reserved;
 
-    /* a private constructor to prevent instantiation */
-    private ReservedWords() {}
-
-    /**
-     * Check whether the given {@code word} is a reserved word.
-     * This check also excludes the String "null",
-     * @param word the candidate value to test
-     * @return if {@code word} is a reserved word, or is the String "null".
-     */
-    public static boolean isReservedWord(String word) {
-        return Arrays.binarySearch(reserved, word.toLowerCase()) >= 0;
-    }
-
     /*
      * The reserved words, plus 'null'
      */
     static {
-        reserved = new String[] { "abstract", "assert", "boolean", "break", "byte",
+        reserved = new String[]{"abstract", "assert", "boolean", "break", "byte",
                 "case", "catch", "char", "class", "const", "continue", "default", "do",
                 "double", "else", "enum", "extends", "false", "final", "finally",
                 "float", "for", "goto", "if", "implements", "import", "instanceof",
@@ -50,5 +37,20 @@ public class ReservedWords {
                 "strictfp", "super", "switch", "synchronized", "this", "throw",
                 "throws", "transient", "true", "try", "void", "volatile", "while"
         };
+    }
+
+    /* a private constructor to prevent instantiation */
+    private ReservedWords() {
+    }
+
+    /**
+     * Check whether the given {@code word} is a reserved word.
+     * This check also excludes the String "null",
+     *
+     * @param word the candidate value to test
+     * @return if {@code word} is a reserved word, or is the String "null".
+     */
+    public static boolean isReservedWord(String word) {
+        return Arrays.binarySearch(reserved, word.toLowerCase()) >= 0;
     }
 }

@@ -18,37 +18,37 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SuppressWarnings("all")
 class ${endpoint.entityName}PojoToEntityConverterTests {
 
-    ${endpoint.entityName}PojoToEntityConverter converter = new ${endpoint.entityName}PojoToEntityConverter();
+${endpoint.entityName}PojoToEntityConverter converter = new ${endpoint.entityName}PojoToEntityConverter();
 
-    final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+final ResourceIdSupplier randomSeries = new SecureRandomSeries();
 
-    @Test
-    void shouldReturnNullWhenResourceIsNull() {
-        assertThrows (NullPointerException.class, () ->  { converter.convert((${endpoint.pojoName}) null); });
-    }
+@Test
+void shouldReturnNullWhenResourceIsNull() {
+assertThrows (NullPointerException.class, () ->  { converter.convert((${endpoint.pojoName}) null); });
+}
 
-    @Test
-    void shouldReturnNullWhenListIsNull() {
-        assertThrows (NullPointerException.class, () -> { converter.convert((List<${endpoint.pojoName}>)null); });
-    }
+@Test
+void shouldReturnNullWhenListIsNull() {
+assertThrows (NullPointerException.class, () -> { converter.convert((List<${endpoint.pojoName}>)null); });
+}
 
-    @Test
-    void shouldPopulateAllFields() {
-        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("hello world").build();
+@Test
+void shouldPopulateAllFields() {
+${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("hello world").build();
 
-        ${endpoint.ejbName} bean = converter.convert(resource);
-        assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
-        assertThat(bean.getText()).isEqualTo(resource.getText());
-    }
+${endpoint.ejbName} bean = converter.convert(resource);
+assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
+assertThat(bean.getText()).isEqualTo(resource.getText());
+}
 
-    @Test
-    void shouldCopyList() {
-        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("hello world").build();
-        var pojoList = Lists.list(resource);
+@Test
+void shouldCopyList() {
+${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("hello world").build();
+var pojoList = Lists.list(resource);
 
-        List<${endpoint.ejbName}> ejbList = converter.convert(pojoList);
-        assertThat(ejbList.size()).isOne();
-        assertThat(ejbList.get(0).getResourceId()).isEqualTo(resource.getResourceId());
-        assertThat(ejbList.get(0).getText()).isEqualTo(resource.getText());
-    }
+List<${endpoint.ejbName}> ejbList = converter.convert(pojoList);
+assertThat(ejbList.size()).isOne();
+assertThat(ejbList.get(0).getResourceId()).isEqualTo(resource.getResourceId());
+assertThat(ejbList.get(0).getText()).isEqualTo(resource.getText());
+}
 }

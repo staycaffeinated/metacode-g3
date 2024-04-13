@@ -12,6 +12,7 @@ public class ClassInventoryFactory {
 
     /**
      * Use this for project-scope, when a resource name is unknown
+     *
      * @param dictionary contains the package schema to apply; query this object to discover the
      *                   name of the package a class belongs to. With a package schema, an end-user
      *                   can declare whether, for instance, the Controller class goes into
@@ -32,7 +33,6 @@ public class ClassInventoryFactory {
         }
         return classInventory;
     }
-
 
 
     @SuppressWarnings({"java:S108"})
@@ -73,7 +73,8 @@ public class ClassInventoryFactory {
             case ResourceNotFoundException -> classInventory.setResourceNotFoundException(classInfo);
             case DateTimeFormatConfiguration -> classInventory.setDateTimeFormatConfiguration(classInfo);
             case UnprocessableEntityException -> classInventory.setUnprocessableEntityException(classInfo);
-            case UNDEFINED -> {}
+            case UNDEFINED -> {
+            }
         }
 
 

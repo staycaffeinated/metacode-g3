@@ -12,6 +12,13 @@ public class CanonicalClassNameResolver implements BiFunction<String, String, St
 
     private static final CanonicalClassNameResolver INSTANCE = new CanonicalClassNameResolver();
 
+    /**
+     * A static version of the `apply` method, for convenience
+     */
+    public static String resolve(String resourceName, String packageTemplate) {
+        return INSTANCE.apply(resourceName, packageTemplate);
+    }
+
     @Override
     public String apply(@Nonnull String resourceName, @Nonnull String packageTemplate) {
         Objects.requireNonNull(resourceName);
@@ -24,13 +31,6 @@ public class CanonicalClassNameResolver implements BiFunction<String, String, St
 
         // Append the class name to the package name
         return canonicalName + "." + toCamelCase(resourceName);
-    }
-
-    /**
-     * A static version of the `apply` method, for convenience
-     */
-    public static String resolve(String resourceName, String packageTemplate) {
-        return INSTANCE.apply(resourceName, packageTemplate);
     }
 
     private String toCamelCase(String string) {

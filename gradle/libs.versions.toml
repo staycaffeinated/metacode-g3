@@ -1,80 +1,80 @@
 [versions]
-assertJ             = '3.25.3'
-commonsBeanUtils    = '1.9.4'
-commonsConfig       = '2.10.1'
-commonsIo           = '2.16.0'
-commonsLang3        = '3.14.0'
-commonsText         = '1.11.0'              # apache commons-text
-freemarker          = '2.3.32'
-guava               = '33.1.0-jre'
-guice               = '7.0.0'
-jacksonYaml         = '2.17.0'
-jakartaAnnotations  = '2.1.1'
-jakartaInject       = '2.0.1'
-jmustache           = '1.16'
-junit               = '5.10.2'
-junitPlatform       = '1.10.2'
-log4j               = '2.18.0'
-logback             = '1.4.7'
-lombok              = '1.18.26'
-mockito             = '5.11.0'
-picocli             = '4.7.5'
-slf4j               = '2.0.7'
-systemRules         = '1.19.0'
-systemLambda        = '1.2.1'
-spring              = '6.1.5'
-springBoot          = '3.2.4'
-toml                = '1.1.1'               # tomlj
-truth               = '1.4.2'
-vavr                = '1.0.0-alpha-4'
+assertJ = '3.25.3'
+commonsBeanUtils = '1.9.4'
+commonsConfig = '2.10.1'
+commonsIo = '2.16.0'
+commonsLang3 = '3.14.0'
+commonsText = '1.11.0'              # apache commons-text
+freemarker = '2.3.32'
+guava = '33.1.0-jre'
+guice = '7.0.0'
+jacksonYaml = '2.17.0'
+jakartaAnnotations = '2.1.1'
+jakartaInject = '2.0.1'
+jmustache = '1.16'
+junit = '5.10.2'
+junitPlatform = '1.10.2'
+log4j = '2.18.0'
+logback = '1.4.7'
+lombok = '1.18.26'
+mockito = '5.11.0'
+picocli = '4.7.5'
+slf4j = '2.0.7'
+systemRules = '1.19.0'
+systemLambda = '1.2.1'
+spring = '6.1.5'
+springBoot = '3.2.4'
+toml = '1.1.1'               # tomlj
+truth = '1.4.2'
+vavr = '1.0.0-alpha-4'
 
 
 [libraries]
 
-assertJ             = { module = "org.assertj:assertj-core", version.ref = "assertJ" }
-commonsBeanUtils    = { module = "commons-beanutils:commons-beanutils", version.ref = "commonsBeanUtils" }
-commonsConfig       = { module = "org.apache.commons:commons-configuration2", version.ref = "commonsConfig" }
-commonsIo           = { module = "commons-io:commons-io", version.ref="commonsIo" }
-commonsLang3        = { module = "org.apache.commons:commons-lang3", version.ref="commonsLang3" }
-commonsText         = { module = "org.apache.commons:commons-text", version.ref="commonsText" }
-freemarker          = { module = "org.freemarker:freemarker", version.ref="freemarker" }
-guava               = { module = "com.google.guava:guava", version.ref="guava" }
-guice               = { module = "com.google.inject:guice", version.ref="guice" }
-jacksonYaml         = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref="jacksonYaml" }
-jmustache           = { module = "com.samskivert:jmustache", version.ref = "jmustache" }
-junitBillOfMaterial = { module = "org.junit:junit-bom", version.ref="junit" }
-junit-jupiter        = { module = "org.junit.jupiter:junit-jupiter", version.ref="junit" }
-junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", version.ref="junitPlatform" }
-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref="junitPlatform" }
-jakartaAnnotations  = { module = "jakarta.annotation:jakarta.annotation-api", version.ref="jakartaAnnotations" }
-jakartaInject       = { module = "jakarta.inject:jakarta.inject-api", version.ref="jakartaInject" }
-junitSystemRules    = { module = "com.github.stefanbirkner:system-rules", version.ref="systemRules" }
-log4jApi            = { module = "org.apache.logging.log4j:log4j-api", version.ref="log4j" }
-log4jCore           = { module = "org.apache.logging.log4j:log4j-core", version.ref="log4j" }
-logbackClassic      = { module = "ch.qos.logback:logback-classic", version.ref="logback" }
-lombok              = { module = "org.projectlombok:lombok", version.ref="lombok" }
-mockito             = { module = "org.mockito:mockito-core", version.ref="mockito" }
-picocli             = { module = "info.picocli:picocli", version.ref="picocli" }
-picocliCodeGen      = { module = "info.picocli:picocli-codegen", version.ref="picocli" }
-picocli-spring-boot-starter =  { module = "info.picocli:picocli-spring-boot-starter", version.ref="picocli" }
-slf4jApi            = { module = "org.slf4j:slf4j-api", version.ref="slf4j" }
-spring-context      = { module = "org.springframework:spring-context", version.ref="spring" }
-spring-core         = { module = "org.springframework:spring-core", version.ref="spring" }
-spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref="springBoot" }
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref="springBoot" }
+assertJ = { module = "org.assertj:assertj-core", version.ref = "assertJ" }
+commonsBeanUtils = { module = "commons-beanutils:commons-beanutils", version.ref = "commonsBeanUtils" }
+commonsConfig = { module = "org.apache.commons:commons-configuration2", version.ref = "commonsConfig" }
+commonsIo = { module = "commons-io:commons-io", version.ref = "commonsIo" }
+commonsLang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang3" }
+commonsText = { module = "org.apache.commons:commons-text", version.ref = "commonsText" }
+freemarker = { module = "org.freemarker:freemarker", version.ref = "freemarker" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+guice = { module = "com.google.inject:guice", version.ref = "guice" }
+jacksonYaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jacksonYaml" }
+jmustache = { module = "com.samskivert:jmustache", version.ref = "jmustache" }
+junitBillOfMaterial = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", version.ref = "junitPlatform" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junitPlatform" }
+jakartaAnnotations = { module = "jakarta.annotation:jakarta.annotation-api", version.ref = "jakartaAnnotations" }
+jakartaInject = { module = "jakarta.inject:jakarta.inject-api", version.ref = "jakartaInject" }
+junitSystemRules = { module = "com.github.stefanbirkner:system-rules", version.ref = "systemRules" }
+log4jApi = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
+log4jCore = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+logbackClassic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+picocliCodeGen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
+picocli-spring-boot-starter = { module = "info.picocli:picocli-spring-boot-starter", version.ref = "picocli" }
+slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+spring-context = { module = "org.springframework:spring-context", version.ref = "spring" }
+spring-core = { module = "org.springframework:spring-core", version.ref = "spring" }
+spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "springBoot" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
 
-systemLambda        = { module = "com.github.stefanbirkner:system-lambda", version.ref="systemLambda" }
-toml                = { module = "org.tomlj:tomlj", version.ref="toml"}
-truth               = { module = "com.google.truth:truth", version.ref="truth" }
-vavr                = { module = "io.vavr:vavr", version.ref="vavr" }
+systemLambda = { module = "com.github.stefanbirkner:system-lambda", version.ref = "systemLambda" }
+toml = { module = "org.tomlj:tomlj", version.ref = "toml" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+vavr = { module = "io.vavr:vavr", version.ref = "vavr" }
 
 
 [plugins]
-versions            = { id = "com.github.ben-manes.versions", version = "0.51.0" }
-spotless            = { id = "com.diffplug.spotless", version = "6.25.0" }
-kordamp-jacoco      = { id = "org.kordamp.gradle.jacoco", version = "0.54.0" }
-kordamp-testing     = { id = "org.kordamp.gradle.testing", version= "0.54.0" }
-lombok              = { id = "io.freefair.lombok", version = "8.6" }
-shadow-jar          = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
-sonar               = { id = "org.sonarqube", version = "5.0.0.4638" }
+versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
+kordamp-jacoco = { id = "org.kordamp.gradle.jacoco", version = "0.54.0" }
+kordamp-testing = { id = "org.kordamp.gradle.testing", version = "0.54.0" }
+lombok = { id = "io.freefair.lombok", version = "8.6" }
+shadow-jar = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
+sonar = { id = "org.sonarqube", version = "5.0.0.4638" }
 

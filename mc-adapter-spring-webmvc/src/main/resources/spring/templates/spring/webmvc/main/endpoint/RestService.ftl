@@ -10,33 +10,34 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ${endpoint.entityName}Service {
-    /*
-     * findAll
-     */
-    List<${endpoint.pojoName}> findAll${endpoint.entityName}s();
+/*
+* findAll
+*/
+List<${endpoint.pojoName}> findAll${endpoint.entityName}s();
+
+/**
+* findByResourceId
+*/
+Optional<${endpoint.pojoName}> find${endpoint.entityName}ByResourceId(String id);
+
+/*
+* findByText
+*/
+Page<${endpoint.pojoName}> findByText(Optional
+<String> text, Pageable pageable);
 
     /**
-     * findByResourceId
-     */
-    Optional<${endpoint.pojoName}> find${endpoint.entityName}ByResourceId(String id);
-
-    /*
-     * findByText
-     */
-    Page<${endpoint.pojoName}> findByText(Optional<String> text, Pageable pageable);
-
-    /**
-     * Persists a new resource
-     */
+    * Persists a new resource
+    */
     ${endpoint.pojoName} create${endpoint.entityName}(${endpoint.pojoName} resource );
 
     /**
-     * Updates an existing resource
-     */
+    * Updates an existing resource
+    */
     Optional<${endpoint.pojoName}> update${endpoint.entityName}(${endpoint.pojoName} resource );
 
     /**
-     * delete
-     */
+    * delete
+    */
     void delete${endpoint.entityName}ByResourceId( String id );
-}
+    }

@@ -21,6 +21,7 @@ package mmm.coffee.metacode.cli.validation;
  */
 public interface ValidationTrait {
     boolean isValid();
+
     boolean isInvalid();
 
     /**

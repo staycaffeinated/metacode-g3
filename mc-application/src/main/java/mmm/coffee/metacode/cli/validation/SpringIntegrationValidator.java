@@ -35,13 +35,13 @@ public class SpringIntegrationValidator implements ValidationTrait {
 
     private String errorMessage = "";
 
-    public static SpringIntegrationValidator of (SpringIntegrations[] selected) {
-        return new SpringIntegrationValidator(selected);
-    }
-
     private SpringIntegrationValidator(SpringIntegrations[] selected) {
         if (selected == null) return;
         selectedIntegrations.addAll(Arrays.asList(selected));
+    }
+
+    public static SpringIntegrationValidator of(SpringIntegrations[] selected) {
+        return new SpringIntegrationValidator(selected);
     }
 
     @Override

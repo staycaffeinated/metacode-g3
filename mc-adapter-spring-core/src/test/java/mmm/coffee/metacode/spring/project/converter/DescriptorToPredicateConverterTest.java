@@ -72,7 +72,7 @@ class DescriptorToPredicateConverterTest {
     @Test
     void whenNoIntegrations_shouldNotApplyIntegrations() {
         restProject = RestProjectDescriptor.builder()
-                        .basePath(BASE_PATH).basePackage(BASE_PKG).applicationName(APP_NAME).build();
+                .basePath(BASE_PATH).basePackage(BASE_PKG).applicationName(APP_NAME).build();
 
         Predicate<CatalogEntry> predicate = converterUnderTest.convert(restProject);
 

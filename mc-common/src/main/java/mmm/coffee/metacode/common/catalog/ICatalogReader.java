@@ -21,11 +21,12 @@ import java.util.List;
 
 /**
  * Stereotype for a Reader of catalog files. Catalog files in YAML format
- * with defined fields. A catalog file contains a list of {@code CatalogEntry}'s.  
+ * with defined fields. A catalog file contains a list of {@code CatalogEntry}'s.
  */
 public interface ICatalogReader {
     /**
      * Reads the {@code CatalogEntry}'s from the YAML file found at {@code catalogResourcePath}.
+     *
      * @param catalogResourcePath the resource path (classpath) to the yaml file to read.
      *                            For example, "/spring/catalogs/common-stuff.yml" or
      *                            "/spring/catalogs/spring-boot.yml"

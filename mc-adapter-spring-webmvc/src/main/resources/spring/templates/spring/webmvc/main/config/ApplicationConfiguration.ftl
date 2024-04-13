@@ -8,13 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configure application dependencies
- */
+* Configure application dependencies
+*/
 @Configuration
 public class ApplicationConfiguration {
 
-    @Bean
-    public ResourceIdSupplier resourceIdSupplier() {
-        return new SecureRandomSeries();
-    }
+@Bean
+public ResourceIdSupplier resourceIdSupplier() {
+return new SecureRandomSeries();
+}
 }

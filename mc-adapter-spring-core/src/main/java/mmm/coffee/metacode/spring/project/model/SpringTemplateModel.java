@@ -16,7 +16,7 @@ import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
  */
 @SuppressWarnings({
         "java:S1170"    // We do not want to make 'application' a static field.
-                        // At some future point, we may allow users customize this, eg, to "app"
+        // At some future point, we may allow users customize this, eg, to "app"
 })
 @SuperBuilder
 @ExcludeFromJacocoGeneratedReport // exclude this class from code coverage reports
@@ -52,8 +52,8 @@ public abstract class SpringTemplateModel implements MetaTemplateModel {
     @Setter(AccessLevel.PROTECTED)
     @Getter(AccessLevel.NONE)       // we provide a custom getter
     private String framework;       // This is a String because the templates expect a string
-                                    // Future task: refactor to use the Enum here, and have
-                                    // templates use 'framework.isWebFlux', 'framework.isWebMvc'
+    // Future task: refactor to use the Enum here, and have
+    // templates use 'framework.isWebFlux', 'framework.isWebMvc'
 
     /**
      * Returns {@code true} if {@code framework} is spring-webflux
@@ -69,9 +69,13 @@ public abstract class SpringTemplateModel implements MetaTemplateModel {
         return isWebMvc;
     }
 
-    public final boolean isSpringBoot() { return isSpringBoot; }
+    public final boolean isSpringBoot() {
+        return isSpringBoot;
+    }
 
-    public final boolean isSpringBatch() { return isSpringBatch; }
+    public final boolean isSpringBatch() {
+        return isSpringBatch;
+    }
 
 
 }

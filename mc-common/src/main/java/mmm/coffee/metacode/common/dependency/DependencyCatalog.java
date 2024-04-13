@@ -41,9 +41,10 @@ public class DependencyCatalog implements DependencyCollector {
 
     /**
      * This constructor allows all fields to be defined by the caller.
+     *
      * @param resourceName the classpath of the resource file,
      *                     such as "/spring/dependencies/dependencies.yml"
-     * @param reader a reader capable of parsing the dependencies.yml file
+     * @param reader       a reader capable of parsing the dependencies.yml file
      */
     public DependencyCatalog(@NonNull String resourceName, @NonNull DependencyFileReader reader) {
         this.resourceName = resourceName;
@@ -53,7 +54,7 @@ public class DependencyCatalog implements DependencyCollector {
     /**
      * Reads the YAML resource file that contains Dependency entries
      * and returns those Dependency entries.
-     *
+     * <p>
      * Typically, the YAML file is a file named 'dependencies.yml',
      * but that's just by convention within this project.
      *

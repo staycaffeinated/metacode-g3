@@ -23,7 +23,7 @@ catalog:
       destination: "README.adoc"
       context: "project"
   - entry:
-      template:  "/docker/DockerCompose.ftl"
+      template: "/docker/DockerCompose.ftl"
       destination: "{{appModule}}/src/main/docker-compose/docker-compose.yaml"
       context: "project"
   - entry:

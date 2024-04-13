@@ -19,10 +19,10 @@ import java.util.StringTokenizer;
 
 /**
  * Validation of packageName to ensure its a legal Java package name
- *
+ * <p>
  * A review of the rules for package names
  * (from  https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html )
- *
+ * <p>
  * 1. Package names are written in all lower case
  * 2. Cannot contain a hyphen or other special character (underscore is allowed)
  * 3. Cannot contain a reserved word
@@ -43,9 +43,45 @@ public class PackageNameValidator implements ValidationTrait {
         return new PackageNameValidator(value);
     }
 
+    /**
+     * Not exactly the rules of a Java identifier, but sufficient for package names
+     *
+     * @param token the token to check
+     * @return true if the token is a legal part of a package name
+     */
+    private static boolean isLegalIdentifier(String token) {
+        // first character must be a-z or underscore
+        if (!(isLowerCaseLetter(token.charAt(0)) || token.charAt(0) == '_')) {
+            return false;
+        }
+
+        // a valid subsequent letters can be: a-z, A-Z, 0-9, or underscore
+        for (var i = 1; i < token.length(); i++) {
+            if (!isLowerCaseLetter(token.charAt(i)) &&
+                    !isUpperCaseLetter(token.charAt(i)) &&
+                    !isDigit(token.charAt(i)) &&
+                    token.charAt(i) != '_')
+                return false;
+        }
+        return true;
+    }
+
+    protected static boolean isDigit(char ch) {
+        return ch >= '0' && ch <= '9';
+    }
+
+    protected static boolean isLowerCaseLetter(char ch) {
+        return ch >= 'a' && ch <= 'z';
+    }
+
+    protected static boolean isUpperCaseLetter(char ch) {
+        return ch >= 'A' && ch <= 'Z';
+    }
+
     public boolean isValid() {
         return evaluate(this.value);
     }
+
     public boolean isInvalid() {
         return !isValid();
     }
@@ -58,6 +94,7 @@ public class PackageNameValidator implements ValidationTrait {
 
     /**
      * Checks whether {@code value} represents a valid Java package name
+     *
      * @param value the String to check
      * @return true if {@code value} is a valid Java package name
      */
@@ -78,10 +115,10 @@ public class PackageNameValidator implements ValidationTrait {
      * Checks whether the given candidate is a valid Java package name.
      * We don't guarantee that pathological cases will be detected.
      *
-     * @param candidate  the candidate value
+     * @param candidate the candidate value
      * @return if it can be used as a package name
      */
-    private boolean check (String candidate) {
+    private boolean check(String candidate) {
         var tokenizer = new StringTokenizer(candidate, ".");
 
         while (tokenizer.hasMoreTokens()) {
@@ -96,37 +133,5 @@ public class PackageNameValidator implements ValidationTrait {
             }
         }
         return true;
-    }
-
-    /**
-     * Not exactly the rules of a Java identifier, but sufficient for package names
-     * @param token the token to check
-     * @return true if the token is a legal part of a package name
-     */
-    private static boolean isLegalIdentifier(String token) {
-        // first character must be a-z or underscore
-        if (! (isLowerCaseLetter(token.charAt(0)) || token.charAt(0) == '_') ) {
-            return false;
-        }
-
-        // a valid subsequent letters can be: a-z, A-Z, 0-9, or underscore
-        for (var i = 1; i < token.length(); i++) {
-            if (!isLowerCaseLetter(token.charAt(i)) &&
-                    !isUpperCaseLetter(token.charAt(i)) &&
-                    !isDigit(token.charAt(i)) &&
-                    token.charAt(i) != '_')
-                return false;
-        }
-        return true;
-    }
-
-    protected static boolean isDigit(char ch) {
-        return ch >= '0' && ch <= '9';
-    }
-    protected static boolean isLowerCaseLetter(char ch) {
-        return ch >= 'a' && ch <= 'z';
-    }
-    protected static boolean isUpperCaseLetter(char ch) {
-        return ch >= 'A' && ch <= 'Z';
     }
 }

@@ -20,10 +20,10 @@ public enum Framework {
     // Future frameworks include: Micronaut, Quarkus, VueJS, and React
 
     private final String frameworkName;
+
     Framework(@NonNull String frameworkName) {
         this.frameworkName = frameworkName;
     }
-    public final String frameworkName() { return frameworkName; }
 
     public static Framework toFramework(String s) {
         if (s == null) return UNDEFINED;
@@ -36,16 +36,26 @@ public enum Framework {
         };
     }
 
+    public final String frameworkName() {
+        return frameworkName;
+    }
+
     public boolean isWebMvc() {
         return SPRING_WEBMVC.frameworkName.equals(frameworkName);
     }
+
     public boolean isWebFlux() {
         return SPRING_WEBFLUX.frameworkName.equals(frameworkName);
     }
 
-    public boolean isSpringBatch() { return SPRING_BATCH.frameworkName.equals(frameworkName); }
-    public boolean isSpringBoot() { return SPRING_BOOT.frameworkName.equals(frameworkName); }
-    
+    public boolean isSpringBatch() {
+        return SPRING_BATCH.frameworkName.equals(frameworkName);
+    }
+
+    public boolean isSpringBoot() {
+        return SPRING_BOOT.frameworkName.equals(frameworkName);
+    }
+
     public boolean isUndefined() {
         return UNDEFINED.frameworkName.equals(frameworkName);
     }

@@ -27,29 +27,29 @@ import java.util.Objects;
 /**
  * The {@code CatalogFileReader} reads the catalog files containing
  * the inventory of templates to render.
- *
+ * <p>
  * To get from a template to a rendered file, we need to know
  * two things: the location of the template and the destination
  * of the rendered content.  These two pieces of information are
  * captured in a {@code CatalogEntry}.
- *
+ * <p>
  * To create an inventory of all the templates to render, we
  * have the notion of "catalogs", where a catalog contains a list
  * of CatalogEntry's. We also support multiple catalogs, since
  * being able to organize CatalogEntry's into different files is useful.
- *
+ * <p>
  * Catalogs are stored as YAML files, saved as resource bundles.
  * By convention, the catalog files are saved in a folder named "catalogs".
  * Thus, the classpath to the catalogs is something like "/restapi/catalogs/",
  * which can be found in a module's "src/main/resources" folder.
- *
+ * <p>
  * Likewise, the Freemarker templates are TFL files saved as resource bundles,
  * with a classpath something like "/restapi/templates/".
- *
+ * <p>
  * From the point of view of a CodeGenerator, the generator needs the (primary)
  * catalog of templates to process. (Some filtering is supported since a code
  * generator can exclude templates not to render, based on command-line options.)
- *
+ * <p>
  * Idea on adding Keywords attribute:
  * https://github.com/helm/helm/issues/7771
  */
@@ -73,6 +73,26 @@ public class CatalogFileReader implements ICatalogReader {
         // empty; no instance variables are needed
     }
 
+    @SuppressWarnings("unchecked")
+    /**
+     * Reads the values loaded by YAML into a CatalogEntry object
+     * @param map these are the values from the yaml file
+     */
+    private static CatalogEntry readCatalogEntry(Map<String, Object> map) {
+        var catalogEntry = new CatalogEntry();
+        Map<String, Object> values = (Map<String, Object>) map.get(CATALOG_ENTRY_KEY);
+
+        catalogEntry.setDestination((String) values.get(DESTINATION_KEY));
+        catalogEntry.setTemplate((String) values.get(TEMPLATE_KEY));
+        catalogEntry.setContext((String) values.get(CONTEXT_KEY));   // context is either: project or endpoint
+
+        // NB: In the YAML file, the field is currently named 'features'
+        // We want to rename this field to 'tags'.  In the CatalogEntry,
+        // get/setTags is used; the YAML files have not yet been updated.
+        catalogEntry.setTags((String) values.get(FEATURE_KEY));
+
+        return catalogEntry;
+    }
 
     /**
      * Reads the given catalog file, returning the content
@@ -95,26 +115,5 @@ public class CatalogFileReader implements ICatalogReader {
             List<Map<String, Object>> entries = (List<Map<String, Object>>) obj.get(CATALOG_KEY);
             return entries.stream().map(CatalogFileReader::readCatalogEntry).toList();
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    /**
-     * Reads the values loaded by YAML into a CatalogEntry object
-     * @param map these are the values from the yaml file
-     */
-    private static CatalogEntry readCatalogEntry (Map<String,Object> map) {
-        var catalogEntry = new CatalogEntry();
-        Map<String,Object> values = (Map<String,Object>)map.get(CATALOG_ENTRY_KEY);
-        
-        catalogEntry.setDestination((String)values.get(DESTINATION_KEY));
-        catalogEntry.setTemplate((String)values.get(TEMPLATE_KEY));
-        catalogEntry.setContext((String)values.get(CONTEXT_KEY));   // context is either: project or endpoint
-
-        // NB: In the YAML file, the field is currently named 'features'
-        // We want to rename this field to 'tags'.  In the CatalogEntry,
-        // get/setTags is used; the YAML files have not yet been updated.
-        catalogEntry.setTags((String)values.get(FEATURE_KEY));
-
-        return catalogEntry;
     }
 }

@@ -102,7 +102,7 @@ class SpringGeneratorIntegrationTest {
     void whenMongoDbIntegration_shouldRenderTemplates() {
         // given: MongoDB and TestContainer integration is enabled
         Set<String> integrations = buildIntegrations(SpringIntegrations.MONGODB.name(),
-                                                     SpringIntegrations.TESTCONTAINERS.name());
+                SpringIntegrations.TESTCONTAINERS.name());
         var spec = RestProjectDescriptor.builder()
                 .applicationName(APP_NAME)
                 .basePackage(BASE_PKG)
@@ -183,7 +183,7 @@ class SpringGeneratorIntegrationTest {
         Set<String> integrations = buildIntegrations(SpringIntegrations.POSTGRES.name(),
                 SpringIntegrations.TESTCONTAINERS.name(),
                 SpringIntegrations.LIQUIBASE.name());
-        
+
         var spec = RestProjectDescriptor.builder()
                 .applicationName(APP_NAME)
                 .basePackage(BASE_PKG)
@@ -204,6 +204,7 @@ class SpringGeneratorIntegrationTest {
 
     /**
      * Converts the given var-args of integration options into a set of String
+     *
      * @param args the integration options
      * @return the equivalent Set
      */

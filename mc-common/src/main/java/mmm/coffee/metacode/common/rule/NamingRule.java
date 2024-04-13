@@ -33,10 +33,12 @@ public class NamingRule {
     public static final String DOCUMENT_SUFFIX = "Document";
 
     // Hidden constructor
-    private NamingRule() {}
+    private NamingRule() {
+    }
 
     /**
      * Returns the syntax convention for the given resource value
+     *
      * @param resource the name of some resource or entity
      * @return the resource name, with syntax conventions applied
      */
@@ -49,6 +51,7 @@ public class NamingRule {
         // Capitalize everything
         return resource.toUpperCase(Locale.ROOT);
     }
+
     public static @NonNull String toEntityVariableName(@NonNull String resource) {
         return StringUtils.uncapitalize(resource);
     }
@@ -74,6 +77,7 @@ public class NamingRule {
     /**
      * The dabase schema for JPA projects. Use this if a schema wasn't explicitly
      * defined on the command line
+     *
      * @param projectName the project name
      * @return the default schema name
      */
@@ -101,12 +105,12 @@ public class NamingRule {
      * ```org.example.greeting_service.endpoint.greeting```.
      * (where ```org.example.greeting_service``` is the assumed base package, and ```Greeting``` is the resource/entity.
      *
-     * @param basePackage the base package of the project
+     * @param basePackage          the base package of the project
      * @param resourceOrEntityName the name of the RESTful resource/entity, for example ```Student``` or ```Account```
      * @return the package name into which the assets of this resource will be placed
      */
     @NonNull
-    public static String toEndpointPackageName (@NonNull String basePackage, @NonNull String resourceOrEntityName) {
+    public static String toEndpointPackageName(@NonNull String basePackage, @NonNull String resourceOrEntityName) {
         String packageName = basePackage + ".endpoint." + StringUtils.toRootLowerCase(resourceOrEntityName);
         return StringUtils.toRootLowerCase(packageName);
     }

@@ -65,16 +65,15 @@ public class PackageDataDictionaryFactory {
 
     /**
      * The TomlParseResult represents the right-hand-side of an entry like:
-     *      classes = [ "AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator" ]
-     *  as one String value:
-     *      "AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator"
-     *  which needs to be parsed into a List of tokens:
-     *      List.of("AlphabeticField", "ResourceIdField", "AlphabeticValidator", "ResourceIdValidator")
-     *
+     * classes = [ "AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator" ]
+     * as one String value:
+     * "AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator"
+     * which needs to be parsed into a List of tokens:
+     * List.of("AlphabeticField", "ResourceIdField", "AlphabeticValidator", "ResourceIdValidator")
      */
     private List<String> convertToClassNameList(String string) {
-        return Collections.list(new StringTokenizer(string, "," )).stream()
-                .map(token -> ((String)token).trim())// remove any whitespace
+        return Collections.list(new StringTokenizer(string, ",")).stream()
+                .map(token -> ((String) token).trim())// remove any whitespace
                 .toList();
     }
 

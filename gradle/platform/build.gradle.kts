@@ -1,7 +1,6 @@
-
 plugins {
-  id("java-platform")
-  }
+    id("java-platform")
+}
 
 group = "mmm.coffee.metacode"
 

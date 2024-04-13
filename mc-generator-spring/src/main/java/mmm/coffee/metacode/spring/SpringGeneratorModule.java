@@ -53,7 +53,6 @@ import mmm.coffee.metacode.spring.project.io.SpringMetaPropertiesHandler;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 /**

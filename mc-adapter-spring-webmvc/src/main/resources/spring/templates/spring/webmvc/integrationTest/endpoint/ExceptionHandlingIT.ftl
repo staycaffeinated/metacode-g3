@@ -2,9 +2,9 @@
 package ${endpoint.packageName};
 
 <#if endpoint.isWithTestContainers()>
-import ${endpoint.basePackage}.config.ContainerConfiguration;
-import org.springframework.context.annotation.Import;
-import org.testcontainers.junit.jupiter.Testcontainers;
+    import ${endpoint.basePackage}.config.ContainerConfiguration;
+    import org.springframework.context.annotation.Import;
+    import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
 import ${endpoint.basePackage}.domain.${endpoint.entityName};
@@ -31,47 +31,47 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
- * Verify exception handling
- */
+* Verify exception handling
+*/
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 <#if endpoint.isWithTestContainers()>
-@Import(ContainerConfiguration.class)
-@Testcontainers
+    @Import(ContainerConfiguration.class)
+    @Testcontainers
 <#else>
-@ExtendWith(SpringExtension.class)
+    @ExtendWith(SpringExtension.class)
 </#if>
 class ${endpoint.entityName}ExceptionHandlingIT implements RegisterDatabaseProperties {
-    @Autowired
-    MockMvc mockMvc;
+@Autowired
+MockMvc mockMvc;
 
-    @Autowired
-    ObjectMapper objectMapper;
-    @MockBean
-    private ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
+@Autowired
+ObjectMapper objectMapper;
+@MockBean
+private ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
 
-    final SecureRandomSeries randomSeries = new SecureRandomSeries();
+final SecureRandomSeries randomSeries = new SecureRandomSeries();
 
-    @Nested
-    class ExceptionTests {
+@Nested
+class ExceptionTests {
 
-        @Test
-        void shouldNotReturnStackTrace() throws Exception {
-            // given
-            given( ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(any(String.class))).willThrow(new RuntimeException("Boom!"));
-            given( ${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}.class))).willThrow(new RuntimeException("Bad data"));
+@Test
+void shouldNotReturnStackTrace() throws Exception {
+// given
+given( ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(any(String.class))).willThrow(new RuntimeException("Boom!"));
+given( ${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}.class))).willThrow(new RuntimeException("Bad data"));
 
-            ${endpoint.pojoName} payload = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("update me").build();
+${endpoint.pojoName} payload = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("update me").build();
 
-            // when/then
-            mockMvc.perform(post("${endpoint.basePath}")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(payload)))
-                    .andExpect(jsonPath("$.stackTrace").doesNotExist())
-                    .andExpect(jsonPath("$.trace").doesNotExist())
-                    .andDo((print()))
-                    .andReturn();
-        }
-    }
+// when/then
+mockMvc.perform(post("${endpoint.basePath}")
+.contentType(MediaType.APPLICATION_JSON)
+.content(objectMapper.writeValueAsString(payload)))
+.andExpect(jsonPath("$.stackTrace").doesNotExist())
+.andExpect(jsonPath("$.trace").doesNotExist())
+.andDo((print()))
+.andReturn();
+}
+}
 }

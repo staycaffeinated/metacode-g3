@@ -1,6 +1,5 @@
 package mmm.coffee.metacode.config;
 
-import mmm.coffee.metacode.common.toml.DefaultPackageDataDictionary;
 import mmm.coffee.metacode.common.toml.PackageDataDictionary;
 import mmm.coffee.metacode.common.toml.PackageDataDictionaryFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,11 +22,11 @@ public class ApplicationConfig {
     /**
      * Added to resolve warning:
      * <code>
-     *      WARNING: Unable to get bean of class interface java.util.List,
-     *      using fallback factory picocli.CommandLine$DefaultFactory
-     *      (org.springframework.beans.factory.BeanCreationException:
-     *      Error creating bean with name 'java.util.List': Failed to instantiate
-     *      [java.util.List]: Specified class is an interface)
+     * WARNING: Unable to get bean of class interface java.util.List,
+     * using fallback factory picocli.CommandLine$DefaultFactory
+     * (org.springframework.beans.factory.BeanCreationException:
+     * Error creating bean with name 'java.util.List': Failed to instantiate
+     * [java.util.List]: Specified class is an interface)
      * </code>
      * Some of the Picocli command objects use lists to store multi-value options
      */

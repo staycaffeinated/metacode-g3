@@ -47,28 +47,6 @@ public class RestProjectDescriptor implements Descriptor {
      * frameworks like Quarkus or Micronaut
      */
     private Framework framework;
-
-    /**
-     * The template files are expecting a String value
-     * as the framework value, so this custom getter is
-     * provided to achieve that.
-     *
-     * For example, a template might have this statement:
-     * <code>
-     *     <#if (project.framework == 'WEBFLUX')>
-     * </code>
-     * so {@code getFramework()} must return a value the
-     * template will understand.
-     *
-     * @return the String expected by the template language. 
-     */
-    public String getFramework() {
-        if (framework != null) {
-            return framework.frameworkName();
-        }
-        return Framework.UNDEFINED.frameworkName();
-    }
-    
     /*
      * The integrations to support in the generated code.
      * For example, if integration with Postgres is selected,
@@ -89,5 +67,27 @@ public class RestProjectDescriptor implements Descriptor {
      *
      * See https://projectlombok.org/features/Builder#singular
      */
-    @Builder.Default private Set<String> integrations = new HashSet<>();
+    @Builder.Default
+    private Set<String> integrations = new HashSet<>();
+
+    /**
+     * The template files are expecting a String value
+     * as the framework value, so this custom getter is
+     * provided to achieve that.
+     * <p>
+     * For example, a template might have this statement:
+     * <code>
+     * <#if (project.framework == 'WEBFLUX')>
+     * </code>
+     * so {@code getFramework()} must return a value the
+     * template will understand.
+     *
+     * @return the String expected by the template language.
+     */
+    public String getFramework() {
+        if (framework != null) {
+            return framework.frameworkName();
+        }
+        return Framework.UNDEFINED.frameworkName();
+    }
 }

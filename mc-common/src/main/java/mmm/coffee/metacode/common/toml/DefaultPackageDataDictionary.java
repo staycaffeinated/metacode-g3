@@ -39,6 +39,7 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
     public String getBasePackage() {
         return projectBasePackage;
     }
+
     public void setBasePackage(String basePackage) {
         this.projectBasePackage = basePackage;
     }

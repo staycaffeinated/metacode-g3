@@ -10,4 +10,5 @@ package mmm.coffee.metacode.common.trait;
  * for identifying a class that's passed from the CLI package
  * to the GENERATOR package.
  */
-public interface MetaSpecification {}
+public interface MetaSpecification {
+}

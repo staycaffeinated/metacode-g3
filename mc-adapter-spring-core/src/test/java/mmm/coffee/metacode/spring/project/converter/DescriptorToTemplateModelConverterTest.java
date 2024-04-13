@@ -31,11 +31,9 @@ class DescriptorToTemplateModelConverterTest {
     private static final String APP_NAME = "petstore";
     private static final String BASE_PKG = "acme.petstore";
     private static final String BASE_PATH = "/petstore";
-
+    final DescriptorToTemplateModelConverter converterUnderTest = new DescriptorToTemplateModelConverter();
     RestProjectDescriptor webFluxRestProject;
     RestProjectDescriptor webMvcRestProject;
-
-    final DescriptorToTemplateModelConverter converterUnderTest = new DescriptorToTemplateModelConverter();
 
     @BeforeEach
     public void createNewDescriptors() {
@@ -154,7 +152,7 @@ class DescriptorToTemplateModelConverterTest {
         // expect: withTestContainers and withMongoDb flags are both 'true'
         assertThat(templateModel.isWithTestContainers()).isTrue();
         assertThat(templateModel.isWithMongoDb()).isTrue();
-        
+
         assertThat(templateModel.isWithLiquibase()).isFalse();
         assertThat(templateModel.isWithPostgres()).isFalse();
     }
@@ -175,6 +173,7 @@ class DescriptorToTemplateModelConverterTest {
         assertThat(templateModel.isWithPostgres()).isTrue();
         assertThat(templateModel.isWithTestContainers()).isTrue();
     }
+
     @Test
     void shouldSetMongoDbIntegrationFlag() {
         // Given: a project with TestContainers integration enabled

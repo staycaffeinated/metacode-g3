@@ -13,7 +13,9 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 @SuppressWarnings("java:S125")
 // S125: we're OK with comments that look like code since comments may contain code examples
 public interface MetaTemplateModel {
-    
+
+    String getTopLevelVariable();
+
     /*
      * This code base passes a POJO to Freemarker templates
      * as the approach to passing template variables. In the
@@ -30,15 +32,17 @@ public interface MetaTemplateModel {
      */
     @ExcludeFromJacocoGeneratedReport
     enum Key {
-        PROJECT ("project"),
-        ENDPOINT ("endpoint");
+        PROJECT("project"),
+        ENDPOINT("endpoint");
 
         private final String value;
+
         Key(String value) {
             this.value = value;
         }
-        public String value() { return value; }
-    }
 
-    String getTopLevelVariable();
+        public String value() {
+            return value;
+        }
+    }
 }

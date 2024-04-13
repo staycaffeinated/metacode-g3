@@ -33,16 +33,16 @@ class NameConverterTests {
          * Contract: the first character of the entityName must be capitalized.
          * All other characters are left as-is.
          *
-         * @param sample the test string to evaluate
+         * @param sample   the test string to evaluate
          * @param expected the expected outcome
          */
         @ParameterizedTest
-        @CsvSource( {
+        @CsvSource({
                 // test data, expected result
                 "foo,       Foo",
                 "Foo,       Foo",
                 "fooBar,    FooBar"
-        } )
+        })
         void shouldReturnEntityNameStartingWithUpperCaseLetter(String sample, String expected) {
             assertThat(converterUnderTest.toEntityName(sample)).isEqualTo(expected);
         }
@@ -59,7 +59,7 @@ class NameConverterTests {
          * Contract: the first character of the {@code resource} is converted to lower-case
          * (i.e., uncapitalized). All other characters remain as-is.
          *
-         * @param sample the test value to convert
+         * @param sample   the test value to convert
          * @param expected the expected outcome
          */
         @ParameterizedTest
@@ -75,7 +75,7 @@ class NameConverterTests {
 
         @Test
         void shouldThrowNullPointerExceptionWhenArgIsNull() {
-            assertThrows(NullPointerException.class, () ->  converterUnderTest.toEntityVariableName(null));
+            assertThrows(NullPointerException.class, () -> converterUnderTest.toEntityVariableName(null));
         }
     }
 
@@ -138,6 +138,7 @@ class NameConverterTests {
         void shouldDisallowNullBasePackage() {
             assertThrows(NullPointerException.class, () -> converterUnderTest.toEndpointPackageName(null, "widget"));
         }
+
         @Test
         void shouldDisallowNullResourceName() {
             assertThrows(NullPointerException.class, () -> converterUnderTest.toEndpointPackageName("org.example", null));

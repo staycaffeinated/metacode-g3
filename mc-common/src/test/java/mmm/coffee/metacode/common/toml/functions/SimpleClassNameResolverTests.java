@@ -11,7 +11,7 @@ import static com.google.common.truth.Truth.assertThat;
 public class SimpleClassNameResolverTests {
 
     SimpleClassNameResolver classUnderTest = new SimpleClassNameResolver();
-    
+
 
     @Nested
     class ToSimpleClassNameTests {

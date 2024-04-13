@@ -17,8 +17,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 /**
- * This is the POJO of ${endpoint.entityName} data exposed to client applications
- */
+* This is the POJO of ${endpoint.entityName} data exposed to client applications
+*/
 @lombok.Data
 // The next 2 lines allow jackson-databind and lombok to play nice together.
 // These 2 lines specifically resolve this exception:
@@ -26,12 +26,13 @@ import lombok.NoArgsConstructor;
 // See https://www.thecuriousdev.org/lombok-builder-with-jackson/
 @JsonDeserialize(builder = ${endpoint.pojoName}.DefaultBuilder.class)
 @Builder(builderClassName = "DefaultBuilder", toBuilder = true)
-public class ${endpoint.pojoName} implements ResourceIdTrait<String> {
+public class ${endpoint.pojoName} implements ResourceIdTrait
+<String> {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Fields {
-        public static final String RESOURCE_ID = "resourceId";
-        public static final String TEXT = "text";
+    public static final String RESOURCE_ID = "resourceId";
+    public static final String TEXT = "text";
     }
 
     @Null(groups = OnCreate.class)
@@ -41,18 +42,18 @@ public class ${endpoint.pojoName} implements ResourceIdTrait<String> {
     private String resourceId;
 
     /*
-     * An @Pattern can also be used here.
-     * The @Alphabet is used to demonstrate a custom validator
-     */
+    * An @Pattern can also be used here.
+    * The @Alphabet is used to demonstrate a custom validator
+    */
     @NotEmpty @Alphabetic
     @JsonProperty(Fields.TEXT)
     private String text;
 
     /**
-     * Added to enable Lombok and jackson-databind to play nice together
-     */
+    * Added to enable Lombok and jackson-databind to play nice together
+    */
     @JsonPOJOBuilder(withPrefix = "")
     public static class DefaultBuilder {
-        // empty
+    // empty
     }
-}
+    }

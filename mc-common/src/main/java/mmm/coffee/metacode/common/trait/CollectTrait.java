@@ -25,6 +25,7 @@ public interface CollectTrait<T> {
 
     /**
      * Collects items, honoring the conditions set with {@code setConditions}
+     *
      * @return the items meeting the conditions
      */
     List<T> collect();

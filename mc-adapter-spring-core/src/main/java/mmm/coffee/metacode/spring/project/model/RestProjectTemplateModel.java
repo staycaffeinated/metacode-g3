@@ -35,9 +35,9 @@ import java.util.Locale;
  */
 @Data
 @SuperBuilder
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @ExcludeFromJacocoGeneratedReport // Ignore code coverage for this class
-@SuppressWarnings({"java:S125","java:S116"})
+@SuppressWarnings({"java:S125", "java:S116"})
 // S125: don't warn about comments that happen to look like code
 // S116: need to relax this naming convention rule for the R2dbc_h2Version instance variable
 public class RestProjectTemplateModel extends SpringTemplateModel {
@@ -45,7 +45,7 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
     // it's assigned a name referred to in Freemarker lingo
     // as the "top level variable".
     private final String topLevelVariable = Key.PROJECT.value();
-    
+
     // Basic properties
     private String applicationName;
     private String basePath;
@@ -68,7 +68,7 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
     private boolean withMongoDb;
     @Setter
     private boolean withOpenApi;
-    
+
     /*
      * Library versions
      *
@@ -114,7 +114,7 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
      * state of this template model object. There's information in
      * the DependencyCatalog that needs to be available to the Template
      * engine to enable resolving some template variables.
-     *
+     * <p>
      * The dependency catalog lists the 3rd-party libraries in use and their version.
      * This enables the code generator to render the `libs.versions.toml` file and
      * the `build.gradle` files.
@@ -138,16 +138,16 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
             String methodName = conjureSetterMethod(prefix);
             Method method = this.getClass().getDeclaredMethod(methodName, String.class);
             method.invoke(this, value);
-        }
-        catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeApplicationError(String.format("No setter method found for '%s' in %s", prefix, this.getClass().getName()), e);
         }
     }
+
     // Visible for testing
     // Builds the string "set{FieldName}Version}",
     // with first letter of fieldName capitalized
     String conjureSetterMethod(String fieldName) {
-        String firstLetter = fieldName.substring(0,1);
+        String firstLetter = fieldName.substring(0, 1);
         String remainder = fieldName.substring(1);
         firstLetter = firstLetter.toUpperCase(Locale.ROOT);
         return "set" + firstLetter + remainder + "Version";

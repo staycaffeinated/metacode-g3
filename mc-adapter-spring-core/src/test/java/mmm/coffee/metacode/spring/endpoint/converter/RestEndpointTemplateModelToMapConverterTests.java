@@ -23,7 +23,7 @@ class RestEndpointTemplateModelToMapConverterTests {
     private static final String ENTITY_VAR_NAME = "pet";
     private static final String LOWER_CASE_ENTITY_NAME = "pet";
 
-    final RestEndpointTemplateModelToMapConverter converterUnderTest =  new RestEndpointTemplateModelToMapConverter();
+    final RestEndpointTemplateModelToMapConverter converterUnderTest = new RestEndpointTemplateModelToMapConverter();
 
     @Test
     void shouldMapAllValues() {
@@ -38,7 +38,7 @@ class RestEndpointTemplateModelToMapConverterTests {
                 .build();
 
         // when: the endpoint template model is converted to a map
-        Map<String,String> mapping = converterUnderTest.convert(model);
+        Map<String, String> mapping = converterUnderTest.convert(model);
 
         // expect: all the variables that may come up in a Mustache expression have a value
         assertThat(mapping.get(MustacheConstants.BASE_PATH)).isEqualTo(BASE_PATH);

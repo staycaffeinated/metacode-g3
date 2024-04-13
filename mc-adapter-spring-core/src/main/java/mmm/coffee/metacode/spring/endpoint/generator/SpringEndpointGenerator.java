@@ -28,28 +28,27 @@ import org.apache.commons.configuration2.Configuration;
  */
 @SuperBuilder
 @Slf4j
-@SuppressWarnings({"java:S4738","java:S1602","java:S125"})
+@SuppressWarnings({"java:S4738", "java:S1602", "java:S125"})
 // S4738: accepting Google Predicate class for now
 // S1602: false positive: comment around line 82 happens to look like a lambda function
 // S125: we're OK with comments that look like code
 public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescriptor> {
 
-    // At this time, we don't know which Collector to use until the doPreprocessing
-    // method is called, because we have one collector for WebMvc templates, and a
-    // different collector for WebFlux. This choice is worth revisiting.   
-    private Collector collector;
+    final MetaPropertiesHandler<RestEndpointDescriptor> metaPropertiesHandler;
     private final ConvertTrait<RestEndpointDescriptor, RestEndpointTemplateModel> descriptor2templateModel;
     private final ConvertTrait<RestEndpointDescriptor, Predicate<CatalogEntry>> descriptor2predicate;
     private final TemplateResolver<MetaTemplateModel> templateRenderer;
     private final WriteOutputTrait outputHandler;
     private final MustacheEndpointDecoder mustacheDecoder;
-    final MetaPropertiesHandler<RestEndpointDescriptor> metaPropertiesHandler;
-
+    // At this time, we don't know which Collector to use until the doPreprocessing
+    // method is called, because we have one collector for WebMvc templates, and a
+    // different collector for WebFlux. This choice is worth revisiting.
+    private Collector collector;
 
     /**
      * Fills in data missing from the {@code spec} using the {@code metacode.properties}
      * as the source of data for those missing pieces.
-     *
+     * <p>
      * For example, when creating an endpoint, the end-user does not type in the
      * base package since we can acquire the base package from the {@code metacode.properties}
      * file. The general motivation is to keep the CLI simple,
@@ -90,7 +89,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
 
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = descriptor2templateModel.convert(descriptor);
-        
+
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);
 
@@ -119,6 +118,6 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // It only makes sense to generate endpoints for WebMvc and WebFlux projects.
         // For the SpringBoot template, too many expected classes would be missing for this to work.
         return (framework.equalsIgnoreCase(Framework.SPRING_WEBMVC.frameworkName()) ||
-            framework.equalsIgnoreCase(Framework.SPRING_WEBFLUX.frameworkName()));
+                framework.equalsIgnoreCase(Framework.SPRING_WEBFLUX.frameworkName()));
     }
 }

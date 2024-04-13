@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Handles writing String content to a destination.
  * Typically, the destination is a File but, for testing,
- * writing can be a no-op. 
+ * writing can be a no-op.
  */
 public class ContentToFileWriter implements WriteOutputTrait {
 
@@ -55,8 +55,9 @@ public class ContentToFileWriter implements WriteOutputTrait {
      * If {@code content} is an empty string, the destination file is created,
      * with the empty content written to it.
      * </p>
+     *
      * @param destination the FQP to the output file
-     * @param content the content written to the output file
+     * @param content     the content written to the output file
      */
     @Override
     public void writeOutput(@NonNull String destination, String content) {
@@ -65,11 +66,11 @@ public class ContentToFileWriter implements WriteOutputTrait {
             File fOutput = new File(destination);
             fileSystem.forceMkdir(fOutput.getParentFile());
             fileSystem.writeStringToFile(fOutput, content, StandardCharsets.UTF_8);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeApplicationError(e.getMessage(), e);
         }
     }
+
     private boolean isEmpty(String str) {
         return str == null || str.trim().length() == 0;
     }

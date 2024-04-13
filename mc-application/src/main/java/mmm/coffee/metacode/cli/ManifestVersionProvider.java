@@ -32,6 +32,10 @@ import java.util.jar.Manifest;
  */
 @ExcludeFromJacocoGeneratedReport // exclude this class from code coverage reporting
 public class ManifestVersionProvider implements CommandLine.IVersionProvider {
+    private static Object get(Attributes attributes, String key) {
+        return attributes.get(new Attributes.Name(key));
+    }
+
     @Override
     public String[] getVersion() throws Exception {
         Enumeration<URL> resources = CommandLine.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
@@ -46,7 +50,7 @@ public class ManifestVersionProvider implements CommandLine.IVersionProvider {
                     // Implementation-Version: x.y.z
                     return new String[]{
                             get(attr, "Implementation-Version") + ""
-                            };
+                    };
                 }
             } catch (IOException ex) {
                 return new String[]{"Unable to read from " + url + ": " + ex};
@@ -63,9 +67,5 @@ public class ManifestVersionProvider implements CommandLine.IVersionProvider {
     private boolean isApplicableManifest(Manifest manifest) {
         Attributes attributes = manifest.getMainAttributes();
         return "MetaCode".equals(get(attributes, "Implementation-Title"));
-    }
-
-    private static Object get(Attributes attributes, String key) {
-        return attributes.get(new Attributes.Name(key));
     }
 }

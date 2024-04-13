@@ -1,9 +1,9 @@
 plugins {
-    id "nebula.lint"
+id "nebula.lint"
 }
 
 allprojects {
-    apply plugin: 'nebula.lint'
-    gradleLint.rules = [ 'all-dependencies' ]
+apply plugin: 'nebula.lint'
+gradleLint.rules = [ 'all-dependencies' ]
 }
 

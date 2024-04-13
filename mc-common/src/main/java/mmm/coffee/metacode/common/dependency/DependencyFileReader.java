@@ -30,6 +30,7 @@ public class DependencyFileReader {
 
     /**
      * Reads the dependencies file and returns a POJO that mirrors it content.
+     *
      * @param resourcePathOfDependenciesYaml the YAML file to read, usually the dependencies.yml
      * @return a Library object that mirrors the content of the file
      * @throws IOException if the dependencyFile cannot be read

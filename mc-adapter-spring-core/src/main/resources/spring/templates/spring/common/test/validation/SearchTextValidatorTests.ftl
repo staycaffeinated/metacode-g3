@@ -16,41 +16,41 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 /**
- * Unit tests of SearchTextValidator
- */
+* Unit tests of SearchTextValidator
+*/
 @SuppressWarnings("all")
 class SearchTextValidatorTests {
-    SearchTextValidator validationUnderTest = new SearchTextValidator();
+SearchTextValidator validationUnderTest = new SearchTextValidator();
 
-    @Mock
-    ConstraintValidatorContext mockContext;
+@Mock
+ConstraintValidatorContext mockContext;
 
-    @Nested
-    class PositiveTestCases {
-        @ParameterizedTest
-        @ValueSource(strings = {"something", "SOMETHING"})
-        @EmptySource
-        void shouldAllowAlphabetic(String candidateText) {
-            assertThat(validationUnderTest.isValid(Optional.of(candidateText), mockContext)).isTrue();
-        }
-    }
+@Nested
+class PositiveTestCases {
+@ParameterizedTest
+@ValueSource(strings = {"something", "SOMETHING"})
+@EmptySource
+void shouldAllowAlphabetic(String candidateText) {
+assertThat(validationUnderTest.isValid(Optional.of(candidateText), mockContext)).isTrue();
+}
+}
 
-    @Nested
-    class NegativeTestCases {
+@Nested
+class NegativeTestCases {
 
-        @ParameterizedTest
-        @ValueSource(strings = {
-            "192.168.0.1",	// contains non-alpha characters
-            "supercalifragilisticexpialidocious"  // too long
-        })
-        void shouldNotAllowInvalidText(String candidateText) {
-            assertThat(validationUnderTest.isValid(Optional.of(candidateText), mockContext)).isFalse();
-        }
+@ParameterizedTest
+@ValueSource(strings = {
+"192.168.0.1",    // contains non-alpha characters
+"supercalifragilisticexpialidocious"  // too long
+})
+void shouldNotAllowInvalidText(String candidateText) {
+assertThat(validationUnderTest.isValid(Optional.of(candidateText), mockContext)).isFalse();
+}
 
-        @Test
-        void shouldNotAllowNull() {
-            assertThrows(NullPointerException.class, () -> validationUnderTest.isValid(null, mockContext));
-        }
-    }
+@Test
+void shouldNotAllowNull() {
+assertThrows(NullPointerException.class, () -> validationUnderTest.isValid(null, mockContext));
+}
+}
 
 }

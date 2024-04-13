@@ -30,15 +30,16 @@ public class AbstractCreateSpringProject extends AbstractCreateRestProject {
     // The declaration the additional library options
     // For example, ```--add postgres liquibase```
     // What about -i --integrations? so, for example, `-i postgres testcontainers`
-    @CommandLine.Option(names={"-a", "--add"},
-            arity="0..*",
+    @CommandLine.Option(names = {"-a", "--add"},
+            arity = "0..*",
             paramLabel = "LIBRARY",
-            description = { "Add the support of additional libraries to the project. Currently supported libraries are: ${COMPLETION-CANDIDATES}." }
+            description = {"Add the support of additional libraries to the project. Currently supported libraries are: ${COMPLETION-CANDIDATES}."}
     )
     protected SpringIntegrations[] features;
 
     /**
      * Creates a project descriptor from the command-line arguments
+     *
      * @return a POJO that encapsulates the command-line arguments
      */
     protected RestProjectDescriptor buildProjectDescriptor(Framework framework) {

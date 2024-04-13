@@ -16,6 +16,7 @@
 package mmm.coffee.metacode.annotations.guice;
 
 import jakarta.inject.Qualifier;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -29,6 +30,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the method that returns a {@code freemarker.template.Configuration} instance
  */
 @Qualifier
-@Target({ FIELD, PARAMETER, METHOD })
+@Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
-public @interface FreemarkerConfigurationProvider {}
+public @interface FreemarkerConfigurationProvider {
+}

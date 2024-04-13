@@ -28,9 +28,9 @@ class SpringTemplateCatalogTests {
         when(mockReader.readCatalogFile(anyString())).thenThrow(IOException.class);
 
         SimpleTemplateCatalog catalog = new SimpleTemplateCatalog(mockReader);
-        assertThrows(RuntimeApplicationError.class, () -> catalog.collectGeneralCatalogsAndThisOne("") );
+        assertThrows(RuntimeApplicationError.class, () -> catalog.collectGeneralCatalogsAndThisOne(""));
     }
-    
+
     // -----------------------------------------------------------
     // Helper methods and classes
     // -----------------------------------------------------------
@@ -39,7 +39,7 @@ class SpringTemplateCatalogTests {
         SimpleTemplateCatalog(ICatalogReader reader) {
             super(reader);
         }
-        
+
         @Override
         public List<CatalogEntry> collect() {
             return Collections.emptyList();

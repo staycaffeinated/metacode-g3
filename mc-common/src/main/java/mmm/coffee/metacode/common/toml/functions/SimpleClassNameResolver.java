@@ -33,23 +33,6 @@ public class SimpleClassNameResolver {
         patterns.put(PrototypeClass.ServiceImpl, "%sServiceProvider");            // eg: PetServiceProvider
     }
 
-    public String toSimpleClassName(String resource, @Nonnull PrototypeClass classKey) {
-        Objects.requireNonNull(classKey);
-
-        String pattern = patterns.get(classKey);
-        if (pattern == null) {
-            // Project-level classes may not have a pattern. For instance, the WebMvcConfiguration class
-            // or the GlobalExceptionHandler class, whose names aren't dependent on a resource name. 
-            return classKey.name();
-        } else if (resource != null) {
-            return String.format(pattern, resource);
-        }
-        else {
-            log.debug("[toSimpleClassName] No pattern was found for prototype class: {}", classKey.name());
-            return classKey.name();
-        }
-    }
-
     public static String simpleClassName(String resource, PrototypeClass key) {
         return INSTANCE.toSimpleClassName(resource, key);
     }
@@ -58,11 +41,26 @@ public class SimpleClassNameResolver {
         return INSTANCE.toSimpleClassName(null, key);
     }
 
-
     public static String variableName(String resource) {
         String var = INSTANCE.toSimpleClassName(resource, PrototypeClass.ResourcePojo);
-        String firstLetter = var.substring(0,1).toLowerCase();
+        String firstLetter = var.substring(0, 1).toLowerCase();
         return firstLetter + var.substring(1);
     }
-    
+
+    public String toSimpleClassName(String resource, @Nonnull PrototypeClass classKey) {
+        Objects.requireNonNull(classKey);
+
+        String pattern = patterns.get(classKey);
+        if (pattern == null) {
+            // Project-level classes may not have a pattern. For instance, the WebMvcConfiguration class
+            // or the GlobalExceptionHandler class, whose names aren't dependent on a resource name.
+            return classKey.name();
+        } else if (resource != null) {
+            return String.format(pattern, resource);
+        } else {
+            log.debug("[toSimpleClassName] No pattern was found for prototype class: {}", classKey.name());
+            return classKey.name();
+        }
+    }
+
 }

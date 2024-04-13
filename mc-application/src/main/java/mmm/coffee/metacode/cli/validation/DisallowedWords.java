@@ -29,23 +29,6 @@ public class DisallowedWords {
 
     private static final String[] DISALLOWED;
 
-    /* a private constructor to prevent instantiation */
-    private DisallowedWords() {}
-
-    /**
-     * Check whether the given {@code word} is a disallowed word.
-     * This check also excludes the String "null",
-     * @param word the candidate value to test
-     * @return if {@code word} is a reserved word, or is the String "null".
-     */
-    public static boolean isDisallowedWord(String word) {
-        for (String s: DISALLOWED) {
-            // Future task: log an error to the console, maybe with a specific reason.
-            if (s.equalsIgnoreCase(word)) return true;
-        }
-       return false;
-    }
-
     /*
      * These are resource names that have been found to cause errors
      * in the generated code. The errors may be compile-time errors
@@ -62,6 +45,25 @@ public class DisallowedWords {
         //
         // Using `Test` causes collisions with the JUnit `Test` class.
         //
-        DISALLOWED = new String[] { "test", "user" };
+        DISALLOWED = new String[]{"test", "user"};
+    }
+
+    /* a private constructor to prevent instantiation */
+    private DisallowedWords() {
+    }
+
+    /**
+     * Check whether the given {@code word} is a disallowed word.
+     * This check also excludes the String "null",
+     *
+     * @param word the candidate value to test
+     * @return if {@code word} is a reserved word, or is the String "null".
+     */
+    public static boolean isDisallowedWord(String word) {
+        for (String s : DISALLOWED) {
+            // Future task: log an error to the console, maybe with a specific reason.
+            if (s.equalsIgnoreCase(word)) return true;
+        }
+        return false;
     }
 }

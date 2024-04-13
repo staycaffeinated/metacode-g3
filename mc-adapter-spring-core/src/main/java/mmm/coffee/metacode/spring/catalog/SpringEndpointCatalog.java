@@ -29,13 +29,11 @@ public class SpringEndpointCatalog implements Collector {
             SpringTemplateCatalog.WEBMVC_CATALOG,
             SpringTemplateCatalog.WEBMVC_MONGODB_CATALOG
     };
-
+    final ICatalogReader reader;
     // To hide this field from the Builder, we limit both the getter and setter
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private final List<String> appliedCatalogs = new ArrayList<>();
-
-    final ICatalogReader reader;
 
     @Override
     public Collector prepare(Descriptor descriptor) {
@@ -43,12 +41,10 @@ public class SpringEndpointCatalog implements Collector {
         if (descriptor instanceof RestEndpointDescriptor restEndpointDescriptor) {
             if (restEndpointDescriptor.isWebFlux()) {
                 appliedCatalogs.add(SpringTemplateCatalog.WEBFUX_CATALOG);
-            }
-            else {
+            } else {
                 if (restEndpointDescriptor.isWithMongoDb()) {
                     appliedCatalogs.add(SpringTemplateCatalog.WEBMVC_MONGODB_CATALOG);
-                }
-                else {
+                } else {
                     appliedCatalogs.add(SpringTemplateCatalog.WEBMVC_CATALOG);
                 }
             }
@@ -70,11 +66,10 @@ public class SpringEndpointCatalog implements Collector {
     @Override
     public List<CatalogEntry> collect() {
         List<CatalogEntry> resultSet = new ArrayList<>();
-        for (String catalog: appliedCatalogs) {
+        for (String catalog : appliedCatalogs) {
             try {
                 resultSet.addAll(reader.readCatalogFile(catalog));
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new RuntimeApplicationError(String.format("Error reading endpoint catalog file: %s", e.getMessage()), e);
             }
         }

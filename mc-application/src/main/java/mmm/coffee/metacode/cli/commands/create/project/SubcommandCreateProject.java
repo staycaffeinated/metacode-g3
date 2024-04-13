@@ -23,13 +23,13 @@ import picocli.CommandLine;
  * Generates the boilerplate code for a software project
  */
 @CommandLine.Command(
-        name="project",
+        name = "project",
         mixinStandardHelpOptions = true,
         headerHeading = "%nSynopsis:%n",
         // Add 2 leading spaces for consistency with picocolo default indentation
         header = "  Generates the basic project artifacts for an application. See the Commands listed below for the kinds of projects supported",
         descriptionHeading = "%nDescription:%n",
-        description="Generates the basic project artifacts for an application",
+        description = "Generates the basic project artifacts for an application",
         synopsisHeading = "%nUsage:%n",
         optionListHeading = "%nOptions:%n",
         subcommands = {
@@ -39,4 +39,5 @@ import picocli.CommandLine;
         synopsisSubcommandLabel = "[TEMPLATE]"
 )
 @ExcludeFromJacocoGeneratedReport // exclude this from code coverage
-public class SubcommandCreateProject implements CallTrait {}
+public class SubcommandCreateProject implements CallTrait {
+}

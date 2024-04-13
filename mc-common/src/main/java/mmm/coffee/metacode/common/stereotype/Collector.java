@@ -30,5 +30,7 @@ public interface Collector extends CollectTrait<CatalogEntry> {
      * based on the {@code descriptor}.  The default behavior is
      * to do nothing here, allowing the default catalog to be loaded.
      */
-    default Collector prepare(Descriptor descriptor) { return this; }
+    default Collector prepare(Descriptor descriptor) {
+        return this;
+    }
 }

@@ -18,9 +18,9 @@
 # For instance, ``rest-api create-project --package org.example --add postgres``
 #
 catalog:
-# ------------------------------------------------
-# -- BASE DIRECTORY
-# ------------------------------------------------
+  # ------------------------------------------------
+  # -- BASE DIRECTORY
+  # ------------------------------------------------
   - entry:
       template: "/gradle/RootProjectBuildDotGradle.ftl"
       destination: "build.gradle"
@@ -42,17 +42,17 @@ catalog:
       destination: "settings.gradle"
       context: "project"
 
-# ------------------------------------------------
-# -- Version Catalog
-# ------------------------------------------------
+  # ------------------------------------------------
+  # -- Version Catalog
+  # ------------------------------------------------
   - entry:
       template: "/gradle/VersionCatalog.ftl"
       destination: "gradle/libs.versions.toml"
       context: "project"
 
-# ------------------------------------------------
-# -- PLATFORM
-# ------------------------------------------------
+  # ------------------------------------------------
+  # -- PLATFORM
+  # ------------------------------------------------
 
   - entry:
       template: "/gradle/platform/BuildDotGradle.ftl"
@@ -63,9 +63,9 @@ catalog:
       destination: "gradle/platform/settings.gradle"
       context: "project"
 
-# ------------------------------------------------
-# -- PLUGINS
-# ------------------------------------------------
+  # ------------------------------------------------
+  # -- PLUGINS
+  # ------------------------------------------------
 
   - entry:
       template: "/gradle/plugins/SettingsDotGradle.ftl"
@@ -120,9 +120,9 @@ catalog:
       destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.subproject-configurations.gradle"
       context: "project"
 
-# ------------------------------------------------
-# -- SETTINGS
-# ------------------------------------------------
+  # ------------------------------------------------
+  # -- SETTINGS
+  # ------------------------------------------------
 
   - entry:
       template: "/gradle/settings/BuildDotGradle.ftl"
@@ -136,9 +136,9 @@ catalog:
       template: "/gradle/settings/src-main-groovy/RepositoriesDotSettingsDotGradle.ftl"
       destination: "gradle/settings/src/main/groovy/org.example.repositories.settings.gradle"
       context: "project"
-# ------------------------------------------------
-# -- H2 SCHEMA.SQL
-# ------------------------------------------------
+  # ------------------------------------------------
+  # -- H2 SCHEMA.SQL
+  # ------------------------------------------------
   - entry:
       template: "/spring/common/main/resources/SchemaDotSql.ftl"
       destination: "{{appModule}}/src/main/resources/schema.sql"

@@ -34,7 +34,6 @@ import java.util.TreeSet;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -103,6 +102,27 @@ class SpringWebMvcTemplateCatalogTest {
         assertThat(obj).isNotNull();
     }
 
+    private static class FakeTemplateCatalog extends SpringWebMvcTemplateCatalog {
+
+        public FakeTemplateCatalog(ICatalogReader reader) {
+            super(reader);
+        }
+
+        /**
+         * Collects items, honoring the conditions set with {@code setConditions}
+         *
+         * @return the items meeting the conditions
+         */
+        @Override
+        public List<CatalogEntry> collect() {
+            return null;
+        }
+
+        public void invokeCollectGeneralCatalogsAndThisOne() {
+            super.collectGeneralCatalogsAndThisOne("fakeCatalog");
+        }
+    }
+
     @Nested
     class ConstructorTests {
         @Test
@@ -120,7 +140,7 @@ class SpringWebMvcTemplateCatalogTest {
         /**
          * The signature of the SpringWebMvcTemplateCatalog is:
          * <code>
-         *  SpringWebMvcTemplateCatalog (@NotNull ICatalogReader reader)
+         * SpringWebMvcTemplateCatalog (@NotNull ICatalogReader reader)
          * </code>
          * Naturally, we want to test two conditions:
          * <li>(1) The reader is null</li>
@@ -142,8 +162,7 @@ class SpringWebMvcTemplateCatalogTest {
             try {
                 // Send in a Null argument to test the @NotNull annotation
                 var foo = new SpringWebMvcTemplateCatalog(null);
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 return;
             }
             fail("Expected NPE to be thrown");
@@ -158,7 +177,7 @@ class SpringWebMvcTemplateCatalogTest {
             integrations.add(SpringIntegrations.MONGODB.name());
             RestProjectDescriptor mockProjectDescriptor = Mockito.mock(RestProjectDescriptor.class);
             when(mockProjectDescriptor.getIntegrations()).thenReturn(integrations);
-            
+
             catalogUnderTest.prepare(mockProjectDescriptor);
             assertThat(catalogUnderTest.getActiveCatalog()).isEqualTo(SpringWebMvcTemplateCatalog.WEBMVC_MONGODB_CATALOG);
         }
@@ -194,12 +213,18 @@ class SpringWebMvcTemplateCatalogTest {
         }
     }
 
+    // -----------------------------------------------------------------------------
+    //
+    // Helper methods
+    //
+    // -----------------------------------------------------------------------------
+
     @Nested
     class EdgeCases {
         /**
          * Perhaps correct behavior should be to throw IllegalArgException in this scenario.
          * In practice, end-to-end tests should uncover any scenario where a Descriptor is
-         * for neither a project nor an endpoint. 
+         * for neither a project nor an endpoint.
          */
         @Test
         void whenDescriptorIsOfWrongType_expectDefaultCatalog() {
@@ -207,33 +232,6 @@ class SpringWebMvcTemplateCatalogTest {
 
             catalogUnderTest.prepare(mockDescriptor);
             assertThat(catalogUnderTest.getActiveCatalog()).isEqualTo(SpringWebMvcTemplateCatalog.WEBMVC_CATALOG);
-        }
-    }
-
-    // -----------------------------------------------------------------------------
-    //
-    // Helper methods
-    //
-    // -----------------------------------------------------------------------------
-
-    private static class FakeTemplateCatalog extends SpringWebMvcTemplateCatalog {
-
-        public FakeTemplateCatalog(ICatalogReader reader) {
-            super(reader);
-        }
-
-        /**
-         * Collects items, honoring the conditions set with {@code setConditions}
-         *
-         * @return the items meeting the conditions
-         */
-        @Override
-        public List<CatalogEntry> collect() {
-            return null;
-        }
-
-        public void invokeCollectGeneralCatalogsAndThisOne() {
-            super.collectGeneralCatalogsAndThisOne("fakeCatalog");
         }
     }
 }

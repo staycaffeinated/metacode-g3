@@ -30,6 +30,7 @@ public class TomlImporter {
         }
 
     }
+
     private InputStream openFile(String fileName) {
         return this.getClass().getClassLoader().getResourceAsStream(fileName);
     }
@@ -40,16 +41,13 @@ public class TomlImporter {
             TomlArray tomlArray = (TomlArray) value;
 
             return "[TomlArray: " + asString(tomlArray) + "]";
-        }
-        else if (value instanceof Toml) {
+        } else if (value instanceof Toml) {
             Toml toml = (Toml) value;
             return "[Toml: " + toml + "]";
-        }
-        else if (value instanceof TomlParseResult) {
+        } else if (value instanceof TomlParseResult) {
             TomlParseResult parseResult = (TomlParseResult) value;
             return "[TomlParseResult: " + parseResult + "]";
-        }
-        else if (value instanceof String) {
+        } else if (value instanceof String) {
             return "[String: " + value + "]";
         }
         return "[Object: " + value + "]";

@@ -16,52 +16,52 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings("java:S5838") // false positive from sonarqube
 class ${endpoint.ejbName}Tests {
 
-    ${endpoint.ejbName} underTest;
-    String resourceId = "12345";
+${endpoint.ejbName} underTest;
+String resourceId = "12345";
 
-    @BeforeEach
-    public void setUp() {
-        underTest = new ${endpoint.ejbName}();
-        underTest.setResourceId(resourceId);
-        underTest.setId(1L);
-    }
+@BeforeEach
+public void setUp() {
+underTest = new ${endpoint.ejbName}();
+underTest.setResourceId(resourceId);
+underTest.setId(1L);
+}
 
-    @Nested
-    class TestEquals {
-        @Test
-        void whenNullObject_thenReturnsFalse() {
-            assertThat(Objects.equals(underTest,null)).isFalse();
-        }
+@Nested
+class TestEquals {
+@Test
+void whenNullObject_thenReturnsFalse() {
+assertThat(Objects.equals(underTest,null)).isFalse();
+}
 
-        @Test
-        void whenMatchingResourceId_thenReturnsTrue() {
-            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
-            sample.setResourceId(resourceId);
-            assertThat(underTest.equals(sample)).isTrue();
-        }
+@Test
+void whenMatchingResourceId_thenReturnsTrue() {
+${endpoint.ejbName} sample = new ${endpoint.ejbName}();
+sample.setResourceId(resourceId);
+assertThat(underTest.equals(sample)).isTrue();
+}
 
-        @Test
-        @SuppressWarnings("all")
-        void whenSelf_thenReturnsTrue() {
-            ${endpoint.ejbName} sample = underTest;
-            assertThat(underTest.equals(sample)).isTrue();
-        }
+@Test
+@SuppressWarnings("all")
+void whenSelf_thenReturnsTrue() {
+${endpoint.ejbName} sample = underTest;
+assertThat(underTest.equals(sample)).isTrue();
+}
 
-        @Test
-        @SuppressWarnings("all")
-        void whenDifferentClasses_thenReturnsFalse() {
-            assertThat(underTest.equals("hello,world")).isFalse();
-        }
-    }
+@Test
+@SuppressWarnings("all")
+void whenDifferentClasses_thenReturnsFalse() {
+assertThat(underTest.equals("hello,world")).isFalse();
+}
+}
 
-    @Nested
-    class TestHashCode {
-        @Test
-        void whenEqualObjects_thenReturnsSameHashCode() {
-            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
-            sample.setResourceId(resourceId);
+@Nested
+class TestHashCode {
+@Test
+void whenEqualObjects_thenReturnsSameHashCode() {
+${endpoint.ejbName} sample = new ${endpoint.ejbName}();
+sample.setResourceId(resourceId);
 
-            assertThat(sample.hashCode()).isEqualTo(underTest.hashCode());
-        }
-    }
+assertThat(sample.hashCode()).isEqualTo(underTest.hashCode());
+}
+}
 }

@@ -66,7 +66,30 @@ class SpringCodeGeneratorTest {
 
     @Mock
     DependencyCatalog mockDependencyCollector;
-    
+
+    /*
+     * This is a static method to enable re-use by SpringWebFluxCodeGeneratorTest
+     */
+    static List<Dependency> buildFakeDependencies() {
+        List<Dependency> resultSet = new ArrayList<>();
+        // These are completely hypothetical versions for these libraries.
+        // The names here should match those found in the dependencies.yml file
+        // for the sake of finding name mismatches early.
+        resultSet.add(new Dependency("springBoot", "2.6"));
+        resultSet.add(new Dependency("springCloud", "2.5"));
+        resultSet.add(new Dependency("springDependencyManagement", "1.2.3"));
+        resultSet.add(new Dependency("problemSpringWeb", "2.6.1"));
+        resultSet.add(new Dependency("assertJ", "4.0.1"));
+        resultSet.add(new Dependency("benManesPlugin", "0.44.1"));
+        resultSet.add(new Dependency("junitSystemRules", "2.8"));
+        resultSet.add(new Dependency("junit", "5.8.1"));
+        resultSet.add(new Dependency("liquibase", "2.7"));
+        resultSet.add(new Dependency("lombok", "22.5"));
+        resultSet.add(new Dependency("log4j", "2.24.5"));
+        resultSet.add(new Dependency("testContainers", "6.5"));
+        return resultSet;
+    }
+
     @BeforeEach
     public void setUp() throws Exception {
         // create a Collector that'll return some test data
@@ -142,6 +165,12 @@ class SpringCodeGeneratorTest {
         assertThat(generatorUnderTest.generateCode(descriptor)).isEqualTo(ExitCodes.OK);
     }
 
+    // ------------------------------------------------------------------------------------
+    //
+    // Helper methods
+    //
+    // ------------------------------------------------------------------------------------
+
     @Test
     void givenLiquibaseSupport_shouldReturnOK() {
         // given: a project with Postgres and TestContainer integration enabled
@@ -151,12 +180,6 @@ class SpringCodeGeneratorTest {
         //  expect: code generation is successful
         assertThat(generatorUnderTest.generateCode(descriptor)).isEqualTo(ExitCodes.OK);
     }
-
-    // ------------------------------------------------------------------------------------
-    //
-    // Helper methods
-    //
-    // ------------------------------------------------------------------------------------
 
     /**
      * Builds a sample RestProjectDescriptor
@@ -172,6 +195,7 @@ class SpringCodeGeneratorTest {
     /**
      * The codeGenerator's doPreprocessing method invokes the writer's saveProperties method.
      * Since we don't need to actually save anything, saveProperties is mocked.
+     *
      * @return a mocked instance of a SpringMetaPropertiesHandler
      */
     private SpringMetaPropertiesHandler setUpMetaPropertiesHandler() throws Exception {
@@ -179,37 +203,26 @@ class SpringCodeGeneratorTest {
         doNothing().when(mockWriter).saveProperties(any());
 
         var mockConverter = Mockito.mock(DescriptorToMetaProperties.class);
-        when(mockConverter.convert(any())).thenReturn(new HashMap<String,Object>());
+        when(mockConverter.convert(any())).thenReturn(new HashMap<String, Object>());
 
         // A Reader is not needed for any of these tests, so we leave it undefined
         return SpringMetaPropertiesHandler.builder()
-                .converter(mockConverter )
+                .converter(mockConverter)
                 .writer(mockWriter)
                 .build();
     }
 
-
     public static class FakeCollector implements Collector {
-
-        /**
-         * Collects items, honoring the conditions set with {@code setConditions}
-         *
-         * @return the items meeting the conditions
-         */
-        @Override
-        public List<CatalogEntry> collect() {
-            return buildSampleSet();
-        }
 
         /**
          * Builds a data set of CatalogEntry's
          */
         private static List<CatalogEntry> buildSampleSet() {
-            CatalogEntry e1 = buildEntry("Application.ftl","Application.java", null);
+            CatalogEntry e1 = buildEntry("Application.ftl", "Application.java", null);
             CatalogEntry e2 = buildEntry("Controller.ftl", "Controller.java", null);
             CatalogEntry e3 = buildEntry("PostgresConfig.ftl", "PostgresConfig.java", "postgres");
-            CatalogEntry e4 = buildEntry("ErrorHandler.ftl","ErrorHandler.java", null);
-            CatalogEntry e5 = buildEntry("TestContainer.ftl","TestContainer.java", "testcontainer");
+            CatalogEntry e4 = buildEntry("ErrorHandler.ftl", "ErrorHandler.java", null);
+            CatalogEntry e5 = buildEntry("TestContainer.ftl", "TestContainer.java", "testcontainer");
 
             return List.of(e1, e2, e3, e4, e5);
         }
@@ -225,28 +238,15 @@ class SpringCodeGeneratorTest {
             entry.setContext(MetaTemplateModel.Key.PROJECT.value());
             return entry;
         }
-    }
 
-    /*
-     * This is a static method to enable re-use by SpringWebFluxCodeGeneratorTest
-     */
-    static List<Dependency> buildFakeDependencies() {
-        List<Dependency> resultSet = new ArrayList<>();
-        // These are completely hypothetical versions for these libraries.
-        // The names here should match those found in the dependencies.yml file
-        // for the sake of finding name mismatches early. 
-        resultSet.add(new Dependency("springBoot", "2.6"));
-        resultSet.add(new Dependency("springCloud", "2.5"));
-        resultSet.add(new Dependency("springDependencyManagement", "1.2.3"));
-        resultSet.add(new Dependency("problemSpringWeb", "2.6.1"));
-        resultSet.add(new Dependency("assertJ", "4.0.1"));
-        resultSet.add(new Dependency("benManesPlugin", "0.44.1"));
-        resultSet.add(new Dependency("junitSystemRules", "2.8"));
-        resultSet.add(new Dependency("junit", "5.8.1"));
-        resultSet.add(new Dependency("liquibase", "2.7"));
-        resultSet.add(new Dependency("lombok", "22.5"));
-        resultSet.add(new Dependency("log4j", "2.24.5"));
-        resultSet.add(new Dependency("testContainers", "6.5"));
-        return resultSet;
+        /**
+         * Collects items, honoring the conditions set with {@code setConditions}
+         *
+         * @return the items meeting the conditions
+         */
+        @Override
+        public List<CatalogEntry> collect() {
+            return buildSampleSet();
+        }
     }
 }

@@ -25,84 +25,84 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Default implementation of the ${endpoint.entityName}DataStore.
- */
+* Default implementation of the ${endpoint.entityName}DataStore.
+*/
 @Component
 @RequiredArgsConstructor
 @Builder
 public class ${endpoint.entityName}DataStoreProvider implements ${endpoint.entityName}DataStore {
 
-    private final ${endpoint.documentName}ToPojoConverter documentConverter;
-    private final ${endpoint.entityName}PojoToDocumentConverter pojoConverter;
-    private final ResourceIdSupplier resourceIdGenerator;
-    private final MongoTemplate mongoTemplate;
-    private final ${endpoint.entityName}Repository repository;
+private final ${endpoint.documentName}ToPojoConverter documentConverter;
+private final ${endpoint.entityName}PojoToDocumentConverter pojoConverter;
+private final ResourceIdSupplier resourceIdGenerator;
+private final MongoTemplate mongoTemplate;
+private final ${endpoint.entityName}Repository repository;
 
-    private static final String RESOURCE_ID = "resourceId";
+private static final String RESOURCE_ID = "resourceId";
 
-    @Override
-    public Optional<${endpoint.entityName}> findByResourceId(@NonNull String publicId)  {
-        Query query = Query.query(Criteria.where(RESOURCE_ID).is(publicId));
-        ${endpoint.documentName} document = mongoTemplate.findOne(query, ${endpoint.documentName}.class, ${endpoint.documentName}.collectionName());
-        if (document == null)
-            return Optional.empty();
-        else {
-            ${endpoint.pojoName} pojo = documentConverter.convert(document);
-            if (pojo == null)
-                return Optional.empty();
-            else
-                return Optional.of(pojo);
-        }
-    }
+@Override
+public Optional<${endpoint.entityName}> findByResourceId(@NonNull String publicId)  {
+Query query = Query.query(Criteria.where(RESOURCE_ID).is(publicId));
+${endpoint.documentName} document = mongoTemplate.findOne(query, ${endpoint.documentName}.class, ${endpoint.documentName}.collectionName());
+if (document == null)
+return Optional.empty();
+else {
+${endpoint.pojoName} pojo = documentConverter.convert(document);
+if (pojo == null)
+return Optional.empty();
+else
+return Optional.of(pojo);
+}
+}
 
-    @Override
-    public List<${endpoint.entityName}> findAll() {
-        // @formatter:off
+@Override
+public List<${endpoint.entityName}> findAll() {
+// @formatter:off
         return mongoTemplate.findAll(${endpoint.documentName}.class, ${endpoint.documentName}.collectionName())
                             .stream()
                             .map(documentConverter::convert)
                             .toList();
         // @formatter:on
-    }
+}
 
-    @Override
-    public ${endpoint.pojoName} create(${endpoint.pojoName} pojo) {
-        ${endpoint.documentName} document = pojoConverter.convert(pojo);
-        Objects.requireNonNull(document);
-        document.setResourceId(resourceIdGenerator.nextResourceId());
-        ${endpoint.documentName} managed = mongoTemplate.save(document, ${endpoint.documentName}.collectionName());
-        return documentConverter.convert(managed);
-    }
+@Override
+public ${endpoint.pojoName} create(${endpoint.pojoName} pojo) {
+${endpoint.documentName} document = pojoConverter.convert(pojo);
+Objects.requireNonNull(document);
+document.setResourceId(resourceIdGenerator.nextResourceId());
+${endpoint.documentName} managed = mongoTemplate.save(document, ${endpoint.documentName}.collectionName());
+return documentConverter.convert(managed);
+}
 
-    @Override
-    public List<${endpoint.pojoName}> update(${endpoint.pojoName} pojo) {
-        Query query = Query.query(Criteria.where(RESOURCE_ID).is(pojo.getResourceId()));
-        // By default, this is only updating the 'text' column.
-        // You will want to decide how you want this to actually work and change this.
-        UpdateDefinition updateDefinition = Update.update("text", pojo.getText());
-        UpdateResult updateResult = mongoTemplate.updateMulti(query, updateDefinition, ${endpoint.documentName}.collectionName());
-        if (updateResult.getModifiedCount() > 0) {
-            List<${endpoint.documentName}> modified = mongoTemplate.find(query, ${endpoint.documentName}.class, ${endpoint.documentName}.collectionName());
-            if (!modified.isEmpty()) {
-                List<${endpoint.entityName}> pojoList = documentConverter.convert(modified);
-                if (pojoList != null) {
-                    return pojoList;
-                }
-            }
-        }
-        return List.of();
-    }
+@Override
+public List<${endpoint.pojoName}> update(${endpoint.pojoName} pojo) {
+Query query = Query.query(Criteria.where(RESOURCE_ID).is(pojo.getResourceId()));
+// By default, this is only updating the 'text' column.
+// You will want to decide how you want this to actually work and change this.
+UpdateDefinition updateDefinition = Update.update("text", pojo.getText());
+UpdateResult updateResult = mongoTemplate.updateMulti(query, updateDefinition, ${endpoint.documentName}.collectionName());
+if (updateResult.getModifiedCount() > 0) {
+List<${endpoint.documentName}> modified = mongoTemplate.find(query, ${endpoint.documentName}.class, ${endpoint.documentName}.collectionName());
+if (!modified.isEmpty()) {
+List<${endpoint.entityName}> pojoList = documentConverter.convert(modified);
+if (pojoList != null) {
+return pojoList;
+}
+}
+}
+return List.of();
+}
 
-    @Override
-    public Page<${endpoint.entityName}> findByText(@NonNull String text, Pageable pageable) {
-        Page<${endpoint.documentName}> rs = repository.findByTextContainingIgnoreCase(text, pageable);
-        List<${endpoint.entityName}> list = rs.stream().map(documentConverter::convert).toList();
-        return new PageImpl<>(list, pageable, list.size());
-    }
+@Override
+public Page<${endpoint.entityName}> findByText(@NonNull String text, Pageable pageable) {
+Page<${endpoint.documentName}> rs = repository.findByTextContainingIgnoreCase(text, pageable);
+List<${endpoint.entityName}> list = rs.stream().map(documentConverter::convert).toList();
+return new PageImpl<>(list, pageable, list.size());
+}
 
-    @Override
-    public long deleteByResourceId(@NonNull String resourceId) {
-        Query query = Query.query(Criteria.where(RESOURCE_ID).is(resourceId));
-        return mongoTemplate.remove(query, ${endpoint.documentName}.collectionName()).getDeletedCount();
-    } 
+@Override
+public long deleteByResourceId(@NonNull String resourceId) {
+Query query = Query.query(Criteria.where(RESOURCE_ID).is(resourceId));
+return mongoTemplate.remove(query, ${endpoint.documentName}.collectionName()).getDeletedCount();
+}
 }

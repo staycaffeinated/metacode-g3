@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Creates a Map of variables to enable resolution of mustache expressions.  
+ * Creates a Map of variables to enable resolution of mustache expressions.
  */
-public class RestEndpointTemplateModelToMapConverter implements ConvertTrait<RestEndpointTemplateModel, Map<String,String>> {
+public class RestEndpointTemplateModelToMapConverter implements ConvertTrait<RestEndpointTemplateModel, Map<String, String>> {
 
-    public Map<String,String> convert (RestEndpointTemplateModel model) {
-        var map = new HashMap<String,String>();
+    public Map<String, String> convert(RestEndpointTemplateModel model) {
+        var map = new HashMap<String, String>();
 
         map.put(MustacheConstants.BASE_PACKAGE, model.getBasePackage());
         map.put(MustacheConstants.BASE_PACKAGE_PATH, model.getBasePackagePath());

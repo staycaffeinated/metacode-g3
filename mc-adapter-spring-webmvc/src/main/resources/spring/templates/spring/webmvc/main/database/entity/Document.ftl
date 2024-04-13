@@ -21,25 +21,25 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 public class ${endpoint.documentName} {
-    private static final String COLLECTION_NAME = "${endpoint.tableName}";
+private static final String COLLECTION_NAME = "${endpoint.tableName}";
 
-    static String collectionName() {
-        return COLLECTION_NAME;
-    }
+static String collectionName() {
+return COLLECTION_NAME;
+}
 
-    /*
-     * This identifier is never exposed to the outside world because
-     * database-generated Ids are commonly sequential values that a hacker can easily guess.
-     */
-    @Id
-    private String id;
+/*
+* This identifier is never exposed to the outside world because
+* database-generated Ids are commonly sequential values that a hacker can easily guess.
+*/
+@Id
+private String id;
 
-    /**
-     * This is the identifier exposed to the outside world.
-     * This is a secure random value with at least 160 bits of entropy, making it difficult for a hacker to guess.
-     * This is a unique value in the database. This value can be a positive or negative number.
-     */
-    private String resourceId;
+/**
+* This is the identifier exposed to the outside world.
+* This is a secure random value with at least 160 bits of entropy, making it difficult for a hacker to guess.
+* This is a unique value in the database. This value can be a positive or negative number.
+*/
+private String resourceId;
 
-    private String text;
+private String text;
 }

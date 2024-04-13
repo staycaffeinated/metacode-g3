@@ -2,7 +2,7 @@
 package ${project.basePackage}.endpoint.root;
 
 <#if (project.isWithTestContainers())>
-import ${project.basePackage}.config.ContainerConfiguration;
+    import ${project.basePackage}.config.ContainerConfiguration;
 </#if>
 import ${project.basePackage}.database.RegisterDatabaseProperties;
 import org.junit.jupiter.api.Nested;
@@ -16,8 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 <#if (project.isWithTestContainers())>
-import org.springframework.context.annotation.Import;
-import org.testcontainers.junit.jupiter.Testcontainers;
+    import org.springframework.context.annotation.Import;
+    import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 
 import static org.mockito.BDDMockito.given;
@@ -30,56 +30,56 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 /**
- * Integration tests of the exception handling of the root controller
- */
+* Integration tests of the exception handling of the root controller
+*/
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 <#if (project.isWithTestContainers())>
-@Import(ContainerConfiguration.class)
-@Testcontainers
+    @Import(ContainerConfiguration.class)
+    @Testcontainers
 </#if>
 class RootExceptionHandlingIT implements RegisterDatabaseProperties {
-    @Autowired
-    MockMvc mockMvc;
+@Autowired
+MockMvc mockMvc;
 
-    @MockBean
-    private RootService mockService;  // this is used to initialize the controller
+@MockBean
+private RootService mockService;  // this is used to initialize the controller
 
-    @Autowired
-    private RootController controllerUnderTest;
+@Autowired
+private RootController controllerUnderTest;
 
-    @Nested
-    class ExceptionTests {
+@Nested
+class ExceptionTests {
 
-        @Test
-        void shouldNotReturnStackTrace() throws Exception {
-            // when/then
-            mockMvc.perform(post("/").contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.stackTrace").doesNotExist()) // sometimes traces come back like this
-                    .andExpect(jsonPath("$.trace").doesNotExist()) // sometimes traces come back like this
-                    .andDo((print())).andReturn();
-        }
-   
-        /**
-         * This exercises the GlobalExceptionHandler by simulating an HttpRequestMethodNotSupportedException.
-         * If properly configured, the ProblemHandling method that handles this exception should catch it
-         * and configure a proper problem/json response.  The point of this test is not to validate ProblemHandling,
-         * but to ensure these kinds of exceptions return a problem/json response.
-         */
-        @Test
-        void onHttpRequestMethodNotSupported() throws Exception {
-            // For this test, let's say http GET is not allowed...
-            // Note: Mockito won't allow its <code>thenThrows</code> method to throw this particular exception.
-            // When attempted, Mockito gives the error "Checked exception is invalid for this method".
-            // The work-around is to use the <code>willAnswer</code> method.
-            given(controllerUnderTest.getHome()).willAnswer(invocation -> {
-                throw new HttpRequestMethodNotSupportedException("GET");
-            });
+@Test
+void shouldNotReturnStackTrace() throws Exception {
+// when/then
+mockMvc.perform(post("/").contentType(MediaType.APPLICATION_JSON))
+.andExpect(jsonPath("$.stackTrace").doesNotExist()) // sometimes traces come back like this
+.andExpect(jsonPath("$.trace").doesNotExist()) // sometimes traces come back like this
+.andDo((print())).andReturn();
+}
 
-            // when/then
-            mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().is(HttpStatus.METHOD_NOT_ALLOWED.value()))
-                    .andDo(print()).andReturn();
-        }
-   }
+/**
+* This exercises the GlobalExceptionHandler by simulating an HttpRequestMethodNotSupportedException.
+* If properly configured, the ProblemHandling method that handles this exception should catch it
+* and configure a proper problem/json response.  The point of this test is not to validate ProblemHandling,
+* but to ensure these kinds of exceptions return a problem/json response.
+*/
+@Test
+void onHttpRequestMethodNotSupported() throws Exception {
+// For this test, let's say http GET is not allowed...
+// Note: Mockito won't allow its <code>thenThrows</code> method to throw this particular exception.
+// When attempted, Mockito gives the error "Checked exception is invalid for this method".
+// The work-around is to use the <code>willAnswer</code> method.
+given(controllerUnderTest.getHome()).willAnswer(invocation -> {
+throw new HttpRequestMethodNotSupportedException("GET");
+});
+
+// when/then
+mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
+.andExpect(status().is(HttpStatus.METHOD_NOT_ALLOWED.value()))
+.andDo(print()).andReturn();
+}
+}
 }

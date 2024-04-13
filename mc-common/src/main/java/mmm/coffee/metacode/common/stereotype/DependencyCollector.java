@@ -28,6 +28,7 @@ public interface DependencyCollector {
      * Returns the Dependency entries in the collection.
      * Dependency objects are used by the code generator to
      * primarily resolve library versions.
+     *
      * @return the Dependency items
      */
     List<Dependency> collect();

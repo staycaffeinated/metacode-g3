@@ -12,15 +12,15 @@ import java.util.Optional;
 
 @SuppressWarnings("all")
 public interface ${endpoint.entityName}Repository
-    extends
-        MongoRepository<${endpoint.documentName}, String>,
-        PagingAndSortingRepository<${endpoint.documentName}, String> {
+extends
+MongoRepository<${endpoint.documentName}, String>,
+PagingAndSortingRepository<${endpoint.documentName}, String> {
 
-    @Query("{resourceId:?}")
-    Optional<${endpoint.documentName}> findByResourceId(String resourceId);
+@Query("{resourceId:?}")
+Optional<${endpoint.documentName}> findByResourceId(String resourceId);
 
-    @Query("{text:?}")
-    List<${endpoint.documentName}> findByText(String text);
+@Query("{text:?}")
+List<${endpoint.documentName}> findByText(String text);
 
-    Page<${endpoint.documentName}> findByTextContainingIgnoreCase(String title, Pageable pageable);
+Page<${endpoint.documentName}> findByTextContainingIgnoreCase(String title, Pageable pageable);
 }

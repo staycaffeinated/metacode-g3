@@ -16,6 +16,7 @@
 package mmm.coffee.metacode.annotations.guice;
 
 import jakarta.inject.Qualifier;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -27,7 +28,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * implements a SpringWebFlux CodeGenerator
  */
 @Qualifier
-@Target({ FIELD, PARAMETER, METHOD })
+@Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
-public @interface SpringBatchProvider {}
+public @interface SpringBatchProvider {
+}
 

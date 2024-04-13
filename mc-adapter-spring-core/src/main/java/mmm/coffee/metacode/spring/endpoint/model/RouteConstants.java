@@ -9,28 +9,28 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 
 /**
  * Defines the constant names plugged into the {whatever}Routes.java class.
- *
+ * <p>
  * Consider: if an endpoint for a 'Pet' resource is created, the
  * generator produces a PetRoutes.java class; that class contains constants
  * for the different URL routes, like '/pet/findAll' or '/pet/{id}'
  * or '/pet/ws/events'. This, the PetRoutes class will include constants like:
  * <code>
- *  BASE_PATH_PET = "/pet";
- *  FIND_ALL_PET = "/pet/findAll";
+ * BASE_PATH_PET = "/pet";
+ * FIND_ALL_PET = "/pet/findAll";
  * </code>
  * and so on.
- *
+ * <p>
  * Creating constants whose names include the resourceName may seem like
  * overkill, but if all the constants in each of the **Routes.java classes
  * use the same name, say
  * <code>
- *  (from a hypothetical PetRoutes.java...)
- *      PetRoutes.BASE_PATH = "/pet";
- *      PetRouts.FIND_ALL = "/pet/findAll";
- *
- *  (from a hypothetical StoreRoutes.java...)
- *      StoreRoutes.BASE_PATH = "/store";
- *      StoreRoutes.FIND_ALL = "/store/findAll"
+ * (from a hypothetical PetRoutes.java...)
+ * PetRoutes.BASE_PATH = "/pet";
+ * PetRouts.FIND_ALL = "/pet/findAll";
+ * <p>
+ * (from a hypothetical StoreRoutes.java...)
+ * StoreRoutes.BASE_PATH = "/store";
+ * StoreRoutes.FIND_ALL = "/store/findAll"
  * </code>
  * SonarQube will flag those lines as duplicate code blocks, since the constant names
  * are the same _and_ despite the constant names being in different classes and having
@@ -38,7 +38,6 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
  * which leads to a "Failed" grade from Sonarqube. Using a @SuppressWarnings does not
  * work in the case; by design, Sonarqube will not ignore duplicate blocks unless
  * it's instructed to do so in from the Sonarqube UI.
- *
  */
 @SuperBuilder
 @Data

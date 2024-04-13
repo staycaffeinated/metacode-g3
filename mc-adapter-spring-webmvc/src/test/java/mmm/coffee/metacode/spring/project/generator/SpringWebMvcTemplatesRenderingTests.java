@@ -33,6 +33,27 @@ class SpringWebMvcTemplatesRenderingTests {
 
     private final TemplateResolver<MetaTemplateModel> templateResolver = new FreemarkerTemplateResolver(configuration);
 
+    /**
+     * Builds a RestProjectTemplateModel populated with properties
+     * likely to be needed across several tests
+     */
+    private RestProjectTemplateModel buildBasicModel() {
+        // the version numbers here are hypothetical
+        return RestProjectTemplateModel.builder()
+                .applicationName("petstore")
+                .benManesPluginVersion("1.0")
+                .coditoryPluginVersion("1.4")
+                .javaVersion("11")
+                .springBootVersion("2.5")
+                .springDependencyManagementVersion("1.1")
+                .sonarqubeVersion("3.3")
+                .jibPluginVersion("1.0")
+                .spotlessVersion("1.0")
+                .lombokPluginVersion("1.3")
+                .build();
+
+
+    }
 
     @Nested
     class BuildDotGradleTests {
@@ -205,7 +226,6 @@ class SpringWebMvcTemplatesRenderingTests {
         }
     }
 
-
     @Nested
     class ApplicationTestDotYamlTests {
         // This path is relative to TEMPLATE_DIRECTORY
@@ -243,6 +263,12 @@ class SpringWebMvcTemplatesRenderingTests {
         }
     }
 
+    // ------------------------------------------------------------------------------------------------
+    //
+    // Helper Methods
+    //
+    // ------------------------------------------------------------------------------------------------
+
     @Nested
     class DockerComposeTests {
         // This path is relative to TEMPLATE_DIRECTORY
@@ -276,34 +302,6 @@ class SpringWebMvcTemplatesRenderingTests {
             assertThat(content).doesNotContain("SPRING_DATASOURCE_URL=jdbc:postgresql");
             assertThat(content).doesNotContain("SPRING_DATASOURCE_USERNAME=postgres");
         }
-    }
-
-    // ------------------------------------------------------------------------------------------------
-    //
-    // Helper Methods
-    //
-    // ------------------------------------------------------------------------------------------------
-
-    /**
-     * Builds a RestProjectTemplateModel populated with properties
-     * likely to be needed across several tests
-     */
-    private RestProjectTemplateModel buildBasicModel() {
-        // the version numbers here are hypothetical
-        return RestProjectTemplateModel.builder()
-                .applicationName("petstore")
-                .benManesPluginVersion("1.0")
-                .coditoryPluginVersion("1.4")
-                .javaVersion("11")
-                .springBootVersion("2.5")
-                .springDependencyManagementVersion("1.1")
-                .sonarqubeVersion("3.3")
-                .jibPluginVersion("1.0")
-                .spotlessVersion("1.0")
-                .lombokPluginVersion("1.3")
-                .build();
-
-
     }
 
 

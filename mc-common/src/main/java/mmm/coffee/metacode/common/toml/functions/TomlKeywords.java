@@ -15,8 +15,8 @@ public class TomlKeywords {
      * </code>
      * From this, the code generator can build these classes (for a Pet resource):
      * <code>
-     *     com.example.petstore.api.PetController
-     *     com.example.petstore.api.PetRoutes
+     * com.example.petstore.api.PetController
+     * com.example.petstore.api.PetRoutes
      * </code>
      */
     public static final String CLASSES = ".classes";
@@ -26,5 +26,6 @@ public class TomlKeywords {
      * This class is an enumeration of string constants.
      * There's no reason to create instances of this class.
      */
-    private TomlKeywords() {}
+    private TomlKeywords() {
+    }
 }

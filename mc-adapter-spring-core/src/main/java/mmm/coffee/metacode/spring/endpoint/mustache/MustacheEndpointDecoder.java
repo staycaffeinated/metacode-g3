@@ -22,12 +22,13 @@ public class MustacheEndpointDecoder {
      */
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
-    private Map<String,String> map;
+    private Map<String, String> map;
 
     private RestEndpointTemplateModelToMapConverter converter;
 
     /**
      * Initialize a map to be used by the Mustache parser to resolve values
+     *
      * @param model the source data that's read to create the map
      */
     public void configure(RestEndpointTemplateModel model) {

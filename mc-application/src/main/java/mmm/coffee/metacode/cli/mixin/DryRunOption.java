@@ -20,14 +20,14 @@ import picocli.CommandLine;
 
 /**
  * This class offers a '--dry-run' option for picocli commands.
- *
+ * <p>
  * This class is based on this example: https://picocli.info/#_mixins
  */
 @CommandLine.Command(synopsisHeading = "%nUsage:%n%n",
-        descriptionHeading   = "%nDescription:%n%n",
+        descriptionHeading = "%nDescription:%n%n",
         parameterListHeading = "%nParameters:%n%n",
-        optionListHeading    = "%nOptions:%n%n",
-        commandListHeading   = "%nCommands:%n%n")
+        optionListHeading = "%nOptions:%n%n",
+        commandListHeading = "%nCommands:%n%n")
 @ExcludeFromJacocoGeneratedReport // jacoco should ignore this in code coverage reports
 public class DryRunOption {
     // The map key for dry runs.
@@ -35,9 +35,11 @@ public class DryRunOption {
     public static final String DRY_RUN_KEY = "dryRun";
 
     @CommandLine.Option(
-            names = { "--dry-run" },
+            names = {"--dry-run"},
             description = "Walk through the code generation life-cycle without generating any code")
     protected boolean dryRun;
 
-    public boolean isDryRun() { return dryRun; }
+    public boolean isDryRun() {
+        return dryRun;
+    }
 }

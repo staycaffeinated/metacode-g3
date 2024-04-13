@@ -36,7 +36,7 @@ public class ParameterExceptionHandler implements CommandLine.IParameterExceptio
     /**
      * By default, Picocli will print the exception's error message, then print the usage/help
      * message.  In the interest of keeping the error text to a minimum, this custom handler is used,
-     * which enables us to present as little or as much information as we want. 
+     * which enables us to present as little or as much information as we want.
      */
     @Override
     public int handleParseException(CommandLine.ParameterException ex, String[] args) throws Exception {

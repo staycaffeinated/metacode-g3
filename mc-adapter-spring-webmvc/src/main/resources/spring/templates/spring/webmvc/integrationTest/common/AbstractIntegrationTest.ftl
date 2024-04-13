@@ -13,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 <#if (project.testcontainers)??>
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+    import org.testcontainers.junit.jupiter.Container;
+    import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 <#if (project.testcontainers)?? &&  (project.postgres)??>
-import org.testcontainers.containers.PostgreSQLContainer;
+    import org.testcontainers.containers.PostgreSQLContainer;
 </#if>
 
 @ActiveProfiles({TEST, INTEGRATION_TEST})
@@ -25,21 +25,21 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 <#if (project.testcontainers)??>
-@Testcontainers
-@SuppressWarnings({"rawtypes"})
+    @Testcontainers
+    @SuppressWarnings({"rawtypes"})
 </#if>
 <#if (project.postgres)??>
-@TestPropertySource(properties = {
+    @TestPropertySource(properties = {
     "spring.datasource.url=jdbc:tc:postgresql:13.2-alpine:///public",
     "spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver",
     "spring.jpa.hibernate.ddl-auto=create-drop"})
 </#if>
 public abstract class AbstractIntegrationTest {
-    @Autowired
-    protected MockMvc mockMvc;
+@Autowired
+protected MockMvc mockMvc;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
+@Autowired
+protected ObjectMapper objectMapper;
 <#if (project.testcontainers)??>
 
     // if possible, initialize these from bootstrap-test.properties
@@ -51,9 +51,9 @@ public abstract class AbstractIntegrationTest {
 
     @Container
     final static PostgreSQLContainer postgresqlContainer =
-                new PostgreSQLContainer("postgres:latest")
-                        .withDatabaseName( databaseName )
-                        .withUsername( username )
-                        .withPassword( password );
+    new PostgreSQLContainer("postgres:latest")
+    .withDatabaseName( databaseName )
+    .withUsername( username )
+    .withPassword( password );
 </#if>
 }

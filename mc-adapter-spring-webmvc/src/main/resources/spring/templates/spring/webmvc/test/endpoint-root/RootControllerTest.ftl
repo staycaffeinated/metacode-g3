@@ -23,35 +23,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class RootControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    
-    @MockBean
-    private RootService mockRootService;
+@Autowired
+private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+@MockBean
+private RootService mockRootService;
 
-    @BeforeEach
-    void setUp() {
-        objectMapper.registerModule(new ProblemModule());
-        objectMapper.registerModule(new ConstraintViolationProblemModule());
-    }
-    
-    @AfterEach
-    void tearDownEachTime() {
-        reset ( mockRootService );
-    }
+@Autowired
+private ObjectMapper objectMapper;
 
-    @Nested
-    class TestRootRoute {
-        /*
-         * Ensure the root controller handles GET requests
-         */
-        @Test
-        void shouldGetRootPage() throws Exception {
-            mockMvc.perform(get("/"))
-                    .andExpect(status().isOk());
-        }
-    }
+@BeforeEach
+void setUp() {
+objectMapper.registerModule(new ProblemModule());
+objectMapper.registerModule(new ConstraintViolationProblemModule());
+}
+
+@AfterEach
+void tearDownEachTime() {
+reset ( mockRootService );
+}
+
+@Nested
+class TestRootRoute {
+/*
+* Ensure the root controller handles GET requests
+*/
+@Test
+void shouldGetRootPage() throws Exception {
+mockMvc.perform(get("/"))
+.andExpect(status().isOk());
+}
+}
 }

@@ -1,4 +1,3 @@
-
 version = layout.projectDirectory.parentOrRoot().file("version.txt").asFile.let {
     // Note: it is important to handle the file-not-exists case as this code is executed during script compilation (on an artificial project)
     if (it.exists()) it.readLines().first().trim() else "unknown"

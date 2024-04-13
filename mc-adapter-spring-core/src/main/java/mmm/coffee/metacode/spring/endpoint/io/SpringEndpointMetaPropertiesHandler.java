@@ -12,7 +12,7 @@ import org.apache.commons.configuration2.Configuration;
 
 /**
  * SpringEndpointMetaPropertiesHandler.
- *
+ * <p>
  * To generate the various classes for endpoints, we need a way to read metacode.properties,
  * but we never need to write/update metacode.properties. Since writing isn't a use case we
  * need to support, this class not implement the {@code writeMetaProperties} (the default

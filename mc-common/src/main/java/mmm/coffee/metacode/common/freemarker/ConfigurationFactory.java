@@ -21,32 +21,34 @@ import lombok.NonNull;
 
 /**
  * Builds a Configuration instance suitable for this component's needs.
- *
+ * <p>
  * References:
- *  https://freemarker.apache.org/docs/pgui_quickstart_createconfiguration.html
- *  https://www.vogella.com/tutorials/FreeMarker/article.html
+ * https://freemarker.apache.org/docs/pgui_quickstart_createconfiguration.html
+ * https://www.vogella.com/tutorials/FreeMarker/article.html
  */
-@SuppressWarnings({"squid:S1075" })  // the template path is intentionally hard-coded
+@SuppressWarnings({"squid:S1075"})  // the template path is intentionally hard-coded
 public class ConfigurationFactory {
-    
-        // private constructor since there is no need to create instances of this class
-        private ConfigurationFactory() {}
 
-        /**
-         * Creates a Configuration instance with some default settings.
-         * @param templateResourcePath the resource path to the template directory being loaded;
-         *                             for example, "/spring/templates/" or "/micronaut/templates/". 
-         * @return a Configuration
-         */
-        public static Configuration defaultConfiguration(@NonNull String templateResourcePath) {
-            var configuration = new Configuration(Configuration.VERSION_2_3_30);
-            configuration.setClassForTemplateLoading(ConfigurationFactory.class, templateResourcePath);
-            configuration.setDefaultEncoding("UTF-8");
-            configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-            configuration.setLogTemplateExceptions(false);
-            configuration.setWrapUncheckedExceptions(true);
-            configuration.setFallbackOnNullLoopVariable(false);
+    // private constructor since there is no need to create instances of this class
+    private ConfigurationFactory() {
+    }
 
-            return configuration;
-        }
+    /**
+     * Creates a Configuration instance with some default settings.
+     *
+     * @param templateResourcePath the resource path to the template directory being loaded;
+     *                             for example, "/spring/templates/" or "/micronaut/templates/".
+     * @return a Configuration
+     */
+    public static Configuration defaultConfiguration(@NonNull String templateResourcePath) {
+        var configuration = new Configuration(Configuration.VERSION_2_3_30);
+        configuration.setClassForTemplateLoading(ConfigurationFactory.class, templateResourcePath);
+        configuration.setDefaultEncoding("UTF-8");
+        configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        configuration.setLogTemplateExceptions(false);
+        configuration.setWrapUncheckedExceptions(true);
+        configuration.setFallbackOnNullLoopVariable(false);
+
+        return configuration;
+    }
 }

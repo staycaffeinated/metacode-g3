@@ -16,9 +16,9 @@ import mmm.coffee.metacode.spring.project.model.SpringTemplateModel;
  */
 @Data
 @SuperBuilder
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @ExcludeFromJacocoGeneratedReport // Ignore code coverage for this class
-@SuppressWarnings({"java:S125","java:S116"})
+@SuppressWarnings({"java:S125", "java:S116"})
 public class RestEndpointTemplateModel extends SpringTemplateModel {
     // When this object is passed into Freemarker,
     // it's assigned a name referred to in Freemarker lingo
@@ -49,7 +49,7 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
      * The base URL path of the application, such as '/petstore'
      */
     private String basePath;
-    
+
     /**
      * The resource's base class name, such as 'Pet'
      */
@@ -107,7 +107,7 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
     /**
      * JPA allows a TableName to be specified with an annotation, when the
      * default table name used by JPA isn't what's wanted. This property
-     * sets the value used in the JPA annotation. 
+     * sets the value used in the JPA annotation.
      */
     private String tableName;
 
@@ -138,13 +138,24 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
     // These get methods are added because Freemarker templates
     // can get confused by Lombok naming conventions
     //
-    public boolean getPostgresFlag() { return withPostgres; }
-    public boolean getTestContainersFlag() { return withTestContainers; }
+    public boolean getPostgresFlag() {
+        return withPostgres;
+    }
 
-    public boolean getLiquibaseFlag() { return withLiquibase; }
+    public boolean getTestContainersFlag() {
+        return withTestContainers;
+    }
 
-    public boolean getMongoDbFlag() { return withMongoDB; }
+    public boolean getLiquibaseFlag() {
+        return withLiquibase;
+    }
 
-    public boolean getOpenApiFlag() { return withOpenApi; }
+    public boolean getMongoDbFlag() {
+        return withMongoDB;
+    }
+
+    public boolean getOpenApiFlag() {
+        return withOpenApi;
+    }
 
 }

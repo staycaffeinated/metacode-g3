@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 <#if ((project.isWithPostgres()) && (project.isWithTestContainers()))>
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
+    import org.testcontainers.containers.PostgreSQLContainer;
+    import org.testcontainers.containers.wait.strategy.Wait;
 </#if>
 
 @TestConfiguration(proxyBeanMethods=false)
@@ -19,13 +19,13 @@ public class ContainerConfiguration {
     @ServiceConnection
     @RestartScope
     public PostgreSQLContainer<?> postgreSQLContainer() {
-        return new PostgreSQLContainer<>("postgres")
-            .withReuse(true)
-            .withStartupTimeout(Duration.ofMinutes(1))
-<#if (project.schema?has_content)>
-            .withInitScript("create-schema.sql")
-</#if>
-            .waitingFor(Wait.forListeningPort());
+    return new PostgreSQLContainer<>("postgres")
+    .withReuse(true)
+    .withStartupTimeout(Duration.ofMinutes(1))
+    <#if (project.schema?has_content)>
+        .withInitScript("create-schema.sql")
+    </#if>
+    .waitingFor(Wait.forListeningPort());
     }
 </#if>
 }

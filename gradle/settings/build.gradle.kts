@@ -1,7 +1,6 @@
-
 plugins {
-  `kotlin-dsl`
-  }
+    `kotlin-dsl`
+}
 
 group = "mmm.coffee.buildlogic"
 

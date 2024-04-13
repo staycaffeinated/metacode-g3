@@ -21,10 +21,11 @@ package mmm.coffee.metacode.common.trait;
  * or an EndpointDescriptor into a SpringEndpointContext.
  */
 @FunctionalInterface
-public interface ConvertTrait<F,T> {
+public interface ConvertTrait<F, T> {
     /**
      * Converts an instance of class {@code FROM} into an instance of class {@code TO}.
      * We let the implementer decide how to handle {@code nulls}
+     *
      * @param fromType some instance to convert
      * @return the transformed object
      */

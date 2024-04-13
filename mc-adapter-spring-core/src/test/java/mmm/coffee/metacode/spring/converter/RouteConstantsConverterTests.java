@@ -24,7 +24,7 @@ class RouteConstantsConverterTests {
     @Test
     void shouldPopulateAllKeys() {
         converterUnderTest.setResourceName(resourceName);
-        
+
         checkValue(converterUnderTest.basePath());
         checkValue(converterUnderTest.create());
         checkValue(converterUnderTest.delete());

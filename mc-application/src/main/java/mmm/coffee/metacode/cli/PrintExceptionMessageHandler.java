@@ -37,8 +37,7 @@ public class PrintExceptionMessageHandler implements CommandLine.IExecutionExcep
             commandLine.getErr().println("\nERROR:");
             commandLine.getErr().println("\tCreating endpoints is not supported by this project template.");
             commandLine.getErr().println("\tUse either the `spring-webflux` or `spring-webmvc` project template if you want to create endpoints.");
-        }
-        else {
+        } else {
             commandLine.getErr().println(commandLine.getColorScheme().errorText(ex.getMessage()));
         }
         return commandLine.getExitCodeExceptionMapper() != null ?

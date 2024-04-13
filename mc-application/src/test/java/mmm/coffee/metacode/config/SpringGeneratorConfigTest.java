@@ -1,7 +1,6 @@
 package mmm.coffee.metacode.config;
 
 import mmm.coffee.metacode.Application;
-import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.spring.config.SpringGeneratorConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

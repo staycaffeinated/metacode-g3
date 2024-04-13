@@ -8,5 +8,6 @@ import java.nio.file.Path;
  */
 public interface TemplateResolver {
     Path templateSource(String classKey);
+
     Path destinationPath(String classKey);
 }

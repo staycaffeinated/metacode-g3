@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import static com.google.common.truth.Truth.assertThat;
 
 /**
-
  * FreemarkerTemplateResolverIT
  */
 @SuppressWarnings("DuplicatCode")
@@ -33,19 +32,22 @@ class FreemarkerTemplateResolverIntegrationTest {
     private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
 
     final FreemarkerTemplateResolver resolverUnderTest = new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_FOLDER));
-
-    RestProjectTemplateModel webMvcProject;
-    RestProjectTemplateModel webFluxProject;
-
     final DependencyCatalog dependencyCatalog = new DependencyCatalog(DEPENDENCY_FILE);
     final ConvertTrait<RestProjectDescriptor, Predicate<CatalogEntry>> converter = new DescriptorToPredicateConverter();
-
     /*
      * Use the Spring templates for test coverage
      */
     final Collector templateCatalog = new SpringWebMvcTemplateCatalog(new CatalogFileReader());
-
+    RestProjectTemplateModel webMvcProject;
+    RestProjectTemplateModel webFluxProject;
     RestProjectDescriptor projectDescriptor;
+
+    /***
+     * Wraps a Google Predicate in a java.util.function.Predicate
+     */
+    public static <T> java.util.function.Predicate<T> toJava8(com.google.common.base.Predicate<T> guavaPredicate) {
+        return (guavaPredicate::apply);
+    }
 
     @BeforeEach
     public void setUpTemplateModel() {
@@ -85,7 +87,7 @@ class FreemarkerTemplateResolverIntegrationTest {
         // and exclude endpoint templates.
         Predicate<CatalogEntry> keepThese = converter.convert(projectDescriptor);
         webMvcProject.configureLibraryVersions(dependencyCatalog);
-        
+
         templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(it -> {
             var content = resolverUnderTest.render(it.getTemplate(), webMvcProject);
             // The schema.sql file _can_ be empty, so an exception is made for it
@@ -94,6 +96,12 @@ class FreemarkerTemplateResolverIntegrationTest {
             }
         });
     }
+
+    // --------------------------------------------------------------------------------------------
+    //
+    // Helper code
+    //
+    // --------------------------------------------------------------------------------------------
 
     /**
      * This test takes a RestTemplateModel and uses it to render every WebMvc-based template.
@@ -112,18 +120,5 @@ class FreemarkerTemplateResolverIntegrationTest {
                 assertThat(content).isNotEmpty();
             }
         });
-    }
-
-    // --------------------------------------------------------------------------------------------
-    //
-    // Helper code
-    //
-    // --------------------------------------------------------------------------------------------
-    
-    /***
-     * Wraps a Google Predicate in a java.util.function.Predicate
-     */
-    public static <T> java.util.function.Predicate<T> toJava8(com.google.common.base.Predicate<T> guavaPredicate) {
-        return (guavaPredicate::apply);
     }
 }

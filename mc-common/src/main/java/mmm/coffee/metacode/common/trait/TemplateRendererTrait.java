@@ -21,9 +21,9 @@ package mmm.coffee.metacode.common.trait;
 public interface TemplateRendererTrait<T> {
     /**
      * Renders a Template.
-     * @param templateClassPath the path to the template file (a freemarker FTL file, for example)
-     * @param dataModelObject The dataModel used by the Template instance to resolve variables.
      *
+     * @param templateClassPath the path to the template file (a freemarker FTL file, for example)
+     * @param dataModelObject   The dataModel used by the Template instance to resolve variables.
      * @return
      */
     String render(String templateClassPath, T dataModelObject);

@@ -34,9 +34,6 @@ import static org.mockito.Mockito.when;
  */
 class RestProjectTemplateModelTests {
 
-    RestProjectTemplateModel modelUnderTest;
-    DependencyCatalog mockDependencyCatalog;
-
     // Completely hypothetical versions of libraries
     private static final String APACHE_KAFKA_VERSION = "3.0.0";
     private static final String ASSERTJ_VERSION = "1.2.3";
@@ -51,6 +48,8 @@ class RestProjectTemplateModelTests {
     private static final String LOMBOK_VERSION = "3.4.5";
     private static final String LOG4J_VERSION = "2.22.4";
     private static final String TESTCONTAINER_VERSION = "3.33.4";
+    RestProjectTemplateModel modelUnderTest;
+    DependencyCatalog mockDependencyCatalog;
 
     @BeforeEach
     public void setUp() {
@@ -63,7 +62,7 @@ class RestProjectTemplateModelTests {
     }
 
     @ParameterizedTest
-    @CsvSource( value = {
+    @CsvSource(value = {
             "apacheKafka,setApacheKafkaVersion",
             "springBoot,setSpringBootVersion",
             "springCloud,setSpringCloudVersion",
@@ -112,9 +111,9 @@ class RestProjectTemplateModelTests {
      * The various '**Version' fields are set using reflection.
      * This test confirms the reflection-based setter methods work
      * by verifying the equivalent getter methods return the expected value.
-     *
+     * <p>
      * The setField method is only package-visible, and only to
-     * enable testing it. 
+     * enable testing it.
      */
     @Test
     void shouldSetField() {

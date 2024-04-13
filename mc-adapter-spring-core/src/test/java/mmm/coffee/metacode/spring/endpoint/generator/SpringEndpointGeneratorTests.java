@@ -51,7 +51,6 @@ class SpringEndpointGeneratorTests {
     MetaPropertiesHandler<RestEndpointDescriptor> mockMetaPropHandler;
 
 
-
     @Test
     void givenWebFluxFramework_shouldGenerateCode() {
         generatorUnderTest = setUpGenerator(WEBFLUX_FRAMEWORK);
@@ -72,8 +71,7 @@ class SpringEndpointGeneratorTests {
     }
 
     @Test
-    void whenFrameworkDoesNotSupportCreateEndpoint_expectCreateEndpointUnsupportedException()
-    {
+    void whenFrameworkDoesNotSupportCreateEndpoint_expectCreateEndpointUnsupportedException() {
         SpringEndpointGenerator springBootGenerator = setUpSpringBootGenerator();
         var descriptor = RestEndpointDescriptor.builder().resource("Pet").route("/pet").build();
 
@@ -128,7 +126,7 @@ class SpringEndpointGeneratorTests {
                 .converter(converter).build();
 
         var mockOutputHandler = Mockito.mock(WriteOutputTrait.class);
-        doNothing().when(mockOutputHandler).writeOutput(anyString(),anyString());
+        doNothing().when(mockOutputHandler).writeOutput(anyString(), anyString());
 
         // Finally, assemble the above components into a code generator
         return SpringEndpointGenerator.builder()
@@ -145,31 +143,21 @@ class SpringEndpointGeneratorTests {
     private SpringEndpointGenerator setUpSpringBootGenerator() {
         return setUpGenerator(Framework.SPRING_BOOT.name());
     }
-    
+
     /**
      * A fake Collector suitable for unit test usage
      */
     public static class FakeCollector implements Collector {
 
         /**
-         * Collects items, honoring the conditions set with {@code setConditions}
-         *
-         * @return the items meeting the conditions
-         */
-        @Override
-        public List<CatalogEntry> collect() {
-            return buildSampleSet();
-        }
-
-        /**
          * Builds a data set of CatalogEntry's
          */
         private static List<CatalogEntry> buildSampleSet() {
-            CatalogEntry e1 = buildEntry("Service.ftl","Service.java", null);
+            CatalogEntry e1 = buildEntry("Service.ftl", "Service.java", null);
             CatalogEntry e2 = buildEntry("Controller.ftl", "Controller.java", null);
             CatalogEntry e3 = buildEntry("Repository.ftl", "Repository.java", null);
-            CatalogEntry e4 = buildEntry("ServiceTest.ftl","ServiceTest.java", null);
-            CatalogEntry e5 = buildEntry("ControllerIT.ftl","ControllerTest.java", null);
+            CatalogEntry e4 = buildEntry("ServiceTest.ftl", "ServiceTest.java", null);
+            CatalogEntry e5 = buildEntry("ControllerIT.ftl", "ControllerTest.java", null);
 
             return List.of(e1, e2, e3, e4, e5);
         }
@@ -184,6 +172,16 @@ class SpringEndpointGeneratorTests {
             entry.setTags(tags);
             entry.setContext(MetaTemplateModel.Key.ENDPOINT.value());
             return entry;
+        }
+
+        /**
+         * Collects items, honoring the conditions set with {@code setConditions}
+         *
+         * @return the items meeting the conditions
+         */
+        @Override
+        public List<CatalogEntry> collect() {
+            return buildSampleSet();
         }
     }
 

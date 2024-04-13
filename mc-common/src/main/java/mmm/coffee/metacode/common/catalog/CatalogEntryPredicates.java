@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
 public class CatalogEntryPredicates {
 
     // hidden constructor
-    private CatalogEntryPredicates() {}
+    private CatalogEntryPredicates() {
+    }
 
     /**
      * Returns {@code true} if the CatalogEntry is for a project artifact
@@ -82,15 +83,15 @@ public class CatalogEntryPredicates {
 
     /**
      * Returns the subset of entries that fulfil the predicate.
-     * @param entries the general population of CatalogEntry's
+     *
+     * @param entries   the general population of CatalogEntry's
      * @param predicate essentially, the filter applied to the population
      * @return those entries in the population that satisfy the predicate
      */
-    public static Set<CatalogEntry> filterCatalogEntries (Set<CatalogEntry> entries,
-                                                           Predicate<CatalogEntry> predicate)
-    {
+    public static Set<CatalogEntry> filterCatalogEntries(Set<CatalogEntry> entries,
+                                                         Predicate<CatalogEntry> predicate) {
         return entries.stream()
-                .filter( predicate )
+                .filter(predicate)
                 .collect(Collectors.<CatalogEntry>toSet());
     }
 }

@@ -1,4 +1,4 @@
 plugins {
-    id "org.example.java-conventions"
-    id "application"
+id "org.example.java-conventions"
+id "application"
 }

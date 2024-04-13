@@ -1,5 +1,5 @@
 plugins {
-    id "java-platform"
+id "java-platform"
 }
 
 group = "org.example.platform"

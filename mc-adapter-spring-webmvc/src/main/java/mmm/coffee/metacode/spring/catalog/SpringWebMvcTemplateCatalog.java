@@ -15,7 +15,6 @@
  */
 package mmm.coffee.metacode.spring.catalog;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
@@ -63,8 +62,7 @@ public class SpringWebMvcTemplateCatalog extends SpringTemplateCatalog {
             if (restProjectDescriptor.getIntegrations().contains(SpringIntegrations.MONGODB.name())) {
                 useMongoDbCatalog = true;
             }
-        }
-        else if (descriptor instanceof RestEndpointDescriptor restEndpointDescriptor) {
+        } else if (descriptor instanceof RestEndpointDescriptor restEndpointDescriptor) {
             log.debug("[beforeCollection] isWithMongoDb: {}", restEndpointDescriptor.isWithMongoDb());
             useMongoDbCatalog = true;
         }

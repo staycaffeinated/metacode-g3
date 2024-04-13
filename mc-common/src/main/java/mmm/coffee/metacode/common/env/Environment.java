@@ -14,12 +14,12 @@ import java.util.Map;
  * This class provides methods for setting environment variables
  * Some parts are borrowed from StackOverflow as a way to set env vars for unit testing;
  * see: https://stackoverflow.com/questions/318239/how-do-i-set-environment-variables-from-java
- *
+ * <p>
  * This class exists to assist test code. Its part of the main code branch to
- * make it visible to test and integrationTest code.  
+ * make it visible to test and integrationTest code.
  */
 @Generated // exclude from code coverage.
-@SuppressWarnings({"java:S3011","java:S1872"})
+@SuppressWarnings({"java:S3011", "java:S1872"})
 // S3011: We use reflection on purpose
 // S1872: We only hv classname, so 'instanceof' won't work
 public class Environment {

@@ -163,7 +163,7 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
         // just update these tests accordingly.
         assertThat(routeConstants).isNotNull();
         assertThat(routeConstants.getBasePath()).isNotEmpty();
-        
+
         assertThat(routeConstants.getCreate()).isNotEmpty();
         assertThat(routeConstants.getCreate()).contains("CREATE");
 
@@ -190,6 +190,13 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
 
         assertThat(routeConstants.getUpdate()).isNotEmpty();
         assertThat(routeConstants.getUpdate()).contains("UPDATE");
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // Helper methods
+    // ------------------------------------------------------------------------------------------------------------
+    private RestEndpointDescriptor.RestEndpointDescriptorBuilder newDescriptor() {
+        return RestEndpointDescriptor.builder();
     }
 
     @Nested
@@ -289,12 +296,5 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
 
             assertThat(model.isWithLiquibase()).isFalse();
         }
-    }
-
-    // ------------------------------------------------------------------------------------------------------------
-    // Helper methods
-    // ------------------------------------------------------------------------------------------------------------
-    private RestEndpointDescriptor.RestEndpointDescriptorBuilder newDescriptor() {
-        return RestEndpointDescriptor.builder();
     }
 }

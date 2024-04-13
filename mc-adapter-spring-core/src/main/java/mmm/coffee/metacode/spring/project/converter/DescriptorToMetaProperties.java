@@ -16,17 +16,17 @@ import java.util.Map;
  * DescriptorToMetaProperties
  */
 @Slf4j
-public class DescriptorToMetaProperties implements ConvertTrait<RestProjectDescriptor, Map<String,Object>> {
+public class DescriptorToMetaProperties implements ConvertTrait<RestProjectDescriptor, Map<String, Object>> {
 
-    public Map<String,Object> convert(RestProjectDescriptor descriptor) {
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> convert(RestProjectDescriptor descriptor) {
+        Map<String, Object> map = new HashMap<>();
         map.put(MetaProperties.BASE_PACKAGE, descriptor.getBasePackage());
         map.put(MetaProperties.BASE_PATH, descriptor.getBasePath());
         map.put(MetaProperties.FRAMEWORK, descriptor.getFramework());
         map.put(MetaProperties.SCHEMA, descriptor.getSchema());
 
         log.info("[convert] descriptor.schema: {}", descriptor.getSchema());
-        
+
         if (descriptor.getIntegrations().contains(SpringIntegrations.POSTGRES.name())) {
             map.put(MetaProperties.ADD_POSTGRESQL, Boolean.TRUE);
         }

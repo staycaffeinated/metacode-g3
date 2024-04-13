@@ -15,7 +15,8 @@
  */
 package mmm.coffee.metacode.common.descriptor;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 
 /**
@@ -74,6 +75,7 @@ public class RestEndpointDescriptor implements Descriptor {
     public final boolean isWebMvc() {
         return framework != null && Framework.toFramework(framework).isWebMvc();
     }
+
     public final boolean isWebFlux() {
         return framework != null && Framework.toFramework(framework).isWebFlux();
     }

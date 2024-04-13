@@ -129,12 +129,12 @@ class DescriptorToMetaPropertiesTests {
         // Expect: the Map contains an property for Postgres that's set to 'true'
         assertThat(map.get(MetaProperties.ADD_MONGODB)).isEqualTo(Boolean.TRUE);
     }
-    
+
     // ---------------------------------------------------------------------------------------------------------
     // Helper methods
     // ---------------------------------------------------------------------------------------------------------
 
-    private RestProjectDescriptor newWebMvcProject(SpringIntegrations ...integrations) {
+    private RestProjectDescriptor newWebMvcProject(SpringIntegrations... integrations) {
         RestProjectDescriptor descriptor = RestProjectDescriptor.builder()
                 .basePackage(BASE_PACKAGE)
                 .basePath(BASE_PATH)

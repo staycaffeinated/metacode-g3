@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 public class SpringGeneratorConfig {
-    
+
     @Value("${app.spring.templates.docker}")
     private String dockerTemplates;
 

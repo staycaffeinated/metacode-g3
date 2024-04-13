@@ -15,33 +15,33 @@ import java.util.Optional;
 
 public interface ${endpoint.entityName}Service {
 
-    /*
-     * findAll
-     */
-    List<${endpoint.entityName}> findAll${endpoint.entityName}s();
+/*
+* findAll
+*/
+List<${endpoint.entityName}> findAll${endpoint.entityName}s();
 
-    /**
-     * findByResourceId
-     */
-    Optional<${endpoint.entityName}> find${endpoint.entityName}ByResourceId(String id);
+/**
+* findByResourceId
+*/
+Optional<${endpoint.entityName}> find${endpoint.entityName}ByResourceId(String id);
 
-    /*
-     * findByText
-     */
-    Page<${endpoint.entityName}> findByText(@NonNull String text, Pageable pageable);
+/*
+* findByText
+*/
+Page<${endpoint.entityName}> findByText(@NonNull String text, Pageable pageable);
 
-    /**
-     * Persists a new resource
-     */
-    ${endpoint.entityName} create${endpoint.entityName}(@NonNull @Validated(OnCreate.class) ${endpoint.entityName} resource);
+/**
+* Persists a new resource
+*/
+${endpoint.entityName} create${endpoint.entityName}(@NonNull @Validated(OnCreate.class) ${endpoint.entityName} resource);
 
-    /**
-     * Updates an existing resource
-     */
-    List<${endpoint.entityName}> update${endpoint.entityName}(@NonNull @Validated(OnUpdate.class) @Valid ${endpoint.entityName} resource);
+/**
+* Updates an existing resource
+*/
+List<${endpoint.entityName}> update${endpoint.entityName}(@NonNull @Validated(OnUpdate.class) @Valid ${endpoint.entityName} resource);
 
-    /**
-     * delete
-     */
-    void delete${endpoint.entityName}ByResourceId(@NonNull String id);
+/**
+* delete
+*/
+void delete${endpoint.entityName}ByResourceId(@NonNull String id);
 }

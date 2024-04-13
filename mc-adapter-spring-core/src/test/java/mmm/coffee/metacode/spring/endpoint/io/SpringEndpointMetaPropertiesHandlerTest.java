@@ -37,7 +37,7 @@ class SpringEndpointMetaPropertiesHandlerTest {
     }
 
     @ParameterizedTest
-    @CsvSource( value = {
+    @CsvSource(value = {
             MetaProperties.BASE_PACKAGE + "," + BASE_PKG,
             MetaProperties.BASE_PATH + "," + BASE_PATH
     })
@@ -49,7 +49,7 @@ class SpringEndpointMetaPropertiesHandlerTest {
     void shouldReadFramework() {
         assertThat(handlerUnderTest.readMetaProperties().getString(MetaProperties.FRAMEWORK)).isEqualTo(FRAMEWORK);
     }
-    
+
     // --------------------------------------------------------------------------------------------------------
     //
     // Helper methods

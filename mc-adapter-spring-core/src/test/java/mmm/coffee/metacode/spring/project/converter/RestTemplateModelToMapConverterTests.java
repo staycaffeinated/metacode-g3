@@ -20,19 +20,16 @@ import static com.google.common.truth.Truth.assertThat;
  */
 class RestTemplateModelToMapConverterTests {
 
-    @Rule
-    public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
-
-    @Rule
-    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog().muteForSuccessfulTests();
-
     /*
      * Test values
      */
     private static final String BASE_PATH = "/owner";
     private static final String BASE_PACKAGE = "acme.petstore";
     private static final String BASE_PACKAGE_PATH = "acme/petstore";
-
+    @Rule
+    public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
+    @Rule
+    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog().muteForSuccessfulTests();
     /*
      * The converter instance used for testing
      */
@@ -49,7 +46,7 @@ class RestTemplateModelToMapConverterTests {
                 .build();
 
         // when: the template model is converted to a map
-        Map<String,String> map = converterUnderTest.convert(model);
+        Map<String, String> map = converterUnderTest.convert(model);
 
         // expect: the variables that may occur in a Mustache expression have a value defined
         assertThat(map.get(MustacheConstants.BASE_PACKAGE_PATH)).isEqualTo(nameConverter.packageNameToPath(BASE_PACKAGE));

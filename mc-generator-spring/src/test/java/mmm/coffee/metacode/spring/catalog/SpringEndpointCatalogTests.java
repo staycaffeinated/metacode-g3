@@ -110,7 +110,7 @@ class SpringEndpointCatalogTests {
 
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
-        
+
         @Disabled("Need to migrate webflux-mongodb support first")
         void whenNotWebFluxAndNotMongoDbIntegration() {
             RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);

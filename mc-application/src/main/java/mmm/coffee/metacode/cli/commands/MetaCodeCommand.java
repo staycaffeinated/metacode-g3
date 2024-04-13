@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
 @CommandLine.Command(
-        name="metacode",
+        name = "metacode",
         descriptionHeading = "%nDescription:%n",
-        description="A code generator for Spring projects",
+        description = "A code generator for Spring projects",
         mixinStandardHelpOptions = true,
         commandListHeading = "%nCommands:%n",
         optionListHeading = "%nOptions:%n",

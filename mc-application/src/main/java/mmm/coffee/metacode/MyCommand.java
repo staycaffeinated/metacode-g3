@@ -13,16 +13,15 @@ import java.util.concurrent.Callable;
 @Component
 @CommandLine.Command(name = "mycommand", mixinStandardHelpOptions = true)
 public class MyCommand implements Callable<Integer> {
-    @CommandLine.Option(names = "-x", description = "optional arg")
-    private String x;
-
     @CommandLine.Parameters(description = "positional params")
     List<String> positionals = new ArrayList<>();
+    @CommandLine.Option(names = "-x", description = "optional arg")
+    private String x;
 
     String getX() {
         return x;
     }
-    
+
     @Override
     public Integer call() throws Exception {
         System.out.printf("My subcommnad was called with option -x=%s\n", x);

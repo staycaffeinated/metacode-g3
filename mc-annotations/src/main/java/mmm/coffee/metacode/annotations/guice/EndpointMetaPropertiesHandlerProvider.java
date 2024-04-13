@@ -16,6 +16,7 @@
 package mmm.coffee.metacode.annotations.guice;
 
 import jakarta.inject.Qualifier;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -27,6 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * implements a MetaPropertiesReader&lt;RestEndpointDescriptor&gt;.
  */
 @Qualifier
-@Target({ FIELD, PARAMETER, METHOD })
+@Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
-public @interface EndpointMetaPropertiesHandlerProvider {}
+public @interface EndpointMetaPropertiesHandlerProvider {
+}

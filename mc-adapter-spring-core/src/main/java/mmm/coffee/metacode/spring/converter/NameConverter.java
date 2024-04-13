@@ -15,7 +15,7 @@ import java.util.Locale;
  * an entity-bean name. The conversions are used to
  * name classes, instance variables, and sundry items
  * that come up during code generation.
- *
+ * <p>
  * This is a stateless object (there are no instance variables).
  * As such, every method _could_ be defined as a static method.
  * To enable dependency injection, non-static methods are used instead.
@@ -31,9 +31,10 @@ public class NameConverter {
     public NameConverter() {
         // empty
     }
-    
+
     /**
      * Returns the syntax convention for the given resource value
+     *
      * @param resource the name of some resource or entity
      * @return the resource name, with syntax conventions applied
      */
@@ -42,11 +43,14 @@ public class NameConverter {
         return StringUtils.capitalize(resource);
 
     }
+
     public String toEntityVariableName(@NonNull String resource) {
         return StringUtils.uncapitalize(resource);
     }
 
-    public String toLowerCaseEntityName(@NonNull String resource) { return resource.toLowerCase(Locale.ROOT); }
+    public String toLowerCaseEntityName(@NonNull String resource) {
+        return resource.toLowerCase(Locale.ROOT);
+    }
 
     /**
      * Base path must begin with a forward-slash ('/'), and the route must be
@@ -65,6 +69,7 @@ public class NameConverter {
     /**
      * The database schema for JPA projects. Use this if a schema wasn't explicitly
      * defined on the command line
+     *
      * @param projectName the project name
      * @return the default schema name
      */
@@ -75,6 +80,7 @@ public class NameConverter {
     /**
      * The code generator produces an EJB class and a POJO class for each resource.
      * This method conjures the name of the POJO class
+     *
      * @param resourceName the resource handled by the endpoint, such as 'pet', 'owner', 'shoppingCart', 'invoice'
      * @return the name to use for the POJO class
      */
@@ -85,6 +91,7 @@ public class NameConverter {
     /**
      * The code generator produces an EJB class and a POJO class for each resource.
      * This method conjures the name of the EJB class
+     *
      * @param resourceName the resource handled by the endpoint, such as 'pet', 'owner', 'shoppingCart', 'invoice'
      * @return the name to use for the EJB class
      */
@@ -100,6 +107,7 @@ public class NameConverter {
      * When the EJB class is generated, a custom database table name can be assigned to the EJB
      * (rather than the default table name).
      * This method conjures the database table name
+     *
      * @param resourceName the resource handled by the endpoint, such as 'pet', 'owner', 'shoppingCart', 'invoice'
      * @return the name to use for the EJB class
      */
@@ -115,11 +123,11 @@ public class NameConverter {
      * ```org.example.greeting_service.endpoint.greeting```.
      * (where ```org.example.greeting_service``` is the assumed base package, and ```Greeting``` is the resource/entity.
      *
-     * @param basePackage the base package of the project
+     * @param basePackage          the base package of the project
      * @param resourceOrEntityName the name of the RESTful resource/entity, for example ```Student``` or ```Account```
      * @return the package name into which the assets of this resource will be placed
      */
-    public  String toEndpointPackageName (@NonNull String basePackage, @NonNull String resourceOrEntityName) {
+    public String toEndpointPackageName(@NonNull String basePackage, @NonNull String resourceOrEntityName) {
         String packageName = basePackage + ".endpoint." + StringUtils.toRootLowerCase(resourceOrEntityName);
         return StringUtils.toRootLowerCase(packageName);
     }
@@ -127,11 +135,13 @@ public class NameConverter {
     /**
      * Converts a package name to its equivalent file system path. This method is used to enable
      * writing Java files in the correct directory.
-     * 
+     *
      * @param packageName a Java package, such as 'org.acme.petstore'
      * @return the equivalent file system path, such as 'org/example/petstore'
      */
-    public String packageNameToPath(@NonNull String packageName) { return packageName.replace(".", "/"); }
+    public String packageNameToPath(@NonNull String packageName) {
+        return packageName.replace(".", "/");
+    }
 
 
 }

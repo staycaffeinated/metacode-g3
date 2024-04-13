@@ -28,9 +28,10 @@ public interface ICodeGenerator<T> {
 
     /**
      * Performs the code generation. Returns:
-     *      0 = success
-     *      1 = general error
-     * @return the exit code, with zero indicating success. 
+     * 0 = success
+     * 1 = general error
+     *
+     * @return the exit code, with zero indicating success.
      */
     int generateCode(T spec);
 }

@@ -7,14 +7,14 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 <#if project.isWithTestContainers()>
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
+    import org.testcontainers.containers.MongoDBContainer;
+    import org.testcontainers.containers.wait.strategy.Wait;
 </#if>
 
 @TestConfiguration(proxyBeanMethods=false)
 public class ContainerConfiguration {
 
-    private static final String IMAGE = "mongo:6.0.4";
+private static final String IMAGE = "mongo:6.0.4";
 
 <#if project.isWithTestContainers() && project.isWithMongoDb()>
     // @formatter:off
@@ -27,23 +27,23 @@ public class ContainerConfiguration {
         .waitingFor(Wait.forListeningPort());
     // @formatter:on
     static {
-        mongoDBContainer.start();
+    mongoDBContainer.start();
     }
 
     @Bean
     @ServiceConnection
     @RestartScope
     public MongoDBContainer mongoDBContainer() {
-        return mongoDBContainer;
+    return mongoDBContainer;
     }
 </#if>
 
-    public static Object getReplicaSetUrl() {
+public static Object getReplicaSetUrl() {
 <#if ((project.isWithMongoDb()) && project.isWithTestContainers())>
-        return mongoDBContainer.getReplicaSetUrl();
+    return mongoDBContainer.getReplicaSetUrl();
 <#else>
-        return "mongodb://localhost:27017/testdb");
+    return "mongodb://localhost:27017/testdb");
 </#if>
-    }
+}
 
 }

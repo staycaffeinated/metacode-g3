@@ -8,11 +8,10 @@ import mmm.coffee.metacode.spring.project.converter.DescriptorToTemplateModelCon
 
 public class RestProjectTemplateModelFactory {
 
+    DescriptorToTemplateModelConverter converter = new DescriptorToTemplateModelConverter();
     private DependencyCatalog dependencyCatalog;
     private RestProjectDescriptor projectDescriptor;
     private PackageDataDictionary dataDictionary;
-
-    DescriptorToTemplateModelConverter converter = new DescriptorToTemplateModelConverter();
 
     public static RestProjectTemplateModelFactory create() {
         return new RestProjectTemplateModelFactory();

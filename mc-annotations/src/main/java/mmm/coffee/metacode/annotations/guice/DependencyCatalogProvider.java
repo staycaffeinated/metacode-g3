@@ -16,6 +16,7 @@
 package mmm.coffee.metacode.annotations.guice;
 
 import jakarta.inject.Qualifier;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -28,6 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * class to denote the method that returns a Catalog instance
  */
 @Qualifier
-@Target({ FIELD, PARAMETER, METHOD })
+@Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
-public @interface DependencyCatalogProvider {}
+public @interface DependencyCatalogProvider {
+}

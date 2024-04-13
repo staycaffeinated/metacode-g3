@@ -74,6 +74,7 @@ public abstract class AbstractCreateRestProject implements CallTrait {
 
     /**
      * Verify the command line values
+     *
      * @throws CommandLine.ParameterException if an error is encountered
      */
     protected void runValidations(ValidationTrait... validations) {
@@ -85,7 +86,7 @@ public abstract class AbstractCreateRestProject implements CallTrait {
         }
         // If any errors were found, throw an exception
         if (!sb.isEmpty()) {
-            throw new CommandLine.ParameterException( commandSpec.commandLine(), sb.toString());
+            throw new CommandLine.ParameterException(commandSpec.commandLine(), sb.toString());
         }
     }
 }

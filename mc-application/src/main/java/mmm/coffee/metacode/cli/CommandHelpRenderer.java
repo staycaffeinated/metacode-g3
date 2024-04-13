@@ -31,7 +31,9 @@ public class CommandHelpRenderer implements CommandLine.IHelpSectionRenderer {
     @Override
     public String render(CommandLine.Help help) {
         CommandSpec spec = help.commandSpec();
-        if (spec.subcommands().isEmpty()) { return ""; }
+        if (spec.subcommands().isEmpty()) {
+            return "";
+        }
 
         // Prepare the layout in 2 columns
         // The left column overflows, the right column wraps if the

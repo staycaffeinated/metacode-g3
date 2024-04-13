@@ -21,10 +21,12 @@ import lombok.NonNull;
  * Helper methods for manipulating a package name
  */
 public class PackageNameConversion {
-    private PackageNameConversion() {}
+    private PackageNameConversion() {
+    }
 
     /**
      * Converts the given {@code packageName} to its file-system path equivalent
+     *
      * @param packageName some non-null package name, such as {@code "mmm.coffee.widget" }
      * @return the path of the package, such as {@code "mmm/coffee/widget" }
      */

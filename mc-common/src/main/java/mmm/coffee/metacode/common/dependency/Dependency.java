@@ -26,7 +26,7 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
  * will appear in the templates. For example, template might contain
  * a statement like:
  * <code>
- *     testImplementation ""org.junit.jupiter:junit-jupiter:{{junitVersion}}"
+ * testImplementation ""org.junit.jupiter:junit-jupiter:{{junitVersion}}"
  * </code>
  * A yaml file (usually named "dependencies.yml") defines the values for all
  * these template variables that to be defined. A Dependency object
@@ -36,11 +36,14 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 @ExcludeFromJacocoGeneratedReport
 public class Dependency {
 
+    private String name;
+    private String version;
+
     /**
      * Default constructor
      */
-    public Dependency() {}
-
+    public Dependency() {
+    }
     /**
      * All-args constructor
      */
@@ -48,7 +51,4 @@ public class Dependency {
         this.name = name;
         this.version = version;
     }
-
-    private String name;
-    private String version;
 }

@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Converts a REST ProjectDescriptor into an uber-predicate.
  * The uber-predicate can be applied to a stream of CatalogEntry's to
- * select the templates to be rendered. 
+ * select the templates to be rendered.
  */
 public class DescriptorToPredicateConverter implements ConvertTrait<RestProjectDescriptor, Predicate<CatalogEntry>> {
     /**
@@ -47,16 +47,16 @@ public class DescriptorToPredicateConverter implements ConvertTrait<RestProjectD
 
     private List<Predicate<CatalogEntry>> collectPredicates(RestProjectDescriptor descriptor) {
         List<Predicate<CatalogEntry>> resultSet = new ArrayList<>();
-        resultSet.add ( CatalogEntryPredicates.isCommonProjectArtifact() );
+        resultSet.add(CatalogEntryPredicates.isCommonProjectArtifact());
 
         if (descriptor.getIntegrations().contains(SpringIntegrations.POSTGRES.name()))
-            resultSet.add( CatalogEntryPredicates.hasPostgresTag() );
+            resultSet.add(CatalogEntryPredicates.hasPostgresTag());
 
         if (descriptor.getIntegrations().contains(SpringIntegrations.TESTCONTAINERS.name()))
-            resultSet.add( CatalogEntryPredicates.hasTestContainerTag() );
+            resultSet.add(CatalogEntryPredicates.hasTestContainerTag());
 
         if (descriptor.getIntegrations().contains(SpringIntegrations.LIQUIBASE.name()))
-           resultSet.add(CatalogEntryPredicates.hasLiquibaseTag());
+            resultSet.add(CatalogEntryPredicates.hasLiquibaseTag());
 
 
         return resultSet;

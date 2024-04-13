@@ -29,8 +29,9 @@ public class MustacheConstants {
     public static final String DOCUMENT_NAME = "documentName";
 
     public static final String APP_MODULE = "appModule";
-    
+
     // Hidden constructor
-    private MustacheConstants() {}
+    private MustacheConstants() {
+    }
 
 }

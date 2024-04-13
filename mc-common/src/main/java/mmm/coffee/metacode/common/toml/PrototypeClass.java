@@ -37,10 +37,10 @@ public enum PrototypeClass {
     GenericDataStore,
 
     UNDEFINED;
-                // For values that don't map to a known key.
-                // When a classKey is encountered that doesn't map to a known value,
-                // the generator will write that class (if possible) into the ".misc" package to
-                // make those class keys missing from this catalog easier to discover.
-                // For instance: if a template catalog uses a classKey that isn't found here.
+    // For values that don't map to a known key.
+    // When a classKey is encountered that doesn't map to a known value,
+    // the generator will write that class (if possible) into the ".misc" package to
+    // make those class keys missing from this catalog easier to discover.
+    // For instance: if a template catalog uses a classKey that isn't found here.
 
 }

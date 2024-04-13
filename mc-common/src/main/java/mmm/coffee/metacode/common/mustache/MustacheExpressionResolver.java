@@ -24,17 +24,18 @@ import java.util.Map;
  * Converts a mustache expressions into a resolved value.
  */
 public class MustacheExpressionResolver {
-    private MustacheExpressionResolver() {}
+    private MustacheExpressionResolver() {
+    }
 
     /**
      * Resolves the {@code mustacheExpression} into a String.
      * For example, if
-     *      a) {@code mustacheExpression} is "{{basePackage}}"
-     *      b) {@code values} contains the k/v pair "basePackage=org.example.projectx"
+     * a) {@code mustacheExpression} is "{{basePackage}}"
+     * b) {@code values} contains the k/v pair "basePackage=org.example.projectx"
      * then
-     *      toString returns "org.example.projectx".
+     * toString returns "org.example.projectx".
      */
-    public static @NonNull String resolve(@NonNull String mustacheExpression, Map<String,String> values) {
+    public static @NonNull String resolve(@NonNull String mustacheExpression, Map<String, String> values) {
         var template = Mustache.compiler().compile(mustacheExpression);
         return template.execute(values);
     }
