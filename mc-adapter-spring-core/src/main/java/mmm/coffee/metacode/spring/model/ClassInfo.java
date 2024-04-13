@@ -1,9 +1,5 @@
 package mmm.coffee.metacode.spring.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-
 /**
  * @param className   The simple class name, such as `Pet`
  * @param packageName The package name, such as `org.example.petstore.domain`
