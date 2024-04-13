@@ -5,7 +5,7 @@ package mmm.coffee.metacode.common.toml;
  * to customize the package names assigned to classes, and the names of the classes.
  */
 @SuppressWarnings("java:S115")  // the camel-case naming convention is by-design
-public enum ClassKey {
+public enum PrototypeClass {
     ServiceApi,
     ServiceImpl,
     Controller,
@@ -35,9 +35,12 @@ public enum ClassKey {
     UnprocessableEntityException,
     CustomRepository,
     GenericDataStore,
-    UNDEFINED   // For values that don't map to a known key.
+
+    UNDEFINED;
+                // For values that don't map to a known key.
                 // When a classKey is encountered that doesn't map to a known value,
                 // the generator will write that class (if possible) into the ".misc" package to
                 // make those class keys missing from this catalog easier to discover.
                 // For instance: if a template catalog uses a classKey that isn't found here.
+
 }

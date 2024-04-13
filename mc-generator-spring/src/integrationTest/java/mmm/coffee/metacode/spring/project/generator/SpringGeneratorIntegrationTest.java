@@ -10,6 +10,7 @@ import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
 import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
+import mmm.coffee.metacode.common.toml.DefaultPackageDataDictionary;
 import mmm.coffee.metacode.common.writer.ContentToNullWriter;
 import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
@@ -52,6 +53,7 @@ class SpringGeneratorIntegrationTest {
                 .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())
+                .dataDictionary(new DefaultPackageDataDictionary())
                 .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
                 .outputHandler(new ContentToNullWriter())
                 .dependencyCatalog(new DependencyCatalog(DEPENDENCY_FILE))

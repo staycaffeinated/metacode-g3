@@ -28,23 +28,23 @@ public class DefaultPackageDataDictionaryTest {
 
     @Test
     void shouldReturnSomething() {
-        classUnderTest.add(ClassKey.ServiceImpl, "pet.impl");
-        String actualPkgName = classUnderTest.packageName(ClassKey.ServiceImpl);
+        classUnderTest.add(PrototypeClass.ServiceImpl, "pet.impl");
+        String actualPkgName = classUnderTest.packageName(PrototypeClass.ServiceImpl);
         assertThat(actualPkgName).isNotEmpty();
         assertThat(actualPkgName).isEqualTo(basePackage + ".pet.impl");
     }
 
     private void initDictionary() {
         // Add a TestFixture for this stuff to make it easier
-        Map<ClassKey, String> items = new EnumMap<>(ClassKey.class);
-        items.put(ClassKey.AlphabeticField, "infra.validation");
-        items.put(ClassKey.AlphabeticValidator, "infra.validation");
-        items.put(ClassKey.ProblemConfiguration, "infra.config");
-        items.put(ClassKey.ResourcePojo, "domain");
-        items.put(ClassKey.Routes, "api");
-        items.put(ClassKey.ServiceApi, "api");
-        items.put(ClassKey.ServiceImpl, "api.impl");
-        items.put(ClassKey.Controller, "api");
+        Map<PrototypeClass, String> items = new EnumMap<>(PrototypeClass.class);
+        items.put(PrototypeClass.AlphabeticField, "infra.validation");
+        items.put(PrototypeClass.AlphabeticValidator, "infra.validation");
+        items.put(PrototypeClass.ProblemConfiguration, "infra.config");
+        items.put(PrototypeClass.ResourcePojo, "domain");
+        items.put(PrototypeClass.Routes, "api");
+        items.put(PrototypeClass.ServiceApi, "api");
+        items.put(PrototypeClass.ServiceImpl, "api.impl");
+        items.put(PrototypeClass.Controller, "api");
         classUnderTest.addAll(items);
     }
 

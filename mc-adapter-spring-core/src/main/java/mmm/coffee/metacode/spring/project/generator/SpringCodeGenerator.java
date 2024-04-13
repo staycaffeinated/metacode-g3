@@ -32,6 +32,7 @@ import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModelFactory;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
+import mmm.coffee.metacode.common.toml.PackageDataDictionary;
 
 /**
  * Code generator for SpringWebMvc project
@@ -53,6 +54,7 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
     private final DependencyCatalog dependencyCatalog;
     private final MustacheDecoder mustacheDecoder;
     private final MetaPropertiesHandler<RestProjectDescriptor> metaPropertiesHandler;
+    private final PackageDataDictionary dataDictionary;
 
     /*
      * An instance of a RestProjectDescriptor is almost never available
@@ -109,7 +111,9 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = RestProjectTemplateModelFactory.create()
                 .usingDependencyCatalog(dependencyCatalog)
-                .usingProjectDescriptor(descriptor).build();
+                .usingProjectDescriptor(descriptor)
+                .usingDataDictionary(dataDictionary)
+                .build();
 
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);

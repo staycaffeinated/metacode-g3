@@ -12,13 +12,14 @@ public interface PackageDataDictionary {
      *                 code generator; see @org.example.spi.ClassKeys
      */
     String packageName(String classKey);
-    String packageName(ClassKey classKey);
-    List<ClassKey> classKeysOfPackage(String packageKey);
+    String packageName(PrototypeClass classKey);
+    List<PrototypeClass> classKeysOfPackage(String packageKey);
     String basePackage();
     String dictionaryVersion();
-    String canonicalClassNameOf(String classKey);
-    void add(ClassKey classKey, String packageName);
-    void addAll(Map<ClassKey,String> klassToPkgMap);
+    String canonicalClassNameOf(String resourceName, PrototypeClass classKey);
+    String canonicalClassNameOf(PrototypeClass classKey);
+    void add(PrototypeClass classKey, String packageName);
+    void addAll(Map<PrototypeClass,String> klassToPkgMap);
 
     /**
      * The number of entries in the dictionary

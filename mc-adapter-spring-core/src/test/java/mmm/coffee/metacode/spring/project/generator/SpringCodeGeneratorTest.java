@@ -24,6 +24,7 @@ import mmm.coffee.metacode.common.io.MetaPropertiesWriter;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
+import mmm.coffee.metacode.common.toml.DefaultPackageDataDictionary;
 import mmm.coffee.metacode.common.writer.ContentToNullWriter;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToMetaProperties;
@@ -87,6 +88,7 @@ class SpringCodeGeneratorTest {
                 .collector(fakeCollector)
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())
+                .dataDictionary(new DefaultPackageDataDictionary())
                 .outputHandler(new ContentToNullWriter())
                 .metaPropertiesHandler(mockHandler)
                 .templateRenderer(mockRenderer)

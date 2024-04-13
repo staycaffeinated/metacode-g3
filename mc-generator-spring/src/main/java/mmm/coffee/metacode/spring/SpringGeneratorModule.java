@@ -31,6 +31,7 @@ import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
 import mmm.coffee.metacode.common.io.MetaPropertiesReader;
 import mmm.coffee.metacode.common.io.MetaPropertiesWriter;
 import mmm.coffee.metacode.common.stereotype.DependencyCollector;
+import mmm.coffee.metacode.common.toml.DefaultPackageDataDictionary;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.common.writer.ContentToFileWriter;
 import mmm.coffee.metacode.spring.catalog.SpringEndpointCatalog;
@@ -81,6 +82,7 @@ public class SpringGeneratorModule extends AbstractModule {
                 .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())
+                .dataDictionary(new DefaultPackageDataDictionary())
                 .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
                 .outputHandler(new ContentToFileWriter())
                 .dependencyCatalog(new DependencyCatalog(DEPENDENCY_FILE))

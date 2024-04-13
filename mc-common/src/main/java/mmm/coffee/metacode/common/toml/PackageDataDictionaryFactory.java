@@ -20,14 +20,14 @@ public class PackageDataDictionaryFactory {
 
         DefaultPackageDataDictionary dictionary = new DefaultPackageDataDictionary();
 
-        Map<ClassKey, String> map = extractClassNames(result);
+        Map<PrototypeClass, String> map = extractClassNames(result);
         dictionary.addAll(map);
 
         return dictionary;
     }
 
-    private Map<ClassKey, String> extractClassNames(TomlParseResult result) {
-        EnumMap<ClassKey, String> miniDictionary = new EnumMap<>(ClassKey.class);
+    private Map<PrototypeClass, String> extractClassNames(TomlParseResult result) {
+        EnumMap<PrototypeClass, String> miniDictionary = new EnumMap<>(PrototypeClass.class);
 
         List<String> dottedKeys = result.dottedKeySet().stream()
                 .filter(this::isDottedKey)
@@ -36,7 +36,7 @@ public class PackageDataDictionaryFactory {
         for (String dottedKey : dottedKeys) {
             Object obj = result.get(dottedKey);
             if (obj instanceof String className) {
-                ClassKey classKey = getClassKeyOf(className);
+                PrototypeClass classKey = getClassKeyOf(className);
                 String packageName = convertToPackageName(dottedKey);
                 miniDictionary.put(classKey, packageName);
             } else if (obj instanceof TomlArray tomlArray) {
@@ -44,7 +44,7 @@ public class PackageDataDictionaryFactory {
                     String csvListOfNames = tomlArray.getString(i);
                     List<String> classNames = convertToClassNameList(csvListOfNames);
                     for (String className : classNames) {
-                        ClassKey classKey = getClassKeyOf(className);
+                        PrototypeClass classKey = getClassKeyOf(className);
                         String packageName = convertToPackageName(dottedKey);
                         miniDictionary.put(classKey, packageName);
                     }
@@ -54,12 +54,12 @@ public class PackageDataDictionaryFactory {
         return miniDictionary;
     }
 
-    private ClassKey getClassKeyOf(String className) {
+    private PrototypeClass getClassKeyOf(String className) {
         try {
-            return ClassKey.valueOf(className);
+            return PrototypeClass.valueOf(className);
         } catch (IllegalArgumentException e) {
             System.out.printf("Error: No ClassKey found for %s\n", className);
-            return ClassKey.UNDEFINED;
+            return PrototypeClass.UNDEFINED;
         }
     }
 
