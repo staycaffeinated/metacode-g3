@@ -39,11 +39,12 @@ import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
  */
 @Slf4j
 @SuperBuilder
-@SuppressWarnings({"java:S1068", "java:S1602", "java:S125", "java:S4738"})
-// S1068: this is a work-in-progress so unused stuff is ok
-// S1602: false positive; curly braces detected in a comment do not mean it's a commented-out lambda function
-// S125: we're OK with comments that happen to look like code
-// S4738: converting to java.util.function.Predicate is on the roadmap
+@SuppressWarnings({
+        "java:S1068",   // this is a work-in-progress, so unused stuff is OK
+        "java:S1602",   // false positive; curly braces in a comment do not mean it's a commented-out lambda function
+        "java:S125",    // we're OK with comments that happen to look like code
+        "java:S4738"    // migrating to java.util.function.Predicate is on the roadmap
+})
 public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor> {
 
     private final Collector collector;

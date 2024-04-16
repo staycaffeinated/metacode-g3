@@ -20,6 +20,7 @@ public class RestProjectTemplateModelFactory {
     public RestProjectTemplateModel build() {
         RestProjectTemplateModel model = converter.convert(projectDescriptor);
         model.configureLibraryVersions(dependencyCatalog);
+        model.setDictionary(dataDictionary);
         return model;
     }
 
