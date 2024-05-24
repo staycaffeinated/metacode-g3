@@ -18,12 +18,14 @@ package mmm.coffee.metacode.spring.catalog;
 import lombok.NonNull;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
+import mmm.coffee.metacode.common.catalog.TemplateCatalog;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.common.stereotype.Collector;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -35,11 +37,11 @@ public abstract class SpringTemplateCatalog implements Collector {
 
     public static final String WEBFUX_CATALOG = "/spring/catalogs/spring-webflux.yml";
 
-    public static final String WEBMVC_CATALOG = "/spring/catalogs/spring-webmvc.yml";
-    public static final String WEBMVC_MONGODB_CATALOG = "/spring/catalogs/spring-webmvc-mongodb.yml";
+    public static final String WEBMVC_CATALOG = "/spring/catalogs/v3/spring-webmvc-v3.yml";
+    public static final String WEBMVC_MONGODB_CATALOG = "/spring/catalogs/v3/spring-webmvc-mongodb-v3.yml";
 
 
-    private static final String[] SPRING_CATALOGS = {
+    private static final String[] COMMON_CATALOGS = {
             "/spring/catalogs/common-stuff.yml",
             "/spring/catalogs/spring-gradle.yml"
     };
@@ -60,16 +62,19 @@ public abstract class SpringTemplateCatalog implements Collector {
      * @return the collection of CatalogEntry's
      */
     protected List<CatalogEntry> collectGeneralCatalogsAndThisOne(@NonNull String specificCatalog) {
-        List<CatalogEntry> resultSet = new ArrayList<>();
+        Set<CatalogEntry> resultSet = new HashSet<>();
 
-        for (String catalog : SPRING_CATALOGS) {
+        for (String catalog : COMMON_CATALOGS) {
             try {
-                resultSet.addAll(reader.readCatalogFile(catalog));
-                resultSet.addAll(reader.readCatalogFile(specificCatalog));
+                TemplateCatalog templateCatalog = reader.readCatalog(catalog);
+                if (templateCatalog != null) {
+                    resultSet.addAll(templateCatalog.getEntries());
+                }
+                resultSet.addAll(reader.readCatalog(specificCatalog).getEntries());
             } catch (IOException e) {
-                throw new RuntimeApplicationError("Error when reading Spring template catalogs", e);
+                throw new RuntimeApplicationError("An error occurred while reading the Spring template catalogs", e);
             }
         }
-        return resultSet;
+        return resultSet.stream().toList();
     }
 }

@@ -89,4 +89,4 @@ truth                  : '${project.truthVersion}'                // Google's as
     }
 </#noparse>
 ext['junit-jupiter.version'] = '${project.junitVersion}'
-ext['snakeyaml.version'] = '1.33'  // force this upgrade to fix known CVEs
+// ext['snakeyaml.version'] = '1.33'  // force this upgrade to fix known CVEs

@@ -20,6 +20,7 @@ lombok = '1.18.26'
 mockito = '5.11.0'
 picocli = '4.7.5'
 slf4j = '2.0.7'
+springDependencyManagement = '1.1.4'
 systemRules = '1.19.0'
 systemLambda = '1.2.1'
 spring = '6.1.5'
@@ -70,6 +71,7 @@ vavr = { module = "io.vavr:vavr", version.ref = "vavr" }
 
 
 [plugins]
+dependency-management = { id = "io.spring.dependency-management", version.ref="springDependencyManagement" }
 versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
 kordamp-jacoco = { id = "org.kordamp.gradle.jacoco", version = "0.54.0" }

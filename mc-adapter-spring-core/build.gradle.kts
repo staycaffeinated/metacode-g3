@@ -10,6 +10,8 @@ dependencies {
     api(project(":mc-annotations"))
     api(project(":mc-adapter-spring-shared"))
 
+    implementation(libs.spring.core)
+    implementation(libs.spring.context)
     implementation(libs.commonsConfig)
     implementation(libs.commonsIo)
     implementation(libs.commonsLang3)
@@ -20,7 +22,8 @@ dependencies {
     implementation(libs.slf4jApi)
     implementation(libs.jakartaInject)
 
-    testImplementation(platform(libs.junitBillOfMaterial))
+    // testImplementation(platform(libs.junitBillOfMaterial)) Spring manages this
+    testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junitSystemRules)
     testImplementation(libs.truth)

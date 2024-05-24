@@ -1,0 +1,26 @@
+catalogName: "common-stuff"
+entries:
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/common/README.ftl"
+        destination: "README.adoc"
+  - scope: "project"
+    prototype: "Text"
+    facets:
+     - facet: "main"
+       sourceTemplate: "/docker/DockerCompose.ftl"
+       destination: "docker/docker-compose.yml"
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/lombok/lombokConfig.ftl"
+        destination: "lombok.config"
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/common/DotGitIgnore.ftl"
+        destination: ".gitignore"

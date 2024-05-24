@@ -21,6 +21,7 @@ import mmm.coffee.metacode.common.catalog.ICatalogReader;
 import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
+import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -78,7 +79,7 @@ class SpringWebMvcTemplateCatalogTest {
     @Test
     void shouldThrowExceptionWhenCatalogPathIsNull() {
         var obj = new FakeTemplateCatalog(new CatalogFileReader());
-        assertThrows(NullPointerException.class, obj::invokeCollectGeneralCatalogsAndThisOne);
+        assertThrows(RuntimeApplicationError.class, obj::invokeCollectGeneralCatalogsAndThisOne);
     }
 
     @Test

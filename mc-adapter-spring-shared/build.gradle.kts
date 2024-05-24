@@ -1,6 +1,7 @@
 plugins {
     id("buildlogic.java-library-conventions")
     id("buildlogic.versioning")
+    id("buildlogic.integration-test")
     alias(libs.plugins.lombok)
     alias(libs.plugins.versions)
 }
@@ -12,4 +13,6 @@ dependencies {
     implementation(libs.freemarker)
     implementation(libs.guice)
     implementation(libs.jacksonYaml)
+
+    testImplementation(libs.spring.boot.starter.test)
 }

@@ -68,7 +68,7 @@ public class SpringEndpointCatalog implements Collector {
         List<CatalogEntry> resultSet = new ArrayList<>();
         for (String catalog : appliedCatalogs) {
             try {
-                resultSet.addAll(reader.readCatalogFile(catalog));
+                resultSet.addAll(reader.readCatalog(catalog).getEntries());
             } catch (IOException e) {
                 throw new RuntimeApplicationError(String.format("Error reading endpoint catalog file: %s", e.getMessage()), e);
             }

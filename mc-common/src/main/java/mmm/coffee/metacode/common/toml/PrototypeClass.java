@@ -35,6 +35,10 @@ public enum PrototypeClass {
     UnprocessableEntityException,
     CustomRepository,
     GenericDataStore,
+    OnUpdateField,
+    OnCreateField,
+    DefaultController, // handles '/' path
+    DefaultService,
 
     UNDEFINED;
     // For values that don't map to a known key.

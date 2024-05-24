@@ -17,6 +17,8 @@ package mmm.coffee.metacode.spring.project.converter;
 
 import com.google.common.base.Predicate;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
+import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import org.junit.jupiter.api.BeforeEach;
@@ -165,11 +167,16 @@ class DescriptorToPredicateConverterTest {
      * Helper method to build a CatalogEntry with tags
      */
     private CatalogEntry buildCatalogEntry(String source, String destination, String tags) {
-        CatalogEntry entry = new CatalogEntry();
-        entry.setContext("project");
-        entry.setTemplate(source);
-        entry.setDestination(destination);
-        entry.setTags(tags);
+        CatalogEntry entry = CatalogEntryBuilder
+                .builder()
+                .scope("project")
+                .addFacet(TemplateFacetBuilder.builder()
+                        .facet("main")
+                        .source(source)
+                        .destination(destination)
+                        .build())
+                .tags(tags)
+                .build();
         return entry;
     }
 

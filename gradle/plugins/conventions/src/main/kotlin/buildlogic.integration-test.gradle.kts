@@ -14,7 +14,8 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
     group = "verification"
     useJUnitPlatform()
 
-    classpath = configurations[integrationTest.runtimeClasspathConfigurationName] + integrationTest.output
+    // Including sourceSets.main.output enables integration tests to have visibility to `src/main/resources`
+    classpath = configurations[integrationTest.runtimeClasspathConfigurationName] + integrationTest.output + sourceSets.main.get().output
     testClassesDirs = integrationTest.output.classesDirs
 }
 tasks.named("integrationTest") {

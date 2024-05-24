@@ -1,0 +1,156 @@
+
+Change internal calls to return CallableFuture<>. 
+
+----
+
+Remove Optional<String> parameter in controller -> service instances;
+just use optiona.getOrElse(EMPTY_STRING);
+We still want Optional<String> as the query parameter; 
+
+----
+
+Can we introduce a Strategy pattern and feature flag to
+keep g2 behavior and turn on g3 behavior while migrating??
+That would enable maintenance on G2 templates while working
+thru the minutea of G3
+
+----
+
+Add `branding` property and use it in plugin names;
+eg: org.example.application-conventions.gradle 
+or  buildlogic.application-conventions.gradle
+or  mycompany.application-conventions.gradle
+
+so : {{branding}}.application-conventions.gradle
+
+-----
+In build.gradle, 
+1) we don't need to import SpringORM.
+2) we don't need `testImpl(platform(libs.junitBom))`; spring manages it for use
+3) we don't need `testImpl(platform(libs.testContainersBom))`; spring manages it now
+
+
+Add hibernate @SoftDelete annotation so deletes only tombstone records
+
+also:
+
+Add hibernate @DynamicUpdate annotationt to Entity classes.
+
+----[java]
+import org.hibernate.annotations.DynamicUpdate;
+
+@Entity
+@DynamicUpdate
+public class Pet { 
+
+}
+----
+
+
+
+The generated SQL only updates modified fields. So, instead of
+
+update PET set name=?, owner=? dob=? where ID=?
+
+hibernate will do, say:
+
+update PEt set owner=? where ID=? 
+
+if only the OWNER column was modified.
+
+
+Consider: 
+-- Add @PrePersist and @PreUpdate.  eg:
+
+@Entity
+public class PersonView {
+
+   @NonNull
+   String resourceId;
+
+   LocalDateTime updateDate;
+   LocalDateTime createDate;
+
+   @PrePersist
+   public void onPrePersist() {
+     this.resourceId = IdGenerator.nextResourceId();
+     this.setCreateDate(LocalDateTime.now())
+     this.setUpdateDate(LocalDateTime.now())
+     }
+
+   @PreUpdate
+   public void onPreUpdate() {
+     this.setUpdateDate(LocalDateTime.now())
+   }
+}
+
+>> Have Entity classes implement Serializable???
+
+>> Add spring-boot-admin-starter-client to dependencies? 
+This provides a nice UI to the actuator info. 
+
+implementation("de.codecentric:spring-boot-admin-starter-client:3.2.3")
+https://github.com/codecentric/spring-boot-admin
+https://docs.spring-boot-admin.com/current/getting-started.html
+
+>> Add ProGuard to app build
+https://developer.android.com/build/shrink-code
+
+Seems more appropriate for Android apps; dunno if it'll add value for us
+
+-----
+
+>> Add hypersistence-utils ?  
+Have to add it add see if we get better query performance or diagnostics
+
+-------
+
+Change class names and hierarchy; eg:
+
+PetPersistenceAdapter
++ upsert(Pet p)
++ remove(Pet p)
+
+PetQueryAdapter:
++ search(String queryString)
++ findByResourceId(ResourceId id)
++ findTopNPets(int limit)
++ findTopNRemovedPets(int limit)
+
+PetPersistenceService:
++ create(Pet)
++ update(Pet)
++ delete(Pet)
+
+PetQueryService:
++ search
++ findById
++ findTop()
+
+
+>>> Can we figure out how to make resourceId a type, so we can do this:
+
+>> Tried this and have it working, but there's a lot of refactoring
+around ResourceId API. Mainly, the tests asserting store.getResourceId().equals(someExpectedStringId)
+which now needs to be getResourceId().get().equals(someStringId) _or_
+store.getResourceId().equals(ResourceId.from(expectedStringId))
+
+public PetDto {
+  ResourceId resourceId;
+
+}
+public class ResourceId {
+  final String resourceId;
+}
+with automatic conversion of ResourceId to String ?
+
+
+------
+
+Add DataFaker library to test dependencies and use that to generate fake values. 
+It'll provide more variety and be likely to be leveraged to build out the app.
+
+------
+
+Change plugin namespace from `org.example` to `buildlogic`
+

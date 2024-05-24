@@ -15,14 +15,26 @@
  */
 package mmm.coffee.metacode.common.catalog;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import lombok.NonNull;
-import org.yaml.snakeyaml.Yaml;
+import lombok.extern.slf4j.Slf4j;
+import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+
+import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX;
+import static org.springframework.util.ResourceUtils.FILE_URL_PREFIX;
 
 /**
  * The {@code CatalogFileReader} reads the catalog files containing
@@ -50,51 +62,31 @@ import java.util.Objects;
  * catalog of templates to process. (Some filtering is supported since a code
  * generator can exclude templates not to render, based on command-line options.)
  * <p>
- * Idea on adding Keywords attribute:
- * https://github.com/helm/helm/issues/7771
+ * Side note: An idea on adding Keywords attribute to catalog entries:
+ * <a href="https://github.com/helm/helm/issues/7771">helm search by keywords</a>
  */
+@Component
+@Slf4j
 public class CatalogFileReader implements ICatalogReader {
 
-    /*
-     * These are the keys expected to be defined in the catalog.yaml file
-     */
-    private static final String CATALOG_KEY = "catalog";
-    private static final String CATALOG_ENTRY_KEY = "entry";
-    private static final String CONTEXT_KEY = "context";
-    private static final String TEMPLATE_KEY = "template";
-    private static final String DESTINATION_KEY = "destination";
-    private static final String FEATURE_KEY = "feature";
-
+    private final ResourceLoader resourceLoader;
 
     /**
-     * Constructor
+     * Default constructor
      */
     public CatalogFileReader() {
-        // empty; no instance variables are needed
+        resourceLoader = new DefaultResourceLoader();
     }
 
-    @SuppressWarnings("unchecked")
     /**
-     * Reads the values loaded by YAML into a CatalogEntry object
-     * @param map these are the values from the yaml file
+     * Constructor with a preferred `resourceLoader`.
      */
-    private static CatalogEntry readCatalogEntry(Map<String, Object> map) {
-        var catalogEntry = new CatalogEntry();
-        Map<String, Object> values = (Map<String, Object>) map.get(CATALOG_ENTRY_KEY);
-
-        catalogEntry.setDestination((String) values.get(DESTINATION_KEY));
-        catalogEntry.setTemplate((String) values.get(TEMPLATE_KEY));
-        catalogEntry.setContext((String) values.get(CONTEXT_KEY));   // context is either: project or endpoint
-
-        // NB: In the YAML file, the field is currently named 'features'
-        // We want to rename this field to 'tags'.  In the CatalogEntry,
-        // get/setTags is used; the YAML files have not yet been updated.
-        catalogEntry.setTags((String) values.get(FEATURE_KEY));
-
-        return catalogEntry;
+    @Autowired
+    public CatalogFileReader(@NonNull ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
     }
 
-    /**
+    /*
      * Reads the given catalog file, returning the content
      * as CatalogEntry's.  The {@code catalogClassPath} will
      * look something like "/spring/catalogs/spring-boot.yml"
@@ -103,17 +95,47 @@ public class CatalogFileReader implements ICatalogReader {
      * @param catalogClassPath the resource path of the catalog.yaml file
      * @return the entries of the catalog, as a list of CatalogEntry
      */
-    @SuppressWarnings("unchecked")
-    public List<CatalogEntry> readCatalogFile(@NonNull String catalogClassPath) throws IOException {
-        try (InputStream is = this.getClass().getResourceAsStream(catalogClassPath)) {
-            // Fail fast if the file isn't found
+    public TemplateCatalog readCatalog(@NonNull String catalogClassPath) {
+        ObjectMapper objectMapper = getYamlFriendlyObjectMapper();
+        try (InputStream is = loadResourceAsInputStream(catalogClassPath)) {
+            // fail fast if file isn't found
             Objects.requireNonNull(is, String.format("The catalog file, '%s', was not found. Verify the resource exists at the given path.", catalogClassPath));
-
-            // Load the yaml content as CatalogEntry items
-            var yaml = new Yaml();
-            Map<String, Object> obj = yaml.load(is);
-            List<Map<String, Object>> entries = (List<Map<String, Object>>) obj.get(CATALOG_KEY);
-            return entries.stream().map(CatalogFileReader::readCatalogEntry).toList();
+            return objectMapper.readValue(is, TemplateCatalog.class);
+        } catch (IOException e) {
+            String msg = String.format("Unable to read catalog file: %s", catalogClassPath);
+            throw new RuntimeApplicationError(msg, e);
         }
+    }
+
+    private ObjectMapper getYamlFriendlyObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+
+        /*
+         * This can also be set at class-level with an annotation: @JsonIgnoreProperties(ignoreUnknown = true)
+         */
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true);
+        return mapper;
+    }
+
+    /**
+     * Load either a file resource. The path can be a file protocol (e.g.: "file:/path/to/the/file")
+     * or classpath protocol (eg: "classpath:/path/to/file").  If neither of these protocols
+     * are used, `classpath:` is the default protocol.
+     */
+    private InputStream loadResourceAsInputStream(@NonNull String resourcePath) throws IOException {
+        if (!pathStartsWithProtocol(resourcePath)) {
+            resourcePath = CLASSPATH_URL_PREFIX + resourcePath;
+        }
+        Resource resource = resourceLoader.getResource(resourcePath);
+        if (resource.exists()) {
+            return resource.getInputStream();
+        }
+        throw new FileNotFoundException(resourcePath);
+    }
+
+    private boolean pathStartsWithProtocol(String value) {
+        if (value.startsWith(FILE_URL_PREFIX)) return true;
+        return value.startsWith(CLASSPATH_URL_PREFIX);
     }
 }

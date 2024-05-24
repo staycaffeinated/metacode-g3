@@ -5,6 +5,8 @@ package mmm.coffee.metacode.spring.endpoint.generator;
 
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
+import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.exception.CreateEndpointUnsupportedException;
@@ -166,11 +168,14 @@ class SpringEndpointGeneratorTests {
          * Builds a single CatalogEntry
          */
         private static CatalogEntry buildEntry(String source, String destination, String tags) {
-            CatalogEntry entry = new CatalogEntry();
-            entry.setTemplate(source);
-            entry.setDestination(destination);
-            entry.setTags(tags);
-            entry.setContext(MetaTemplateModel.Key.ENDPOINT.value());
+            CatalogEntry entry = CatalogEntryBuilder.builder()
+                    .addFacet(TemplateFacetBuilder.builder()
+                            .source(source)
+                            .destination(destination)
+                            .build())
+                    .scope(MetaTemplateModel.Key.ENDPOINT.value())
+                    .tags(tags)
+                    .build();
             return entry;
         }
 

@@ -1,5 +1,7 @@
 /*
  * This plugin adds the facet 'integrationTest' to a module.
+ *
+ * THIS IS BROKEN. NOT SURE WHY GRADLE BALKS AT IT
  */
 plugins {
     id("java-library")

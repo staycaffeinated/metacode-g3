@@ -23,8 +23,7 @@ dependencies {
     implementation(libs.jacksonYaml)
     implementation(libs.slf4jApi)
     implementation(libs.jakartaInject)
-
-    // test 
+    
     testImplementation(platform(libs.junitBillOfMaterial))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junitSystemRules)

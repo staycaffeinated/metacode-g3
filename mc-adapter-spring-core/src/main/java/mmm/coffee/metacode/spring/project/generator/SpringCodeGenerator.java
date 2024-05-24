@@ -107,6 +107,7 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
      * a) the file source of the template mark-up
      * b) the file destination of the rendered template
      */
+    @SuppressWarnings("java:S1135") // ignore TODO blocks for now
     public int generateCode(RestProjectDescriptor descriptor) {
         log.debug("generateCode: descriptor: {}", descriptor);
         // Build the TemplateModel consumed by Freemarker to resolve template variables
@@ -126,13 +127,16 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
 
         // Render the templates
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
-            log.debug("template path: {}", it.getTemplate());
+            log.debug("template path: {}", it.getFacets().get(0).getSourceTemplate());
             // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
+            /* TODO: Adapt to new object structure
             outputHandler.writeOutput(
                     // CatalogEntry's use mustache expressions for destinations;
                     // we need to translate that expression to its actual path
                     mustacheDecoder.decode(it.getDestination()),
                     templateRenderer.render(it.getTemplate(), templateModel));
+
+             */
         });
 
         return ExitCodes.OK;

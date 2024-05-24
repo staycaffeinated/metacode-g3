@@ -72,7 +72,7 @@ class SpringEndpointCatalogTests {
     void shouldWrapAnyExceptionAsRuntimeApplicationError() throws Exception {
         // given: a CatalogFileReader that eagerly throws IOExceptions
         var mockReader = Mockito.mock(CatalogFileReader.class);
-        when(mockReader.readCatalogFile(anyString())).thenThrow(IOException.class);
+        when(mockReader.readCatalog(anyString())).thenThrow(IOException.class);
 
         // given: a catalog that uses this iffy reader...
         var catalog = new SpringEndpointCatalog(mockReader);

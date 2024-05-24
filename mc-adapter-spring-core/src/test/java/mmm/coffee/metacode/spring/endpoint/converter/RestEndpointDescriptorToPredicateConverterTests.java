@@ -5,6 +5,8 @@ package mmm.coffee.metacode.spring.endpoint.converter;
 
 import com.google.common.base.Predicate;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
+import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,24 +55,41 @@ class RestEndpointDescriptorToPredicateConverterTests {
                 .build();
 
         // An example entry from the spring-webflux catalog
-        webFluxEndpointCE = new CatalogEntry();
-        webFluxEndpointCE.setContext("endpoint");
-        webFluxEndpointCE.setTemplate("/spring/webflux/endpoint/Controller.ftl");
+        webFluxEndpointCE = CatalogEntryBuilder.builder()
+                .scope("endpoint")
+                .addFacet(TemplateFacetBuilder.builder()
+                        .facet("main")
+                        .source("/spring/webflux/endpoint/Controller.ftl")
+                        .build())
+                .build();
 
-        // An example entry from the spring-webmvc catalog
-        webMvcEndpointCE = new CatalogEntry();
-        webMvcEndpointCE.setContext("endpoint");
-        webMvcEndpointCE.setTemplate("/spring/webmvc/endpoint/Controller.ftl");
+        webMvcEndpointCE = CatalogEntryBuilder.builder()
+                .scope("endpoint")
+                .addFacet(TemplateFacetBuilder.builder()
+                        .facet("main")
+                        .source("/spring/webmvc/endpoint/Controller.ftl")
+                        .build())
+                .build();
 
         // An example project-level entry from the spring-webflux catalog
-        webFluxProjectCE = new CatalogEntry();
-        webFluxProjectCE.setContext("project");
-        webFluxProjectCE.setTemplate("/spring/webflux/Application.ftl");
+        webFluxProjectCE = CatalogEntryBuilder.builder()
+                .scope("project")
+                .addFacet(TemplateFacetBuilder.builder()
+                        .facet("main")
+                        .source("/spring/webflux/Application.ftl")
+                        .build())
+                .build();
+
+
 
         // An example project-level entry from the spring-webmvc catalog
-        webMvcProjectCE = new CatalogEntry();
-        webMvcProjectCE.setContext("project");
-        webMvcProjectCE.setTemplate("/spring/webmvc/Application.ftl");
+        webMvcProjectCE = CatalogEntryBuilder.builder()
+                .scope("project")
+                .addFacet(TemplateFacetBuilder.builder()
+                        .facet("main")
+                        .source("/spring/webmvc/Application.ftl")
+                        .build())
+                .build();
     }
 
 

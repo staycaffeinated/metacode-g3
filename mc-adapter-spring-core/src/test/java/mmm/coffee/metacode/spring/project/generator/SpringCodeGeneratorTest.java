@@ -17,6 +17,8 @@ package mmm.coffee.metacode.spring.project.generator;
 
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
+import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
 import mmm.coffee.metacode.common.dependency.Dependency;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
@@ -231,11 +233,15 @@ class SpringCodeGeneratorTest {
          * Builds a single CatalogEntry
          */
         private static CatalogEntry buildEntry(String source, String destination, String tags) {
-            CatalogEntry entry = new CatalogEntry();
-            entry.setTemplate(source);
-            entry.setDestination(destination);
-            entry.setTags(tags);
-            entry.setContext(MetaTemplateModel.Key.PROJECT.value());
+            CatalogEntry entry = CatalogEntryBuilder.builder()
+                    .scope(MetaTemplateModel.Key.PROJECT.value())
+                    .addFacet(TemplateFacetBuilder.builder()
+                            .facet("main")
+                            .source(source)
+                            .destination(destination)
+                            .build())
+                    .tags(tags)
+                    .build();
             return entry;
         }
 

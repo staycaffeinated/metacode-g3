@@ -81,6 +81,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
      * @param descriptor the endpoint metadata that tells us the resource and route to create
      * @return the exit code, with zero indicating success.
      */
+    @SuppressWarnings("java:S1135") // ignore todo stuff for now
     @Override
     public int generateCode(RestEndpointDescriptor descriptor) {
         if (!frameworkIsSupported(descriptor.getFramework())) {
@@ -101,11 +102,14 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Render the templates
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
             // essentially: it -> { writeIt ( renderIt(it) ) }
+            /*  TODO: Refactor to new API
             outputHandler.writeOutput(
                     // CatalogEntry's use mustache expressions for destinations;
                     // we need to translate that expression that to its canonical-ish path
                     mustacheDecoder.decode(it.getDestination()),
                     templateRenderer.render(it.getTemplate(), templateModel));
+
+             */
         });
 
         return ExitCodes.OK;

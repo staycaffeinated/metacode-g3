@@ -1,0 +1,187 @@
+catalogName: "spring-gradle"
+entries:
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/RootProjectBuildDotGradle.ftl"
+        destination: "build.gradle"
+  - scope: "project"
+    prototype: "Text"
+    facets:
+     - facet: "main"
+       sourceTemplate: "/gradle/JavaVersion.ftl"
+       destination: ".java-version"
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/BuildDotGradle.ftl"
+        destination: "{{appModule}}/build.gradle"
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/GradleDotProperties.ftl"
+        destination: "gradle.properties"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/SettingsDotGradle.ftl"
+        destination: "settings.gradle"
+  # ------------------------------------------------
+  # -- Version Catalog
+  # ------------------------------------------------
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/VersionCatalog.ftl"
+        destination: "gradle/libs.versions.toml"
+
+  # ------------------------------------------------
+  # -- PLATFORM
+  # ------------------------------------------------
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/platform/BuildDotGradle.ftl"
+        destination: "gradle/platform/build.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/platform/SettingsDotGradle.ftl"
+        destination: "gradle/platform/settings.gradle"
+
+  # ------------------------------------------------
+  # -- PLUGINS
+  # ------------------------------------------------
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/SettingsDotGradle.ftl"
+        destination: "gradle/plugins/settings.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/BuildDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/build.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/SettingsDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/settings.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/DockerDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.docker.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/JacocoDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.jacoco.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/JavaConventionsDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.java-conventions.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/LintDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.lint.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/SonarJacocoDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.sonar-jacoco.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/SpotlessDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.spotless.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/TestingDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.testing.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/ApplicationConventions.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.application-conventions.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/LibraryConventions.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.library-conventions.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/SubprojectConfigurations.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.subproject-configurations.gradle"
+
+  # ------------------------------------------------
+  # -- SETTINGS
+  # ------------------------------------------------
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/settings/BuildDotGradle.ftl"
+        destination: "gradle/settings/build.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/settings/SettingsDotGradle.ftl"
+        destination: "gradle/settings/settings.gradle"
+
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/gradle/settings/src-main-groovy/RepositoriesDotSettingsDotGradle.ftl"
+        destination: "gradle/settings/src/main/groovy/org.example.repositories.settings.gradle"
+
+  # ------------------------------------------------
+  # -- H2 SCHEMA.SQL
+  # ------------------------------------------------
+  - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/resources/SchemaDotSql.ftl"
+        destination: "{{appModule}}/src/main/resources/schema.sql"

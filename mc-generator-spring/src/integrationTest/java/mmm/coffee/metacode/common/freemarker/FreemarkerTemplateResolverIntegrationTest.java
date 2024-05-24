@@ -6,6 +6,7 @@ package mmm.coffee.metacode.common.freemarker;
 import com.google.common.base.Predicate;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
+import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.stereotype.Collector;
@@ -15,6 +16,8 @@ import mmm.coffee.metacode.spring.project.converter.DescriptorToPredicateConvert
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -88,21 +91,19 @@ class FreemarkerTemplateResolverIntegrationTest {
         Predicate<CatalogEntry> keepThese = converter.convert(projectDescriptor);
         webMvcProject.configureLibraryVersions(dependencyCatalog);
 
-        templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(it -> {
-            var content = resolverUnderTest.render(it.getTemplate(), webMvcProject);
-            // The schema.sql file _can_ be empty, so an exception is made for it
-            if (!it.getTemplate().endsWith("SchemaDotSql.ftl")) {
-                assertThat(content).isNotEmpty();
+        templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(template -> {
+            for (TemplateFacet facet : template.getFacets()) {
+                var content = resolverUnderTest.render(facet.getSourceTemplate(), webMvcProject);
+                // The rendered `schema.sql` file _can_ be blank, so make an exception for that.
+                // Otherwise, ensure something was rendered
+                if (!facet.getSourceTemplate().endsWith("SchemaDotSql.ftl")) {
+                    assertThat(content).isNotEmpty();
+                }
             }
         });
     }
 
-    // --------------------------------------------------------------------------------------------
-    //
-    // Helper code
-    //
-    // --------------------------------------------------------------------------------------------
-
+    
     /**
      * This test takes a RestTemplateModel and uses it to render every WebMvc-based template.
      */
@@ -113,11 +114,14 @@ class FreemarkerTemplateResolverIntegrationTest {
         Predicate<CatalogEntry> keepThese = converter.convert(projectDescriptor);
         webFluxProject.configureLibraryVersions(dependencyCatalog);
 
-        templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(it -> {
-            var content = resolverUnderTest.render(it.getTemplate(), webFluxProject);
-            // The schema.sql file _can_ be empty, so an exception is made for it
-            if (!it.getTemplate().endsWith("SchemaDotSql.ftl")) {
-                assertThat(content).isNotEmpty();
+        templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(template -> {
+            for (TemplateFacet facet : template.getFacets()) {
+                var content = resolverUnderTest.render(facet.getSourceTemplate(), webFluxProject);
+                // The rendered `schema.sql` file _can_ be blank, so make an exception for that.
+                // Otherwise, ensure something was rendered
+                if (!facet.getSourceTemplate().endsWith("SchemaDotSql.ftl")) {
+                    assertThat(content).isNotEmpty();
+                }
             }
         });
     }

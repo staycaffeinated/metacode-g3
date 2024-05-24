@@ -35,7 +35,7 @@ public class CatalogEntryPredicates {
      * and contains no tags
      */
     public static Predicate<CatalogEntry> isCommonProjectArtifact() {
-        return p -> p.getContext() != null && p.getContext().contains("project")
+        return p -> p.getScope() != null && p.getScope().contains("project")
                 && (p.getTags() == null || p.getTags().isBlank());
     }
 
@@ -43,42 +43,42 @@ public class CatalogEntryPredicates {
      * Returns {@code true} if the CatalogEntry is for an endpoint artifact
      */
     public static Predicate<CatalogEntry> isEndpointArtifact() {
-        return p -> p.getContext() != null && p.getContext().contains("endpoint");
+        return p -> p.getScope() != null && p.getScope().contains("endpoint");
     }
 
     /**
      * Returns {@code true} if the CatalogEntry is for a webflux artifact
      */
     public static Predicate<CatalogEntry> isWebFluxArtifact() {
-        return p -> p.getTemplate() != null && p.getTemplate().contains("/webflux/");
+        return CatalogEntryPredicates::isWebFluxTemplate;
     }
 
     /**
      * Returns {@code true} if the CatalogEntry is for a webmvc artifact
      */
     public static Predicate<CatalogEntry> isWebMvcArtifact() {
-        return p -> p.getTemplate() != null && p.getTemplate().contains("/webmvc/");
+        return CatalogEntryPredicates::isWebMvcTemplate;
     }
 
     /**
      * Returns {@code true} if the CatalogEntry's tags includes {@code postgres}
      */
     public static Predicate<CatalogEntry> hasPostgresTag() {
-        return p -> p.getTags() != null && p.getTags().contains("postgres");
+        return p -> containsTag(p, "postgres");
     }
 
     /**
      * Returns {@code true} if the CatalogEntry's tags includes {@code postgres}
      */
     public static Predicate<CatalogEntry> hasTestContainerTag() {
-        return p -> p.getTags() != null && p.getTags().contains("testcontainer");
+        return p -> containsTag(p, "testcontainer");
     }
 
     /**
      * Returns {@code true} if the CatalogEntry's tags includes {@code liquibase}
      */
     public static Predicate<CatalogEntry> hasLiquibaseTag() {
-        return p -> p.getTags() != null && p.getTags().contains("liquibase");
+        return p -> containsTag(p, "liquibase");
     }
 
     /**
@@ -93,5 +93,28 @@ public class CatalogEntryPredicates {
         return entries.stream()
                 .filter(predicate)
                 .collect(Collectors.<CatalogEntry>toSet());
+    }
+
+    private static boolean containsTag(CatalogEntry entry, String text) {
+        return entry.getTags() != null && entry.getTags().contains(text);
+    }
+
+    @SuppressWarnings("java:S1135") // don't nag about to do items
+    /*
+     * TODO: Find something more reliable than using the path to determine
+     *  the intent of the template.
+     */
+    private static boolean isWebFluxTemplate(CatalogEntry entry) {
+        if (!entry.getFacets().isEmpty()) {
+            return entry.getFacets().get(0).getSourceTemplate().contains("/webflux/");
+        }
+        return false;
+    }
+
+    private static boolean isWebMvcTemplate(CatalogEntry entry) {
+        if (!entry.getFacets().isEmpty()) {
+            return entry.getFacets().get(0).getSourceTemplate().contains("/webmvc/");
+        }
+        return false;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Jon Caulfield
+ * Copyright 2022-2024 Jon Caulfield
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,55 @@
  */
 package mmm.coffee.metacode.common.catalog;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CatalogEntry
+ *
+ * See: <a href="https://howtodoinjava.com/jackson/ignore-null-empty-absent-values/">Ignoring values</a>
+ * for details on how the `Include` annotation works.
  */
 @Data
-@ExcludeFromJacocoGeneratedReport
+@JsonIgnoreProperties(ignoreUnknown = true)
+// The code doesn't care what order the properties are in,
+// but this order is easier to read.
+@JsonPropertyOrder({"scope","prototype","facets"})
 public class CatalogEntry {
-    String template;
-    String destination;
-    String context;
-    String tags;
+    /*
+     * This `scope` tells us if a template is applied to a project or endpoint.
+     * The scope can only be `project` or `endpoint`
+     */
+    private String scope;
+
+    /*
+     * The `archetype` references the "meta-class", as it were, that can be queried
+     * to determine things like:
+     *  - the simple classname
+     *  - the fully-qualified classname
+     *  - the package name
+     *  - the canonical filename of the file emitted by the template (eg, application/src/main/java/org/example/Application.java)
+     */
+    private Archetype archetype; // Controller, Service, etc.
+
+    /*
+     * The `facet` tells us, for a given template, whether the template (and emitted file)
+     * are for the "main", "test" or "integrationTest" facets.
+     */
+    private List<TemplateFacet> facets = new ArrayList<>();
+
+    /*
+     * A comma-separated list of tags applied to a template; such as `postgres` or `mongodb`
+     * These tags act as qualifiers (or only-when conditions) to indicate when the template is used.
+     * For example, when the tag `postgres` is present, then postgres-specific templates
+     * are included.
+     */
+    private String tags;
 }

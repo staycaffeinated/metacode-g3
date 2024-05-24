@@ -17,6 +17,7 @@ package mmm.coffee.metacode.common.catalog;
 
 import lombok.NonNull;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,14 +25,12 @@ import java.util.List;
  * with defined fields. A catalog file contains a list of {@code CatalogEntry}'s.
  */
 public interface ICatalogReader {
+
     /**
-     * Reads the {@code CatalogEntry}'s from the YAML file found at {@code catalogResourcePath}.
-     *
-     * @param catalogResourcePath the resource path (classpath) to the yaml file to read.
-     *                            For example, "/spring/catalogs/common-stuff.yml" or
-     *                            "/spring/catalogs/spring-boot.yml"
-     * @return
-     * @throws java.io.IOException
+     * Reads the given catalog file.
+     * @param catalogYamlFile the file to read; this must be a yaml file
+     * @return a TemplateCatalog containing the content of the yaml file
+     * @throws IOException if the file cannot be read (for example, if it's not found)
      */
-    List<CatalogEntry> readCatalogFile(@NonNull String catalogResourcePath) throws java.io.IOException;
+    TemplateCatalog readCatalog(@NonNull String catalogYamlFile) throws IOException;
 }
