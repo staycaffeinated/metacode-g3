@@ -11,6 +11,34 @@ entries:
         destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/ApplicationTests.java"
 
   - scope: "project"
+    prototype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/resources/ApplicationDotProperties.ftl"
+        destination: "{{appModule}}/src/main/resources/application.properties"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/resources/ApplicationTestDotYaml.ftl"
+        destination: "{{appModule}}/src/test/resources/application-test.yaml"
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/resources/ValidationMessages.ftl"
+        destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"
+
+
+  - scope: "project"
+    prototype: "Text"
+    feature: "liquibase"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/resources/db/liquibase/db.changelog-master.ftl"
+        destination: "{{appModule}}/src/main/resources/db/changelog/db.changelog-master.yaml"
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/resources/db/liquibase/db.changelog-001-create-schema.ftl"
+        destination: "{{appModule}}/src/main/resources/db/changelog/db.changelog-001-create-schema.sql"
+
+
+
+
+  - scope: "project"
     prototype: "ExceptionHandler"
     facets:
       - facet: "main"
@@ -209,6 +237,40 @@ entries:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/resources/CreateSchemaDotSql.ftl"
         destination: "{{appModule}}/src/integrationTest/resources/create-schema.sql"
+
+  - scope: "project"
+    prototype: "RootController"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint-root/RootController.ftl"
+        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/root/RootController.java"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/endpoint-root/RootControllerTest.ftl"
+        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/RootControllerIT.ftl"
+        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/root/RootControllerIT.java"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
+        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/root/RootExceptionHandlingIT.java"
+
+  - scope: "project"
+    prototype: "RootService"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint-root/RootService.ftl"
+        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/root/RootService.java"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/endpoint-root/RootServiceTest.ftl"
+        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/root/RootServiceTest.java"
+
+  - scope: "project"
+    prototype: "AbstractIntegrationTest"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate:  "/spring/webmvc/integrationTest/common/AbstractIntegrationTest.ftl"
+        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/common/AbstractIntegrationTest.java"
+
 
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts

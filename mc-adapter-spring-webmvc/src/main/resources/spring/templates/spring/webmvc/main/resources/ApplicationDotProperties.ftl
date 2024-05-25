@@ -19,7 +19,6 @@ server.port=8080
 # https://stackoverflow.com/questions/36733254/spring-boot-rest-how-to-configure-404-resource-not-found
 # https://reflectoring.io/spring-boot-exception-handling/
 # -------------------------------------------------------------------------------------------------------
-spring.mvc.throw-exception-if-no-handler-found=true
 spring.web.resources.add-mappings=false
 
 
