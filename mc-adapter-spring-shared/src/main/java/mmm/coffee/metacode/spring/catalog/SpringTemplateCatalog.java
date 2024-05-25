@@ -16,6 +16,7 @@
 package mmm.coffee.metacode.spring.catalog;
 
 import lombok.NonNull;
+import mmm.coffee.metacode.annotations.guice.SpringWebFlux;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
 import mmm.coffee.metacode.common.catalog.TemplateCatalog;
@@ -23,9 +24,7 @@ import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.common.stereotype.Collector;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -35,15 +34,15 @@ import java.util.Set;
 // S125: we're OK with comments that look like code
 public abstract class SpringTemplateCatalog implements Collector {
 
-    public static final String WEBFUX_CATALOG = "/spring/catalogs/spring-webflux.yml";
+    public static final String WEBFLUX_CATALOG = "/spring/catalogs/spring-webflux.yml";
 
     public static final String WEBMVC_CATALOG = "/spring/catalogs/v3/spring-webmvc-v3.yml";
     public static final String WEBMVC_MONGODB_CATALOG = "/spring/catalogs/v3/spring-webmvc-mongodb-v3.yml";
 
 
     private static final String[] COMMON_CATALOGS = {
-            "/spring/catalogs/common-stuff.yml",
-            "/spring/catalogs/spring-gradle.yml"
+            "/spring/catalogs/v2/common-stuff.yml",
+            "/spring/catalogs/v2/spring-gradle.yml"
     };
 
     final ICatalogReader reader;
@@ -76,5 +75,17 @@ public abstract class SpringTemplateCatalog implements Collector {
             }
         }
         return resultSet.stream().toList();
+    }
+
+    public Set<String> catalogs() {
+        Set<String> candidates = new TreeSet<>();
+        // Doing catalogs.stream().toList() is CPU expensive.
+        for (String commonCatalog : COMMON_CATALOGS) {
+            candidates.add(commonCatalog);
+        }
+        candidates.add(WEBMVC_CATALOG);
+        candidates.add(WEBMVC_MONGODB_CATALOG);
+        candidates.add(WEBFLUX_CATALOG);
+        return candidates;
     }
 }

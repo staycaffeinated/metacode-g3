@@ -56,14 +56,14 @@ public class SpringWebMvcTemplateCatalog extends SpringTemplateCatalog {
 
     @Override
     public Collector prepare(Descriptor descriptor) {
-        log.debug("[beforeCollection] entered...");
+        log.debug("[prepare] starting 'prepare' step of life-cycle...");
         boolean useMongoDbCatalog = false;
         if (descriptor instanceof RestProjectDescriptor restProjectDescriptor) {
             if (restProjectDescriptor.getIntegrations().contains(SpringIntegrations.MONGODB.name())) {
                 useMongoDbCatalog = true;
             }
         } else if (descriptor instanceof RestEndpointDescriptor restEndpointDescriptor) {
-            log.debug("[beforeCollection] isWithMongoDb: {}", restEndpointDescriptor.isWithMongoDb());
+            log.debug("[prepare] isWithMongoDb: {}", restEndpointDescriptor.isWithMongoDb());
             useMongoDbCatalog = true;
         }
         if (useMongoDbCatalog)

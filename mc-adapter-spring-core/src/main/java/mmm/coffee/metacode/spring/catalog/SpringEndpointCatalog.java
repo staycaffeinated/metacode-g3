@@ -25,7 +25,7 @@ import java.util.List;
 public class SpringEndpointCatalog implements Collector {
 
     private static final String[] ENDPOINT_CATALOGS = {
-            SpringTemplateCatalog.WEBFUX_CATALOG,
+            SpringTemplateCatalog.WEBFLUX_CATALOG,
             SpringTemplateCatalog.WEBMVC_CATALOG,
             SpringTemplateCatalog.WEBMVC_MONGODB_CATALOG
     };
@@ -40,7 +40,7 @@ public class SpringEndpointCatalog implements Collector {
         // Select the catalog to apply based on the framework and database flavor
         if (descriptor instanceof RestEndpointDescriptor restEndpointDescriptor) {
             if (restEndpointDescriptor.isWebFlux()) {
-                appliedCatalogs.add(SpringTemplateCatalog.WEBFUX_CATALOG);
+                appliedCatalogs.add(SpringTemplateCatalog.WEBFLUX_CATALOG);
             } else {
                 if (restEndpointDescriptor.isWithMongoDb()) {
                     appliedCatalogs.add(SpringTemplateCatalog.WEBMVC_MONGODB_CATALOG);

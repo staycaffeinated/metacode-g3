@@ -3,16 +3,6 @@ annotationProcessor libs.springBootConfigProcessor
 
 developmentOnly libs.springDevTools
 
-/**
-* If springboot 3.1.0 is used, you must include the latest spring-orm library.
-* The older spring-orm library refers to PostgreSQL95Dialect which is deprecated
-* and has been removed since at least hibernate-core:6.2.2.Final,
-* so the application hits a ClassNotFoundException: PostgresSQL95Dialect exception.
-* The correct dialect is PostgresPlusDialect, but one of the older spring-orm
-* classes has a hard-coded ref to PostgreSQL95Dialect. This is resolved in spring-orm:6.0.10.
-*/
-implementation libs.springOrm
-
 <#if (project.isWithMongoDb())>
     implementation libs.springBootStarterWeb
     implementation libs.springBootStarterDataMongoDb

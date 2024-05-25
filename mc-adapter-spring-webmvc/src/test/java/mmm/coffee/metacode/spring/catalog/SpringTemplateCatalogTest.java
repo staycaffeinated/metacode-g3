@@ -52,7 +52,6 @@ class SpringTemplateCatalogTest {
          * The catalog needs to be converted to the new format for this test to pass.
          */
         List<CatalogEntry> resultSet = catalogUnderTest.collect();
-        assertThat(resultSet).isNotNull();
-        assertThat(resultSet.size()).isGreaterThan(0);
+        assertThat(resultSet).isNotNull().isNotEmpty();
     }
 }

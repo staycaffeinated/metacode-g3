@@ -20,6 +20,8 @@ import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.trait.CollectTrait;
 
+import java.util.Set;
+
 /**
  * Stereotype for Collectors of CatalogEntries
  */
@@ -32,5 +34,9 @@ public interface Collector extends CollectTrait<CatalogEntry> {
      */
     default Collector prepare(Descriptor descriptor) {
         return this;
+    }
+
+    default Set<String> catalogs() {
+        return Set.of();
     }
 }

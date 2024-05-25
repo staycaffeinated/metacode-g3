@@ -110,6 +110,13 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
     @SuppressWarnings("java:S1135") // ignore TODO blocks for now
     public int generateCode(RestProjectDescriptor descriptor) {
         log.debug("generateCode: descriptor: {}", descriptor);
+
+        if (log.isInfoEnabled()) {
+            for (String cname : collector.catalogs()) {
+                log.info("[generateCode]: candidate catalog: {}", cname);
+            }
+        }
+
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = RestProjectTemplateModelFactory.create()
                 .usingDependencyCatalog(dependencyCatalog)
@@ -126,17 +133,16 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
         mustacheDecoder.configure(templateModel);
 
         // Render the templates
-        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
-            log.debug("template path: {}", it.getFacets().get(0).getSourceTemplate());
-            // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
-            /* TODO: Adapt to new object structure
-            outputHandler.writeOutput(
-                    // CatalogEntry's use mustache expressions for destinations;
-                    // we need to translate that expression to its actual path
-                    mustacheDecoder.decode(it.getDestination()),
-                    templateRenderer.render(it.getTemplate(), templateModel));
+        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
+            log.debug("Processing the catalogEntry having sourceTemplate: {}", catalogEntry.getFacets().get(0).getSourceTemplate());
 
-             */
+            // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
+            catalogEntry.getFacets().forEach(facet -> {
+                String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
+                // Destinations may have mustache expressions that need to be decoded
+                String outputFileName = mustacheDecoder.decode(facet.getDestination());
+                outputHandler.writeOutput(outputFileName, renderedContent);
+            });
         });
 
         return ExitCodes.OK;

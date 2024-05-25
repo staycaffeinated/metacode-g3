@@ -25,7 +25,7 @@ public class DescriptorToMetaProperties implements ConvertTrait<RestProjectDescr
         map.put(MetaProperties.FRAMEWORK, descriptor.getFramework());
         map.put(MetaProperties.SCHEMA, descriptor.getSchema());
 
-        log.info("[convert] descriptor.schema: {}", descriptor.getSchema());
+        log.debug("[convert] descriptor.schema: {}", descriptor.getSchema() == null ? "None given" : descriptor.getSchema());
 
         if (descriptor.getIntegrations().contains(SpringIntegrations.POSTGRES.name())) {
             map.put(MetaProperties.ADD_POSTGRESQL, Boolean.TRUE);
