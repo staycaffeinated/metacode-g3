@@ -141,7 +141,7 @@ public class SpringGeneratorModule extends AbstractModule {
                 .build();
     }
 
-    @Bean
+    @Bean("restEndpointGenerator")
     @RestEndpointGeneratorProvider
     ICodeGenerator<RestEndpointDescriptor> providesRestEndpointGenerator() {
         var converterO1 = new RestEndpointTemplateModelToMapConverter();

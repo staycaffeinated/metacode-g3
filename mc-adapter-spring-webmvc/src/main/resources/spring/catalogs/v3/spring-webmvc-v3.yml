@@ -271,6 +271,12 @@ entries:
         sourceTemplate:  "/spring/webmvc/integrationTest/common/AbstractIntegrationTest.ftl"
         destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/common/AbstractIntegrationTest.java"
 
+  - scope: "project"
+    prototype: "DataStoreApi"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/spi/DataStore.ftl"
+        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/DataStore.java"
 
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
@@ -295,17 +301,9 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/ObjectDataStore.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStore.java"
-
-  - scope: "endpoint"
-    prototype: "EndpointDataStore"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/spi/DataStore.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/DataStore.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/database/DataStoreTests.ftl"
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStoreTests.java"
-
 
 
   - scope: "endpoint"

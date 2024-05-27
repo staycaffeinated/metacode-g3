@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.exception.CreateEndpointUnsupportedException;
@@ -97,12 +98,17 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Provide state to the MustacheDecoder so that mustache variables can be resolved.
         mustacheDecoder.configure(templateModel);
 
-        log.debug("[generateCode] collector is-a {}", collector.getClass().getName());
+        log.info("[generateCode] collector is-a {}", collector.getClass().getName());
 
         // Render the templates
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
+            for (TemplateFacet facet : it.getFacets()) {
+                String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
+                String outputFileName = mustacheDecoder.decode(facet.getDestination());
+                outputHandler.writeOutput(outputFileName, renderedContent);
+            }
             // essentially: it -> { writeIt ( renderIt(it) ) }
-            /*  TODO: Refactor to new API
+            /*
             outputHandler.writeOutput(
                     // CatalogEntry's use mustache expressions for destinations;
                     // we need to translate that expression that to its canonical-ish path

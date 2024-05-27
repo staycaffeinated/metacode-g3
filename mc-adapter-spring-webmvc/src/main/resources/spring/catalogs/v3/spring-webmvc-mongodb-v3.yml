@@ -377,7 +377,7 @@ entries:
         sourceTemplate: "/spring/webmvc/main/endpoint/MongoRestServiceProvider.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceProvider.java"
       - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/MongoServiceTests.ftl"
+        sourceTemplate: "/spring/webmvc/test/endpoint/MongoServiceTests.ftl"
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceTests.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint/MongoServiceIT.ftl"

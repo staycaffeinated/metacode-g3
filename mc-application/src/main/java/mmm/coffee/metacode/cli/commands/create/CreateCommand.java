@@ -1,6 +1,7 @@
 package mmm.coffee.metacode.cli.commands.create;
 
 import mmm.coffee.metacode.cli.commands.create.project.SubcommandCreateProject;
+import mmm.coffee.metacode.cli.commands.endpoint.SubcommandCreateEndpoint;
 import mmm.coffee.metacode.cli.traits.CallTrait;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
@@ -15,9 +16,8 @@ import picocli.CommandLine;
         mixinStandardHelpOptions = true,
         commandListHeading = "%nCommands:%n",
         optionListHeading = "%nOptions:%n",
-        subcommands = {SubcommandCreateProject.class}
+        subcommands = {SubcommandCreateProject.class, SubcommandCreateEndpoint.class}
 )
 @Component
-@SuppressWarnings("java:S1135") // ignore to-do tasks for now
 public class CreateCommand implements CallTrait {
 }
