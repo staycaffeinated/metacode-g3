@@ -1,7 +1,7 @@
 catalogName: "spring-webmvc"
 entries:
   - scope: "project"
-    prototype: "Application"
+    archetype: "Application"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/Application.ftl"
@@ -11,21 +11,21 @@ entries:
         destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/ApplicationTests.java"
 
   - scope: "project"
-    prototype: "Text"
+    archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/resources/MongoDbApplicationDotProperties.ftl"
         destination: "{{appModule}}/src/main/resources/application.properties"
 
   - scope: "project"
-    prototype: "Text"
+    archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/resources/ValidationMessages.ftl"
         destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"
 
   - scope: "project"
-    prototype: "ExceptionHandler"
+    archetype: "ExceptionHandler"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/advice/GlobalExceptionHandler.ftl"
@@ -35,7 +35,7 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/advice/GlobalExceptionHandlerTests.java"
 
   - scope: "project"
-    prototype: "Exception"
+    archetype: "Exception"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/UnprocessableEntityException.ftl"
@@ -48,42 +48,42 @@ entries:
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/BadRequestException.java"
 
   - scope: "project"
-    prototype: "SpringProfiles"
+    archetype: "SpringProfiles"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/common/SpringProfiles.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/common/SpringProfiles.java"
 
   - scope: "project"
-    prototype: "ApplicationConfiguration"
+    archetype: "ApplicationConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/ApplicationConfiguration.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/ApplicationConfiguration.java"
 
   - scope: "project"
-    prototype: "DateTimeFormatConfiguration"
+    archetype: "DateTimeFormatConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/DateTimeFormatConfiguration.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/DateTimeFormatConfiguration.java"
 
   - scope: "project"
-    prototype: "ProblemConfiguration"
+    archetype: "ProblemConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/ProblemConfiguration.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/ProblemConfiguration.java"
 
   - scope: "project"
-    prototype: "WebMvcConfiguration"
+    archetype: "WebMvcConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/WebMvcConfiguration.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/WebMvcConfiguration.java"
 
   - scope: "project"
-    prototype: "LocalDateConverter"
+    archetype: "LocalDateConverter"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/config/LocalDateConverter.ftl"
@@ -93,21 +93,21 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/config/LocalDateConverterTests.java"
 
   - scope: "project"
-    prototype: "CustomSQLRepository"
+    archetype: "CustomSQLRepository"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/CustomSQLRepository.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/CustomRepository.java"
 
   - scope: "project"
-    prototype: "MongoDataStore"
+    archetype: "MongoDataStore"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/spi/MongoDataStore.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/DataStore.java"
 
   - scope: "project"
-    prototype: "Controller"
+    archetype: "Controller"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint-root/RootController.ftl"
@@ -123,7 +123,7 @@ entries:
         destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/root/RootExceptionHandlingIT.java"
 
   - scope: "project"
-    prototype: "SecurityResponseHeadersFilter"
+    archetype: "SecurityResponseHeadersFilter"
     tags: "security:headers"
     facets:
       - facet: "main"
@@ -131,7 +131,7 @@ entries:
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/filter/SecurityResponseHeadersFilter.java"
 
   - scope: "project"
-    prototype: "SecureRandomSeries"
+    archetype: "SecureRandomSeries"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/math/SecureRandomSeries.ftl"
@@ -141,28 +141,28 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/math/SecureRandomSeriesTests.java"
 
   - scope: "project"
-    prototype: "ResourceIdSupplier"
+    archetype: "ResourceIdSupplier"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/spi/ResourceIdSupplier.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/ResourceIdSupplier.java"
 
   - scope: "project"
-    prototype: "ResourceIdTrait"
+    archetype: "ResourceIdTrait"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/trait/ResourceIdTrait.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/trait/ResourceIdTrait.java"
 
   - scope: "project"
-    prototype: "AlphabeticAnnotation"
+    archetype: "AlphabeticAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/Alphabetic.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/Alphabetic.java"
 
   - scope: "project"
-    prototype: "AlphabeticValidator"
+    archetype: "AlphabeticValidator"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/AlphabeticValidator.ftl"
@@ -172,28 +172,28 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/AlphabeticValidatorTests.java"
 
   - scope: "project"
-    prototype: "OnCreate"
+    archetype: "OnCreate"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnCreate.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/OnCreate.java"
 
   - scope: "project"
-    prototype: "OnUpdate"
+    archetype: "OnUpdate"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnUpdate.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/OnUpdate.java"
 
   - scope: "project"
-    prototype: "ResourceIdAnnotation"
+    archetype: "ResourceIdAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/ResourceId.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/ResourceId.java"
 
   - scope: "project"
-    prototype: "ResourceIdValidator"
+    archetype: "ResourceIdValidator"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/ResourceIdValidator.ftl"
@@ -203,14 +203,14 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/ResourceIdValidatorTests.java"
 
   - scope: "project"
-    prototype: "SearchTextAnnotation"
+    archetype: "SearchTextAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/SearchText.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/SearchText.java"
 
   - scope: "project"
-    prototype: "SearchTextValidator"
+    archetype: "SearchTextValidator"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/SearchTextValidator.ftl"
@@ -220,21 +220,21 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/SearchTextValidatorTests.java"
 
   - scope: "project"
-    prototype: "ContainerConfiguration"
+    archetype: "ContainerConfiguration"
     facets:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/config/MongoContainerConfiguration.ftl"
         destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/config/ContainerConfiguration.java"
 
   - scope: "project"
-    prototype: "RegisterDatabaseProperties"
+    archetype: "RegisterDatabaseProperties"
     facets:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/database/MongoRegisterDatabaseProperties.ftl"
         destination:  "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/database/RegisterDatabaseProperties.java"
 
   - scope: "project"
-    prototype: "Text"
+    archetype: "Text"
     facets:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/resources/CreateSchemaDotSql.ftl"
@@ -246,7 +246,7 @@ entries:
 
 # The restful Resource, as a POJO
   - scope: "endpoint"
-    prototype: "Entity"
+    archetype: "Entity"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/Entity.ftl"
@@ -260,7 +260,7 @@ entries:
 
 # The database representation of the POJO
   - scope: "endpoint"
-    prototype: "Document"
+    archetype: "Document"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/Document.ftl"
@@ -268,7 +268,7 @@ entries:
 
 # the API for the persistence layer. A better name for this class might be, for example, PetPersistenceAdapter.
   - scope: "endpoint"
-    prototype: "DocumentStoreApi"
+    archetype: "DocumentStoreApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreIFace.ftl"
@@ -276,7 +276,7 @@ entries:
 
 # The implementation of the DataStore Api
   - scope: "endpoint"
-    prototype: "DocumentStoreImpl"
+    archetype: "DocumentStoreImpl"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDataStoreProvider.ftl"
@@ -284,7 +284,7 @@ entries:
 
 # A random class to illustrate using predicates for database searches
   - scope: "endpoint"
-    prototype: "EntityWithText"
+    archetype: "EntityWithText"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/predicate/EntityWithText.ftl"
@@ -297,7 +297,7 @@ entries:
 # The POJO representing the restful resource
 #
   - scope: "endpoint"
-    prototype: "EntityResource"
+    archetype: "EntityResource"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
@@ -310,7 +310,7 @@ entries:
 # The document repository class
 #
   - scope: "endpoint"
-    prototype: "Repository"
+    archetype: "Repository"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDbRepository.ftl"
@@ -323,7 +323,7 @@ entries:
 # the pojo-to-document and document-to-pojo converters
 #
   - scope: "endpoint"
-    prototype: "PojoToDocumentConverter"
+    archetype: "PojoToDocumentConverter"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/converter/PojoToDocumentConverter.ftl"
@@ -333,7 +333,7 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/converter/{{entityName}}PojoToDocumentConverterTests.java"
 
   - scope: "endpoint"
-    prototype: "DocumentToPojoConverter"
+    archetype: "DocumentToPojoConverter"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/converter/DocumentToPojoConverter.ftl"
@@ -346,7 +346,7 @@ entries:
 # The controller
 #
   - scope: "endpoint"
-    prototype: "Controller"
+    archetype: "Controller"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/MongoRestController.ftl"
@@ -362,7 +362,7 @@ entries:
 # The interface (api) of the Service
 #
   - scope: "endpoint"
-    prototype: "RestServiceApi"
+    archetype: "RestServiceApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/MongoRestService.ftl"
@@ -371,7 +371,7 @@ entries:
 # The concrete impl of the Service
 
   - scope: "endpoint"
-    prototype: "RestServiceImpl"
+    archetype: "RestServiceImpl"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/MongoRestServiceProvider.ftl"
@@ -387,7 +387,7 @@ entries:
 # A constants class enumerating the REST urls of a given restful resource
 #
   - scope: "endpoint"
-    prototype: "EntityRoutes"
+    archetype: "EntityRoutes"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/EntityRoutes.ftl"
@@ -395,7 +395,7 @@ entries:
 
 # A helper class that loads example data into the DB. This is suitable for demo/dev work but probably not for production
   - scope: "endpoint"
-    prototype: "DatabaseTablePopulator"
+    archetype: "DatabaseTablePopulator"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDatabaseTablePopulator.ftl"
@@ -403,7 +403,7 @@ entries:
 
 # Hmmm. This may be dead code now.
   - scope: "endpoint"
-    prototype: "ConversionService"
+    archetype: "ConversionService"
     facets:
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/FakeConversionService.ftl"
@@ -413,7 +413,7 @@ entries:
 # or ResourceNotFoundException or UnprocessableEntityException is thrown. This test verifies that behavior.
 #
   - scope: "endpoint"
-    prototype: "EndpointExceptionHandler"
+    archetype: "EndpointExceptionHandler"
     facets:
       - facet: "integrationTest"
         sourceTemplate:  "/spring/webmvc/integrationTest/endpoint/MongoExceptionHandlerIT.ftl"

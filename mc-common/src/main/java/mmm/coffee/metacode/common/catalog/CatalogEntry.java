@@ -35,7 +35,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 // The code doesn't care what order the properties are in,
 // but this order is easier to read.
-@JsonPropertyOrder({"scope","prototype","facets"})
+@JsonPropertyOrder({"scope","archetype","facets"})
 public class CatalogEntry {
     /*
      * This `scope` tells us if a template is applied to a project or endpoint.
@@ -51,7 +51,7 @@ public class CatalogEntry {
      *  - the package name
      *  - the canonical filename of the file emitted by the template (eg, application/src/main/java/org/example/Application.java)
      */
-    private Archetype archetype; // Controller, Service, etc.
+    private Archetype archetype; // eg: Controller, Service, etc.
 
     /*
      * The `facet` tells us, for a given template, whether the template (and emitted file)
