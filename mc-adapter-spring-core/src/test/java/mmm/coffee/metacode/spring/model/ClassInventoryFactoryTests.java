@@ -19,7 +19,7 @@ public class ClassInventoryFactoryTests {
 
         @Test
         void shouldReturnPackageNames() {
-            assertThat(classUnderTest.getAlphabeticField().packageName()).startsWith(DEFAULT_PACKAGE);
+            assertThat(classUnderTest.getAlphabeticAnnotation().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getAlphabeticValidator().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getApplicationConfiguration().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getBadRequestException().packageName()).startsWith(DEFAULT_PACKAGE);
@@ -29,7 +29,7 @@ public class ClassInventoryFactoryTests {
             assertThat(classUnderTest.getProblemConfiguration().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getResourceIdTrait().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getResourceIdValidator().packageName()).startsWith(DEFAULT_PACKAGE);
-            assertThat(classUnderTest.getResourceIdField().packageName()).startsWith(DEFAULT_PACKAGE);
+            assertThat(classUnderTest.getResourceIdAnnotation().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getSecureRandomSeries().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getSpringProfiles().packageName()).startsWith(DEFAULT_PACKAGE);
             assertThat(classUnderTest.getUnprocessableEntityException().packageName()).startsWith(DEFAULT_PACKAGE);
@@ -38,7 +38,7 @@ public class ClassInventoryFactoryTests {
 
         @Test
         void shouldReturnSimpleClassNames() {
-            assertThat(classUnderTest.getAlphabeticField().className()).isNotEmpty();
+            assertThat(classUnderTest.getAlphabeticAnnotation().className()).isNotEmpty();
             assertThat(classUnderTest.getAlphabeticValidator().className()).isNotEmpty();
             assertThat(classUnderTest.getApplicationConfiguration().className()).isNotEmpty();
             assertThat(classUnderTest.getBadRequestException().className()).isNotEmpty();
@@ -48,7 +48,7 @@ public class ClassInventoryFactoryTests {
             assertThat(classUnderTest.getProblemConfiguration().className()).isNotEmpty();
             assertThat(classUnderTest.getResourceIdTrait().className()).isNotEmpty();
             assertThat(classUnderTest.getResourceIdValidator().className()).isNotEmpty();
-            assertThat(classUnderTest.getResourceIdField().className()).isNotEmpty();
+            assertThat(classUnderTest.getResourceIdAnnotation().className()).isNotEmpty();
             assertThat(classUnderTest.getSecureRandomSeries().className()).isNotEmpty();
             assertThat(classUnderTest.getSpringProfiles().className()).isNotEmpty();
             assertThat(classUnderTest.getUnprocessableEntityException().className()).isNotEmpty();

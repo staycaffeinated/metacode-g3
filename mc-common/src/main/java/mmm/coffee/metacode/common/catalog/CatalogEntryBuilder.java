@@ -1,12 +1,14 @@
 package mmm.coffee.metacode.common.catalog;
 
+import mmm.coffee.metacode.common.model.Archetype;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogEntryBuilder {
 
     private String scope;
-    private Archetype archetype;
+    private String archetype;
     private List<TemplateFacet> facets = new ArrayList<>();
     private String tags;
 
@@ -19,7 +21,7 @@ public class CatalogEntryBuilder {
         return this;
     }
 
-    public CatalogEntryBuilder archetype(Archetype archetype) {
+    public CatalogEntryBuilder archetype(String archetype) {
         this.archetype = archetype;
         return this;
     }

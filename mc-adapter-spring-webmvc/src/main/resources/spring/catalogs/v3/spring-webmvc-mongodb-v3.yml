@@ -172,14 +172,14 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/AlphabeticValidatorTests.java"
 
   - scope: "project"
-    archetype: "OnCreate"
+    archetype: "OnCreateAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnCreate.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/OnCreate.java"
 
   - scope: "project"
-    archetype: "OnUpdate"
+    archetype: "OnUpdateAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnUpdate.ftl"

@@ -24,6 +24,7 @@ import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
 import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
+import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
@@ -135,6 +136,11 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
         // Render the templates
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
             log.debug("Processing the catalogEntry having sourceTemplate: {}", catalogEntry.getFacets().get(0).getSourceTemplate());
+
+            Archetype archetype = catalogEntry.archetypeValue();
+            String packageName = dataDictionary.packageName(archetype);
+            String canonicalClassName = dataDictionary.canonicalClassNameOf(archetype);
+            log.info("Archetype: {}, packageName: {}, className:", archetype, packageName, canonicalClassName);
 
             // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             catalogEntry.getFacets().forEach(facet -> {

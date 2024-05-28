@@ -1,5 +1,7 @@
 package mmm.coffee.metacode.common.toml;
 
+import mmm.coffee.metacode.common.model.Archetype;
+import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.toml.functions.DottedKeyToPackageName;
 import mmm.coffee.metacode.common.toml.functions.IsDottedKeyForPackages;
 import org.tomlj.Toml;
@@ -20,14 +22,14 @@ public class PackageDataDictionaryFactory {
 
         DefaultPackageDataDictionary dictionary = new DefaultPackageDataDictionary();
 
-        Map<PrototypeClass, String> map = extractClassNames(result);
+        Map<Archetype, String> map = extractClassNames(result);
         dictionary.addAll(map);
 
         return dictionary;
     }
 
-    private Map<PrototypeClass, String> extractClassNames(TomlParseResult result) {
-        EnumMap<PrototypeClass, String> miniDictionary = new EnumMap<>(PrototypeClass.class);
+    private Map<Archetype, String> extractClassNames(TomlParseResult result) {
+        EnumMap<Archetype, String> miniDictionary = new EnumMap<>(Archetype.class);
 
         List<String> dottedKeys = result.dottedKeySet().stream()
                 .filter(this::isDottedKey)
@@ -36,7 +38,7 @@ public class PackageDataDictionaryFactory {
         for (String dottedKey : dottedKeys) {
             Object obj = result.get(dottedKey);
             if (obj instanceof String className) {
-                PrototypeClass classKey = getClassKeyOf(className);
+                Archetype classKey = getClassKeyOf(className);
                 String packageName = convertToPackageName(dottedKey);
                 miniDictionary.put(classKey, packageName);
             } else if (obj instanceof TomlArray tomlArray) {
@@ -44,7 +46,7 @@ public class PackageDataDictionaryFactory {
                     String csvListOfNames = tomlArray.getString(i);
                     List<String> classNames = convertToClassNameList(csvListOfNames);
                     for (String className : classNames) {
-                        PrototypeClass classKey = getClassKeyOf(className);
+                        Archetype classKey = getClassKeyOf(className);
                         String packageName = convertToPackageName(dottedKey);
                         miniDictionary.put(classKey, packageName);
                     }
@@ -54,12 +56,12 @@ public class PackageDataDictionaryFactory {
         return miniDictionary;
     }
 
-    private PrototypeClass getClassKeyOf(String className) {
+    private Archetype getClassKeyOf(String className) {
         try {
-            return PrototypeClass.valueOf(className);
+            return Archetype.valueOf(className);
         } catch (IllegalArgumentException e) {
             System.out.printf("Error: No ClassKey found for %s\n", className);
-            return PrototypeClass.UNDEFINED;
+            return Archetype.Undefined;
         }
     }
 

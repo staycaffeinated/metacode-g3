@@ -1,5 +1,6 @@
 package mmm.coffee.metacode.common.toml;
 
+import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,23 +29,23 @@ public class DefaultPackageDataDictionaryTest {
 
     @Test
     void shouldReturnSomething() {
-        classUnderTest.add(PrototypeClass.ServiceImpl, "pet.impl");
-        String actualPkgName = classUnderTest.packageName(PrototypeClass.ServiceImpl);
+        classUnderTest.add(Archetype.ServiceImpl, "pet.impl");
+        String actualPkgName = classUnderTest.packageName(Archetype.ServiceImpl);
         assertThat(actualPkgName).isNotEmpty();
         assertThat(actualPkgName).isEqualTo(basePackage + ".pet.impl");
     }
 
     private void initDictionary() {
         // Add a TestFixture for this stuff to make it easier
-        Map<PrototypeClass, String> items = new EnumMap<>(PrototypeClass.class);
-        items.put(PrototypeClass.AlphabeticField, "infra.validation");
-        items.put(PrototypeClass.AlphabeticValidator, "infra.validation");
-        items.put(PrototypeClass.ProblemConfiguration, "infra.config");
-        items.put(PrototypeClass.ResourcePojo, "domain");
-        items.put(PrototypeClass.Routes, "api");
-        items.put(PrototypeClass.ServiceApi, "api");
-        items.put(PrototypeClass.ServiceImpl, "api.impl");
-        items.put(PrototypeClass.Controller, "api");
+        Map<Archetype, String> items = new EnumMap<>(Archetype.class);
+        items.put(Archetype.AlphabeticAnnotation, "infra.validation");
+        items.put(Archetype.AlphabeticValidator, "infra.validation");
+        items.put(Archetype.ProblemConfiguration, "infra.config");
+        items.put(Archetype.ResourcePojo, "domain");
+        items.put(Archetype.Routes, "api");
+        items.put(Archetype.ServiceApi, "api");
+        items.put(Archetype.ServiceImpl, "api.impl");
+        items.put(Archetype.Controller, "api");
         classUnderTest.addAll(items);
     }
 

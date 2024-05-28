@@ -20,6 +20,7 @@ import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
+import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -76,7 +77,7 @@ class SpringWebMvcTemplateCatalogTest {
     void shouldContainWellFormedCatalogEntries() {
         List<CatalogEntry> resultSet = catalogUnderTest.collect();
         for (CatalogEntry entry : resultSet) {
-            assertThat(entry.getArchetype()).isInstanceOf(Archetype.class);
+            assertThat(entry.getArchetype()).isInstanceOf(String.class);
             assertThat(entry.getScope()).isAnyOf("project", "endpoint");
             assertThat(entry.getFacets()).isNotEmpty();
             for (TemplateFacet facet: entry.getFacets()) {

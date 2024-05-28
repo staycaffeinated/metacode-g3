@@ -5,24 +5,28 @@ import com.google.common.collect.ListMultimap;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import mmm.coffee.metacode.common.model.Archetype;
+import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.toml.functions.SimpleClassNameResolver;
+import org.springframework.stereotype.Component;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Component
 public class DefaultPackageDataDictionary implements PackageDataDictionary {
 
     public static final String DEFAULT_PACKAGE = "org.example";
 
     // Key: the proto-class identifier
     // Value: the relative package name (i.e, does not contain basePackage)
-    private final Map<PrototypeClass, String> classToPackageMap = new EnumMap<>(PrototypeClass.class);
+    private final Map<Archetype, String> classToPackageMap = new EnumMap<>(Archetype.class);
 
     // key: the package name
     // values: list of proto-classes within the package
-    private final ListMultimap<String, PrototypeClass> packageToClassMap = ArrayListMultimap.create();
+    private final ListMultimap<String, Archetype> packageToClassMap = ArrayListMultimap.create();
 
     // This value isn't known at boot time; it's provided at runtime as a CLI argument.
     // It's initialized with the default name, with the expectation the desired package name will
@@ -44,17 +48,17 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
         this.projectBasePackage = basePackage;
     }
 
-    public void add(@NonNull PrototypeClass key, @NonNull String packageName) {
+    public void add(@NonNull Archetype key, @NonNull String packageName) {
         Objects.requireNonNull(key);
         Objects.requireNonNull(packageName);
         classToPackageMap.put(key, packageName);
         packageToClassMap.put(packageName, key);
     }
 
-    public void addAll(@Nonnull Map<PrototypeClass, String> items) {
+    public void addAll(@Nonnull Map<Archetype, String> items) {
         Objects.requireNonNull(items);
         classToPackageMap.putAll(items);
-        ListMultimap<String, PrototypeClass> reverse = reverseListMultiMapOf(items);
+        ListMultimap<String, Archetype> reverse = reverseListMultiMapOf(items);
         packageToClassMap.putAll(reverse);
     }
 
@@ -68,11 +72,11 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
      */
     @Override
     public String packageName(String classKey) {
-        return packageName(PrototypeClass.valueOf(classKey));
+        return packageName(Archetype.valueOf(classKey));
     }
 
     @Override
-    public String packageName(PrototypeClass token) {
+    public String packageName(Archetype token) {
         String relativePath = classToPackageMap.get(token);
         if (isEmptyOrNull(relativePath)) {
             // If a class doesn't have a package defined, place it in the `misc` package.
@@ -90,8 +94,8 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
      * @return a (possibly empty) list of the proto-classes that belong to {@code relativePackage}
      */
     @Override
-    public List<PrototypeClass> classKeysOfPackage(String relativePackage) {
-        List<PrototypeClass> values = packageToClassMap.get(relativePackage);
+    public List<Archetype> classKeysOfPackage(String relativePackage) {
+        List<Archetype> values = packageToClassMap.get(relativePackage);
         if (isEmptyOrNull(values)) {
             return List.of();
         }
@@ -109,13 +113,15 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
     }
 
     @Override
-    public String canonicalClassNameOf(String resourceName, PrototypeClass prototype) {
-        return basePackage() + "." + SimpleClassNameResolver.simpleClassName(resourceName, prototype);
+    public String canonicalClassNameOf(String resourceName, @Nonnull Archetype archetype) {
+        Objects.requireNonNull(archetype);
+        return basePackage() + "." + SimpleClassNameResolver.simpleClassName(resourceName, archetype);
     }
 
     @Override
-    public String canonicalClassNameOf(PrototypeClass prototype) {
-        return SimpleClassNameResolver.simpleClassName(prototype);
+    public String canonicalClassNameOf(@Nonnull Archetype archetype) {
+        Objects.requireNonNull(archetype);
+        return SimpleClassNameResolver.simpleClassName(archetype);
     }
 
     public int size() {
@@ -131,9 +137,9 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
         return string == null || string.isEmpty();
     }
 
-    protected ListMultimap<String, PrototypeClass> reverseListMultiMapOf(Map<PrototypeClass, String> items) {
-        ListMultimap<String, PrototypeClass> reverse = ArrayListMultimap.create();
-        for (Map.Entry<PrototypeClass, String> entry : items.entrySet()) {
+    protected ListMultimap<String, Archetype> reverseListMultiMapOf(Map<Archetype, String> items) {
+        ListMultimap<String, Archetype> reverse = ArrayListMultimap.create();
+        for (Map.Entry<Archetype, String> entry : items.entrySet()) {
             reverse.put(entry.getValue(), entry.getKey());
         }
         return reverse;

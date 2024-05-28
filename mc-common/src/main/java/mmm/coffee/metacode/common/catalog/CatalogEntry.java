@@ -16,14 +16,15 @@
 package mmm.coffee.metacode.common.catalog;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import mmm.coffee.metacode.common.model.Archetype;
+import org.apache.commons.lang3.arch.Processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * CatalogEntry
@@ -51,7 +52,14 @@ public class CatalogEntry {
      *  - the package name
      *  - the canonical filename of the file emitted by the template (eg, application/src/main/java/org/example/Application.java)
      */
-    private Archetype archetype; // eg: Controller, Service, etc.
+    @JsonProperty("archetype")
+    private String archetype; // eg: Controller, Service, etc.
+
+    public Archetype archetypeValue() {
+        if (archetype == null)
+            return Archetype.Undefined;
+        return Archetype.valueOf(this.archetype);
+    }
 
     /*
      * The `facet` tells us, for a given template, whether the template (and emitted file)

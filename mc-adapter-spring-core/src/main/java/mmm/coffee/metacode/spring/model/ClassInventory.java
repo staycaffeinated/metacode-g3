@@ -35,8 +35,8 @@ public class ClassInventory {
     private ClassInfo unprocessableEntityException;
     private ClassInfo customRepository;
     private ClassInfo genericDataStore;
-    private ClassInfo alphabeticField;
-    private ClassInfo resourceIdField;
+    private ClassInfo alphabeticAnnotation;
+    private ClassInfo resourceIdAnnotation;
     private ClassInfo alphabeticValidator;
     private ClassInfo resourceIdValidator;
 

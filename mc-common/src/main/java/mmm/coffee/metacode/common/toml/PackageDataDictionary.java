@@ -1,5 +1,7 @@
 package mmm.coffee.metacode.common.toml;
 
+import mmm.coffee.metacode.common.model.Archetype;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,21 +16,21 @@ public interface PackageDataDictionary {
      */
     String packageName(String classKey);
 
-    String packageName(PrototypeClass classKey);
+    String packageName(Archetype classKey);
 
-    List<PrototypeClass> classKeysOfPackage(String packageKey);
+    List<Archetype> classKeysOfPackage(String packageKey);
 
     String basePackage();
 
     String dictionaryVersion();
 
-    String canonicalClassNameOf(String resourceName, PrototypeClass classKey);
+    String canonicalClassNameOf(String resourceName, Archetype classKey);
 
-    String canonicalClassNameOf(PrototypeClass classKey);
+    String canonicalClassNameOf(Archetype classKey);
 
-    void add(PrototypeClass classKey, String packageName);
+    void add(Archetype classKey, String packageName);
 
-    void addAll(Map<PrototypeClass, String> klassToPkgMap);
+    void addAll(Map<Archetype, String> klassToPkgMap);
 
     /**
      * The number of entries in the dictionary

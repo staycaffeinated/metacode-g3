@@ -1,7 +1,9 @@
 package mmm.coffee.metacode.spring.catalog;
 
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
+import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,5 +55,12 @@ class SpringTemplateCatalogTest {
          */
         List<CatalogEntry> resultSet = catalogUnderTest.collect();
         assertThat(resultSet).isNotNull().isNotEmpty();
+        for (CatalogEntry entry : resultSet) {
+            Archetype val = Archetype.valueOf(entry.getArchetype());
+            assertThat(val).isNotNull();
+            assertThat(entry.getArchetype()).isNotNull();
+            assertThat(entry.getFacets()).isNotEmpty();
+            assertThat(entry.getScope()).isNotEmpty();
+        }
     }
 }

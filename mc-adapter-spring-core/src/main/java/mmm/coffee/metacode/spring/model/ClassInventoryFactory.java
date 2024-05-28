@@ -1,7 +1,7 @@
 package mmm.coffee.metacode.spring.model;
 
 import mmm.coffee.metacode.common.toml.PackageDataDictionary;
-import mmm.coffee.metacode.common.toml.PrototypeClass;
+import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.toml.functions.SimpleClassNameResolver;
 
 public class ClassInventoryFactory {
@@ -27,8 +27,8 @@ public class ClassInventoryFactory {
     public static ClassInventory create(PackageDataDictionary dictionary, String resourceName) {
         ClassInventory classInventory = new ClassInventory();
 
-        PrototypeClass[] protoClasses = PrototypeClass.values();
-        for (PrototypeClass protoClass : protoClasses) {
+        Archetype[] protoClasses = Archetype.values();
+        for (Archetype protoClass : protoClasses) {
             assignValue(classInventory, protoClass, dictionary, resourceName);
         }
         return classInventory;
@@ -36,7 +36,7 @@ public class ClassInventoryFactory {
 
 
     @SuppressWarnings({"java:S108"})
-    protected static void assignValue(ClassInventory classInventory, PrototypeClass prototypeClass, PackageDataDictionary dictionary, String resourceName) {
+    protected static void assignValue(ClassInventory classInventory, Archetype prototypeClass, PackageDataDictionary dictionary, String resourceName) {
         ClassInfo classInfo = new ClassInfo(
                 SimpleClassNameResolver.simpleClassName(resourceName, prototypeClass),
                 dictionary.packageName(prototypeClass),
@@ -54,8 +54,8 @@ public class ClassInventoryFactory {
             case ResourcePojo -> classInventory.setResourcePojo(classInfo);
             case DataStoreImpl -> classInventory.setDataStoreImpl(classInfo);
             case SpringProfiles -> classInventory.setSpringProfiles(classInfo);
-            case AlphabeticField -> classInventory.setAlphabeticField(classInfo);
-            case ResourceIdField -> classInventory.setResourceIdField(classInfo);
+            case AlphabeticAnnotation -> classInventory.setAlphabeticAnnotation(classInfo);
+            case ResourceIdAnnotation -> classInventory.setResourceIdAnnotation(classInfo);
             case ResourceIdTrait -> classInventory.setResourceIdTrait(classInfo);
             case CustomRepository -> classInventory.setCustomRepository(classInfo);
             case GenericDataStore -> classInventory.setGenericDataStore(classInfo);
@@ -73,7 +73,7 @@ public class ClassInventoryFactory {
             case ResourceNotFoundException -> classInventory.setResourceNotFoundException(classInfo);
             case DateTimeFormatConfiguration -> classInventory.setDateTimeFormatConfiguration(classInfo);
             case UnprocessableEntityException -> classInventory.setUnprocessableEntityException(classInfo);
-            case UNDEFINED -> {
+            case Undefined -> {
             }
         }
 

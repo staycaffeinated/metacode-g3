@@ -1,6 +1,6 @@
 package mmm.coffee.metacode.common.toml.functions;
 
-import mmm.coffee.metacode.common.toml.PrototypeClass;
+import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +23,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreController"
         })
         void shouldReturnSimpleNameOfController(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.Controller);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.Controller);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -34,7 +34,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreRepository"
         })
         void shouldReturnSimpleNameOfCustomRepository(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.CustomRepository);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.CustomRepository);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -45,7 +45,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreDataStore"
         })
         void shouldReturnSimpleNameOfDataStoreApi(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.DataStoreApi);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.DataStoreApi);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -56,7 +56,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreDataStoreProvider"
         })
         void shouldReturnSimpleNameOfDataStoreImpl(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.DataStoreImpl);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.DataStoreImpl);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -67,7 +67,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreEntity"
         })
         void shouldReturnSimpleNameOfEntity(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.Entity);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.Entity);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -78,7 +78,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreEntityToPojoConverter"
         })
         void shouldReturnSimpleNameOfEntityToPojo(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.EntityToPojoConverter);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.EntityToPojoConverter);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -89,7 +89,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StorePojoToEntityConverter"
         })
         void shouldReturnSimpleNameOfPojoToEntity(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.PojoToEntityConverter);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.PojoToEntityConverter);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -100,7 +100,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreRepository"
         })
         void shouldReturnSimpleNameOfRepository(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.Repository);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.Repository);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -111,7 +111,7 @@ public class SimpleClassNameResolverTests {
                 "Store, Store"
         })
         void shouldReturnSimpleNameOfResourcePojo(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.ResourcePojo);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.ResourcePojo);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -122,7 +122,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreRoutes"
         })
         void shouldReturnSimpleNameOfRoutes(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.Routes);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.Routes);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -133,7 +133,7 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreService"
         })
         void shouldReturnSimpleNameOfServiceApi(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.ServiceApi);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.ServiceApi);
             assertThat(actual).isEqualTo(expected);
         }
 
@@ -144,25 +144,25 @@ public class SimpleClassNameResolverTests {
                 "Store, StoreServiceProvider"
         })
         void shouldReturnSimpleNameOfServiceImpl(String resource, String expected) {
-            String actual = classUnderTest.toSimpleClassName(resource, PrototypeClass.ServiceImpl);
+            String actual = classUnderTest.toSimpleClassName(resource, Archetype.ServiceImpl);
             assertThat(actual).isEqualTo(expected);
         }
 
 
         @Test
         void shouldReturnSimpleNameOfBuiltinClasses() {
-            assertThat(classUnderTest.toSimpleClassName(null, PrototypeClass.AlphabeticField)).isEqualTo("AlphabeticField");
-            assertThat(classUnderTest.toSimpleClassName(null, PrototypeClass.AlphabeticValidator)).isEqualTo("AlphabeticValidator");
-            assertThat(classUnderTest.toSimpleClassName(null, PrototypeClass.BadRequestException)).isEqualTo("BadRequestException");
-            assertThat(classUnderTest.toSimpleClassName(null, PrototypeClass.DateTimeFormatConfiguration)).isEqualTo("DateTimeFormatConfiguration");
+            assertThat(classUnderTest.toSimpleClassName(null, Archetype.AlphabeticAnnotation)).isEqualTo("AlphabeticAnnotation");
+            assertThat(classUnderTest.toSimpleClassName(null, Archetype.AlphabeticValidator)).isEqualTo("AlphabeticValidator");
+            assertThat(classUnderTest.toSimpleClassName(null, Archetype.BadRequestException)).isEqualTo("BadRequestException");
+            assertThat(classUnderTest.toSimpleClassName(null, Archetype.DateTimeFormatConfiguration)).isEqualTo("DateTimeFormatConfiguration");
 
-            assertThat(classUnderTest.toSimpleClassName("", PrototypeClass.UnprocessableEntityException)).isEqualTo("UnprocessableEntityException");
-            assertThat(classUnderTest.toSimpleClassName("", PrototypeClass.BadRequestException)).isEqualTo("BadRequestException");
-            assertThat(classUnderTest.toSimpleClassName("", PrototypeClass.GenericDataStore)).isEqualTo("GenericDataStore");
-            assertThat(classUnderTest.toSimpleClassName("", PrototypeClass.GlobalExceptionHandler)).isEqualTo("GlobalExceptionHandler");
-            assertThat(classUnderTest.toSimpleClassName("", PrototypeClass.ProblemConfiguration)).isEqualTo("ProblemConfiguration");
-            assertThat(classUnderTest.toSimpleClassName("", PrototypeClass.SecureRandomSeries)).isEqualTo("SecureRandomSeries");
-            assertThat(classUnderTest.toSimpleClassName("", PrototypeClass.SpringProfiles)).isEqualTo("SpringProfiles");
+            assertThat(classUnderTest.toSimpleClassName("", Archetype.UnprocessableEntityException)).isEqualTo("UnprocessableEntityException");
+            assertThat(classUnderTest.toSimpleClassName("", Archetype.BadRequestException)).isEqualTo("BadRequestException");
+            assertThat(classUnderTest.toSimpleClassName("", Archetype.GenericDataStore)).isEqualTo("GenericDataStore");
+            assertThat(classUnderTest.toSimpleClassName("", Archetype.GlobalExceptionHandler)).isEqualTo("GlobalExceptionHandler");
+            assertThat(classUnderTest.toSimpleClassName("", Archetype.ProblemConfiguration)).isEqualTo("ProblemConfiguration");
+            assertThat(classUnderTest.toSimpleClassName("", Archetype.SecureRandomSeries)).isEqualTo("SecureRandomSeries");
+            assertThat(classUnderTest.toSimpleClassName("", Archetype.SpringProfiles)).isEqualTo("SpringProfiles");
         }
     }
 
@@ -186,17 +186,17 @@ public class SimpleClassNameResolverTests {
 
         @Test
         void shouldReturnSimpleName() {
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.Controller)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.ServiceImpl)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.ServiceApi)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.Routes)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.DataStoreApi)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.DataStoreImpl)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.Entity)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.Repository)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.EntityToPojoConverter)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.PojoToEntityConverter)).isNotEmpty();
-            assertThat(SimpleClassNameResolver.simpleClassName("Book", PrototypeClass.EntityToPojoConverter)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.Controller)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.ServiceImpl)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.ServiceApi)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.Routes)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.DataStoreApi)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.DataStoreImpl)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.Entity)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.Repository)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.EntityToPojoConverter)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.PojoToEntityConverter)).isNotEmpty();
+            assertThat(SimpleClassNameResolver.simpleClassName("Book", Archetype.EntityToPojoConverter)).isNotEmpty();
         }
 
     }

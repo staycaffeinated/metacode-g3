@@ -170,14 +170,14 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/AlphabeticValidatorTests.java"
 
   - scope: "project"
-    archetype: "OnCreate"
+    archetype: "OnCreateAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnCreate.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/OnCreate.java"
 
   - scope: "project"
-    archetype: "OnUpdate"
+    archetype: "OnUpdateAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnUpdate.ftl"
@@ -384,14 +384,14 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerTests.java"
 
   - scope: "endpoint"
-    archetype: "RestServiceInterface"
+    archetype: "ServiceApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/RestService.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Service.java"
 
   - scope: "endpoint"
-    archetype: "RestServiceImpl"
+    archetype: "ServiceImpl"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/RestServiceProvider.ftl"
@@ -404,7 +404,7 @@ entries:
         destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceIT.java"
 
   - scope: "endpoint"
-    archetype: "EntityRoutes"
+    archetype: "Routes"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/EntityRoutes.ftl"
