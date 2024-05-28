@@ -15,9 +15,7 @@
  */
 package mmm.coffee.metacode.spring.catalog;
 
-import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.catalog.CatalogFileReader;
-import mmm.coffee.metacode.common.catalog.ICatalogReader;
+import mmm.coffee.metacode.common.catalog.*;
 import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
@@ -68,6 +66,25 @@ class SpringWebMvcTemplateCatalogTest {
         List<CatalogEntry> resultSet = catalogUnderTest.collect();
         assertThat(resultSet).isNotNull();
         assertThat(resultSet.size()).isGreaterThan(0);
+    }
+
+    /*
+     * To ensure the CatalogEntry class and YML files are in-sync with property names.
+     * This test helps verify the CatalogEntries in the YML files are well-formed.
+     */
+    @Test
+    void shouldContainWellFormedCatalogEntries() {
+        List<CatalogEntry> resultSet = catalogUnderTest.collect();
+        for (CatalogEntry entry : resultSet) {
+            assertThat(entry.getArchetype()).isInstanceOf(Archetype.class);
+            assertThat(entry.getScope()).isAnyOf("project", "endpoint");
+            assertThat(entry.getFacets()).isNotEmpty();
+            for (TemplateFacet facet: entry.getFacets()) {
+                assertThat(facet.getFacet()).isAnyOf("main","test", "integrationTest", "testFixtures");
+                assertThat(facet.getDestination()).isNotEmpty();
+                assertThat(facet.getSourceTemplate()).isNotEmpty();
+            }
+        }
     }
 
     /*

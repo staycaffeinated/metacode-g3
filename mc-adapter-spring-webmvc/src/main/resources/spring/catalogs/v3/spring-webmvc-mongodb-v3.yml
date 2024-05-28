@@ -302,7 +302,7 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/domain/{{pojoName}}.java"
-      - facet: "textFixtures"
+      - facet: "testFixtures"
         sourceTemplate: "/spring/webmvc/testFixtures/domain/WebMvcModelTestFixtures.ftl"
         destination: "{{appModule}}/src/testFixtures/java/{{basePackagePath}}/domain/{{entityName}}TestFixtures.java"
 
