@@ -1,11 +1,14 @@
 package mmm.coffee.metacode;
 
+import lombok.RequiredArgsConstructor;
 import mmm.coffee.metacode.cli.CommandHelpRenderer;
 import mmm.coffee.metacode.cli.ManifestVersionProvider;
 import mmm.coffee.metacode.cli.ParameterExceptionHandler;
 import mmm.coffee.metacode.cli.PrintExceptionMessageHandler;
 import mmm.coffee.metacode.cli.commands.MetaCodeCommand;
 import mmm.coffee.metacode.cli.commands.create.CreateCommand;
+import mmm.coffee.metacode.common.components.Publisher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
@@ -20,7 +23,7 @@ import picocli.CommandLine;
 import static picocli.CommandLine.Model.UsageMessageSpec.SECTION_KEY_COMMAND_LIST;
 
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = "mmm.coffee.metacode")
 @EnableAutoConfiguration
 @CommandLine.Command(
         name = "metacode",

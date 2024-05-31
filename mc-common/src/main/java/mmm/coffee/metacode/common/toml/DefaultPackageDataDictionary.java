@@ -5,6 +5,8 @@ import com.google.common.collect.ListMultimap;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import lombok.RequiredArgsConstructor;
+import mmm.coffee.metacode.common.components.BasePackageSupplier;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.toml.functions.SimpleClassNameResolver;
@@ -37,11 +39,27 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
      * Constructor
      */
     public DefaultPackageDataDictionary() {
-
+        // Uses 'org.example' as the base package
     }
 
+
+    /**
+     * Construct a `PackageDataDictionary` that uses the 'basePackage' provided by the given supplier.
+     * This constructor allows a "late binding" to the basePackage value; this object can't be constructed
+     * until after the BasePackageSupplier is constructed.  There's some risk the BasePackageSupplier won't
+     * be notified (via an ApplicationEvent) that the basePackage is set, which will be evident by a null/empty
+     * basePackage.
+     * @param basePackageSupplier provides the base package
+     */
+    public DefaultPackageDataDictionary(@Nonnull BasePackageSupplier basePackageSupplier) {
+        Objects.requireNonNull(basePackageSupplier, "The 'basePackageSupplier' argument cannot be null");
+        this.projectBasePackage = basePackageSupplier.basePackage();
+    }
+
+
     public String getBasePackage() {
-        return projectBasePackage;
+        // return projectBasePackage;
+        return "";
     }
 
     public void setBasePackage(String basePackage) {
@@ -84,7 +102,7 @@ public class DefaultPackageDataDictionary implements PackageDataDictionary {
             // Maybe log a debug/info/warn statement
             return basePackage() + ".misc";
         }
-        return basePackage() + "." + relativePath;
+        return /* basePackage() + "." + */ relativePath;
     }
 
     /**

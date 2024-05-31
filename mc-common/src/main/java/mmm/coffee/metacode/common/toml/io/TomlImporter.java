@@ -35,6 +35,7 @@ public class TomlImporter {
         return this.getClass().getClassLoader().getResourceAsStream(fileName);
     }
 
+    // idea: change this to, say, PackageSchemaMapper, with `String map(Object value)`
     private String extractValue(Object value) {
         if (value instanceof TomlArray) {
 

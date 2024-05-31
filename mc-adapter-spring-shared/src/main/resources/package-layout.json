@@ -1,0 +1,157 @@
+{
+  "layoutName": "spring-package-layout",
+  "layout": [
+    {
+      "package": "{{basePackage}}.infra.config",
+      "archetypes": [
+        "ApplicationConfiguration",
+        "DateTimeFormatConfiguration",
+        "ProblemConfiguration",
+        "LocalDateConverter",
+        "WebMvcConfiguration",
+        "ContainerConfiguration"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.advice",
+      "archetypes": [
+        "GlobalExceptionHandler"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.exceptions",
+      "archetypes": [
+        "Exception",
+        "BadRequestException",
+        "ResourceNotFoundException",
+        "UnprocessableEntityException"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.api.home",
+      "archetypes": [
+        "RootController",
+        "RootService"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra.profiles",
+      "archetypes": [
+        "SpringProfiles"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra.utils",
+      "archetypes": [
+        "SecureRandomSeries"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.traits",
+      "archetypes": [
+        "ResourceIdTrait"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra.validation",
+      "archetypes": [
+        "AlphabeticAnnotation",
+        "AlphabeticValidator",
+        "OnCreateAnnotation",
+        "OnUpdateAnnotation",
+        "ResourceIdAnnotation",
+        "ResourceIdValidator",
+        "SearchTextAnnotation",
+        "SearchTextValidator"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra.filter",
+      "archetypes": [ "SecurityResponseHeadersFilter" ]
+    },
+    {
+      "package": "{{basePackage}}.converters",
+      "archetypes": [
+        "EjbToPojoConverter",
+        "PojoToEjbConverter"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra.common",
+      "archetypes": [
+        "AbstractIntegrationTest"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra",
+      "archetypes": [
+        "Application"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.api",
+      "archetypes": [
+        "Controller",
+        "Routes",
+        "ServiceApi",
+        "ServiceImpl"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.root.api",
+      "archetypes": [
+        "DefaultController",
+        "DefaultService"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.helper",
+      "archetypes": [
+        "ConversionService"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.persistence",
+      "archetypes": [
+        "CustomRepository",
+        "CustomSQLRepository",
+        "DataStoreApi",
+        "DataStoreImpl",
+        "DatabaseTablePopulator",
+        "Entity",
+        "ExceptionHandler",
+        "ObjectDataStore",
+        "ObjectDataStoreProvider"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra.persistence",
+      "archetypes": [
+        "GenericDataStore",
+        "MongoDataStore",
+        "ObjectDataStore",
+        "PersistenceAdapter",
+        "RegisterDatabaseProperties",
+        "Repository"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infra.api.providers",
+      "archetypes": [ "ResourceIdSupplier" ]
+    },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.domain",
+      "archetypes": [ "Pojo", "EntityResource" ]
+    },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.persistence.predicate",
+      "archetypes": [
+        "EntityWithText"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.misc",
+      "archetypes": [ "Text", "Undefined" ]
+    }
+  ]
+}

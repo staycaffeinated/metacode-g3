@@ -15,12 +15,15 @@
  */
 package mmm.coffee.metacode.cli.commands.create.project;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.cli.validation.PackageNameValidator;
 import mmm.coffee.metacode.cli.validation.SpringIntegrationValidator;
+import mmm.coffee.metacode.common.components.Publisher;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
@@ -42,7 +45,6 @@ import picocli.CommandLine;
 @SuppressWarnings({"java:S1854", "java:S1481"}) // S1854, S1481: allow  unused vars for now
 @Component
 public class SubcommandCreateWebMvcProject extends AbstractCreateSpringProject {
-
     /**
      * Handle to the code generator
      */
@@ -67,6 +69,7 @@ public class SubcommandCreateWebMvcProject extends AbstractCreateSpringProject {
     public Integer call() {
         SpringIntegrationValidator siv = SpringIntegrationValidator.of(features);
         PackageNameValidator pnv = PackageNameValidator.of(packageName);
+
         super.runValidations(pnv, siv);
 
         var descriptor = buildProjectDescriptor(Framework.SPRING_WEBMVC);

@@ -9,77 +9,35 @@ version = "1.0"
 # Instead, the underscore ("_") is used.
 
 [exceptions]
-classes = ["BadRequestException", "ResourceNotFoundException", "UnprocessableEntityException"]
+archetypes = ["BadRequestException", "ResourceNotFoundException", "UnprocessableEntityException"]
 
 # This handles the base path, "/".
-[home]
-classes = ["ServiceImpl", "Controller"]
+[api.home]
+archetypes = ["RootController", "RootService"]
 
 # This package contains infrastructure
 [infra]
 
 [infra.advice]
-classes = "GlobalExceptionHandler"
+archetypes = "GlobalExceptionHandler"
 
 [infra.config]
-classes = ["ApplicationConfiguration",
+archetypes = ["ApplicationConfiguration",
     "DateTimeFormatConfiguration",
     "ProblemConfiguration",
     "LocalDateConverter",
     "WebMvcConfiguration"]
 
 [infra.profiles]
-classes = "SpringProfiles"
+archetypes = "SpringProfiles"
 
 [infra.utils]
-classes = "SecureRandomSeries"
-
-[infra.utils.classNames]
-SecureRandomSeries = "ResourceIdGenerator"
+archetypes = "SecureRandomSeries"
 
 [infra.trait]
-classes = ["ResourceIdTrait"]
-
-[infra.trait.classNames]
-ResourceIdTrait = "ResourceIdAware"
+archetypes = ["ResourceIdTrait"]
 
 [infra.validation]
-classes = ["AlphabeticField, ResourceIdField, AlphabeticValidator, ResourceIdValidator"]
-
-# These are resource-specific packages, such as the individual
-# packages you'd want to create for Pet, Store, Owner.
-# As represented here, the package structure will be, say:
-# org.example.pet.api
-# org.example.pet.domain
-# org.example.store.api
-# org.example.owner.api
-[_RESOURCE_]
-
-[_RESOURCE_.api]
-classes = ["ServiceApi", "Controller", "Routes", "ServiceImpl"]
-
-[_RESOURCE_.api.classNames]
-ServiceApi = "_RESOURCE_Service"
-Controller = "_RESOURCE_Controller"
-ServiceImpl = "_RESOURCE_ServiceProvider"
-Routes = "_RESOURCE_Routes"
-
-[_RESOURCE_.domain]
-classes = ["ResourcePojo"]
-
-[_RESOURCE_.domain.classNames]
-ResourcePojo = "_RESOURCE_View"
-
-[_RESOURCE_.spi.database]
-classes = ["DataStoreApi", "DataStoreImpl", "Entity", "Repository"]
-
-[_RESOURCE_.spi.database.converter]
-classes = ["EntityToPojoConverter", "PojoToEntityConverter"]
+archetypes = ["AlphabeticAnnotation, ResourceIdAnnotation, AlphabeticValidator, ResourceIdValidator"]
 
 
-[spi.database]
-classes = ["CustomRepository", "GenericDataStore"]
-
-[Internal.TestClassSuffixes]
-unitTest = "Test"
-integrationTest = "IntegrationTest"

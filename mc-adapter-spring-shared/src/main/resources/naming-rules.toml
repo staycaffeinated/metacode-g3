@@ -1,0 +1,43 @@
+# These are resource-specific packages, such as the individual
+# packages you'd want to create for Pet, Store, Owner.
+# As represented here, the package structure will be, say:
+# org.example.pet.api
+# org.example.pet.domain
+# org.example.store.api
+# org.example.owner.api
+[infra.trait.classNames]
+ResourceIdTrait = "ResourceIdAware"
+
+[infra.utils.classNames]
+SecureRandomSeries = "ResourceIdGenerator"
+
+[_RESOURCE_]
+
+[_RESOURCE_.api]
+archetypes = ["ServiceApi", "Controller", "Routes", "ServiceImpl"]
+
+[_RESOURCE_.api.classNames]
+ServiceApi = "_RESOURCE_Service"
+Controller = "_RESOURCE_Controller"
+ServiceImpl = "_RESOURCE_ServiceProvider"
+Routes = "_RESOURCE_Routes"
+
+[_RESOURCE_.domain]
+archetypes = ["ResourcePojo"]
+
+[_RESOURCE_.domain.classNames]
+ResourcePojo = "_RESOURCE_View"
+
+[_RESOURCE_.spi.database]
+archetypes = ["DataStoreApi", "DataStoreImpl", "Entity", "Repository"]
+
+[_RESOURCE_.spi.database.converter]
+archetypes = ["EntityToPojoConverter", "PojoToEntityConverter"]
+
+
+[spi.database]
+archetypes = ["CustomRepository", "GenericDataStore"]
+
+[Internal.TestClassSuffixes]
+unitTest = "Test"
+integrationTest = "IntegrationTest"

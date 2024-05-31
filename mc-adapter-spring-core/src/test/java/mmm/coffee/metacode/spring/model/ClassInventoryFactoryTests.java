@@ -1,5 +1,6 @@
 package mmm.coffee.metacode.spring.model;
 
+import mmm.coffee.metacode.common.components.BasePackageSupplier;
 import mmm.coffee.metacode.common.toml.DefaultPackageDataDictionary;
 import mmm.coffee.metacode.common.toml.PackageDataDictionary;
 import org.junit.jupiter.api.Nested;
@@ -10,7 +11,7 @@ import static mmm.coffee.metacode.common.toml.DefaultPackageDataDictionary.DEFAU
 
 public class ClassInventoryFactoryTests {
 
-    PackageDataDictionary packageDataDictionary = new DefaultPackageDataDictionary();
+    PackageDataDictionary packageDataDictionary = new DefaultPackageDataDictionary(new BasePackageSupplier());
 
     @Nested
     class ProjectScopeClassTests {
@@ -152,5 +153,4 @@ public class ClassInventoryFactoryTests {
             assertThat(classUnderTest.getRoutes().fqName()).contains(EXAMPLE);
         }
     }
-
 }

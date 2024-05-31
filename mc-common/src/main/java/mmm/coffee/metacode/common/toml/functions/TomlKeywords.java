@@ -11,7 +11,7 @@ public class TomlKeywords {
      * The TOML content will look something like:
      * <code>
      * [com.example.petstore.api] <== indicates the package name of the following classes
-     * classes = Controller, Routes <== the 'classes' keyword and the identifiers of the classes
+     * archetypes = Controller, Routes <== the 'archetypes' keyword and the identifiers of the classes
      * </code>
      * From this, the code generator can build these classes (for a Pet resource):
      * <code>
@@ -19,7 +19,7 @@ public class TomlKeywords {
      * com.example.petstore.api.PetRoutes
      * </code>
      */
-    public static final String CLASSES = ".classes";
+    public static final String CLASSES = ".archetypes";
 
 
     /**

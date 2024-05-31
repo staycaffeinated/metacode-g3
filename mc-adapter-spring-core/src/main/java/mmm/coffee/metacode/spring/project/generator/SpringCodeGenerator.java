@@ -20,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.components.Publisher;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
@@ -48,6 +49,7 @@ import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 })
 public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor> {
 
+    private final Publisher publisher;
     private final Collector collector;
     private final ConvertTrait<RestProjectDescriptor, RestProjectTemplateModel> descriptor2templateModel;
     private final ConvertTrait<RestProjectDescriptor, Predicate<CatalogEntry>> descriptor2predicate;
@@ -72,6 +74,7 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
      */
     public SpringCodeGenerator doPreprocessing(RestProjectDescriptor descriptor) {
         metaPropertiesHandler.writeMetaProperties(descriptor);
+        publisher.publishBasePackageAssigned(descriptor.getBasePackage());
         return this;
     }
 
