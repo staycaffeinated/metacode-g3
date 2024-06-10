@@ -1,19 +1,19 @@
-<#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.exception.UnprocessableEntityException;
-import ${endpoint.basePackage}.validation.OnCreate;
-import ${endpoint.basePackage}.validation.OnUpdate;
-import ${endpoint.basePackage}.validation.ResourceId;
-import ${endpoint.basePackage}.validation.SearchText;
+package ${Controller.packageName};
+
+import ${Pojo.fqcn}; // domain.{endpoint.entityName}
+import ${UnprocessableEntityException.fqcn};    // import UnprocessableEntityException
+import ${OnCreate.fqcn}
+import ${OnUpdate.fqcn}
+import ${ResourceIdAnnotation.fqcn}
+import ${SearchText.fqcn}
 
 <#if endpoint.isWithOpenApi()>
-    import io.swagger.v3.oas.annotations.Operation;
-    import io.swagger.v3.oas.annotations.media.Content;
-    import io.swagger.v3.oas.annotations.media.Schema;
-    import io.swagger.v3.oas.annotations.responses.ApiResponse;
-    import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 </#if>
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,47 +39,62 @@ import java.net.URI;
 @RequestMapping
 @Slf4j
 @Validated
-public class ${endpoint.entityName}Controller {
+public class ${Controller.className} {
 
     private static final int DEFAULT_PAGE_NUMBER = 0;
     private static final int DEFAULT_PAGE_SIZE = 25;
 
-    private final ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
+    private final ${ServiceApi.className} ${ServiceApi.varName};
 
     /*
      * Constructor
      */
-    public ${endpoint.entityName}Controller(${endpoint.entityName}Service ${endpoint.entityVarName}Service) {
-        this.${endpoint.entityVarName}Service = ${endpoint.entityVarName}Service;
+    public ${Controller.className} (${ServiceApi.className} ${ServiceApi.varName}) {
+        this.${ServiceApi.varName} = ${ServiceApi.varName};
     }
 
     /*
      * Get all
      */
-    <#if endpoint.isWithOpenApi()>
-    @Operation(summary = "Retrieve all ${endpoint.entityName}")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found all ${endpoint.entityName}")})
-    </#if>
-    @GetMapping (value=${endpoint.entityName}Routes.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<${endpoint.pojoName}> getAll${endpoint.entityName}s() {
-        return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
+<#if endpoint.isWithOpenApi()>
+    @Operation(summary = "Retrieve all ${Controller.dtoClassName}")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found all ${Controller.dtoClassName}")})
+</#if>
+    @GetMapping (value=${Routes.paths.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
+// Controller:
+//   methodNames:
+//     getAll: getAll{{DtoName}}s
+//   returnTypes:
+//     getAll: List<{{DtoName}}>
+    public ${Controller.returnTypes.getAll} ${Controller.methodNames.getAll}() {
+        return ${ServiceApi.varName}.findAll${Controller.dtoClassName}s();
     }
 
     /*
      * Get one by resourceId
      *
      */
-    <#if endpoint.isWithOpenApi()>
+<#if endpoint.isWithOpenApi()>
     @Operation(summary = "Retrieve a single pet based on its public identifier")
     @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Found the pet", content = {
     @Content(mediaType = "application/json",
-    schema = @Schema(implementation = ${endpoint.pojoName}.class))}),
+    schema = @Schema(implementation = ${Controller.dtoClassName}.class))}),
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
-    </#if>
-    @GetMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
-        return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id)
+</#if>
+    @GetMapping(value=${Routes.paths.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
+// Controller:
+//   methodNames:
+//     getOneById: get{{dtoName}}ById
+//   returnTypes:
+//     getOneById: ResponseEntity'<'{{PojoName>}}'>'
+// ServiceApi:
+//   methodNames:
+//     findOneByResourceId: find{{PojoName}}ByResourceId
+// Controller.methodNames.getOneById
+// Controller.returnTypeOf.getOneById
+    public ${Controller.returnTypes.getOneById} ${Controller.methodNames.getOneById}(@PathVariable @ResourceId String id) {
+        return ${ServiceApi.varName}.${ServiceApi.methodNames.findOneByResourceId}(id)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -96,11 +111,11 @@ public class ${endpoint.entityName}Controller {
     schema = @Schema(implementation = ${endpoint.pojoName}.class))}),
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
-    @PostMapping (value=${endpoint.entityName}Routes.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping (value=${Routes.paths.createOne}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<${endpoint.pojoName}> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
+    public ${Controller.returnTypes.createOne} ${Controller.methodNames.createOne}(@RequestBody @Validated(OnCreate.class) ${Controller.pojoName} resource ) {
         try {
-            ${endpoint.pojoName} savedResource = ${endpoint.entityVarName}Service.create${endpoint.entityName} ( resource );
+            ${ServiceApi.returnTypes.createOne} savedResource = ${ServiceApi.methodNames.createOne} ( resource );
             URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -128,7 +143,7 @@ public class ${endpoint.entityName}Controller {
         if (!id.equals(${endpoint.entityVarName}.getResourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
         }
-        Optional<${endpoint.pojoName}> optional = ${endpoint.entityVarName}Service.update${endpoint.entityName}( ${endpoint.entityVarName} );
+        ${ServiceApi.returnTypes.updateOne} optional = ${ServiceApi.methodNames.updateOne}( ${endpoint.entityVarName} );
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -140,13 +155,13 @@ public class ${endpoint.entityName}Controller {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Removed the ${endpoint.entityName}"),
     @ApiResponse(responseCode = "400", description = "An incorrect identifier was submitted")})
 </#if>
-    @DeleteMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.findOne})
-    public ResponseEntity<${endpoint.pojoName}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
-        return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id)
+    @DeleteMapping(value=${Routes.paths.findOne})
+    public ${Controller.returnTypes.deleteOne} ${Controller.methodNames.deleteOne}(@PathVariable @ResourceId String id) {
+        return ${ServiceApi.returnTypes.findOne}.${ServiceApi.methodNames.findOneByResourceId}(id)
             .map(${endpoint.entityVarName} -> {
-                ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id);
+                ${ServiceApi.varName}.${ServiceApi.methodNames.deleteOneByResourceId}(id);
                 return ResponseEntity.ok(${endpoint.entityVarName});
-            })
+        })
         .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -157,13 +172,18 @@ public class ${endpoint.entityName}Controller {
     @Operation(summary = "Search for ${endpoint.entityName}")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
 </#if>
-    @GetMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PagedModel<EntityModel<${endpoint.pojoName}>> searchByText (
-            @RequestParam(name="text", required = true) @SearchText Optional<String> text,
-            @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-            @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
-            PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
+    @GetMapping(value=${Routes.path.search}, produces = MediaType.APPLICATION_JSON_VALUE)
+// Contoller:
+//   returnTypes:
+//     searchByText: PagedModel<EntityModel<{{endpoint.pojoName}}>>
+//   methodNames:
+//     searchByText: searchByText
+    public ${Controller.returnTypes.searchByText} searchByText (
+                @RequestParam(name="text", required = true) @SearchText Optional<String> text,
+                @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+                @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
+                PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
-        return resourceAssembler.toModel( ${endpoint.entityVarName}Service.findByText(text, pageable) );
+        return resourceAssembler.toModel( ${ServiceApi.varName}.${ServiceApi.methodNames.findByText}(text, pageable) );
     }
 }

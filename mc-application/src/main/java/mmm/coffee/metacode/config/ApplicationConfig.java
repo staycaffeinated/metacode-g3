@@ -1,7 +1,5 @@
 package mmm.coffee.metacode.config;
 
-import mmm.coffee.metacode.common.toml.PackageDataDictionary;
-import mmm.coffee.metacode.common.toml.PackageDataDictionaryFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,15 +32,5 @@ public class ApplicationConfig {
     java.util.List<String> stringList() {
         return new ArrayList<>();
     }
-
-
-    @Bean
-    public PackageDataDictionaryFactory packageDataDictionaryFactory() {
-        return new PackageDataDictionaryFactory();
-    }
-
-    @Bean
-    public PackageDataDictionary packageDataDictionary(PackageDataDictionaryFactory factory) throws IOException {
-        return factory.createDictionary(packageSchema);
-    }
+    
 }

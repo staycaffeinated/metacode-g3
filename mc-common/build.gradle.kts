@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.dependency.management)
     alias(libs.plugins.lombok)
     alias(libs.plugins.versions)
+    `java-test-fixtures`
 }
 
 dependencies {

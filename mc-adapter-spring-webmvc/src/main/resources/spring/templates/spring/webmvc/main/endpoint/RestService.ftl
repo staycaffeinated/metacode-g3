@@ -40,4 +40,4 @@ Page<${endpoint.pojoName}> findByText(Optional
     * delete
     */
     void delete${endpoint.entityName}ByResourceId( String id );
-    }
+}

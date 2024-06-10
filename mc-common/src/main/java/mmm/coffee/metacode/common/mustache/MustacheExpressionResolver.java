@@ -17,12 +17,14 @@ package mmm.coffee.metacode.common.mustache;
 
 import com.samskivert.mustache.Mustache;
 import lombok.NonNull;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 /**
  * Converts a mustache expressions into a resolved value.
  */
+@Component
 public class MustacheExpressionResolver {
     private MustacheExpressionResolver() {
     }

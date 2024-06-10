@@ -1,14 +1,21 @@
 package mmm.coffee.metacode.spring.model;
 
-import mmm.coffee.metacode.common.toml.PackageDataDictionary;
 import mmm.coffee.metacode.common.model.Archetype;
-import mmm.coffee.metacode.common.toml.functions.SimpleClassNameResolver;
+import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
+import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ClassInventoryFactory {
 
-    private ClassInventoryFactory() {
-        // should not be instantiated outside of this class
+    private final PackageLayoutRuleSet packageLayoutRuleSet;
+    private final ClassNameRuleSet classNameRuleSet;
+
+    public ClassInventoryFactory(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
+        this.packageLayoutRuleSet = packageLayoutRuleSet;
+        this.classNameRuleSet = classNameRuleSet;
     }
+
 
     /**
      * Use this for project-scope, when a resource name is unknown
@@ -20,30 +27,20 @@ public class ClassInventoryFactory {
      *                   whatever package the end-user chooses.
      * @return the ClassInventory, which is later passed into the template engine
      */
-    public static ClassInventory create(PackageDataDictionary dictionary) {
-        return create(dictionary, null);
+    public static ClassInventory create() {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public static ClassInventory create(PackageDataDictionary dictionary, String resourceName) {
-        ClassInventory classInventory = new ClassInventory();
-
-        Archetype[] protoClasses = Archetype.values();
-        for (Archetype protoClass : protoClasses) {
-            assignValue(classInventory, protoClass, dictionary, resourceName);
-        }
-        return classInventory;
+    public static ClassInventory create(String resourceName) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 
     @SuppressWarnings({"java:S108"})
-    protected static void assignValue(ClassInventory classInventory, Archetype prototypeClass, PackageDataDictionary dictionary, String resourceName) {
-        ClassInfo classInfo = new ClassInfo(
-                SimpleClassNameResolver.simpleClassName(resourceName, prototypeClass),
-                dictionary.packageName(prototypeClass),
-                dictionary.canonicalClassNameOf(resourceName, prototypeClass),
-                SimpleClassNameResolver.variableName(resourceName));
+    protected static void assignValue(ClassInventory classInventory, Archetype archetype) {
 
-        switch (prototypeClass) {
+        /*
+        switch (archetype) {
             case Entity -> classInventory.setEntity(classInfo);
             case Routes -> classInventory.setRoutes(classInfo);
             case Controller -> classInventory.setController(classInfo);
@@ -76,6 +73,8 @@ public class ClassInventoryFactory {
             case Undefined -> {
             }
         }
+
+         */
 
 
     }

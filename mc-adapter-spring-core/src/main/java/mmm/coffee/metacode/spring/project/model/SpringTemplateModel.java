@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
-import mmm.coffee.metacode.common.toml.PackageDataDictionary;
 
 
 /**
@@ -56,9 +55,6 @@ public abstract class SpringTemplateModel implements MetaTemplateModel {
     // Future task: refactor to use the Enum here, and have
     // templates use 'framework.isWebFlux', 'framework.isWebMvc'
 
-    @Setter(AccessLevel.PUBLIC)
-    @Getter(AccessLevel.PUBLIC)
-    private PackageDataDictionary dictionary;
 
     /**
      * Returns {@code true} if {@code framework} is spring-webflux

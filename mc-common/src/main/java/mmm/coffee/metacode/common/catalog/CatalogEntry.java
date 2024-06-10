@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import mmm.coffee.metacode.common.model.Archetype;
-import org.apache.commons.lang3.arch.Processor;
 
 import java.util.ArrayList;
 import java.util.List;
