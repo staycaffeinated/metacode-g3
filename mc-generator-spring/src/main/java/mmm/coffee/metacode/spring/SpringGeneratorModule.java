@@ -47,7 +47,7 @@ import mmm.coffee.metacode.spring.project.converter.DescriptorToMetaProperties;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToPredicateConverter;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToTemplateModelConverter;
 import mmm.coffee.metacode.spring.project.converter.RestTemplateModelToMapConverter;
-import mmm.coffee.metacode.spring.project.generator.SpringCodeGenerator;
+import mmm.coffee.metacode.spring.project.generator.SpringProjectCodeGenerator;
 import mmm.coffee.metacode.spring.project.io.SpringMetaPropertiesHandler;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 import org.apache.commons.configuration2.PropertiesConfiguration;
@@ -76,7 +76,7 @@ public class SpringGeneratorModule extends AbstractModule {
     @Bean("springWebmvcGenerator")
     @SpringWebMvc
     ICodeGenerator<RestProjectDescriptor> providesSpringWebMvcGenerator() {
-        return SpringCodeGenerator.builder()
+        return SpringProjectCodeGenerator.builder()
                 .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())

@@ -8,7 +8,6 @@ import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
-import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
 import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
 import mmm.coffee.metacode.common.writer.ContentToNullWriter;
@@ -42,14 +41,14 @@ class SpringGeneratorIntegrationTest {
     private static final String BASE_PATH = "/petstore";
     private static final String BASE_PKG = "org.acme.petstore";
 
-    SpringCodeGenerator generatorUnderTest;
+    SpringProjectCodeGenerator generatorUnderTest;
 
     /**
      * Configure the code generator under test
      */
     @BeforeEach
     public void setUp() {
-        generatorUnderTest = SpringCodeGenerator.builder()
+        generatorUnderTest = SpringProjectCodeGenerator.builder()
                 .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())

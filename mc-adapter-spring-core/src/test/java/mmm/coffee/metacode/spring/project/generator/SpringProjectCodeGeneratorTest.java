@@ -52,13 +52,13 @@ import static org.mockito.Mockito.when;
  * Unit test
  */
 @SuppressWarnings("unchecked")
-class SpringCodeGeneratorTest {
+class SpringProjectCodeGeneratorTest {
 
     private static final String APP_NAME = "petstore";
     private static final String BASE_PKG = "acme.petstore";
     private static final String BASE_PATH = "/petstore";
 
-    SpringCodeGenerator generatorUnderTest;
+    SpringProjectCodeGenerator generatorUnderTest;
 
     Collector fakeCollector;
 
@@ -108,7 +108,7 @@ class SpringCodeGeneratorTest {
 
         SpringMetaPropertiesHandler mockHandler = setUpMetaPropertiesHandler();
 
-        generatorUnderTest = SpringCodeGenerator.builder()
+        generatorUnderTest = SpringProjectCodeGenerator.builder()
                 .collector(fakeCollector)
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())

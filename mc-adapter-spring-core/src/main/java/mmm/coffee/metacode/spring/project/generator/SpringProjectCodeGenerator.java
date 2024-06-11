@@ -20,10 +20,8 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.components.Publisher;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
-import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
 import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
@@ -49,7 +47,7 @@ import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
         "java:S125",    // we're OK with comments that happen to look like code
         "java:S4738"    // migrating to java.util.function.Predicate is on the roadmap
 })
-public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor> {
+public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDescriptor> {
     
     private final Collector collector;
     private final ConvertTrait<RestProjectDescriptor, RestProjectTemplateModel> descriptor2templateModel;
@@ -73,7 +71,7 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
      * @param descriptor provides the values to be saved to metacode.properties
      * @return {@code this} object
      */
-    public SpringCodeGenerator doPreprocessing(RestProjectDescriptor descriptor) {
+    public SpringProjectCodeGenerator doPreprocessing(RestProjectDescriptor descriptor) {
         metaPropertiesHandler.writeMetaProperties(descriptor);
         return this;
     }
