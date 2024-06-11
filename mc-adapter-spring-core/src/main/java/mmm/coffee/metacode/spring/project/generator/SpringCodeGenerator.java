@@ -24,9 +24,11 @@ import mmm.coffee.metacode.common.components.Publisher;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
+import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
 import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
 import mmm.coffee.metacode.common.model.Archetype;
+import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
@@ -57,7 +59,7 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
     private final DependencyCatalog dependencyCatalog;
     private final MustacheDecoder mustacheDecoder;
     private final MetaPropertiesHandler<RestProjectDescriptor> metaPropertiesHandler;
-    private final ArchetypeDescriptorFactory archetypeDescriptorFactory;
+    private final IArchetypeDescriptorFactory archetypeDescriptorFactory;
 
     /*
      * An instance of a RestProjectDescriptor is almost never available
@@ -138,6 +140,11 @@ public class SpringCodeGenerator implements ICodeGenerator<RestProjectDescriptor
             log.debug("Processing the catalogEntry having sourceTemplate: {}", catalogEntry.getFacets().get(0).getSourceTemplate());
 
             Archetype archetype = catalogEntry.archetypeValue();
+            JavaArchetypeDescriptor jad = archetypeDescriptorFactory.createArchetypeDescriptor(archetype);
+            templateModel.setArchetypeDescriptor(jad);
+            if (archetype == Archetype.Controller) {
+                log.debug("Found an endpoint artifact in project scope");
+            }
             
             // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             catalogEntry.getFacets().forEach(facet -> {

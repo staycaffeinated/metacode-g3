@@ -8,6 +8,7 @@ import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
+import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
 import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
 import mmm.coffee.metacode.common.writer.ContentToNullWriter;
@@ -55,6 +56,7 @@ class SpringGeneratorIntegrationTest {
                 .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
                 .outputHandler(new ContentToNullWriter())
                 .dependencyCatalog(new DependencyCatalog(DEPENDENCY_FILE))
+                .archetypeDescriptorFactory(new FakeArchetypeDescriptorFactory())
                 .mustacheDecoder(
                         MustacheDecoder.builder()
                                 .converter(new RestTemplateModelToMapConverter()).build())

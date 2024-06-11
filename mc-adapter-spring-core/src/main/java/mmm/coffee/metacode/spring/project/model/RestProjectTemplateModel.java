@@ -23,6 +23,7 @@ import lombok.experimental.SuperBuilder;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
+import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -54,6 +55,8 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
     private String basePackagePath;
     private String groupId;
     private String schema;
+
+    private JavaArchetypeDescriptor archetypeDescriptor;
 
     // Booleans to indicate the integrations to accommodate
     // The Setter annotation instructs Lombok to include a 'setX'
@@ -152,4 +155,5 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
         firstLetter = firstLetter.toUpperCase(Locale.ROOT);
         return "set" + firstLetter + remainder + "Version";
     }
+
 }

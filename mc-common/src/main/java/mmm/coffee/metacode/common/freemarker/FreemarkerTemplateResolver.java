@@ -19,6 +19,7 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import lombok.NonNull;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
+import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
 
@@ -76,6 +77,11 @@ public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplate
             // This is used is the Copyright header, which gets used by
             // both the project and endpoint code generators
             map.put("YEAR", currentYear());
+
+            ArchetypeDescriptor archetypeDescriptor = dataModel.getArchetypeDescriptor();
+            if (archetypeDescriptor != null) {
+                map.put(archetypeDescriptor.archetype().name(), archetypeDescriptor);
+            }
 
             // Parse and render the template
             var writer = new StringWriter();

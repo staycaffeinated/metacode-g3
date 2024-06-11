@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
+import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.spring.project.model.SpringTemplateModel;
 
 /**
@@ -110,6 +111,8 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
      * sets the value used in the JPA annotation.
      */
     private String tableName;
+
+    private JavaArchetypeDescriptor archetypeDescriptor;
 
     /**
      * Provides the constant names used in the Routes class.

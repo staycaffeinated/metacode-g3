@@ -16,7 +16,9 @@
 package mmm.coffee.metacode.common.mustache;
 
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.MustacheException;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -25,6 +27,7 @@ import java.util.Map;
  * Converts a mustache expressions into a resolved value.
  */
 @Component
+@Slf4j
 public class MustacheExpressionResolver {
     private MustacheExpressionResolver() {
     }
@@ -38,6 +41,12 @@ public class MustacheExpressionResolver {
      * toString returns "org.example.projectx".
      */
     public static @NonNull String resolve(@NonNull String mustacheExpression, Map<String, String> values) {
-        return Mustache.compiler().compile(mustacheExpression).execute(values);
+        try {
+            return Mustache.compiler().compile(mustacheExpression).execute(values);
+        }
+        catch (MustacheException e) {
+            String errMsg = String.format("This expression could not be evaluated: %s. %s", mustacheExpression, e.getMessage());
+            throw new MustacheException(errMsg, e);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package mmm.coffee.metacode.common.model;
 
-public interface JavaArchetypeDescriptor {
+public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
     /**
      * The fully-qualified class name, such as `com.acme.petstore.api.PetController`
      * The `fqcn` is the equivalent of `packageName()` + '.' + `shortName()`
@@ -20,9 +20,4 @@ public interface JavaArchetypeDescriptor {
      */
     String className();
 
-    /**
-     * Returns the archtype
-     * @return
-     */
-    Archetype archetype();
 }

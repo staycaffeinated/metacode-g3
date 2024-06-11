@@ -119,6 +119,7 @@ class SpringCodeGeneratorTest {
                 .mustacheDecoder(
                         MustacheDecoder.builder()
                                 .converter(new RestTemplateModelToMapConverter()).build())
+                .archetypeDescriptorFactory(new FakeArchetypeDescriptorFactory())
                 .build();
     }
 

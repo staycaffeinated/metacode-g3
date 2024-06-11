@@ -24,6 +24,7 @@ public class ClassNameRuleSet {
         String pkgExpression = ruleset.getOrDefault(archetype, "{{archetype}}");
         Map<String,String> model = new HashMap<>();
         model.put("archetype", StringUtils.capitalize(archetype));
+        model.put("restResource", StringUtils.capitalize(archetype)); // to handle RootController/Service
         return MustacheExpressionResolver.resolve(pkgExpression, model);
     }
 
