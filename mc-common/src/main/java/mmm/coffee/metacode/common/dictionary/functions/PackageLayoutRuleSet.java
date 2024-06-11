@@ -30,4 +30,8 @@ public class PackageLayoutRuleSet {
         return MustacheExpressionResolver.resolve(partialPkg, mustacheModel);
     }
 
+    public int size() {
+        return ruleset.size();
+    }
+
 }

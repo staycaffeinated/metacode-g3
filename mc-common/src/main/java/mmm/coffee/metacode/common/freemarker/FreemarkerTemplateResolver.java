@@ -18,6 +18,7 @@ package mmm.coffee.metacode.common.freemarker;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
@@ -35,6 +36,7 @@ import java.util.Map;
  */
 @SuppressWarnings("java:S125")
 // S125: allow comments that look like code
+@Slf4j
 public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplateModel> {
 
     private final Configuration configuration;
@@ -78,10 +80,18 @@ public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplate
             // both the project and endpoint code generators
             map.put("YEAR", currentYear());
 
+            // future self: do we need the lone archetypeDesc if we also have the map of all of them?
             ArchetypeDescriptor archetypeDescriptor = dataModel.getArchetypeDescriptor();
             if (archetypeDescriptor != null) {
                 map.put(archetypeDescriptor.archetype().name(), archetypeDescriptor);
             }
+            if (dataModel.getCustomProperties() != null) {
+                for (Map.Entry<String,Object> entry : dataModel.getCustomProperties().entrySet()) {
+                    map.put(entry.getKey(), entry.getValue());
+                    log.trace("Added custom property for {} : {}", entry.getKey(), entry.getValue());
+                }
+            }
+
 
             // Parse and render the template
             var writer = new StringWriter();

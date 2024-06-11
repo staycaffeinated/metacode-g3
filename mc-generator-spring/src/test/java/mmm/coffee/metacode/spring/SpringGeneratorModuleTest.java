@@ -15,7 +15,12 @@
  */
 package mmm.coffee.metacode.spring;
 
+import mmm.coffee.metacode.common.dictionary.config.PackageLayoutRuleSetConfiguration;
+import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
+import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -32,11 +37,14 @@ class SpringGeneratorModuleTest {
      */
     @Test
     void provideMethodsShouldNotReturnNull() {
+        PackageLayoutRuleSet packageLayoutRuleSet = new PackageLayoutRuleSet(new HashMap<String,String>());
+        ClassNameRuleSet classNameRuleSet = new ClassNameRuleSet(new HashMap<String,String>());
+
         assertThat(moduleUnderTest.providesDependencyCatalog()).isNotNull();
         assertThat(moduleUnderTest.providesEndpointMetaPropertiesHandler()).isNotNull();
         assertThat(moduleUnderTest.providesFreemarkerConfiguration()).isNotNull();
         assertThat(moduleUnderTest.providesMetaPropertiesHandler()).isNotNull();
-        assertThat(moduleUnderTest.providesSpringWebMvcGenerator()).isNotNull();
+        assertThat(moduleUnderTest.providesSpringWebMvcGenerator(packageLayoutRuleSet, classNameRuleSet)).isNotNull();
         //assertThat(moduleUnderTest.providesSpringWebFluxGenerator()).isNotNull(); // TODO: implement me
         assertThat(moduleUnderTest.providesRestEndpointGenerator()).isNotNull();
         //assertThat(moduleUnderTest.providesSpringBootGenerator()).isNotNull();    // TODO: implement me

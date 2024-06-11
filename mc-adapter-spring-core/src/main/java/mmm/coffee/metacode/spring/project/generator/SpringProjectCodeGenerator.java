@@ -16,6 +16,7 @@
 package mmm.coffee.metacode.spring.project.generator;
 
 import com.google.common.base.Predicate;
+import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
@@ -23,10 +24,13 @@ import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
+import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
 import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
 import mmm.coffee.metacode.common.model.Archetype;
+import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
+import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
@@ -35,6 +39,10 @@ import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModelFactory;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
+import org.apache.commons.lang3.arch.Processor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Code generator for SpringWebMvc project
@@ -112,6 +120,7 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
     @SuppressWarnings("java:S1135") // ignore TODO blocks for now
     public int generateCode(RestProjectDescriptor descriptor) {
         log.debug("generateCode: descriptor: {}", descriptor);
+        log.debug("generateCode: archetypeDescriptorFactory: {}", archetypeDescriptorFactory);
 
         if (log.isInfoEnabled()) {
             for (String cname : collector.catalogs()) {
@@ -124,6 +133,8 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
                 .usingDependencyCatalog(dependencyCatalog)
                 .usingProjectDescriptor(descriptor)
                 .build();
+        
+        templateModel.setCustomProperties(assembleCustomProperties(descriptor.getBasePackage()));
 
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);
@@ -140,9 +151,6 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
             Archetype archetype = catalogEntry.archetypeValue();
             JavaArchetypeDescriptor jad = archetypeDescriptorFactory.createArchetypeDescriptor(archetype);
             templateModel.setArchetypeDescriptor(jad);
-            if (archetype == Archetype.Controller) {
-                log.debug("Found an endpoint artifact in project scope");
-            }
             
             // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             catalogEntry.getFacets().forEach(facet -> {
@@ -155,4 +163,44 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
 
         return ExitCodes.OK;
     }
+
+    private Map<String,Object> assembleCustomProperties(String basePackage) {
+        Map<String, ArchetypeDescriptor> customProperties = ProjectArchetypeToMap.map(archetypeDescriptorFactory);
+        Map<String,Object> props = new HashMap<>();
+        customProperties.forEach((key, value) -> {
+            ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage);
+            props.put(key, descriptor1);
+        });
+        return props;
+    }
+
+    /*
+     *
+     */
+    private static ArchetypeDescriptor resolveBasePackageOf(ArchetypeDescriptor descriptor, String basePackage) {
+        if (descriptor instanceof JavaArchetypeDescriptor) {
+            JavaArchetypeDescriptor that = (JavaArchetypeDescriptor) descriptor;
+            Map<String,String> map = new HashMap<>();
+            map.put("basePackage", basePackage);
+            String resolvedClassName = MustacheExpressionResolver.resolve(that.className(), map);
+            String resolvedFQCN = MustacheExpressionResolver.resolve(that.fqcn(), map);
+            String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
+
+            return ResolvedJavaArchetypeDescriptor.builder()
+                    .archetype(descriptor.archetype())
+                    .fqcn(resolvedFQCN)
+                    .className(resolvedClassName)
+                    .packageName(resolvedPkgName)
+                    .build();
+        }
+        else {
+            return descriptor;
+        }
+    }
+
+    @Builder
+    private record ResolvedJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
+                                                   String className) implements JavaArchetypeDescriptor {
+    }
+
 }

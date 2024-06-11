@@ -44,4 +44,8 @@ public class ClassNameRuleSet {
         return resolveClassName(archetype.toString(), resource);
     }
 
+    public int size() {
+        return ruleset.size();
+    }
+
 }

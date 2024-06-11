@@ -2,6 +2,7 @@ package mmm.coffee.metacode.common.dictionary;
 
 import lombok.Builder;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
@@ -9,6 +10,7 @@ import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
     private ClassNameRuleSet classNameRuleSet;
@@ -22,6 +24,7 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
     public ArchetypeDescriptorFactory(@NonNull PackageLayoutRuleSet packageLayoutRuleSet, @NonNull ClassNameRuleSet classNameRuleSet) {
         this.packageLayoutRuleSet = packageLayoutRuleSet;
         this.classNameRuleSet = classNameRuleSet;
+        log.info("Created ArchetypeDescriptorFactory");
     }
 
     public JavaArchetypeDescriptor createArchetypeDescriptor(Archetype archetype) {
@@ -50,6 +53,16 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
                 .className(klassName)
                 .build();
     }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("ArchetypeDescriptor [");
+        builder.append("packageLayoutRules.size: ").append(packageLayoutRuleSet.size()).append(", ");
+        builder.append("classNameRules.size: ").append(classNameRuleSet.size()).append("]");
+        return builder.toString();
+    }
+
+
 
     @Builder
     private record DefaultJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,

@@ -23,6 +23,9 @@ import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
+import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
+import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
+import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
 import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
 import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
@@ -75,7 +78,7 @@ public class SpringGeneratorModule extends AbstractModule {
 
     @Bean("springWebmvcGenerator")
     @SpringWebMvc
-    ICodeGenerator<RestProjectDescriptor> providesSpringWebMvcGenerator() {
+    ICodeGenerator<RestProjectDescriptor> providesSpringWebMvcGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
         return SpringProjectCodeGenerator.builder()
                 .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
@@ -87,6 +90,7 @@ public class SpringGeneratorModule extends AbstractModule {
                         MustacheDecoder.builder()
                                 .converter(new RestTemplateModelToMapConverter()).build())
                 .metaPropertiesHandler(providesMetaPropertiesHandler())
+                .archetypeDescriptorFactory(new ArchetypeDescriptorFactory(packageLayoutRuleSet, classNameRuleSet))
                 .build();
     }
 

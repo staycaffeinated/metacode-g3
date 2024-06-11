@@ -5,7 +5,9 @@ package mmm.coffee.metacode.common.stereotype;
 
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
-import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The template model captures any data that will be consumed
@@ -19,6 +21,11 @@ public interface MetaTemplateModel {
     String getTopLevelVariable();
 
     ArchetypeDescriptor getArchetypeDescriptor();
+
+    default Map<String, Object> getCustomProperties() {
+        return new HashMap<String,Object>();
+    }
+    default void setCustomProperties(Map<String,Object> customProperties) {}
 
     /*
      * This code base passes a POJO to Freemarker templates
