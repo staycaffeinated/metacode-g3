@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.config;
+package ${ContainerConfiguration.packageName()};
 
 import java.time.Duration;
 import org.springframework.boot.devtools.restart.RestartScope;
@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 <#if project.isWithTestContainers()>
-    import org.testcontainers.containers.MongoDBContainer;
-    import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 </#if>
 
 @TestConfiguration(proxyBeanMethods=false)
@@ -27,23 +27,23 @@ private static final String IMAGE = "mongo:6.0.4";
         .waitingFor(Wait.forListeningPort());
     // @formatter:on
     static {
-    mongoDBContainer.start();
+        mongoDBContainer.start();
     }
 
     @Bean
     @ServiceConnection
     @RestartScope
     public MongoDBContainer mongoDBContainer() {
-    return mongoDBContainer;
+        return mongoDBContainer;
     }
 </#if>
 
-public static Object getReplicaSetUrl() {
-<#if ((project.isWithMongoDb()) && project.isWithTestContainers())>
-    return mongoDBContainer.getReplicaSetUrl();
-<#else>
-    return "mongodb://localhost:27017/testdb");
-</#if>
-}
+    public static Object getReplicaSetUrl() {
+    <#if ((project.isWithMongoDb()) && project.isWithTestContainers())>
+        return mongoDBContainer.getReplicaSetUrl();
+    <#else>
+        return "mongodb://localhost:27017/testdb");
+    </#if>
+    }
 
 }

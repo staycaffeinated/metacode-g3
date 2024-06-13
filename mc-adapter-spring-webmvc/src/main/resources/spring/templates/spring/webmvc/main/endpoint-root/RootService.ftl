@@ -1,6 +1,6 @@
 <#-- @ftlroot "../../../.." -->
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.endpoint.root;
+package ${RootService.packageName()};
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 @SuppressWarnings({"java:S3400"})
 // S3400: we'll allow a method to return a constant
-public class RootService {
-
-int doNothing() { return 0; }
+public class ${RootService.className()} {
+    int doNothing() { return 0; }
 }

@@ -72,16 +72,24 @@ public enum Archetype {
 
 
     // persistence
+
     CustomRepository("CustomRepository"),
     GenericDataStore("GenericDataStore"),
     DatabaseTablePopulator("DatabaseTablePopulator"),   // for demo mode; populates sample table
     RegisterDatabaseProperties("RegisterDatabaseProperties"), // db config for integration tests
     ContainerConfiguration("ContainerConfiguration"), // testcontainer config for integration tests
+    MongoContainerConfiguration("MongoContainerConfiguration"),
+    MongoDatabaseConfiguration("MongoDatabaseConfiguration"),
+    MongoRegisterDatabaseProperties("MongoRegisterDatabaseProperties"),
+    MongoDbContainerTests("MongoDbContainerTests"),
+    PostgresDbContainerTests("PostgresDbContainerTests"),
+    DatabaseInitFunction("DatabaseInitFunction"),
 
     // miscellaneous
     Application("Application"), // the main class
     AbstractIntegrationTest("AbstractIntegrationTest"),
-    ConversionService("ConversionService"),
+    AbstractDataJpaTest("AbstractDataJpaTest"),
+    ConversionService("ConversionService"), // todo: I think this is endpoint dependent
 
     /*
      * Endpoint-scope archetypes

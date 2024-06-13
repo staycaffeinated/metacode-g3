@@ -1,14 +1,14 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.common;
+package ${AbstractDataJpaTest.packageName()};
 
-import static ${project.basePackage}.common.SpringProfiles.INTEGRATION_TEST;
+import static ${SpringProfiles.packageName()}.SpringProfiles.INTEGRATION_TEST;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 <#if (project.isWithTestContainers())>
-    import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 
 @ActiveProfiles({INTEGRATION_TEST})

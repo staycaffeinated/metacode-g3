@@ -6,6 +6,7 @@ import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
+import org.apache.commons.lang3.arch.Processor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,13 +62,18 @@ public class ProjectArchetypeToMap {
             Archetype.DateTimeFormatConfiguration,
 
             // persistence stuff
+            Archetype.AbstractDataJpaTest,
             Archetype.CustomRepository,     // the base interface extended by specific repos; eg: PetRepository extends CustomRepository
             Archetype.CustomSQLRepository,
             Archetype.DataStoreApi,
             Archetype.GenericDataStore,
             Archetype.MongoDataStore,
             Archetype.RegisterDatabaseProperties,
-            Archetype.DatabaseTablePopulator,
+            Archetype.MongoRegisterDatabaseProperties,
+            Archetype.ContainerConfiguration,
+            Archetype.DatabaseInitFunction,
+            Archetype.MongoDatabaseConfiguration,
+            // Archetype.DatabaseTablePopulator, // each endpoint has its own DatabaseTablePopulator...
 
             // miscellaneous
             Archetype.Text,

@@ -1,6 +1,6 @@
 <#-- @ftlroot "../../../.." -->
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.endpoint.root;
+package ${RootController.packageName()};
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,24 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/")
-public class RootController {
+public class ${RootController.className()} {
 
-RootService rootService;
+    ${RootService.className()} rootService;
 
-/*
-* Constructor
-*/
-public RootController(RootService service) {
-this.rootService = service;
+    /*
+     * Constructor
+     */
+    public ${RootController.className()}(${RootService.className()} service) {
+        this.rootService = service;
+    }
+
+    /*
+     * The root path
+     */
+    @GetMapping (value= "", produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<String> getHome() {
+        rootService.doNothing();
+        return ResponseEntity.ok().build();
+    }
 }
-
-/*
-* The root path
-*/
-@GetMapping (value= "", produces = MediaType.APPLICATION_JSON_VALUE )
-public ResponseEntity
-<String> getHome() {
-    rootService.doNothing();
-    return ResponseEntity.ok().build();
-    }
-    }

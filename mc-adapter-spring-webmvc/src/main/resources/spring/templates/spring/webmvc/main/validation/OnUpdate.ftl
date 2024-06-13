@@ -1,9 +1,9 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.validation;
+package ${OnUpdateAnnotation.packageName()};
 
 /**
-* This defines a validation group. This group is
-* scoped to constraints that apply at the creation
-* time of a resource.
-*/
-public interface OnUpdate {}
+ * This defines a validation group. This group is
+ * scoped to constraints that apply at the creation
+ * time of a resource.
+ */
+public interface ${OnUpdateAnnotation.className()} {}

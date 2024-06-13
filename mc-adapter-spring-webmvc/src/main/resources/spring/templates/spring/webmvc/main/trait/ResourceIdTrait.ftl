@@ -1,10 +1,9 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.trait;
+package ${ResourceIdTrait.packageName()};
 
 /**
-* A trait for objects that are resourceId-aware
-*/
-public interface ResourceIdTrait
-<T> {
+ * A trait for objects that have resourceId's
+ */
+public interface ${ResourceIdTrait.className()}<T> {
     T getResourceId();
-    }
+}

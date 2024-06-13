@@ -1,8 +1,8 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.common;
+package ${AbstractIntegrationTest.packageName()};
 
-import static ${project.basePackage}.common.SpringProfiles.INTEGRATION_TEST;
-import static ${project.basePackage}.common.SpringProfiles.TEST;
+import static ${SpringProfiles.packageName()}.SpringProfiles.INTEGRATION_TEST;
+import static ${SpringProfiles.packageName()}.SpringProfiles.TEST;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,11 +35,11 @@ import org.springframework.test.web.servlet.MockMvc;
     "spring.jpa.hibernate.ddl-auto=create-drop"})
 </#if>
 public abstract class AbstractIntegrationTest {
-@Autowired
-protected MockMvc mockMvc;
+    @Autowired
+    protected MockMvc mockMvc;
 
-@Autowired
-protected ObjectMapper objectMapper;
+    @Autowired
+    protected ObjectMapper objectMapper;
 <#if (project.testcontainers)??>
 
     // if possible, initialize these from bootstrap-test.properties
@@ -50,10 +50,9 @@ protected ObjectMapper objectMapper;
 <#if (project.testcontainers)?? &&  (project.postgres)??>
 
     @Container
-    final static PostgreSQLContainer postgresqlContainer =
-    new PostgreSQLContainer("postgres:latest")
-    .withDatabaseName( databaseName )
-    .withUsername( username )
-    .withPassword( password );
+    final static PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer("postgres:latest")
+        .withDatabaseName( databaseName )
+        .withUsername( username )
+        .withPassword( password );
 </#if>
 }

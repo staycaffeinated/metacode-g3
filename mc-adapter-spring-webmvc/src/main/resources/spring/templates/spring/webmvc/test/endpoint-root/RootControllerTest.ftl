@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${project.basePackage}.endpoint.root;
+package ${RootController.packageName()};
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -19,39 +19,38 @@ import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(RootController.class)
+@WebMvcTest(${RootController.className()}.class)
 @ActiveProfiles("test")
 class RootControllerTest {
 
-@Autowired
-private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-@MockBean
-private RootService mockRootService;
+    @MockBean
+    private RootService mockRootService;
 
-@Autowired
-private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-@BeforeEach
-void setUp() {
-objectMapper.registerModule(new ProblemModule());
-objectMapper.registerModule(new ConstraintViolationProblemModule());
-}
+    @BeforeEach
+    void setUp() {
+        objectMapper.registerModule(new ProblemModule());
+        objectMapper.registerModule(new ConstraintViolationProblemModule());
+    }
 
-@AfterEach
-void tearDownEachTime() {
-reset ( mockRootService );
-}
+    @AfterEach
+        void tearDownEachTime() {
+        reset ( mockRootService );
+    }
 
-@Nested
-class TestRootRoute {
-/*
-* Ensure the root controller handles GET requests
-*/
-@Test
-void shouldGetRootPage() throws Exception {
-mockMvc.perform(get("/"))
-.andExpect(status().isOk());
-}
-}
+    @Nested
+    class TestRootRoute {
+        /*
+         * Ensure the root controller handles GET requests
+         */
+        @Test
+        void shouldGetRootPage() throws Exception {
+            mockMvc.perform(get("/")).andExpect(status().isOk());
+        }
+    }
 }

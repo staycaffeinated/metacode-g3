@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${project.basePackage}.spi;
+package ${DataStoreApi.packageName()};
 
 import lombok.NonNull;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
  * underlying Repository and EntityBeans that typically come into play
  * when persisting data are encapsulated.
  *
- * {@code T} is the Domain object type; for instance, {@code DataStore<$lt;>Pet>}
+ * {@code T} is the Domain object type; for instance, {@code DataStore<Pet>}
 */
 public interface DataStore<T> {
     /**

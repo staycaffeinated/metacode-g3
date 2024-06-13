@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.config;
+package ${ContainerConfiguration.packageName()};
 
 import java.time.Duration;
 import org.springframework.boot.devtools.restart.RestartScope;
@@ -19,13 +19,13 @@ public class ContainerConfiguration {
     @ServiceConnection
     @RestartScope
     public PostgreSQLContainer<?> postgreSQLContainer() {
-    return new PostgreSQLContainer<>("postgres")
-    .withReuse(true)
-    .withStartupTimeout(Duration.ofMinutes(1))
+        return new PostgreSQLContainer<>("postgres")
+            .withReuse(true)
+            .withStartupTimeout(Duration.ofMinutes(1))
     <#if (project.schema?has_content)>
-        .withInitScript("create-schema.sql")
+            .withInitScript("create-schema.sql")
     </#if>
-    .waitingFor(Wait.forListeningPort());
+            .waitingFor(Wait.forListeningPort());
     }
 </#if>
 }
