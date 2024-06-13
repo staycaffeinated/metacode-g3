@@ -40,13 +40,14 @@ public class MustacheExpressionResolver {
      * then
      * toString returns "org.example.projectx".
      */
-    public static @NonNull String resolve(@NonNull String mustacheExpression, Map<String, String> values) {
+    public static String resolve(@NonNull String mustacheExpression, Map<String, String> values) {
         try {
             return Mustache.compiler().compile(mustacheExpression).execute(values);
         }
         catch (MustacheException e) {
-            String errMsg = String.format("This expression could not be evaluated: %s. %s", mustacheExpression, e.getMessage());
-            throw new MustacheException(errMsg, e);
+            String msg = String.format("This expression could not be evaluated: %s. %s",  mustacheExpression, e.getMessage());
+            log.warn(msg);
+            throw new MustacheException(msg, e);
         }
     }
 }

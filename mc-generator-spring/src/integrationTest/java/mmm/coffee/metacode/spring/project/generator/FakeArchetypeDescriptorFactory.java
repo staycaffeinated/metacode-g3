@@ -6,6 +6,7 @@ import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
+import org.apache.commons.text.WordUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +47,19 @@ public class FakeArchetypeDescriptorFactory implements IArchetypeDescriptorFacto
     }
 
     @Builder
-    private record FakeJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
-                                                  String className) implements JavaArchetypeDescriptor {
+    private record FakeJavaArchetypeDescriptor(Archetype archetype,
+                                               String fqcn,
+                                               String packageName,
+                                               String className) implements JavaArchetypeDescriptor
+    {
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("JavaArchetype[className: ").append(className()).append(", ");
+            sb.append("fqcn: ").append(fqcn()).append(", ");
+            sb.append("packageName: ").append(packageName()).append("]");
+            return sb.toString();
+        }
+
     }
 
     /* -----------------------------------------------------------------------------------------------------------

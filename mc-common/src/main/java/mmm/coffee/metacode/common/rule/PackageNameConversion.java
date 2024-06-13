@@ -33,4 +33,7 @@ public class PackageNameConversion {
     public static String toPath(@NonNull String packageName) {
         return packageName.replace(".", "/");
     }
+    public static String toFqFileName(@NonNull String fqcn) {
+        return toPath(fqcn) + ".java";
+    }
 }

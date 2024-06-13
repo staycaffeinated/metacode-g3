@@ -16,11 +16,13 @@
 package mmm.coffee.metacode.spring.project.generator;
 
 import com.google.common.base.Predicate;
+import com.samskivert.mustache.MustacheException;
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
@@ -31,6 +33,7 @@ import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
+import mmm.coffee.metacode.common.rule.PackageNameConversion;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
@@ -39,10 +42,10 @@ import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModelFactory;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
-import org.apache.commons.lang3.arch.Processor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Code generator for SpringWebMvc project
@@ -56,7 +59,7 @@ import java.util.Map;
         "java:S4738"    // migrating to java.util.function.Predicate is on the roadmap
 })
 public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDescriptor> {
-    
+
     private final Collector collector;
     private final ConvertTrait<RestProjectDescriptor, RestProjectTemplateModel> descriptor2templateModel;
     private final ConvertTrait<RestProjectDescriptor, Predicate<CatalogEntry>> descriptor2predicate;
@@ -122,9 +125,9 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
         log.debug("generateCode: descriptor: {}", descriptor);
         log.debug("generateCode: archetypeDescriptorFactory: {}", archetypeDescriptorFactory);
 
-        if (log.isInfoEnabled()) {
+        if (log.isDebugEnabled()) {
             for (String cname : collector.catalogs()) {
-                log.info("[generateCode]: candidate catalog: {}", cname);
+                log.debug("[generateCode]: candidate catalog: {}", cname);
             }
         }
 
@@ -133,7 +136,7 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
                 .usingDependencyCatalog(dependencyCatalog)
                 .usingProjectDescriptor(descriptor)
                 .build();
-        
+
         templateModel.setCustomProperties(assembleCustomProperties(descriptor.getBasePackage()));
 
         // Create a predicate to determine which template's to render
@@ -148,25 +151,32 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
             log.debug("Processing the catalogEntry having sourceTemplate: {}", catalogEntry.getFacets().get(0).getSourceTemplate());
 
-            Archetype archetype = catalogEntry.archetypeValue();
-            JavaArchetypeDescriptor jad = archetypeDescriptorFactory.createArchetypeDescriptor(archetype);
-            templateModel.setArchetypeDescriptor(jad);
-            
-            // essentially: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
+            // essentially: forEach: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             catalogEntry.getFacets().forEach(facet -> {
                 String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
-                // Destinations may have mustache expressions that need to be decoded
-                String outputFileName = mustacheDecoder.decode(facet.getDestination());
-                outputHandler.writeOutput(outputFileName, renderedContent);
+
+                if (catalogEntry.getArchetype() == null) {
+                    log.error("Detected a catalog entry with a null archetype: {}", catalogEntry);
+                }
+                else {
+                    String outputFileName = OutputFileDestinationResolver.resolveDestination(
+                            facet,
+                            catalogEntry.getArchetype(),
+                            templateModel,
+                            mustacheDecoder);
+                    log.info("Resolved destination: archetype: {}, destination: {}", catalogEntry.getArchetype(), outputFileName);
+                    //String outputFileName = mustacheDecoder.decode(facet.getDestination());
+                    outputHandler.writeOutput(outputFileName, renderedContent);
+                }
             });
         });
 
         return ExitCodes.OK;
     }
 
-    private Map<String,Object> assembleCustomProperties(String basePackage) {
+    private Map<String, Object> assembleCustomProperties(String basePackage) {
         Map<String, ArchetypeDescriptor> customProperties = ProjectArchetypeToMap.map(archetypeDescriptorFactory);
-        Map<String,Object> props = new HashMap<>();
+        Map<String, Object> props = new TreeMap<>();
         customProperties.forEach((key, value) -> {
             ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage);
             props.put(key, descriptor1);
@@ -180,20 +190,21 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
     private static ArchetypeDescriptor resolveBasePackageOf(ArchetypeDescriptor descriptor, String basePackage) {
         if (descriptor instanceof JavaArchetypeDescriptor) {
             JavaArchetypeDescriptor that = (JavaArchetypeDescriptor) descriptor;
-            Map<String,String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>();   // the map for the mustache resolver
             map.put("basePackage", basePackage);
             String resolvedClassName = MustacheExpressionResolver.resolve(that.className(), map);
             String resolvedFQCN = MustacheExpressionResolver.resolve(that.fqcn(), map);
             String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
 
-            return ResolvedJavaArchetypeDescriptor.builder()
+            var foo = ResolvedJavaArchetypeDescriptor.builder()
                     .archetype(descriptor.archetype())
                     .fqcn(resolvedFQCN)
                     .className(resolvedClassName)
                     .packageName(resolvedPkgName)
                     .build();
-        }
-        else {
+            log.debug("Returning resolved descriptor: {}", foo);
+            return foo;
+        } else {
             return descriptor;
         }
     }
@@ -201,6 +212,16 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
     @Builder
     private record ResolvedJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                    String className) implements JavaArchetypeDescriptor {
+
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("ResolvedJavaArchetypeDescriptor[className: ").append(className()).append(", ");
+            sb.append("fqcn: ").append(fqcn()).append(", ");
+            sb.append("unitTest: ").append(fqcnUnitTest()).append(", ");
+            sb.append("integrationTest: ").append(fqcnIntegrationTest()).append(", ");
+            sb.append("packageName: ").append(packageName()).append("]");
+            return sb.toString();
+        }
     }
 
 }

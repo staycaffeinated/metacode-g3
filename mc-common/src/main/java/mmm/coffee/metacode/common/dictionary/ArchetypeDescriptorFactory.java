@@ -7,6 +7,7 @@ import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
+import org.apache.commons.text.WordUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +25,6 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
     public ArchetypeDescriptorFactory(@NonNull PackageLayoutRuleSet packageLayoutRuleSet, @NonNull ClassNameRuleSet classNameRuleSet) {
         this.packageLayoutRuleSet = packageLayoutRuleSet;
         this.classNameRuleSet = classNameRuleSet;
-        log.info("Created ArchetypeDescriptorFactory");
     }
 
     public JavaArchetypeDescriptor createArchetypeDescriptor(Archetype archetype) {
@@ -67,6 +67,15 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
     @Builder
     private record DefaultJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                       String className) implements JavaArchetypeDescriptor {
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("DefaultJavaArchetype[className: ").append(className()).append(", ");
+            sb.append("fqcn: ").append(fqcn()).append(", ");
+            sb.append("unitTestClass: ").append(fqcnUnitTest()).append(", ");
+            sb.append("integrationTestClass: ").append(fqcnIntegrationTest()).append(", ");
+            sb.append("packageName: ").append(packageName()).append("]");
+            return sb.toString();
+        }
     }
 
 }

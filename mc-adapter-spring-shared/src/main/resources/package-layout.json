@@ -111,7 +111,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.persistence",
+      "package": "{{basePackage}}.persistence",
       "archetypes": [
         "CustomRepository",
         "CustomSQLRepository",
@@ -119,11 +119,18 @@
         "DataStoreImpl",
         "DatabaseTablePopulator",
         "Entity",
-        "ExceptionHandler",
+        "ExceptionHandler"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.persistence",
+      "archetypes": [
+        "Entity",
         "ObjectDataStore",
         "ObjectDataStoreProvider"
       ]
     },
+
     {
       "package": "{{basePackage}}.infra.persistence",
       "archetypes": [

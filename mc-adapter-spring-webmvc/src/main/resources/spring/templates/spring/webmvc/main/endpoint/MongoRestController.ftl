@@ -38,21 +38,21 @@ private static final int DEFAULT_PAGE_SIZE = 25;
 
 private final ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
 
-/*
-* Constructor
-*/
-@Autowired
-public ${endpoint.entityName}Controller(${endpoint.entityName}Service ${endpoint.entityVarName}Service) {
-this.${endpoint.entityVarName}Service = ${endpoint.entityVarName}Service;
-}
+    /*
+     * Constructor
+     */
+    @Autowired
+    public ${endpoint.entityName}Controller(${endpoint.entityName}Service ${endpoint.entityVarName}Service) {
+        this.${endpoint.entityVarName}Service = ${endpoint.entityVarName}Service;
+    }
 
-/*
-* Get all
-*/
-@GetMapping (value=${endpoint.entityName}Routes.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
-public List<${endpoint.pojoName}> getAll${endpoint.entityName}s() {
-return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
-}
+    /*
+     * Get all
+     */
+    @GetMapping (value=${endpoint.entityName}Routes.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
+    public List<${endpoint.pojoName}> getAll${endpoint.entityName}s() {
+        return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
+    }
 
 /*
 * Get one by resourceId

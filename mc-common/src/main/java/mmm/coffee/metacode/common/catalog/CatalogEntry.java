@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
+import lombok.ToString;
 import mmm.coffee.metacode.common.model.Archetype;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.Objects;
 // The code doesn't care what order the properties are in,
 // but this order is easier to read.
 @JsonPropertyOrder({"scope","archetype","facets"})
+@ToString
 public class CatalogEntry {
     /*
      * This `scope` tells us if a template is applied to a project or endpoint.

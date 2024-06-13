@@ -9,12 +9,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * fqcn: ${Application.fqcn()}
  * package: ${Application.packageName()}
  * className: ${Application.className()}
+ * varName: ${Application.varName()}
  */
-</#if>
-
+@SpringBootApplication
+public class ${Application.className()} {
+    public static void main(String[] args) {
+        SpringApplication.run(${Application.className()}.class, args);
+    }
+}
+<#else>
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 }
+</#if>

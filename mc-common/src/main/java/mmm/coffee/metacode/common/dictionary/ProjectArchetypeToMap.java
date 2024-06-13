@@ -10,6 +10,7 @@ import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * This produces a map containing each project-scope Archetype and the matching archetype descriptor.
@@ -29,6 +30,7 @@ public class ProjectArchetypeToMap {
 
             // validation/annotation/stereotypes
             Archetype.AlphabeticAnnotation,
+            Archetype.AlphabeticValidator,
             Archetype.OnCreateAnnotation,
             Archetype.OnUpdateAnnotation,
             Archetype.ResourceIdAnnotation,
@@ -41,8 +43,9 @@ public class ProjectArchetypeToMap {
             Archetype.SpringProfiles,
 
             // exception stuff
-            Archetype.Exception,
+            // Archetype.Exception, // this is the endpoint.persistence.ExceptionHandler
             Archetype.GlobalExceptionHandler,
+            Archetype.Exception,
             Archetype.ExceptionHandler,
             Archetype.ResourceNotFoundException,
             Archetype.UnprocessableEntityException,
@@ -54,10 +57,12 @@ public class ProjectArchetypeToMap {
             Archetype.WebMvcConfiguration,
             Archetype.ApplicationConfiguration,
             Archetype.ContainerConfiguration,
-            Archetype.ConversionService,
+            // Archetype.ConversionService, // endpoint asset, {basePath}{endpoint}.helper.ConversionService
             Archetype.DateTimeFormatConfiguration,
 
             // persistence stuff
+            Archetype.CustomSQLRepository,
+            Archetype.DataStoreApi,
             Archetype.GenericDataStore,
             Archetype.MongoDataStore,
             Archetype.RegisterDatabaseProperties,
@@ -79,7 +84,7 @@ public class ProjectArchetypeToMap {
      * @return a mapping of archetype.name() and the matching descriptor
      */
     public static Map<String, ArchetypeDescriptor> map(@NonNull IArchetypeDescriptorFactory factory) {
-        HashMap<String, ArchetypeDescriptor> results = new HashMap<>();
+        Map<String, ArchetypeDescriptor> results = new TreeMap<>();
         for (Archetype archetype : PROJECT_ARCHETYPES) {
             results.put(archetype.name(), factory.createArchetypeDescriptor(archetype));
         }

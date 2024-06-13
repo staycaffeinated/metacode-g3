@@ -22,10 +22,8 @@ public interface MetaTemplateModel {
 
     ArchetypeDescriptor getArchetypeDescriptor();
 
-    default Map<String, Object> getCustomProperties() {
-        return new HashMap<String,Object>();
-    }
-    default void setCustomProperties(Map<String,Object> customProperties) {}
+    Map<String,Object> getCustomProperties();
+    void setCustomProperties(Map<String, Object> customProperties);
 
     /*
      * This code base passes a POJO to Freemarker templates
