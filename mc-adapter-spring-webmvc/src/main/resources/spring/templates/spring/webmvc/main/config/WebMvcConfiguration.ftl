@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Configuration
-public class WebMvcConfiguration implements WebMvcConfigurer {
+public class ${WebMvcConfiguration.className()} implements WebMvcConfigurer {
 
     /**
      * This allows you to set the allowed-origins in an environment variable or

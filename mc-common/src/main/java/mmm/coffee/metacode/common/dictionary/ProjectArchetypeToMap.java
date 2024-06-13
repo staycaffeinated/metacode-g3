@@ -61,6 +61,7 @@ public class ProjectArchetypeToMap {
             Archetype.DateTimeFormatConfiguration,
 
             // persistence stuff
+            Archetype.CustomRepository,     // the base interface extended by specific repos; eg: PetRepository extends CustomRepository
             Archetype.CustomSQLRepository,
             Archetype.DataStoreApi,
             Archetype.GenericDataStore,
