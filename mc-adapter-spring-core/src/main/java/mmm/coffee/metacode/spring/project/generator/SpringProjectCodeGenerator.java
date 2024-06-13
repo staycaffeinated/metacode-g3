@@ -106,14 +106,14 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
      * .usingPackageSchema(packageSchema)
      * .build();
      * <p>
-     * Function<TemplateModel,Map<String,Object> toFreeMarker -> x -> {
+     * Function<TemplateModel,Map<String,Object>> toFreeMarker -> x -> {
      * // hard-coded mapping?? tedious but offers precise control
      * }
      * <p>
      * bookshelf().buildCollector().collect().etc()
      * collector.collect().filter(keepThese).stream().forEach(template -> {
-     * var content = render(it, templateMetaModel)
-     * handler.write(content)
+     *     var content = render(it, templateMetaModel)
+     *     handler.write(content)
      * }
      * </code>
      * A Template needs to tell us:
@@ -122,14 +122,7 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
      */
     @SuppressWarnings("java:S1135") // ignore TODO blocks for now
     public int generateCode(RestProjectDescriptor descriptor) {
-        log.debug("generateCode: descriptor: {}", descriptor);
-        log.debug("generateCode: archetypeDescriptorFactory: {}", archetypeDescriptorFactory);
-
-        if (log.isDebugEnabled()) {
-            for (String cname : collector.catalogs()) {
-                log.debug("[generateCode]: candidate catalog: {}", cname);
-            }
-        }
+        log.debug("generateCode: restProjectDescriptor: {}", descriptor);
 
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = RestProjectTemplateModelFactory.create()
@@ -137,7 +130,8 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
                 .usingProjectDescriptor(descriptor)
                 .build();
 
-        templateModel.setCustomProperties(assembleCustomProperties(descriptor.getBasePackage()));
+        templateModel.setCustomProperties(CustomPropertyAssembler.assembleCustomProperties(archetypeDescriptorFactory,
+                descriptor.getBasePackage()));
 
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);
@@ -149,7 +143,6 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
 
         // Render the templates
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
-            log.debug("Processing the catalogEntry having sourceTemplate: {}", catalogEntry.getFacets().get(0).getSourceTemplate());
 
             // essentially: forEach: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             catalogEntry.getFacets().forEach(facet -> {
@@ -173,55 +166,4 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
 
         return ExitCodes.OK;
     }
-
-    private Map<String, Object> assembleCustomProperties(String basePackage) {
-        Map<String, ArchetypeDescriptor> customProperties = ProjectArchetypeToMap.map(archetypeDescriptorFactory);
-        Map<String, Object> props = new TreeMap<>();
-        customProperties.forEach((key, value) -> {
-            ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage);
-            props.put(key, descriptor1);
-        });
-        return props;
-    }
-
-    /*
-     *
-     */
-    private static ArchetypeDescriptor resolveBasePackageOf(ArchetypeDescriptor descriptor, String basePackage) {
-        if (descriptor instanceof JavaArchetypeDescriptor) {
-            JavaArchetypeDescriptor that = (JavaArchetypeDescriptor) descriptor;
-            Map<String, String> map = new HashMap<>();   // the map for the mustache resolver
-            map.put("basePackage", basePackage);
-            String resolvedClassName = MustacheExpressionResolver.resolve(that.className(), map);
-            String resolvedFQCN = MustacheExpressionResolver.resolve(that.fqcn(), map);
-            String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
-
-            var foo = ResolvedJavaArchetypeDescriptor.builder()
-                    .archetype(descriptor.archetype())
-                    .fqcn(resolvedFQCN)
-                    .className(resolvedClassName)
-                    .packageName(resolvedPkgName)
-                    .build();
-            log.debug("Returning resolved descriptor: {}", foo);
-            return foo;
-        } else {
-            return descriptor;
-        }
-    }
-
-    @Builder
-    private record ResolvedJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
-                                                   String className) implements JavaArchetypeDescriptor {
-
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("ResolvedJavaArchetypeDescriptor[className: ").append(className()).append(", ");
-            sb.append("fqcn: ").append(fqcn()).append(", ");
-            sb.append("unitTest: ").append(fqcnUnitTest()).append(", ");
-            sb.append("integrationTest: ").append(fqcnIntegrationTest()).append(", ");
-            sb.append("packageName: ").append(packageName()).append("]");
-            return sb.toString();
-        }
-    }
-
 }

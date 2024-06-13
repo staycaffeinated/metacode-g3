@@ -1,7 +1,7 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.advice;
+package ${ExceptionHandler.packageName()};
 
-import ${project.basePackage}.exception.UnprocessableEntityException;
+import ${Exception.packageName()}.UnprocessableEntityException;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -23,124 +23,114 @@ import java.sql.SQLException;
 */
 @SuppressWarnings("java:1102")
 @ControllerAdvice
-public class GlobalExceptionHandler implements ProblemHandling {
+public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
 
-@ExceptionHandler(UnprocessableEntityException.class)
-public ResponseEntity
-<Problem> handleUnprocessableRequestException(UnprocessableEntityException exception) {
-    return problemDescription("The request cannot be processed", exception);
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public ResponseEntity<Problem> handleUnprocessableRequestException(UnprocessableEntityException exception) {
+        return problemDescription("The request cannot be processed", exception);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity
-    <Problem> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+    public ResponseEntity<Problem> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         return problemDescription("The request contains invalid data", exception);
-        }
+    }
 
-        <#--    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)-->
-        <#--    public ResponseEntity<Problem> handleConstraintViolationException(jakarta.validation.ConstraintViolationException ex) {-->
-        <#--        return problemDescription("Constraint violation", ex);-->
-        <#--    }-->
+    <#--    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)-->
+    <#--    public ResponseEntity<Problem> handleConstraintViolationException(jakarta.validation.ConstraintViolationException ex) {-->
+    <#--        return problemDescription("Constraint violation", ex);-->
+    <#--    }-->
 
-        /**
-        * Handles EntityNotFoundException. Created to encapsulate errors with more detail than
-        jakarta.persistence.EntityNotFoundException.
-        *
-        * @param ex the EntityNotFoundException
-        * @return the ApiError object
-        */
-        @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
-        public ResponseEntity
-        <Problem> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex) {
-            return problemDescription("The requested entity was not found", ex);
-            }
+    /**
+     * Handles EntityNotFoundException. Created to encapsulate errors with more detail than
+     * jakarta.persistence.EntityNotFoundException.
+     *
+     * @param ex the EntityNotFoundException
+     * @return the ApiError object
+     */
+    @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
+    public ResponseEntity<Problem> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex) {
+        return problemDescription("The requested entity was not found", ex);
+    }
 
-            /**
-            * Handles SQL exception.
-            *
-            * @param ex Exception
-            * @param request WebRequest
-            * @return ResponseEntity
-            */
-            @ExceptionHandler(SQLException.class)
-            public ResponseEntity
-            <Problem> handleSQLException(SQLException ex, WebRequest request) {
-                String message = String.format("Database Error: %s : %s ", ex.getErrorCode(), ex.getLocalizedMessage());
-                return problemDescription(message, ex, Status.SERVICE_UNAVAILABLE);
-                }
+    /**
+     * Handles SQL exception.
+     *
+     * @param ex Exception
+     * @param request WebRequest
+     * @return ResponseEntity
+     */
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<Problem> handleSQLException(SQLException ex, WebRequest request) {
+        String message = String.format("Database Error: %s : %s ", ex.getErrorCode(), ex.getLocalizedMessage());
+        return problemDescription(message, ex, Status.SERVICE_UNAVAILABLE);
+    }
 
 
-                /**
-                * Handle Exception, handle generic Exception.class
-                *
-                * @param ex the Exception
-                * @return a ResponseEntity with a body containing the problem description
-                */
-                @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-                public ResponseEntity
-                <Problem> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
-                    String message = "Invalid parameter in the request";
+    /**
+     * Handle Exception, handle generic Exception.class
+     *
+     * @param ex the Exception
+     * @return a ResponseEntity with a body containing the problem description
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Problem> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
+        String message = "Invalid parameter in the request";
 
-                    // If the value and class are provided, write a detailed message
-                    Object value = ex.getValue();
-                    Class<?> klass = ex.getRequiredType();
-                    if (value != null && klass != null)
-                    message = String.format("The parameter '%s' with value '%s' could not be converted to type '%s'",
-                    ex.getName(), value, klass.getSimpleName());
+        // If the value and class are provided, write a detailed message
+        Object value = ex.getValue();
+        Class<?> klass = ex.getRequiredType();
+        if (value != null && klass != null)
+        message = String.format("The parameter '%s' with value '%s' could not be converted to type '%s'",
+        ex.getName(), value, klass.getSimpleName());
 
-                    return problemDescription(message, ex);
-                    }
+        return problemDescription(message, ex);
+    }
 
-                    /**
-                    * Catch anything that falls through
-                    */
-                    @ExceptionHandler(RuntimeException.class)
-                    public ResponseEntity
-                    <Problem> handleUncaughtException(RuntimeException ex) {
-                        return problemDescription(ex.getMessage(), ex, Status.INTERNAL_SERVER_ERROR);
-                        }
+    /**
+     * Catch anything that falls through
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Problem> handleUncaughtException(RuntimeException ex) {
+        return problemDescription(ex.getMessage(), ex, Status.INTERNAL_SERVER_ERROR);
+    }
 
-                        /**
-                        * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter
-                        is missing.
-                        *
-                        * @param ex MissingServletRequestParameterException
-                        * @return the ApiError object
-                        */
-                        protected ResponseEntity
-                        <Problem> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
-                            String error = String.format("The parameter '%s' is missing", ex.getParameterName());
-                            return problemDescription (error, ex, Status.UNPROCESSABLE_ENTITY);
-                            }
+    /**
+     * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
+     *
+     * @param ex MissingServletRequestParameterException
+     * @return the ApiError object
+     */
+    protected ResponseEntity<Problem> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
+        String error = String.format("The parameter '%s' is missing", ex.getParameterName());
+        return problemDescription (error, ex, Status.UNPROCESSABLE_ENTITY);
+    }
 
 
-                            /**
-                            * Build a Problem/JSON description with HttpStatus: 422 (unprocessable entity)
-                            *
-                            * @param throwable the exception received by the handler
-                            * @return a ResponseEntity with a body containing the problem description
-                            */
-                            private ResponseEntity
-                            <Problem> problemDescription(String title, Throwable throwable) {
-                                return problemDescription(title, throwable, Status.UNPROCESSABLE_ENTITY);
-                                }
+    /**
+     * Build a Problem/JSON description with HttpStatus: 422 (unprocessable entity)
+     *
+     * @param throwable the exception received by the handler
+     * @return a ResponseEntity with a body containing the problem description
+     */
+    private ResponseEntity<Problem> problemDescription(String title, Throwable throwable) {
+        return problemDescription(title, throwable, Status.UNPROCESSABLE_ENTITY);
+    }
 
-                                /**
-                                * Build a Problem/JSON description with the given http status
-                                *
-                                * @param throwable the exception received by the handler
-                                * @return a ResponseEntity with a body containing the problem descriptionn
-                                */
-                                private ResponseEntity
-                                <Problem> problemDescription(String title, Throwable throwable, Status status) {
-                                    // @formatter:off
+    /**
+     * Build a Problem/JSON description with the given http status
+     *
+     * @param throwable the exception received by the handler
+     * @return a ResponseEntity with a body containing the problem descriptionn
+     */
+    private ResponseEntity<Problem> problemDescription(String title, Throwable throwable, Status status) {
+        // @formatter:off
         Problem problem = Problem.builder()
-                .withStatus(status)
-                .withDetail(throwable.getMessage())
-                .withTitle(title)
-                .build();
+            .withStatus(status)
+            .withDetail(throwable.getMessage())
+            .withTitle(title)
+            .build();
         // @formatter:on
-                                    return ResponseEntity.status(status.getStatusCode()).body(problem);
-                                    }
-                                    }
+        return ResponseEntity.status(status.getStatusCode()).body(problem);
+    }
+}
 

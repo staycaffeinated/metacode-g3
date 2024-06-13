@@ -9,15 +9,20 @@ import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
+import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
+import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.trait.ConvertTrait;
 import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToPredicateConverter;
+import mmm.coffee.metacode.spring.project.generator.CustomPropertyAssembler;
+import mmm.coffee.metacode.spring.project.generator.FakeArchetypeDescriptorFactory;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -60,6 +65,9 @@ class FreemarkerTemplateResolverIntegrationTest {
                 .basePath(BASE_PATH)
                 .isWebMvc(true)
                 .build();
+        
+        Map<String,Object> customProps = CustomPropertyAssembler.assembleCustomProperties(new FakeArchetypeDescriptorFactory(), BASE_PKG);
+        webMvcProject.setCustomProperties(customProps);
 
         webFluxProject = RestProjectTemplateModel.builder()
                 .applicationName(APP_NAME)
@@ -67,6 +75,7 @@ class FreemarkerTemplateResolverIntegrationTest {
                 .basePath(BASE_PATH)
                 .isWebFlux(true)
                 .build();
+        webFluxProject.setCustomProperties(customProps);
 
         // Set up our base project model
         projectDescriptor = RestProjectDescriptor.builder()
