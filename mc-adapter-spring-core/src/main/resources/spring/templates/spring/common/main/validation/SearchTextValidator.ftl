@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.validation;
+package ${SearchTextValidator.packageName()};
 
 import lombok.NonNull;
 import org.springframework.util.ObjectUtils;
@@ -10,13 +10,11 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
-* Verifies that search-by-text parameter only contains valid characters.
-* The reg-ex used here is from:
-*   https://owasp.org/www-community/OWASP_Validation_Regex_Repository
-*/
-public class SearchTextValidator implements ConstraintValidator
-<SearchText, Optional
-<String>> {
+ * Verifies that search-by-text parameter only contains valid characters.
+ * The reg-ex used here is from:
+ *   https://owasp.org/www-community/OWASP_Validation_Regex_Repository
+ */
+public class SearchTextValidator implements ConstraintValidator<SearchText, Optional<String>> {
 
     // These value constraints are arbitrary, since we have to start somewhere.
     // These should be adjusted to something that makes sense to your use cases.
@@ -29,11 +27,13 @@ public class SearchTextValidator implements ConstraintValidator
     <String> value, ConstraintValidatorContext context) {
         // when empty, then the content of the text is irrelevant to the search filter
         if (ObjectUtils.isEmpty(value.orElse("")))
-        return true;
+            return true;
+
         // don't allow unlimited length; pick a limit to the length
         if (value.orElse("").length() > MAXLENGTH)
-        return false;
+            return false;
+
         // check against the allowed characters
         return PATTERN.matcher(value.orElse("")).find();
-        }
-        }
+    }
+}

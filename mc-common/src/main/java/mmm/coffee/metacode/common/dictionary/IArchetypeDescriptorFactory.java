@@ -17,4 +17,5 @@ public interface IArchetypeDescriptorFactory {
      * converters. These classes are specific to an endpoint or "RESTful" resource.
      */
     JavaArchetypeDescriptor createArchetypeDescriptor(Archetype archetype, String restfulResource);
+
 }

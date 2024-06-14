@@ -2,8 +2,9 @@
 
 package ${GenericDataStore.packageName()};
 
-import ${project.basePackage}.math.SecureRandomSeries;
-import ${project.basePackage}.spi.ResourceIdSupplier;
+import ${CustomRepository.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 
@@ -28,14 +29,14 @@ import java.util.Optional;
 @SuppressWarnings("java:S119") // 'ID' mimics Spring convention
 public abstract class ${GenericDataStore.className()}<D,B,ID> {
 
-    private final CustomRepository<B,ID> repository;
+    private final ${CustomRepository.className()}<B,ID> repository;
     private final Converter<B, D> ejbToPojoConverter;
     private final Converter
     <D, B> pojoToEjbConverter;
 
     private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
-    protected ${GenericDataStore.className()}(CustomRepository<B,ID> repository,
+    protected ${GenericDataStore.className()}(${CustomRepository.className()}<B,ID> repository,
                                               Converter<B, D> ejbToPojoConverter,
                                               Converter<D, B> pojoToEjbConverter,
                                               ${ResourceIdSupplier.className()} idSupplier) {
@@ -49,7 +50,7 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
      * Returns a handle to the Repository that's enabling the DataStore to
      * read/write to the database.
      */
-    protected CustomRepository<B,ID> repository() { return repository; }
+    protected ${CustomRepository.className()}<B,ID> repository() { return repository; }
 
     /**
      * Returns the Converter used to convert an entity bean into a domain object

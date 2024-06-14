@@ -38,10 +38,8 @@ entries:
         destination: "{{appModule}}/src/main/resources/db/changelog/db.changelog-001-create-schema.sql"
 
 
-
-
   - scope: "project"
-    archetype: "ExceptionHandler"
+    archetype: "GlobalExceptionHandler"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/advice/GlobalExceptionHandler.ftl"
@@ -52,16 +50,24 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/advice/GlobalExceptionHandlerTests.java"
 
   - scope: "project"
-    archetype: "Exception"
+    archetype: "UnprocessableEntityException"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/UnprocessableEntityException.ftl"
         destination: "{{appModule}}/src/main/java/{{sourceFile}}"
         _destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/UnprocessableEntityException.java"
+
+  - scope: "project"
+    archetype: "ResourceNotFoundException"
+    facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/ResourceNotFoundException.ftl"
         destination: "{{appModule}}/src/main/java/{{sourceFile}}"
         _destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/ResourceNotFoundException.java"
+
+  - scope: "project"
+    archetype: "BadRequestException"
+    facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/BadRequestException.ftl"
         destination: "{{appModule}}/src/main/java/{{sourceFile}}"

@@ -13,7 +13,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.advice",
+      "package": "{{basePackage}}.infra.advice",
       "archetypes": [
         "GlobalExceptionHandler"
       ]
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.infra",
+      "package": "{{basePackage}}",
       "archetypes": [
         "Application"
       ]

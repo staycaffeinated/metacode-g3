@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.validation;
+package ${AlphabeticAnnotation.packageName()};
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -23,9 +23,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = AlphabeticValidator.class)
 @Documented
 public @interface Alphabetic {
-String message() default "{Alphabetic.invalid}";
+    String message() default "{Alphabetic.invalid}";
 
-Class<?>[] groups() default { };
+    Class<?>[] groups() default { };
 
-Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default { };
 }

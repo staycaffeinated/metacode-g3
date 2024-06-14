@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.validation;
+package ${ResourceIdAnnotation.packageName()};
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface ResourceId {
 String message() default "{ResourceId.invalid}";
 
-Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

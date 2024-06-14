@@ -2,7 +2,6 @@ package mmm.coffee.metacode.spring.project.generator;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
 import mmm.coffee.metacode.common.model.Archetype;
@@ -41,14 +40,26 @@ public class CustomPropertyAssembler {
             String resolvedFQCN = MustacheExpressionResolver.resolve(that.fqcn(), map);
             String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
 
-            var foo = ResolvedJavaArchetypeDescriptor.builder()
-                    .archetype(descriptor.archetype())
-                    .fqcn(resolvedFQCN)
-                    .className(resolvedClassName)
-                    .packageName(resolvedPkgName)
-                    .build();
-            log.debug("Returning resolved descriptor: {}", foo);
-            return foo;
+            switch (descriptor.archetype()) {
+
+                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties: {
+                    log.info("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
+                    return EdgeCaseResolvedArchetypeDescriptor.builder()
+                            .archetype(descriptor.archetype())
+                            .fqcn(resolvedFQCN)
+                            .className(resolvedClassName)
+                            .packageName(resolvedPkgName)
+                            .build();
+                }
+                default:
+                    return ResolvedJavaArchetypeDescriptor.builder()
+                            .archetype(descriptor.archetype())
+                            .fqcn(resolvedFQCN)
+                            .className(resolvedClassName)
+                            .packageName(resolvedPkgName)
+                            .build();
+
+            }
         } else {
             return descriptor;
         }
@@ -69,4 +80,26 @@ public class CustomPropertyAssembler {
             return sb.toString();
         }
     }
+
+    @Builder
+    private record EdgeCaseResolvedArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
+                                                       String className) implements JavaArchetypeDescriptor {
+        public String fqcnIntegrationTest() {
+            return fqcn();
+        }
+        public String fqcnUnitTest() {
+            return fqcn();
+        }
+
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("NoOpTestDescriptor[className: ").append(className()).append(", ");
+            sb.append("fqcn: ").append(fqcn()).append(", ");
+            sb.append("unitTestClass: ").append(fqcnUnitTest()).append(", ");
+            sb.append("integrationTestClass: ").append(fqcnIntegrationTest()).append(", ");
+            sb.append("packageName: ").append(packageName()).append("]");
+            return sb.toString();
+        }
+    }
+
 }

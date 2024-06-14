@@ -2,8 +2,8 @@
 
 package ${ApplicationConfiguration.packageName()};
 
-import ${project.basePackage}.math.SecureRandomSeries;
-import ${project.basePackage}.spi.ResourceIdSupplier;
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +15,6 @@ public class ${ApplicationConfiguration.className()} {
 
     @Bean
     public ResourceIdSupplier resourceIdSupplier() {
-        return new SecureRandomSeries();
+        return new ${SecureRandomSeries.className()}();
     }
 }

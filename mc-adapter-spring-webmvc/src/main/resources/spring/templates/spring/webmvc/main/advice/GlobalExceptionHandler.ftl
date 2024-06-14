@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${ExceptionHandler.packageName()};
+package ${GlobalExceptionHandler.packageName()};
 
 import ${Exception.packageName()}.UnprocessableEntityException;
 

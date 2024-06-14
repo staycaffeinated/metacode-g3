@@ -110,7 +110,7 @@ public enum Archetype {
     ObjectDataStore("ObjectDataStore"),
     ObjectDataStoreProvider("ObjectDataStoreProvider"), // persistence adapter for a specific EJB/POJO
     CustomSQLRepository("CustomSQLRepository"),
-    ExceptionHandler("ExceptionHandler"), // handles exceptions from a specific endpoint
+
     EntityWithText("EntityWithText"), // a predicate for a given EJB/POJO
 
     // for plain text files, like the README.adoc, lombok.config, settings.gradle, etc.

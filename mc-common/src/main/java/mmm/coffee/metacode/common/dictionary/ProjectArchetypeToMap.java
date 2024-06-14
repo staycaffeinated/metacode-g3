@@ -44,10 +44,8 @@ public class ProjectArchetypeToMap {
             Archetype.SpringProfiles,
 
             // exception stuff
-            // Archetype.Exception, // this is the endpoint.persistence.ExceptionHandler
             Archetype.GlobalExceptionHandler,
             Archetype.Exception,
-            Archetype.ExceptionHandler,
             Archetype.ResourceNotFoundException,
             Archetype.UnprocessableEntityException,
             Archetype.BadRequestException,

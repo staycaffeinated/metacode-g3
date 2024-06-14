@@ -18,7 +18,7 @@ public class OutputFileDestinationResolver {
                                              RestProjectTemplateModel templateModel,
                                              MustacheDecoder decoder)
     {
-        log.info("[resolveDestination] archetypeName: {}, facet: {}", archetypeName, facet);
+        log.debug("[resolveDestination] archetypeName: {}, facet: {}", archetypeName, facet);
         String destinationExpression = facet.getDestination();
         Map<String,Object> customProps = templateModel.getCustomProperties();
         if (customProps != null) {

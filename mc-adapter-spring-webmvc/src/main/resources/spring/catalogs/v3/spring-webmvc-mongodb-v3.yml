@@ -25,7 +25,7 @@ entries:
         destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"
 
   - scope: "project"
-    archetype: "ExceptionHandler"
+    archetype: "GlobalExceptionHandler"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/advice/GlobalExceptionHandler.ftl"

@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 <#-- When using Postgres with TestContainers -->
 <#-- ======================================= -->
 <#if project.isWithTestContainers()>
-import ${ContainerConfiguration.packageName()}.ContainerConfiguration;
+import ${ContainerConfiguration.fqcn()};
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.context.annotation.Import;
 </#if>
-import ${RegisterDatabaseProperties.packageName()}.RegisterDatabaseProperties;
+import ${RegisterDatabaseProperties.fqcn()};
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;

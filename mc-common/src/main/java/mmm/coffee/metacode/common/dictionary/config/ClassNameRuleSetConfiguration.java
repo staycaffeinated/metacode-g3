@@ -13,12 +13,12 @@ import java.util.Map;
 @Configuration
 public class ClassNameRuleSetConfiguration {
 
-    @Value("classpath:package-layout.json")
-    private String packageLayoutConfiguration;
+    @Value("classpath:classname-rules.properties")
+    private String classNameRulesProperties;
 
     @Bean
     public ClassNameRulesReader classNameRulesReaderFactory() throws IOException {
-        ClassNameRulesReader reader = new ClassNameRulesReader(new DefaultResourceLoader(), packageLayoutConfiguration);
+        ClassNameRulesReader reader = new ClassNameRulesReader(new DefaultResourceLoader(), classNameRulesProperties);
         return reader;
     }
 

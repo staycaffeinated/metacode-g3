@@ -14,7 +14,7 @@ import ${project.basePackage}.config.ContainerConfiguration;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.context.annotation.Import;
 </#if>
-import ${project.basePackage}.database.RegisterDatabaseProperties;
+import ${RegisterDatabaseProperties.fqcn()};
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
