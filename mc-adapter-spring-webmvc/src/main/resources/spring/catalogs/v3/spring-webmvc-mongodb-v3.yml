@@ -108,7 +108,7 @@ entries:
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/DataStore.java"
 
   - scope: "project"
-    archetype: "Controller"
+    archetype: "RootController"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint-root/RootController.ftl"
