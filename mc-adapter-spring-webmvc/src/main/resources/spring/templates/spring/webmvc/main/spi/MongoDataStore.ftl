@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
 * A generalized NoSQL data store
 */
-public interface DataStore<T> {
+public interface ${MongoDataStore.className()}<T> {
     /**
      * Find the document having a given resourceId
      */

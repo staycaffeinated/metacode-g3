@@ -35,18 +35,26 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/advice/GlobalExceptionHandlerTests.java"
 
   - scope: "project"
-    archetype: "Exception"
+    archetype: "UnprocessableEntityException"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/UnprocessableEntityException.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/UnprocessableEntityException.java"
+
+  - scope: "project"
+    archetype: "ResourceNotFoundException"
+    facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/ResourceNotFoundException.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/ResourceNotFoundException.java"
+
+  - scope: "project"
+    archetype: "BadRequestException"
+    facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/BadRequestException.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/BadRequestException.java"
-
+             
   - scope: "project"
     archetype: "SpringProfiles"
     facets:
@@ -93,13 +101,6 @@ entries:
         destination: "{{appModule}}/src/test/java/{{basePackagePath}}/config/LocalDateConverterTests.java"
 
   - scope: "project"
-    archetype: "CustomSQLRepository"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/CustomSQLRepository.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/CustomRepository.java"
-
-  - scope: "project"
     archetype: "MongoDataStore"
     facets:
       - facet: "main"
@@ -121,6 +122,18 @@ entries:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/MongoRootExceptionHandlingIT.ftl"
         destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/root/RootExceptionHandlingIT.java"
+
+  - scope: "project"
+    archetype: "RootService"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint-root/RootService.ftl"
+        destination: "{{appModule}}/src/main/java/{{sourceFile}}"
+        _destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/root/RootService.java"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/endpoint-root/RootServiceTest.ftl"
+        destination: "{{appModule}}/src/main/java/{{sourceFile}}"
+        _destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/root/RootServiceTest.java"
 
   - scope: "project"
     archetype: "SecurityResponseHeadersFilter"

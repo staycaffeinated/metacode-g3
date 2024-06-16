@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${RegisterDatabaseProperties.fqcn()};
+package ${RegisterDatabaseProperties.packageName()};
 
 import ${ContainerConfiguration.fqcn()};
 import org.springframework.test.context.DynamicPropertyRegistry;
