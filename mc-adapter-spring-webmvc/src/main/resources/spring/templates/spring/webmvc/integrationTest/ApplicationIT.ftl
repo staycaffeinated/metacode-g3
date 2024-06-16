@@ -6,15 +6,15 @@ import ${RegisterDatabaseProperties.fqcn()};
 <#-- Postgres & TestContainers -->
 <#-- ========================= -->
 <#if project.isWithPostgres() && project.isWithTestContainers()>
-import ${project.basePackage}.config.ContainerConfiguration;
+import ${ContainerConfiguration.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static ${project.basePackage}.common.SpringProfiles.INTEGRATION_TEST;
-import static ${project.basePackage}.common.SpringProfiles.TEST;
+import static ${SpringProfiles.fqcn()}.INTEGRATION_TEST;
+import static ${SpringProfiles.fqcn()}.TEST;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @ActiveProfiles({TEST,INTEGRATION_TEST})

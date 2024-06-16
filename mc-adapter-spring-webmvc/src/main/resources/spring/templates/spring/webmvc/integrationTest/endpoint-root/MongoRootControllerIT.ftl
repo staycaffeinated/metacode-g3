@@ -2,9 +2,9 @@
 package ${RootController.packageName()};
 
 <#if (project.isWithTestContainers())>
-import ${project.basePackage}.config.ContainerConfiguration;
+import ${ContainerConfiguration.fqcn()};
 </#if>
-import ${RegisterDatabaseProperties.packageName()}.RegisterDatabaseProperties;
+import ${RegisterDatabaseProperties.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

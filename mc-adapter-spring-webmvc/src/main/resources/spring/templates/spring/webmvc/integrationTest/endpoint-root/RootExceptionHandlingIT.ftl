@@ -10,7 +10,7 @@ package ${RootController.packageName()};
 <#-- Tech Debt: refactor maybe into 2 distinct tempates                             -->
 <#-- ============================================================================== -->
 <#if project.isWithTestContainers()>
-import ${project.basePackage}.config.ContainerConfiguration;
+import ${ContainerConfiguration.fqcn()};
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.context.annotation.Import;
 </#if>

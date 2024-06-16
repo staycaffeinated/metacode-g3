@@ -3,12 +3,10 @@ package mmm.coffee.metacode.common.dictionary;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import mmm.coffee.metacode.common.model.Archetype;
-import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
-import org.apache.commons.lang3.arch.Processor;
-import org.apache.commons.text.WordUtils;
+import mmm.coffee.metacode.common.model.Archetype;
+import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,8 +18,9 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
     /**
      * Constructor
+     *
      * @param packageLayoutRuleSet indicates packages and their classes
-     * @param classNameRuleSet indicates archetypes and their class names
+     * @param classNameRuleSet     indicates archetypes and their class names
      */
     public ArchetypeDescriptorFactory(@NonNull PackageLayoutRuleSet packageLayoutRuleSet, @NonNull ClassNameRuleSet classNameRuleSet) {
         this.packageLayoutRuleSet = packageLayoutRuleSet;
@@ -32,8 +31,6 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
         String pkgName = packageLayoutRuleSet.resolvePackageName(archetype.toString());
         String klassName = classNameRuleSet.resolveClassName(archetype.toString());
         String fqcn = pkgName + "." + klassName;
-
-        log.info("[createArchetypeDescriptor] Archetype: {}", archetype.toString());
 
         return DefaultJavaArchetypeDescriptor.builder()
                 .archetype(archetype)
@@ -66,10 +63,9 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
     }
 
 
-
     @Builder
     private record DefaultJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
-                                                      String className) implements JavaArchetypeDescriptor {
+                                                  String className) implements JavaArchetypeDescriptor {
         public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("DefaultJavaArchetype[className: ").append(className()).append(", ");
@@ -83,10 +79,11 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
     @Builder
     private record RegisterDatabasePropertiesDescriptor(Archetype archetype, String fqcn, String packageName,
-                                                  String className) implements JavaArchetypeDescriptor {
+                                                        String className) implements JavaArchetypeDescriptor {
         public String fqcnIntegrationTest() {
             return className();
         }
+
         public String fqcnUnitTest() {
             return className();
         }
@@ -104,10 +101,11 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
     @Builder
     private record ContainerConfigurationDescriptor(Archetype archetype, String fqcn, String packageName,
-                                                        String className) implements JavaArchetypeDescriptor {
+                                                    String className) implements JavaArchetypeDescriptor {
         public String fqcnIntegrationTest() {
             return className();
         }
+
         public String fqcnUnitTest() {
             return className();
         }

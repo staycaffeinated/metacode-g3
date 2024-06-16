@@ -3,7 +3,7 @@
 package ${endpoint.packageName};
 
 <#if (endpoint.isWithTestContainers())>
-    import ${endpoint.basePackage}.config.ContainerConfiguration;
+import ${ContainerConfiguration.fqcn()};
 </#if>
 import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
 import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
@@ -20,8 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 <#if (endpoint.isWithTestContainers())>
-    import org.springframework.context.annotation.Import;
-    import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.context.annotation.Import;
+import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 
 import java.util.List;
@@ -31,48 +31,48 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 <#if (endpoint.isWithTestContainers())>
-    @Import(ContainerConfiguration.class)
-    @Testcontainers
+@Import(ContainerConfiguration.class)
+@Testcontainers
 </#if>
 class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
-@Autowired
-private ${endpoint.entityName}DataStore dataStore;
+    @Autowired
+    private ${endpoint.entityName}DataStore dataStore;
 
-private ${endpoint.entityName}Service serviceUnderTest;
+    private ${endpoint.entityName}Service serviceUnderTest;
 
-private ${endpoint.entityName} knownPersistedItem;
+    private ${endpoint.entityName} knownPersistedItem;
 
-@BeforeEach
-void init${endpoint.entityName}Service() {
-serviceUnderTest = new ${endpoint.entityName}ServiceProvider(dataStore);
-${endpoint.entityName}TestFixtures.allItems().forEach(dataStore::create);
-knownPersistedItem = dataStore.findAll().get(0);
-}
+    @BeforeEach
+    void init${endpoint.entityName}Service() {
+        serviceUnderTest = new ${endpoint.entityName}ServiceProvider(dataStore);
+        ${endpoint.entityName}TestFixtures.allItems().forEach(dataStore::create);
+        knownPersistedItem = dataStore.findAll().get(0);
+    }
 
-@AfterEach
-void deleteTestData() {
-${endpoint.entityName}TestFixtures.allItems().forEach(item ->
-dataStore.deleteByResourceId(item.getResourceId()));
-}
+    @AfterEach
+    void deleteTestData() {
+        ${endpoint.entityName}TestFixtures.allItems().forEach(item ->
+        dataStore.deleteByResourceId(item.getResourceId()));
+    }
 
-/*
-* FindById
-*/
-@Nested
-public class FindByResourceId {
-@Test
-@SuppressWarnings("all")
-void shouldFind${endpoint.entityName}ById() throws Exception {
-// given: the public ID of an item known to be in the database
-String expectedId = knownPersistedItem.getResourceId();
+    /*
+     * FindById
+     */
+    @Nested
+    public class FindByResourceId {
+        @Test
+        @SuppressWarnings("all")
+        void shouldFind${endpoint.entityName}ById() throws Exception {
+        // given: the public ID of an item known to be in the database
+        String expectedId = knownPersistedItem.getResourceId();
 
-// when: the service is asked to find the item
-Optional<${endpoint.entityName}> optional = serviceUnderTest.find${endpoint.entityName}ByResourceId(expectedId);
+        // when: the service is asked to find the item
+        Optional<${endpoint.entityName}> optional = serviceUnderTest.find${endpoint.entityName}ByResourceId(expectedId);
 
-// expect: the item is found, and has the ID that's expected
-assertThat(optional).isNotNull().isPresent();
-assertThat(optional.get().getResourceId()).isEqualTo(expectedId);
-}
+        // expect: the item is found, and has the ID that's expected
+        assertThat(optional).isNotNull().isPresent();
+        assertThat(optional.get().getResourceId()).isEqualTo(expectedId);
+    }
 }
 
 /*

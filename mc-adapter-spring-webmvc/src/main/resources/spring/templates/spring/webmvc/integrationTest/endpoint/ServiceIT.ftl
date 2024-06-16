@@ -3,9 +3,9 @@
 package ${endpoint.packageName};
 
 <#if endpoint.isWithTestContainers()>
-    import ${endpoint.basePackage}.config.ContainerConfiguration;
-    import org.springframework.context.annotation.Import;
-    import org.testcontainers.junit.jupiter.Testcontainers;
+import ${ContainerConfiguration.fqcn()};
+import org.springframework.context.annotation.Import;
+import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${endpoint.basePackage}.database.*;
 import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
@@ -13,8 +13,7 @@ import ${endpoint.basePackage}.domain.${endpoint.entityName};
 import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
 import org.junit.jupiter.api.*;
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-    import ${endpoint.basePackage}.config.ContainerConfiguration;
-    import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Import;
 <#else>
     import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 </#if>

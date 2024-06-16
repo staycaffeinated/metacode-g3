@@ -3,7 +3,7 @@
 package ${endpoint.packageName};
 
 <#if (endpoint.isWithTestContainers())>
-    import ${endpoint.basePackage}.config.ContainerConfiguration;
+import ${ContainerConfiguration.fqcn()};
 </#if>
 import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
 import ${endpoint.basePackage}.domain.${endpoint.entityName};
@@ -20,8 +20,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 <#if (endpoint.isWithTestContainers())>
-    import org.springframework.context.annotation.Import;
-    import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.context.annotation.Import;
+import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -41,142 +41,142 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 </#if>
 class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
 
-@Autowired
-MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
 
-@Autowired
-ObjectMapper objectMapper;
+    @Autowired
+    ObjectMapper objectMapper;
 
-@Autowired
-private ${endpoint.entityName}Repository repository;
+    @Autowired
+    private ${endpoint.entityName}Repository repository;
 
-private List<${endpoint.documentName}> documentList;
+    private List<${endpoint.documentName}> documentList;
 
-@BeforeEach
-void setUp() {
-documentList = ${endpoint.documentName}TestFixtures.allItems();
-repository.saveAll(${endpoint.documentName}TestFixtures.allItems());
-}
+    @BeforeEach
+    void setUp() {
+        documentList = ${endpoint.documentName}TestFixtures.allItems();
+        repository.saveAll(${endpoint.documentName}TestFixtures.allItems());
+    }
 
-@AfterEach
-public void tearDownEachTime() {
-repository.deleteAll();
-}
+    @AfterEach
+    public void tearDownEachTime() {
+        repository.deleteAll();
+    }
 
-@Nested
-public class ValidateFindByText {
-@Test
-void whenSearchFindsHits_expectOkAndMatchingRecords() throws Exception {
-searchByText("Bluey").andExpect(status().isOk());
-}
+    @Nested
+    public class ValidateFindByText {
+        @Test
+        void whenSearchFindsHits_expectOkAndMatchingRecords() throws Exception {
+            searchByText("Bluey").andExpect(status().isOk());
+        }
 
-@Test
-void whenSearchComesUpEmpty_expectOkButNoRecords() throws Exception {
-searchByText("xyzzy").andExpect(status().isOk());
-}
-}
+        @Test
+        void whenSearchComesUpEmpty_expectOkButNoRecords() throws Exception {
+            searchByText("xyzzy").andExpect(status().isOk());
+        }
+    }
 
-/*
-* FindById
-*/
-@Nested
-public class ValidateFindById {
-@Test
-void shouldFind${endpoint.entityName}ById() throws Exception {
-${endpoint.documentName} item = documentList.get(0);
+    /*
+     * FindById
+    */
+    @Nested
+    public class ValidateFindById {
+        @Test
+        void shouldFind${endpoint.entityName}ById() throws Exception {
+            ${endpoint.documentName} item = documentList.get(0);
 
-findOne(item.getResourceId()).andExpect(status().isOk())
-.andExpect(jsonPath("$.resourceId", is(item.getResourceId())));
-}
-}
+            findOne(item.getResourceId()).andExpect(status().isOk())
+            .andExpect(jsonPath("$.resourceId", is(item.getResourceId())));
+        }
+    }
 
-/*
-* Create method
-*/
-@Nested
-public class ValidateCreate${endpoint.pojoName} {
-@Test
-void shouldCreateNew${endpoint.pojoName}() throws Exception {
-${endpoint.pojoName} resource = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
+    /*
+    * Create method
+    */
+    @Nested
+    public class ValidateCreate${endpoint.pojoName} {
+        @Test
+        void shouldCreateNew${endpoint.pojoName}() throws Exception {
+            ${endpoint.pojoName} resource = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
 
-createOne(resource).andExpect(status().isCreated())
-.andExpect(jsonPath("$.text", is(resource.getText())));
-}
+            createOne(resource).andExpect(status().isCreated())
+            .andExpect(jsonPath("$.text", is(resource.getText())));
+        }
 
-/**
-* Verify the controller's data validation catches malformed inputs, such as
-* missing required fields, and returns either 'unprocessable entity' or 'bad
-* request'.
-*/
-@Test
-void shouldReturn201WhenCreateNew${endpoint.pojoName}WithoutText() throws Exception {
-${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
+        /**
+        * Verify the controller's data validation catches malformed inputs, such as
+        * missing required fields, and returns either 'unprocessable entity' or 'bad
+        * request'.
+        */
+        @Test
+        void shouldReturn201WhenCreateNew${endpoint.pojoName}WithoutText() throws Exception {
+            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
 
-// Group validation appears to be buggy in Spring 6.
-// The validations in Group::OnCreate and Group::OnUpdate
-// are not being honored. For example, an entity's resourceId should
-// be blank when creating the entity, but non-blank when updating
-// the entity. The culprit for this (broken) behavior is not yet known.
-createOne(resource).andExpect(status().isCreated());
-}
-}
+            // Group validation appears to be buggy in Spring 6.
+            // The validations in Group::OnCreate and Group::OnUpdate
+            // are not being honored. For example, an entity's resourceId should
+            // be blank when creating the entity, but non-blank when updating
+            // the entity. The culprit for this (broken) behavior is not yet known.
+            createOne(resource).andExpect(status().isCreated());
+        }
+    }
 
-/*
-* Update method
-*/
-@Nested
-public class ValidateUpdate${endpoint.entityName} {
+    /*
+    * Update method
+    */
+    @Nested
+    public class ValidateUpdate${endpoint.entityName} {
 
-@Test
-@SuppressWarnings("all")
-void shouldUpdate${endpoint.entityName}() throws Exception {
-${endpoint.documentName} doc = documentList.get(0);
-${endpoint.pojoName} modified = new ${endpoint.documentName}ToPojoConverter().convert(doc);
-modified.setText("modified");
+        @Test
+        @SuppressWarnings("all")
+        void shouldUpdate${endpoint.entityName}() throws Exception {
+            ${endpoint.documentName} doc = documentList.get(0);
+            ${endpoint.pojoName} modified = new ${endpoint.documentName}ToPojoConverter().convert(doc);
+            modified.setText("modified");
 
-updateOne(modified).andExpect(status().isOk())
-.andExpect(jsonPath("$..text").value(modified.getText()));
-}
-}
+            updateOne(modified).andExpect(status().isOk())
+            .andExpect(jsonPath("$..text").value(modified.getText()));
+        }
+    }
 
-/*
-* Delete method
-*/
-@Nested
-public class ValidateDelete${endpoint.entityName} {
-@Test
-void shouldDelete${endpoint.entityName}() throws Exception {
-${endpoint.documentName} document = documentList.get(0);
+    /*
+     * Delete method
+     */
+    @Nested
+    public class ValidateDelete${endpoint.entityName} {
+        @Test
+        void shouldDelete${endpoint.entityName}() throws Exception {
+            ${endpoint.documentName} document = documentList.get(0);
 
-deleteOne(document.getResourceId()).andExpect(status().isOk());
-}
-}
+            deleteOne(document.getResourceId()).andExpect(status().isOk());
+        }
+    }
 
-// ---------------------------------------------------------------------------------------------------------------
-//
-// Helper methods
-//
-// ---------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------------------------
+    //
+    // Helper methods
+    //
+    // ---------------------------------------------------------------------------------------------------------------
 
-protected ResultActions searchByText(String text) throws Exception {
-return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.search}).param("text", text));
-}
+    protected ResultActions searchByText(String text) throws Exception {
+        return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.search}).param("text", text));
+    }
 
-protected ResultActions findOne(String resourceId) throws Exception {
-return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, resourceId));
-}
+    protected ResultActions findOne(String resourceId) throws Exception {
+        return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, resourceId));
+    }
 
-protected ResultActions createOne(${endpoint.entityName} pojo) throws Exception {
-return mockMvc.perform(post(${endpoint.entityName}Routes.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
-.content(objectMapper.writeValueAsString(pojo)));
-}
+    protected ResultActions createOne(${endpoint.entityName} pojo) throws Exception {
+        return mockMvc.perform(post(${endpoint.entityName}Routes.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(pojo)));
+    }
 
-protected ResultActions updateOne(${endpoint.entityName} pojo) throws Exception {
-return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, pojo.getResourceId()).contentType(MediaType.APPLICATION_JSON)
-.content(objectMapper.writeValueAsString(pojo)));
-}
+    protected ResultActions updateOne(${endpoint.entityName} pojo) throws Exception {
+        return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, pojo.getResourceId()).contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(pojo)));
+    }
 
-protected ResultActions deleteOne(String resourceId) throws Exception {
-return mockMvc.perform(delete(${endpoint.entityName}Routes.${endpoint.routeConstants.delete}, resourceId));
-}
+    protected ResultActions deleteOne(String resourceId) throws Exception {
+        return mockMvc.perform(delete(${endpoint.entityName}Routes.${endpoint.routeConstants.delete}, resourceId));
+    }
 }
