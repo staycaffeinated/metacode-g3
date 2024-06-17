@@ -2,7 +2,7 @@ plugins {
 id "java-platform"
 }
 
-group = "org.example.platform"
+group = "buildlogic.platform"
 
 // Allow dependencies to other platforms (e.g., BOMs)
 javaPlatform.allowDependencies()

@@ -17,7 +17,7 @@ thru the minutea of G3
 ----
 
 Add `branding` property and use it in plugin names;
-eg: org.example.application-conventions.gradle 
+eg: org.acme.application-conventions.gradle
 or  buildlogic.application-conventions.gradle
 or  mycompany.application-conventions.gradle
 

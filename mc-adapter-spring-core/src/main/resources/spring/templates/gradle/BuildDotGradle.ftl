@@ -1,5 +1,5 @@
 plugins {
-id 'org.example.application-conventions'
+id 'buildlogic.application-conventions'
 alias(libs.plugins.spring.boot)
 alias(libs.plugins.dependency.management)
 alias(libs.plugins.versions)

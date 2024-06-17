@@ -4,7 +4,7 @@ includeBuild("./gradle/settings")
 }
 
 plugins {
-id "org.example.repositories"
+id "buildlogic.repositories"
 
 // This plugin is related to:
 // https://docs.gradle.org/8.4/userguide/toolchains.html#sub:download_repositories

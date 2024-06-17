@@ -1,12 +1,12 @@
 plugins {
 id "java-library"
 id "java-test-fixtures"
-id "org.example.testing"
-id "org.example.sonar-jacoco"
-id "org.example.jacoco"
-id "org.example.spotless"
-id "org.example.lint"
-id "org.example.docker"
+id "buildlogic.testing"
+id "buildlogic.sonar-jacoco"
+id "buildlogic.jacoco"
+id "buildlogic.spotless"
+id "buildlogic.lint"
+id "buildlogic.docker"
 }
 
 // --------------------------------------------------------------------------------

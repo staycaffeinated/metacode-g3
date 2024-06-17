@@ -8,5 +8,5 @@ implementation("com.diffplug.spotless:spotless-plugin-gradle:${project.spotlessV
 implementation("com.netflix.nebula:gradle-lint-plugin:19.0.2")
 implementation("com.google.cloud.tools:jib-gradle-plugin:${project.jibPluginVersion}")
 implementation("io.freefair.gradle:lombok-plugin:${project.lombokPluginVersion}")
-implementation(platform("org.example.platform:platform"))
+implementation(platform("buildlogic.platform:platform"))
 }

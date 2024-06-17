@@ -87,70 +87,70 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/DockerDotGradle.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.docker.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.docker.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/JacocoDotGradle.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.jacoco.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.jacoco.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/JavaConventionsDotGradle.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.java-conventions.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.java-conventions.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/LintDotGradle.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.lint.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.lint.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/SonarJacocoDotGradle.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.sonar-jacoco.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.sonar-jacoco.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/SpotlessDotGradle.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.spotless.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.spotless.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/TestingDotGradle.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.testing.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.testing.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/ApplicationConventions.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.application-conventions.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.application-conventions.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/LibraryConventions.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.library-conventions.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.library-conventions.gradle"
 
   - scope: "project"
     archetype: "Text"
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/SubprojectConfigurations.ftl"
-        destination: "gradle/plugins/java-conventions/src/main/groovy/org.example.subproject-configurations.gradle"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.subproject-configurations.gradle"
 
   # ------------------------------------------------
   # -- SETTINGS
@@ -174,7 +174,7 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/gradle/settings/src-main-groovy/RepositoriesDotSettingsDotGradle.ftl"
-        destination: "gradle/settings/src/main/groovy/org.example.repositories.settings.gradle"
+        destination: "gradle/settings/src/main/groovy/buildlogic.repositories.settings.gradle"
 
   # ------------------------------------------------
   # -- H2 SCHEMA.SQL

@@ -8,7 +8,7 @@
 * 3) Create the core-library/build.gradle file. That build file might look like:
 * <code>
     * plugins {
-    * id 'org.example.library-conventions'
+    * id 'buildlogic.library-conventions'
     * alias(libs.plugins.versions)
     * alias(libs.plugins.lombok.plugin)
     * }
@@ -22,5 +22,5 @@ plugins {
 alias(libs.plugins.nebula.lint)
 alias(libs.plugins.sonar)
 alias(libs.plugins.lombok.plugin)
-id "org.example.subproject-configurations"
+id "buildlogic.subproject-configurations"
 }
