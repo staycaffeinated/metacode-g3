@@ -48,7 +48,7 @@ class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
     private ${endpoint.entityName}Repository repositoryUnderTest;
 
     // Generates the public identifier of an entity
-    private final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     // Increment for rowIds in the database
     private long rowId = 0;

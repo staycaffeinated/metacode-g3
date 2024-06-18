@@ -68,6 +68,7 @@ class SpringEndpointGeneratorForWebMvcTests {
                 .descriptor2predicate(new RestEndpointDescriptorToPredicateConverter())
                 .outputHandler(new ContentToNullWriter())
                 .templateRenderer(templateResolver)
+                .archetypeDescriptorFactory(new FakeArchetypeDescriptorFactory())
                 .build();
     }
 

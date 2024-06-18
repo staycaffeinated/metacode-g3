@@ -5,6 +5,7 @@ package mmm.coffee.metacode.spring.endpoint.mustache;
 
 import lombok.*;
 import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
+import mmm.coffee.metacode.common.trait.DecodeTrait;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointTemplateModelToMapConverter;
 import mmm.coffee.metacode.spring.endpoint.model.RestEndpointTemplateModel;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 @Builder
 @AllArgsConstructor
-public class MustacheEndpointDecoder {
+public class MustacheEndpointDecoder implements DecodeTrait {
     /*
      * This map does not need to be visible to anything.
      * This map is used to cache results

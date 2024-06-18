@@ -22,6 +22,7 @@ import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToPre
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToTemplateModelConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointTemplateModelToMapConverter;
 import mmm.coffee.metacode.spring.endpoint.mustache.MustacheEndpointDecoder;
+import mmm.coffee.metacode.spring.project.generator.FakeArchetypeDescriptorFactory;
 import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -139,6 +140,7 @@ class SpringEndpointGeneratorTests {
                 .mustacheDecoder(mustacheEndpointDecoder)
                 .templateRenderer(mockTemplateResolver)
                 .outputHandler(mockOutputHandler)
+                .archetypeDescriptorFactory(new FakeArchetypeDescriptorFactory())
                 .build();
     }
 

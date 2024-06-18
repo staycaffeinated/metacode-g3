@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.rule.PackageNameConversion;
+import mmm.coffee.metacode.common.trait.DecodeTrait;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
+import mmm.coffee.metacode.spring.project.model.SpringTemplateModel;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 
 import java.util.Map;
@@ -15,8 +17,8 @@ public class OutputFileDestinationResolver {
 
     public static String resolveDestination(TemplateFacet facet,
                                              String archetypeName,
-                                             RestProjectTemplateModel templateModel,
-                                             MustacheDecoder decoder)
+                                             SpringTemplateModel templateModel,
+                                             DecodeTrait decoder)
     {
         log.debug("[resolveDestination] archetypeName: {}, facet: {}", archetypeName, facet);
         String destinationExpression = facet.getDestination();

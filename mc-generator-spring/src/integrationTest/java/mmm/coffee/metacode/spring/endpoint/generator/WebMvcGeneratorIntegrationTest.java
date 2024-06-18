@@ -24,6 +24,7 @@ import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToTem
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointTemplateModelToMapConverter;
 import mmm.coffee.metacode.spring.endpoint.io.SpringEndpointMetaPropertiesHandler;
 import mmm.coffee.metacode.spring.endpoint.mustache.MustacheEndpointDecoder;
+import mmm.coffee.metacode.spring.project.generator.FakeArchetypeDescriptorFactory;
 import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -68,6 +69,7 @@ class WebMvcGeneratorIntegrationTest {
                 .descriptor2predicate(new RestEndpointDescriptorToPredicateConverter())
                 .outputHandler(new ContentToNullWriter())
                 .templateRenderer(templateResolver)
+                .archetypeDescriptorFactory(new FakeArchetypeDescriptorFactory())
                 .build();
     }
 

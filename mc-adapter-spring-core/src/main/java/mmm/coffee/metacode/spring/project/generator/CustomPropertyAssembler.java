@@ -27,6 +27,17 @@ public class CustomPropertyAssembler {
         });
         return props;
     }
+    public static Map<String, Object> assembleCustomProperties(IArchetypeDescriptorFactory archetypeDescriptorFactory,
+                                                               String basePackage,
+                                                               String restResource) {
+        Map<String, ArchetypeDescriptor> customProperties = ProjectArchetypeToMap.map(archetypeDescriptorFactory);
+        Map<String, Object> props = new TreeMap<>();
+        customProperties.forEach((key, value) -> {
+            ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage);
+            props.put(key, descriptor1);
+        });
+        return props;
+    }
 
     /*
      *

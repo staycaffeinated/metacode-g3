@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
+import mmm.coffee.metacode.common.trait.DecodeTrait;
 import mmm.coffee.metacode.spring.project.converter.RestTemplateModelToMapConverter;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 
@@ -20,7 +21,7 @@ import java.util.Map;
  * style path such as, say, "org/acme/petstore".
  */
 @Builder
-public class MustacheDecoder {
+public class MustacheDecoder implements DecodeTrait {
     /*
      * This map does not need to be visible to anything.
      * This map is used to cache results

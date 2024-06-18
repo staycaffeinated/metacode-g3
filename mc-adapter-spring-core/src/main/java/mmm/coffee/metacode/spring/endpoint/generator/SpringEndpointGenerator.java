@@ -11,6 +11,7 @@ import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
+import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.exception.CreateEndpointUnsupportedException;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
 import mmm.coffee.metacode.common.io.MetaProperties;
@@ -22,6 +23,8 @@ import mmm.coffee.metacode.common.trait.ConvertTrait;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.spring.endpoint.model.RestEndpointTemplateModel;
 import mmm.coffee.metacode.spring.endpoint.mustache.MustacheEndpointDecoder;
+import mmm.coffee.metacode.spring.project.generator.CustomPropertyAssembler;
+import mmm.coffee.metacode.spring.project.generator.OutputFileDestinationResolver;
 import org.apache.commons.configuration2.Configuration;
 
 /**
@@ -44,7 +47,11 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
     // At this time, we don't know which Collector to use until the doPreprocessing
     // method is called, because we have one collector for WebMvc templates, and a
     // different collector for WebFlux. This choice is worth revisiting.
+    // TODO: Perhaps use a Strategy object to handle collection based on style, webmvc vs flux
     private Collector collector;
+
+    private final IArchetypeDescriptorFactory archetypeDescriptorFactory;
+
 
     /**
      * Fills in data missing from the {@code spec} using the {@code metacode.properties}
@@ -92,6 +99,9 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = descriptor2templateModel.convert(descriptor);
 
+        templateModel.setCustomProperties(CustomPropertyAssembler.assembleCustomProperties(archetypeDescriptorFactory,
+                descriptor.getBasePackage(), templateModel.getResource()));
+
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);
 
@@ -101,21 +111,22 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         log.info("[generateCode] collector is-a {}", collector.getClass().getName());
 
         // Render the templates
-        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(it -> {
-            for (TemplateFacet facet : it.getFacets()) {
+        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
+            catalogEntry.getFacets().forEach(facet -> {
                 String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
-                String outputFileName = mustacheDecoder.decode(facet.getDestination());
-                outputHandler.writeOutput(outputFileName, renderedContent);
-            }
-            // essentially: it -> { writeIt ( renderIt(it) ) }
-            /*
-            outputHandler.writeOutput(
-                    // CatalogEntry's use mustache expressions for destinations;
-                    // we need to translate that expression that to its canonical-ish path
-                    mustacheDecoder.decode(it.getDestination()),
-                    templateRenderer.render(it.getTemplate(), templateModel));
-
-             */
+                if (catalogEntry.getArchetype() == null) {
+                    log.error("Detected a catalog entry with a null archetype: {}", catalogEntry);
+                }
+                else {
+                    String outputFileName = OutputFileDestinationResolver.resolveDestination(
+                            facet,
+                            catalogEntry.getArchetype(),
+                            templateModel,
+                            mustacheDecoder);
+                    log.info("Resolved destination: archetype: {}, destination: {}", catalogEntry.getArchetype(), outputFileName);
+                    outputHandler.writeOutput(outputFileName, renderedContent);
+                }
+            });
         });
 
         return ExitCodes.OK;
