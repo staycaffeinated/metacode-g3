@@ -46,7 +46,7 @@ class SpringGeneratorModuleTest {
         assertThat(moduleUnderTest.providesMetaPropertiesHandler()).isNotNull();
         assertThat(moduleUnderTest.providesSpringWebMvcGenerator(packageLayoutRuleSet, classNameRuleSet)).isNotNull();
         //assertThat(moduleUnderTest.providesSpringWebFluxGenerator()).isNotNull(); // TODO: implement me
-        assertThat(moduleUnderTest.providesRestEndpointGenerator()).isNotNull();
+        assertThat(moduleUnderTest.providesRestEndpointGenerator(packageLayoutRuleSet, classNameRuleSet)).isNotNull();
         //assertThat(moduleUnderTest.providesSpringBootGenerator()).isNotNull();    // TODO: implement me
         assertThat(moduleUnderTest.providesWriteOutput()).isNotNull();
         //assertThat(moduleUnderTest.providesSpringBatchGenerator()).isNotNull();   // TODO: Implement me

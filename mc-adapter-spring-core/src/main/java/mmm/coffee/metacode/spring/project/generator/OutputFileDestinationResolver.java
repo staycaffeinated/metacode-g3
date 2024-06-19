@@ -33,6 +33,7 @@ public class OutputFileDestinationResolver {
                         return decoder.decode(destinationExpression);
                     }
                     default -> {
+                        log.info("[resolveDestination] jad: {}", jad);
                         String facetName = facet.getFacet();
                         String sourceFileName = "";
                         switch (facetName) {
@@ -44,6 +45,9 @@ public class OutputFileDestinationResolver {
                             }
                             case "main" -> {
                                 sourceFileName = "/src/main/java/" + PackageNameConversion.toFqFileName(jad.fqcn());
+                            }
+                            case "testFixtures" -> {
+                                sourceFileName = "/src/testFixtures/java/" + PackageNameConversion.toFqFileName(jad.fqcnTestFixture());
                             }
                             default -> {
                                 String msg = String.format("Encountered an unknown facet '%s' for archetype %s", facetName, archetypeName);

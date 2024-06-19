@@ -99,8 +99,10 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = descriptor2templateModel.convert(descriptor);
 
-        templateModel.setCustomProperties(CustomPropertyAssembler.assembleCustomProperties(archetypeDescriptorFactory,
-                descriptor.getBasePackage(), templateModel.getResource()));
+        templateModel.setCustomProperties(CustomPropertyAssembler.assembleCustomProperties(
+                archetypeDescriptorFactory,
+                descriptor.getBasePackage(),
+                templateModel.getResource()));
 
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);

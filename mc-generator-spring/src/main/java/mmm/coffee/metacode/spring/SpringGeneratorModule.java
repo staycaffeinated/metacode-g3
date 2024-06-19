@@ -145,7 +145,7 @@ public class SpringGeneratorModule extends AbstractModule {
 
     @Bean("restEndpointGenerator")
     @RestEndpointGeneratorProvider
-    ICodeGenerator<RestEndpointDescriptor> providesRestEndpointGenerator() {
+    ICodeGenerator<RestEndpointDescriptor> providesRestEndpointGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
         var converterO1 = new RestEndpointTemplateModelToMapConverter();
 
         return SpringEndpointGenerator.builder()
@@ -158,6 +158,7 @@ public class SpringGeneratorModule extends AbstractModule {
                         .build())
                 .outputHandler(providesWriteOutput())
                 .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
+                .archetypeDescriptorFactory(new ArchetypeDescriptorFactory(packageLayoutRuleSet, classNameRuleSet))
                 .build();
     }
 

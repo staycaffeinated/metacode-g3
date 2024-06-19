@@ -28,6 +28,15 @@ public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
         return fqcn() + "IntegrationTest";
     }
 
+    /**
+     * The fully-qualified class name of the test-fixture class, such as
+     * `com.acme.petstore.api.PetTestFixture`
+     * @return the class name for the test-fixture class
+     */
+    default String fqcnTestFixture() {
+        return fqcn() + "TestFixture";
+    }
+
 
     /**
      * Returns the package name of the class, such as `com.example.petstore.api`

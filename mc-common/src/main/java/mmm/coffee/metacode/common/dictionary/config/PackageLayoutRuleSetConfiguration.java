@@ -24,6 +24,7 @@ public class PackageLayoutRuleSetConfiguration {
         log.debug("[packageLayoutRuleSet] Building the PackageLayoutRuleSet using the layout from {}", packageLayoutConfiguration);
         PackageLayout layout = reader.read(packageLayoutConfiguration);
         Map<String, String> rules = PackageLayoutToHashMapMapper.convertToHashMap(layout);
+        log.debug("[packageLayoutRuleSet] Rules are {}", rules);
         return new PackageLayoutRuleSet(rules);
     }
 

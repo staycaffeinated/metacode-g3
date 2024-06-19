@@ -46,7 +46,8 @@ public class MustacheExpressionResolver {
         }
         catch (MustacheException e) {
             String msg = String.format("This expression could not be evaluated: %s. %s",  mustacheExpression, e.getMessage());
-            log.warn(msg);
+            log.warn(msg, e);
+            e.printStackTrace();
             throw new MustacheException(msg, e);
         }
     }

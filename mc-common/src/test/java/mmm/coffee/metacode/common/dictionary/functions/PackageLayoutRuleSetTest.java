@@ -2,6 +2,7 @@ package mmm.coffee.metacode.common.dictionary.functions;
 
 import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -18,11 +19,12 @@ class PackageLayoutRuleSetTest {
         for (Archetype e : values) {
             rules.put(e.toString(), "com.acme.petstore");
         }
-        rules.put("Controller", "com.acme.petstore.{{restResource}}.api");
-        rules.put("ServiceApi", "com.acme.petstore.{{restResource}}.api");
-        rules.put("ServiceImpl", "com.acme.petstore.{{restResource}}.api");
-        rules.put("Routes", "com.acme.petstore.{{restResource}}.api");
+        rules.put("Controller", "{{basePackage}}.{{restResource}}.api");
+        rules.put("ServiceApi", "{{basePackage}}.{{restResource}}.api");
+        rules.put("ServiceImpl", "{{basePackage}}.{{restResource}}.api");
+        rules.put("Routes", "{{basePackage}}.{{restResource}}.api");
         rules.put("Application", "com.acme.petstore");
+        rules.put("GlobalExceptionHandler", "{{basePackage}}.error");
 
         rulesUnderTest = new PackageLayoutRuleSet(rules);
     }
@@ -31,14 +33,17 @@ class PackageLayoutRuleSetTest {
     void shouldResolveProjectScopeArtifact() {
         String pkg = rulesUnderTest.resolvePackageName("Application");
         assertThat(pkg).isEqualTo("com.acme.petstore");
+
+        String pkg2 = rulesUnderTest.resolvePackageName("GlobalExceptionHandler");
+        assertThat(pkg2).isEqualTo("{{basePackage}}.error");
     }
 
     @Test
     void shouldResolveEndpointScopeArtifact() {
         String pkg = rulesUnderTest.resolvePackageName("Controller", "Pet");
-        assertThat(pkg).isEqualTo("com.acme.petstore.pet.api");
+        assertThat(pkg).isEqualTo("{{basePackage}}.pet.api");
 
         String storePkg = rulesUnderTest.resolvePackageName("Controller", "Store");
-        assertThat(storePkg).isEqualTo("com.acme.petstore.store.api");
+        assertThat(storePkg).isEqualTo("{{basePackage}}.store.api");
     }
 }

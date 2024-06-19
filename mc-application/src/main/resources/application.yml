@@ -3,10 +3,17 @@ logging:
     root: ERROR
     org.springframework: ERROR
     mmm.coffee: DEBUG
+  pattern:
+    console: "%logger{36} - %msg%n"
+    file: "%logger{36} - %msg%n"
 
 spring:
   main:
     banner-mode: off
+    
+  output:
+    ansi:
+      enabled: detect
 
 app:
   package-schema: packages.toml

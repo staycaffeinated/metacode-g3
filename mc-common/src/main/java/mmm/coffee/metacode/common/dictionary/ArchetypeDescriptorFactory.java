@@ -42,7 +42,8 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
 
     public JavaArchetypeDescriptor createArchetypeDescriptor(Archetype archetype, String restObj) {
-        String pkgName = packageLayoutRuleSet.resolvePackageName(archetype.toString(), restObj);
+        String pkgName = packageLayoutRuleSet.resolvePackageName(archetype.toString());
+        log.info("[createArchetypeDescriptor] archetype: {}, pkgName={}", archetype.toString(), pkgName);
         String klassName = classNameRuleSet.resolveClassName(archetype.toString(), restObj);
         String fqcn = pkgName + "." + klassName;
 

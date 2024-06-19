@@ -2,6 +2,7 @@ package mmm.coffee.metacode.spring.project.generator;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
+import mmm.coffee.metacode.common.dictionary.EndpointArchetypeToMap;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
 import mmm.coffee.metacode.common.model.Archetype;
@@ -30,13 +31,18 @@ public class CustomPropertyAssembler {
     public static Map<String, Object> assembleCustomProperties(IArchetypeDescriptorFactory archetypeDescriptorFactory,
                                                                String basePackage,
                                                                String restResource) {
-        Map<String, ArchetypeDescriptor> customProperties = ProjectArchetypeToMap.map(archetypeDescriptorFactory);
-        Map<String, Object> props = new TreeMap<>();
+        Map<String,Object> projectScopeProperties = assembleCustomProperties(archetypeDescriptorFactory, basePackage);
+
+        Map<String, ArchetypeDescriptor> customProperties = EndpointArchetypeToMap.map(archetypeDescriptorFactory, restResource);
+        Map<String, Object> endpointScopeProperties = new TreeMap<>();
+        // The templates of endpoint-scope classes (such as Controller) will need the coordinates
+        // of project-scope classes (such as Exceptions and ResourceIdSuppliers). 
+        endpointScopeProperties.putAll(projectScopeProperties);
         customProperties.forEach((key, value) -> {
-            ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage);
-            props.put(key, descriptor1);
+            ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage, restResource);
+            endpointScopeProperties.put(key, descriptor1);
         });
-        return props;
+        return endpointScopeProperties;
     }
 
     /*
@@ -70,6 +76,44 @@ public class CustomPropertyAssembler {
                             .packageName(resolvedPkgName)
                             .build();
 
+            }
+        } else {
+            return descriptor;
+        }
+    }
+
+    private static ArchetypeDescriptor resolveBasePackageOf(ArchetypeDescriptor descriptor, String basePackage, String restObj) {
+        log.info("[resolveBasePackageOf] restObj: {}", restObj);
+        if (descriptor instanceof JavaArchetypeDescriptor) {
+            JavaArchetypeDescriptor that = (JavaArchetypeDescriptor) descriptor;
+            Map<String, String> map = new HashMap<>();   // the map for the mustache resolver
+            map.put("basePackage", basePackage);
+            map.put("restObj", restObj);
+            map.put("endpoint", restObj.toLowerCase());
+            String resolvedClassName = MustacheExpressionResolver.resolve(that.className(), map);
+            String resolvedFQCN = MustacheExpressionResolver.resolve(that.fqcn(), map);
+            String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
+
+            switch (descriptor.archetype()) {
+
+                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties: {
+                    log.info("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
+                    return EdgeCaseResolvedArchetypeDescriptor.builder()
+                            .archetype(descriptor.archetype())
+                            .fqcn(resolvedFQCN)
+                            .className(resolvedClassName)
+                            .packageName(resolvedPkgName)
+                            .build();
+                }
+                default:
+                    var foo = ResolvedJavaArchetypeDescriptor.builder()
+                            .archetype(descriptor.archetype())
+                            .fqcn(resolvedFQCN)
+                            .className(resolvedClassName)
+                            .packageName(resolvedPkgName)
+                            .build();
+                    log.info("Resolved descriptor of endpoint archetype: {}", foo);
+                    return foo;
             }
         } else {
             return descriptor;

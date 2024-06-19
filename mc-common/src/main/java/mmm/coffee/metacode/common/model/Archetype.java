@@ -37,8 +37,8 @@ public enum Archetype {
     SpringProfiles("SpringProfiles"),
 
     // converters
-    EntityToPojoConverter("EjbToPojoConverter"),
-    PojoToEntityConverter("PojoToEjbConverter"),
+    EntityToPojoConverter("EntityToPojoConverter"),
+    PojoToEntityConverter("PojoToEntityConverter"),
 
     // exceptions and error handling
     GlobalExceptionHandler("GlobalExceptionHandler"),

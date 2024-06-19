@@ -2,8 +2,8 @@
 
 package ${DatabaseTablePopulator.packageName()};
 
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -20,12 +20,12 @@ import java.util.List;
 public class ${DatabaseTablePopulator.className()} implements ApplicationListener<ApplicationReadyEvent> {
 
     private final ${endpoint.entityName}Repository repository;
-    private final ResourceIdSupplier resourceIdSupplier;
+    private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
     /**
      * Constructor
      */
-    public ${endpoint.entityName}TablePopulator(${endpoint.entityName}Repository repository, ResourceIdSupplier idSupplier) {
+    public ${DatabaseTablePopulator.className()}(${endpoint.entityName}Repository repository, ${ResourceIdSupplier.className()} idSupplier) {
         this.repository = repository;
         this.resourceIdSupplier = idSupplier;
     }
@@ -47,9 +47,9 @@ public class ${DatabaseTablePopulator.className()} implements ApplicationListene
         String[] textSamples = {"One", "Two", "Three", "Four", "Five"};
         List<${endpoint.ejbName}> list = new ArrayList<>();
         for (String s : textSamples) {
-        list.add(createOne(s));
-    }
-    return list;
+            list.add(createOne(s));
+        }
+        Arreturn list;
     }
 
     /**

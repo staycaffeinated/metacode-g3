@@ -72,8 +72,8 @@
     {
       "package": "{{basePackage}}.converters",
       "archetypes": [
-        "EntityToPojoConverter",
-        "PojoToEntityConverter"
+        "EjbToPojoConverter",
+        "PojoToEjbConverter"
       ]
     },
     {
@@ -118,7 +118,8 @@
         "DataStoreApi",
         "DataStoreImpl",
         "DatabaseTablePopulator",
-        "Entity"
+        "Entity",
+        "ExceptionHandler"
       ]
     },
     {
