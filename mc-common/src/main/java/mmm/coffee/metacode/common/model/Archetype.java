@@ -103,7 +103,7 @@ public enum Archetype {
     DataStoreApi("DataStoreApi"),
     DataStoreImpl("DataStoreImpl"),
     MongoDataStore("MongoDataStore"),
-    Entity("Entity"),
+    Entity("Entity"),   // the EJB view of a POJO
     EntityResource("EntityResource"), // the POJO view of an EJB
     Repository("Repository"),
     PersistenceAdapter("PersistenceAdapter"),

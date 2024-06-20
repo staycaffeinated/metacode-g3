@@ -1,9 +1,9 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${ObjectDataStore.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.spi.DataStore;
+import ${EntityResource.fqcn()};
+import ${DataStoreApi.fqcn()};
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,11 +11,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
-* DataStore for ${endpoint.entityName} domain objects. This interface
-* extends the basic {@code DataStore} interface, adding a
-* ${endpoint.entityName}-specific search API.
-*/
-public interface ${endpoint.entityName}DataStore extends DataStore<${endpoint.entityName}> {
-Page<${endpoint.entityName}> findByText(@NonNull Optional
-<String> text, Pageable pageable);
-    }
+ * DataStore for ${endpoint.entityName} domain objects. This interface
+ * extends the basic {@code DataStore} interface, adding a
+ * ${Entity.className()}-specific search API.
+ */
+public interface ${ObjectDataStore.className()} extends ${GenericDataStore.className()}<${EntityResource.className()}> {
+    Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable);
+}

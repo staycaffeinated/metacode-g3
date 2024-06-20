@@ -19,44 +19,44 @@ import java.util.List;
 @Component
 public class ${DatabaseTablePopulator.className()} implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final ${endpoint.entityName}Repository repository;
+    private final ${Repository.className()}Repository repository;
     private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
     /**
      * Constructor
      */
-    public ${DatabaseTablePopulator.className()}(${endpoint.entityName}Repository repository, ${ResourceIdSupplier.className()} idSupplier) {
+    public ${DatabaseTablePopulator.className()}(${Repository.className()} repository, ${ResourceIdSupplier.className()} idSupplier) {
         this.repository = repository;
         this.resourceIdSupplier = idSupplier;
     }
 
     /**
-    * Inserts sample data into the ${endpoint.tableName} table
+    * Inserts sample data into the ${EntityResource.className()} table
     */
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         repository.deleteAll();
-        List<${endpoint.ejbName}> sampleData = createSampleData();
+        List<${Entity.className()}> sampleData = createSampleData();
         repository.saveAllAndFlush(sampleData);
     }
 
     /**
      * Creates a collection of sample data
      */
-    private List<${endpoint.ejbName}> createSampleData() {
+    private List<${Entity.className()}> createSampleData() {
         String[] textSamples = {"One", "Two", "Three", "Four", "Five"};
-        List<${endpoint.ejbName}> list = new ArrayList<>();
+        List<${Entity.className()}> list = new ArrayList<>();
         for (String s : textSamples) {
             list.add(createOne(s));
         }
-        Arreturn list;
+        return list;
     }
 
     /**
-     * Creates a single ${endpoint.entityName} entity bean
+     * Creates a single ${Entity.className()} entity bean
      */
-    private ${endpoint.ejbName} createOne(String text) {
-        ${endpoint.ejbName} bean = new ${endpoint.ejbName}();
+    private ${Entity.className()} createOne(String text) {
+        ${Entity.className()} bean = new ${Entity.className()}();
         bean.setText(text);
         bean.setResourceId(resourceIdSupplier.nextResourceId());
         return bean;
