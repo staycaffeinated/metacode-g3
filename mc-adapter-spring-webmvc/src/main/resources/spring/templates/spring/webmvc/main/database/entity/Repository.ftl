@@ -1,8 +1,8 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Repository.className()};
 
-import ${endpoint.basePackage}.database.CustomRepository;
+import ${CustomRepository.fqcn()};
 
-public interface ${endpoint.entityName}Repository extends CustomRepository<${endpoint.ejbName}, Long> {
+public interface ${Repository.className()} extends CustomRepository<${Entity.className()}, Long> {
 }
 

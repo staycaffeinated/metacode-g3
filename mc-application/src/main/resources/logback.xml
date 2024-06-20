@@ -7,13 +7,4 @@
     </root>
     <logger name="org.springframework" level="ERROR"/>
     <logger name="mmm.coffee" level="INFO"/>
-
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <!-- https://sematext.com/blog/logback-tutorial/#logback-layouts -->
-            <!-- https://lankydan.dev/2019/01/09/configuring-logback-with-spring-boot -->
-            <!-- https://logback.qos.ch/manual/configuration.html -->
-            <pattern>%highlight(%-5level) %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
 </configuration>

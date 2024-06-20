@@ -19,7 +19,7 @@ import java.util.Optional;
 * reading/writing from a Repository. The DataStore mainly exposes Domain
 * objects, and encapsulates the EntityBeans and Repository.
 * <p>
-    * {@code D} is the Domain object type</p>
+* {@code D} is the Domain object type</p>
 * <p>{@code B} is the EntityBean type</p>
 * <p>{@code ID} is the primary key data type (e.g., Long or String)</p>
 *
@@ -39,7 +39,8 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     protected ${GenericDataStore.className()}(${CustomRepository.className()}<B,ID> repository,
                                               Converter<B, D> ejbToPojoConverter,
                                               Converter<D, B> pojoToEjbConverter,
-                                              ${ResourceIdSupplier.className()} idSupplier) {
+                                              ${ResourceIdSupplier.className()} idSupplier)
+    {
         this.repository = repository;
         this.ejbToPojoConverter = ejbToPojoConverter;
         this.pojoToEjbConverter = pojoToEjbConverter;

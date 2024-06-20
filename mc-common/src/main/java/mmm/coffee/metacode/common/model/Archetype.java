@@ -99,10 +99,11 @@ public enum Archetype {
     ServiceImpl("ServiceImpl"),
     Controller("Controller"),
     Routes("Routes"),
-    ResourcePojo("Pojo"),
+    Pojo("Pojo"),
     DataStoreApi("DataStoreApi"),
     DataStoreImpl("DataStoreImpl"),
     MongoDataStore("MongoDataStore"),
+    MongoCrudAwareApi("MongoCrudAwareApi"),
     Entity("Entity"),   // the EJB view of a POJO
     EntityResource("EntityResource"), // the POJO view of an EJB
     Repository("Repository"),
