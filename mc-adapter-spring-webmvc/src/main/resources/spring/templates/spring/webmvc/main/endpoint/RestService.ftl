@@ -1,43 +1,42 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${ServiceApi.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
+import ${EntityResource.fqcn()};
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ${endpoint.entityName}Service {
-/*
-* findAll
-*/
-List<${endpoint.pojoName}> findAll${endpoint.entityName}s();
-
-/**
-* findByResourceId
-*/
-Optional<${endpoint.pojoName}> find${endpoint.entityName}ByResourceId(String id);
-
-/*
-* findByText
-*/
-Page<${endpoint.pojoName}> findByText(Optional
-<String> text, Pageable pageable);
+public interface ${ServiceApi.className()} {
+    /*
+     * findAll
+     */
+    List<${EntityResource.className()}> findAll${endpoint.entityName}s();
 
     /**
-    * Persists a new resource
-    */
-    ${endpoint.pojoName} create${endpoint.entityName}(${endpoint.pojoName} resource );
+     * findByResourceId
+     */
+    Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id);
+
+    /*
+     * findByText
+     */
+    Page<${EntityResource.className()}> findByText(Optional<String> text, Pageable pageable);
 
     /**
-    * Updates an existing resource
-    */
-    Optional<${endpoint.pojoName}> update${endpoint.entityName}(${endpoint.pojoName} resource );
+     * Persists a new resource
+     */
+    ${EntityResource.className()} create${endpoint.entityName}(${endpoint.pojoName} resource );
 
     /**
-    * delete
-    */
+     * Updates an existing resource
+     */
+    Optional<${EntityResource.className()}> update${endpoint.entityName}(${endpoint.pojoName} resource );
+
+    /**
+     * delete
+     */
     void delete${endpoint.entityName}ByResourceId( String id );
 }

@@ -1,12 +1,12 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${ServiceImpl.packageName()};
 
 import lombok.NonNull;
-import ${endpoint.basePackage}.domain.${endpoint.pojoName};
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}DataStore;
-import ${endpoint.basePackage}.validation.OnCreate;
-import ${endpoint.basePackage}.validation.OnUpdate;
+import ${EntityResource.fqcn()};
+import ${ObjectDataStore.fqcn()};
+import ${OnCreateAnnotation.fqcn()};
+import ${OnUpdateAnnotation.fqcn()};
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,60 +19,57 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class ${endpoint.entityName}ServiceProvider implements ${endpoint.entityName}Service {
+public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
 
-private final ${endpoint.entityName}DataStore ${endpoint.entityVarName}DataStore;
+    private final ${ObjectDataStore.className()} ${ObjectDataStore.varName()};
 
-/*
-* Constructor
-*/
-public ${endpoint.entityName}ServiceProvider(${endpoint.entityName}DataStore ${endpoint.entityVarName}DataStore)
-{
-this.${endpoint.entityVarName}DataStore = ${endpoint.entityVarName}DataStore;
-}
+    /*
+     * Constructor
+     */
+    public ${ServiceImpl.className()}(${ObjectDataStore.className()} ${ObjectDataStore.varName()})
+    {
+      this.${ObjectDataStore.varName()} = ${ObjectDataStore.varName()};
+    }
 
-/*
-* findAll
-*/
-public List<${endpoint.pojoName}> findAll${endpoint.entityName}s() {
-return ${endpoint.entityVarName}DataStore.findAll();
-}
+    /*
+     * findAll
+     */
+    public List<${EntityResource.className()}> findAll${endpoint.entityName}s() {
+        return ${ObjectDataStore.varName()}.findAll();
+    }
 
-/**
-* findByResourceId
-*/
-public Optional<${endpoint.pojoName}> find${endpoint.entityName}ByResourceId(String id) {
-return ${endpoint.entityVarName}DataStore.findByResourceId ( id );
-}
+    /**
+     * findByResourceId
+     */
+    public Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id) {
+        return ${ObjectDataStore.varName()}.findByResourceId ( id );
+    }
 
-/*
-* findByText
-*/
-public Page<${endpoint.pojoName}> findByText(@NonNull Optional
-<String> text, Pageable pageable) {
-    return ${endpoint.entityVarName}DataStore .findByText(text, pageable);
+    /*
+     * findByText
+     */
+    public Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable) {
+        return ${ObjectDataStore.varName()}.findByText(text, pageable);
     }
 
     /**
     * Persists a new resource
     */
-    public ${endpoint.pojoName} create${endpoint.entityName}( @NonNull @Validated(OnCreate.class) ${endpoint.pojoName}
-    resource ) {
-    return ${endpoint.entityVarName}DataStore.save(resource);
+    public ${EntityResource.className()} create${endpoint.entityName}( @NonNull @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
+        return ${ObjectDataStore.varName()}.save(resource);
     }
 
     /**
-    * Updates an existing resource
-    */
-    public Optional<${endpoint.pojoName}> update${endpoint.entityName}( @NonNull
-    @Validated(OnUpdate.class) ${endpoint.pojoName} resource ) {
-    return ${endpoint.entityVarName}DataStore.update(resource);
+     * Updates an existing resource
+     */
+    public Optional<${endpoint.pojoName}> update${endpoint.entityName}(@NonNull @Validated(OnUpdate.class) ${endpoint.pojoName} resource ) {
+        return ${ObjectDataStore.varName()}.update(resource);
     }
 
     /**
-    * delete
-    */
+     * delete
+     */
     public void delete${endpoint.entityName}ByResourceId(@NonNull String id) {
-    ${endpoint.entityVarName}DataStore.deleteByResourceId(id);
+        ${ObjectDataStore.varName()}.deleteByResourceId(id);
     }
-    }
+}

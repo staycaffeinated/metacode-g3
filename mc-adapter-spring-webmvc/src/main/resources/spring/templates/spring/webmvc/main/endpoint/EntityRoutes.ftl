@@ -9,7 +9,7 @@ package ${Routes.packageName()};
 public final class ${Routes.className()} {
 
     // sealed
-    private ${Routes.className()} {}
+    private ${Routes.className()}() {}
 
     public static final String ${endpoint.routeConstants.basePath} = "${endpoint.route}";
     public static final String ${endpoint.routeConstants.idParameter} = "/{id}";
