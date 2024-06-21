@@ -24,9 +24,10 @@ public class ${PojoToEntityConverter.className()} implements Converter<${EntityR
      */
     @Override
     public ${Entity.className()} convert (@NonNull ${EntityResource.className()} resource) {
-        ${Entity.className()} target = new ${EntityResource.className()}();
-        target.setResourceId (resource.getResourceId());
-        target.setText (resource.getText());
+        ${Entity.className()} target = ${Entity.className()}.builder()
+                .resourceId(resource.getResourceId())
+                .text(resource.getText())
+                .build();
         return target;
     }
 

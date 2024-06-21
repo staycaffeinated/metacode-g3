@@ -1,11 +1,11 @@
 <#include "/common/Copyright.ftl">
-package ${EntityResource.className()};
+package ${EntityResource.packageName()};
 
 import ${ResourceIdTrait.fqcn()};
 import ${AlphabeticAnnotation.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
-import ${ResourceIdTrait.fqcn()};
+import ${ResourceIdAnnotation.fqcn()};
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 // See https://www.thecuriousdev.org/lombok-builder-with-jackson/
 @JsonDeserialize(builder = ${EntityResource.className()}.DefaultBuilder.class)
 @Builder(builderClassName = "DefaultBuilder", toBuilder = true)
-public class ${EntityResource.className()} implements ResourceIdTrait<String> {
+public class ${EntityResource.className()} implements ${ResourceIdTrait.className()}<String> {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Fields {

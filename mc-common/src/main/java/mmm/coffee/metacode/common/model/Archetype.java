@@ -111,6 +111,8 @@ public enum Archetype {
     ObjectDataStore("ObjectDataStore"),
     ObjectDataStoreProvider("ObjectDataStoreProvider"), // persistence adapter for a specific EJB/POJO
     CustomSQLRepository("CustomSQLRepository"),
+    WebMvcEjbTestFixtures("WebMvcEjbTestFixtures"),
+    WebMvcModelTestFixtures("WebMvcModelTestFixtures"),
 
     EntityWithText("EntityWithText"), // a predicate for a given EJB/POJO
 

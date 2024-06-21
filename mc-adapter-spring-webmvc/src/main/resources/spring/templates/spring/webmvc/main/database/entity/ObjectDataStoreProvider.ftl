@@ -3,10 +3,14 @@
 package ${ObjectDataStoreProvider.packageName()};
 
 import ${Entity.fqcn()};
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.predicate.*;
+import ${EntityWithText.fqcn()};
 import ${EntityResource.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${GenericDataStore.fqcn()};
+import ${ObjectDataStore.fqcn()};
+import ${Repository.fqcn()};
+import ${EntityWithText.fqcn()};
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
@@ -24,7 +28,7 @@ import java.util.Optional;
  * auto-wiring wherever a ${DataStoreApi.className()} is needed.
  */
 @Component
-public class ${ObjectDataStoreProvider.className()} extends GenericDataStore<${EntityResource.className()}, ${Entity.className()}, Long> implements ${endpoint.entityName}DataStore {
+public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.className()}<${EntityResource.className()}, ${Entity.className()}, Long> implements ${ObjectDataStore.className()} {
 
     /**
      * Constructor
@@ -35,7 +39,7 @@ public class ${ObjectDataStoreProvider.className()} extends GenericDataStore<${E
      *            to convert EJBs to POJOs
      * @param pojoToEntityConverter
      *            to convert POJOs to EJBs
-     * @param secureRandom
+     * @param idSupplier
      *            to generate resourceIds
      */
     public ${ObjectDataStoreProvider.className()} (
@@ -75,7 +79,7 @@ public class ${ObjectDataStoreProvider.className()} extends GenericDataStore<${E
      * Returns a Page of ${endpoint.entityName} items that have the given {@code text}
      */
     public Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable) {
-        Specification<${Entity.className()}> where = Specification.where(new ${EntityResource.className()}WithText(text.orElse("")));
+        Specification<${Entity.className()}> where = Specification.where(new ${EntityWithText.className()}(text.orElse("")));
         Page<${Entity.className()}> resultSet = repository().findAll(where, pageable);
         List<${EntityResource.className()}> list = resultSet.stream().map(converterToPojo()::convert).toList();
         return new PageImpl<>(list, pageable, list.size());

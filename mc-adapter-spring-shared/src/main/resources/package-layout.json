@@ -9,7 +9,9 @@
         "ProblemConfiguration",
         "LocalDateConverter",
         "WebMvcConfiguration",
-        "ContainerConfiguration"
+        "ContainerConfiguration",
+        "SecurityResponseHeadersFilter",
+        "MongoContainerConfiguration"
       ]
     },
     {
@@ -126,7 +128,8 @@
       "archetypes": [
         "Entity",
         "ObjectDataStore",
-        "ObjectDataStoreProvider"
+        "ObjectDataStoreProvider",
+        "WebMvcEjbTestFixtures"
       ]
     },
 
@@ -138,7 +141,9 @@
         "ObjectDataStore",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
-        "Repository"
+        "Repository",
+        "MongoDbContainerTests",
+        "PostgresDbContainerTests"
       ]
     },
     {
@@ -147,7 +152,7 @@
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.domain",
-      "archetypes": [ "Pojo", "EntityResource" ]
+      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures" ]
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.persistence.predicate",

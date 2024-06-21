@@ -2,7 +2,7 @@
 package ${EntityToPojoConverter.packageName()};
 
 import ${Entity.fqcn()};
-import ${EntityResource.fqcn()}.*;
+import ${EntityResource.fqcn()};
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

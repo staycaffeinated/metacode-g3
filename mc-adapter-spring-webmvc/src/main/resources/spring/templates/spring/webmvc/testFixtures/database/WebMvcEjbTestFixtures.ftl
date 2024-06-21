@@ -1,107 +1,109 @@
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${WebMvcEjbTestFixtures.packageName()};
 
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
+import ${Entity.fqcn()};
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Sample ${endpoint.ejbName} objects suitable for test data
+* Sample ${Entity.className()} objects suitable for test data
 */
-public class ${endpoint.ejbName}TestFixtures {
+public class ${Entity.className()}TestFixtures {
 
-static final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    static final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
-/*
-* Consider renaming these to something more meaningful to your use cases.
-* The general idea is to have names that indicate what the data point represents.
-* For example: accountWithPositiveBalance, accountWithNegativeBalance, accountWithZeroBalance,
-* activeAccount, closedAccount. With descriptive names, it's easier to discern
-* what condition is being exercised.
-*/
-private static final ${endpoint.ejbName} SAMPLE_ONE;
-private static final ${endpoint.ejbName} SAMPLE_TWO;
-private static final ${endpoint.ejbName} SAMPLE_THREE;
-private static final ${endpoint.ejbName} SAMPLE_FOUR;
-private static final ${endpoint.ejbName} SAMPLE_FIVE;
-private static final ${endpoint.ejbName} SAMPLE_SIX;
-private static final ${endpoint.ejbName} SAMPLE_SEVEN;
+    /*
+     * Consider renaming these to something more meaningful to your use cases.
+     * The general idea is to have names that indicate what the data point represents.
+     * For example: accountWithPositiveBalance, accountWithNegativeBalance, accountWithZeroBalance,
+     * activeAccount, closedAccount. With descriptive names, it's easier to discern
+     * what condition is being exercised.
+     */
+    private static final ${Entity.className()} SAMPLE_ONE;
+    private static final ${Entity.className()} SAMPLE_TWO;
+    private static final ${Entity.className()} SAMPLE_THREE;
+    private static final ${Entity.className()} SAMPLE_FOUR;
+    private static final ${Entity.className()} SAMPLE_FIVE;
+    private static final ${Entity.className()} SAMPLE_SIX;
+    private static final ${Entity.className()} SAMPLE_SEVEN;
 
-private static final ${endpoint.ejbName} ONE_WITH_RESOURCE_ID;
-private static final ${endpoint.ejbName} ONE_WITHOUT_RESOURCE_ID;
+    private static final ${Entity.className()} ONE_WITH_RESOURCE_ID;
+    private static final ${Entity.className()} ONE_WITHOUT_RESOURCE_ID;
 
-/*
-* Useful for query tests where multiple records have the same text
-*/
-private static final ${endpoint.ejbName} SAME_TEXT_ONE;
-private static final ${endpoint.ejbName} SAME_TEXT_TWO;
-private static final ${endpoint.ejbName} SAME_TEXT_THREE;
+    /*
+     * Useful for query tests where multiple records have the same text
+     */
+    private static final ${Entity.className()} SAME_TEXT_ONE;
+    private static final ${Entity.className()} SAME_TEXT_TWO;
+    private static final ${Entity.className()} SAME_TEXT_THREE;
 
-static {
-SAMPLE_ONE = aNew${endpoint.ejbName}("Bingo");
-SAMPLE_TWO = aNew${endpoint.ejbName}("Bluey");
-SAMPLE_THREE = aNew${endpoint.ejbName}("Chilli");
-SAMPLE_FOUR = aNew${endpoint.ejbName}("Bandit");
-SAMPLE_FIVE = aNew${endpoint.ejbName}("Muffin");
-SAMPLE_SIX = aNew${endpoint.ejbName}("Jack");
-SAMPLE_SEVEN = aNew${endpoint.ejbName}("Rusty");
+    static {
+        SAMPLE_ONE = aNew${Entity.className()}("Bingo");
+        SAMPLE_TWO = aNew${Entity.className()}("Bluey");
+        SAMPLE_THREE = aNew${Entity.className()}("Chilli");
+        SAMPLE_FOUR = aNew${Entity.className()}("Bandit");
+        SAMPLE_FIVE = aNew${Entity.className()}("Muffin");
+        SAMPLE_SIX = aNew${Entity.className()}("Jack");
+        SAMPLE_SEVEN = aNew${Entity.className()}("Rusty");
 
-ONE_WITH_RESOURCE_ID = aNew${endpoint.ejbName}("Socks");
-ONE_WITHOUT_RESOURCE_ID = ${endpoint.ejbName}.builder().text("Uncle Stripe").build();
+        ONE_WITH_RESOURCE_ID = aNew${Entity.className()}("Socks");
+        ONE_WITHOUT_RESOURCE_ID = ${Entity.className()}.builder().text("Uncle Stripe").build();
 
-SAME_TEXT_ONE = aNew${endpoint.ejbName}("Calypso");
-SAME_TEXT_TWO = aNew${endpoint.ejbName}("Calypso");
-SAME_TEXT_THREE = aNew${endpoint.ejbName}("Calypso");
-}
+        SAME_TEXT_ONE = aNew${Entity.className()}("Calypso");
+        SAME_TEXT_TWO = aNew${Entity.className()}("Calypso");
+        SAME_TEXT_THREE = aNew${Entity.className()}("Calypso");
+    }
 
-private static final List<${endpoint.ejbName}> ALL_ITEMS = new ArrayList<>();
-static {
-ALL_ITEMS.add(SAMPLE_ONE);
-ALL_ITEMS.add(SAMPLE_TWO);
-ALL_ITEMS.add(SAMPLE_THREE);
-ALL_ITEMS.add(SAMPLE_FOUR);
-ALL_ITEMS.add(SAMPLE_FIVE);
-ALL_ITEMS.add(SAMPLE_SIX);
-ALL_ITEMS.add(SAMPLE_SEVEN);
-}
+    private static final List<${Entity.className()}> ALL_ITEMS = new ArrayList<>();
 
-public static final List<${endpoint.ejbName}> allItems() { return ALL_ITEMS; }
+    static {
+        ALL_ITEMS.add(SAMPLE_ONE);
+        ALL_ITEMS.add(SAMPLE_TWO);
+        ALL_ITEMS.add(SAMPLE_THREE);
+        ALL_ITEMS.add(SAMPLE_FOUR);
+        ALL_ITEMS.add(SAMPLE_FIVE);
+        ALL_ITEMS.add(SAMPLE_SIX);
+        ALL_ITEMS.add(SAMPLE_SEVEN);
+    }
 
-private static final List<${endpoint.ejbName}> ALL_WITH_SAME_TEXT = new ArrayList<>() {{
-add(SAME_TEXT_ONE);
-add(SAME_TEXT_TWO);
-add(SAME_TEXT_THREE);
-}};
-public static final List<${endpoint.ejbName}> allItemsWithSameText() { return ALL_WITH_SAME_TEXT; }
+    public static final List<${Entity.className()}> allItems() { return ALL_ITEMS; }
 
-public static ${endpoint.ejbName} sampleOne() { return SAMPLE_ONE; }
-public static ${endpoint.ejbName} sampleTwo() { return SAMPLE_TWO; }
-public static ${endpoint.ejbName} sampleThree() { return SAMPLE_THREE; }
+    private static final List<${Entity.className()}> ALL_WITH_SAME_TEXT = new ArrayList<>() {{
+        add(SAME_TEXT_ONE);
+        add(SAME_TEXT_TWO);
+        add(SAME_TEXT_THREE);
+        }};
+    public static final List<${Entity.className()}> allItemsWithSameText() { return ALL_WITH_SAME_TEXT; }
 
-/**
-* For those instances when you want to verify behavior against a
-* ${endpoint.ejbName} that has a resourceId.
-*/
-public static ${endpoint.ejbName} oneWithResourceId() {
-return ONE_WITH_RESOURCE_ID;
-}
+    public static ${Entity.className()} sampleOne() { return SAMPLE_ONE; }
+    public static ${Entity.className()} sampleTwo() { return SAMPLE_TWO; }
+    public static ${Entity.className()} sampleThree() { return SAMPLE_THREE; }
 
-/**
-* For those instances when you want to verify behavior against a
-* ${endpoint.ejbName} that has no resourceId assigned.
-*/
-public static ${endpoint.ejbName} oneWithoutResourceId() {
-return ONE_WITHOUT_RESOURCE_ID;
-}
+    /**
+     * For those instances when you want to verify behavior against a
+     * ${Entity.className()} that has a resourceId.
+     */
+    public static ${Entity.className()} oneWithResourceId() {
+        return ONE_WITH_RESOURCE_ID;
+    }
 
-/**
-* Create a sample ${endpoint.ejbName}
-*/
-private static ${endpoint.ejbName} aNew${endpoint.ejbName}(String text) {
-return ${endpoint.ejbName}.builder()
-.resourceId(randomSeries.nextResourceId())
-.text(text)
-.build();
-}
+    /**
+     * For those instances when you want to verify behavior against a
+     * ${Entity.className()} that has no resourceId assigned.
+     */
+    public static ${Entity.className()} oneWithoutResourceId() {
+        return ONE_WITHOUT_RESOURCE_ID;
+    }
+
+    /**
+     * Create a sample ${Entity.className()}
+     */
+    private static ${Entity.className()} aNew${Entity.className()}(String text) {
+        return ${Entity.className()}.builder()
+            .resourceId(randomSeries.nextResourceId())
+            .text(text)
+            .build();
+    }
 }

@@ -7,6 +7,7 @@ import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
 import ${ResourceIdTrait.fqcn()};
 import ${SearchTextAnnotation.fqcn()};
+import ${ResourceIdAnnotation.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;
@@ -124,11 +125,11 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "400", description = "Incorrect data was submitted")})
 </#if>
     @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${EntityResource.className()}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(OnUpdate.class) ${endpoint.pojoName} ${endpoint.entityVarName}) {
-        if (!id.equals(${ServiceApi.varName()}.getResourceId())) {
+    public ResponseEntity<${EntityResource.className()}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(OnUpdate.class) ${EntityResource.className()} ${EntityResource.varName()}) {
+        if (!id.equals(${EntityResource.varName()}.getResourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
         }
-        Optional<${EntityResource.className()}> optional = ${ServiceApi.varName()}.update${endpoint.entityName}( ${endpoint.entityVarName} );
+        Optional<${EntityResource.className()}> optional = ${ServiceApi.varName()}.update${endpoint.entityName}( ${EntityResource.varName()} );
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

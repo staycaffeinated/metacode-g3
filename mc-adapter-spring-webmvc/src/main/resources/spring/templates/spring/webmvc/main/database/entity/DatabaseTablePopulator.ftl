@@ -4,6 +4,8 @@ package ${DatabaseTablePopulator.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${Entity.fqcn()};
+import ${Repository.fqcn()};
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -19,7 +21,7 @@ import java.util.List;
 @Component
 public class ${DatabaseTablePopulator.className()} implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final ${Repository.className()}Repository repository;
+    private final ${Repository.className()} repository;
     private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
     /**

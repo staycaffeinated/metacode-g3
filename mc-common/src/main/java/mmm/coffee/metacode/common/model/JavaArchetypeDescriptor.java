@@ -3,6 +3,11 @@ package mmm.coffee.metacode.common.model;
 import org.apache.commons.text.WordUtils;
 
 public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
+
+    public static final String TEST_SUFFIX = "Test";
+    public static final String IT_SUFFIX = "IntegrationTest";
+    public static final String FIXTURE_SUFFIX = "TestFixtures";
+
     /**
      * The fully-qualified class name, such as `com.acme.petstore.api.PetController`
      * The `fqcn` is the equivalent of `packageName()` + '.' + `shortName()`
@@ -16,7 +21,7 @@ public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
      * @return the class name for the unit test class
      */
     default String fqcnUnitTest() {
-        return fqcn() + "Test";
+        return fqcn() + TEST_SUFFIX;
     }
 
     /**
@@ -25,7 +30,7 @@ public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
      * @return the class name for the integration test class
      */
     default String fqcnIntegrationTest() {
-        return fqcn() + "IntegrationTest";
+        return fqcn() + IT_SUFFIX;
     }
 
     /**
@@ -34,7 +39,7 @@ public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
      * @return the class name for the test-fixture class
      */
     default String fqcnTestFixture() {
-        return fqcn() + "TestFixture";
+        return fqcn() + FIXTURE_SUFFIX;
     }
 
 
@@ -49,6 +54,24 @@ public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
      * @return the simple name of the class.
      */
     String className();
+
+    /**
+     * Returns the test class name (the name given to the unit test class of this object)
+     */
+    default  String testClass() {
+        return className() + TEST_SUFFIX;
+    }
+
+    /**
+     * Returns the integration test class name (the name given to the integration test of this object)
+     */
+    default String integrationTestClass() {
+        return className() + IT_SUFFIX;
+    }
+
+    default String testFixture() {
+        return className() + FIXTURE_SUFFIX;
+    }
 
     /**
      * Returns a variable name, such as `petService` or `petPersistenceAdapter`

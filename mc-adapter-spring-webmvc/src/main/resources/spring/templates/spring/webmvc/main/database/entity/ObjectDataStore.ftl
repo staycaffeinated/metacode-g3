@@ -15,6 +15,6 @@ import java.util.Optional;
  * extends the basic {@code DataStore} interface, adding a
  * ${Entity.className()}-specific search API.
  */
-public interface ${ObjectDataStore.className()} extends ${GenericDataStore.className()}<${EntityResource.className()}> {
+public interface ${ObjectDataStore.className()} extends ${DataStoreApi.className()}<${EntityResource.className()}> {
     Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable);
 }
