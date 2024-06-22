@@ -12,7 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ClassNameRuleSetTest {
 
-    ClassNameRuleSet rulesUnderTest = ClassNameRuleSetTestFixture.basicRuleSet();
+    ClassNameRuleSet rulesUnderTest;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        rulesUnderTest = ClassNameRuleSetTestFixture.classNameRuleSet();
+    }
 
 
     @Test

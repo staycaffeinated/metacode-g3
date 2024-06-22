@@ -27,6 +27,7 @@ import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -55,7 +56,7 @@ class SpringEndpointGeneratorTests {
 
 
     @Test
-    void givenWebFluxFramework_shouldGenerateCode() {
+    void givenWebFluxFramework_shouldGenerateCode() throws IOException {
         generatorUnderTest = setUpGenerator(WEBFLUX_FRAMEWORK);
         var descriptor = RestEndpointDescriptor.builder().resource("Pet").route("/pet").build();
 
@@ -64,7 +65,7 @@ class SpringEndpointGeneratorTests {
     }
 
     @Test
-    void givenWebMvcFramework_shouldGenerateCode() {
+    void givenWebMvcFramework_shouldGenerateCode() throws IOException {
         generatorUnderTest = setUpGenerator(WEBMVC_FRAMEWORK);
         var descriptor = RestEndpointDescriptor.builder().resource("Pet").route("/pet").build();
 
@@ -74,7 +75,7 @@ class SpringEndpointGeneratorTests {
     }
 
     @Test
-    void whenFrameworkDoesNotSupportCreateEndpoint_expectCreateEndpointUnsupportedException() {
+    void whenFrameworkDoesNotSupportCreateEndpoint_expectCreateEndpointUnsupportedException() throws IOException {
         SpringEndpointGenerator springBootGenerator = setUpSpringBootGenerator();
         var descriptor = RestEndpointDescriptor.builder().resource("Pet").route("/pet").build();
 
@@ -99,7 +100,7 @@ class SpringEndpointGeneratorTests {
      * a handful of components that are assembled into the pipeline that
      * provides this flow: templates -> rendered content -> output files
      */
-    private SpringEndpointGenerator setUpGenerator(String frameworkToUse) {
+    private SpringEndpointGenerator setUpGenerator(String frameworkToUse) throws IOException {
         // In the TemplateResolver, we just need the
         // {@code render} method to return a non-null String.
         // For these tests, we want to confirm the Generator's
@@ -144,7 +145,7 @@ class SpringEndpointGeneratorTests {
                 .build();
     }
 
-    private SpringEndpointGenerator setUpSpringBootGenerator() {
+    private SpringEndpointGenerator setUpSpringBootGenerator() throws IOException {
         return setUpGenerator(Framework.SPRING_BOOT.name());
     }
 

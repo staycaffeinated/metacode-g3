@@ -85,7 +85,7 @@ public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
      * As another example, this template expression:
      *      "return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();"
      * becomes
-     *      "return ${ServiceApi.varName()}.findAll${RestObject.className()}s();"
+     *      "return ${ServiceApi.varName()}.findAll${Pojo.className()}s();"
      *
      * Hopefully, this will make templates a little easier follow.
      */

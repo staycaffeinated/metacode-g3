@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Repository.packageName()};
 
 <#if endpoint.isWithTestContainers()>
 import ${ContainerConfiguration.fqcn()};

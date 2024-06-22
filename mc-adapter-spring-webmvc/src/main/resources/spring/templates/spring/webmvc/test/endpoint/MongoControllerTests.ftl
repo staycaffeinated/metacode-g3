@@ -1,13 +1,13 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${Controller.packageName()};
 
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.documentName};
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.documentName}TestFixtures;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${Document.fqcn()};
+import ${DocumentTestFixtures.fqcn()};
+import ${EntityResource.fqcn()};
+import ${PojoTestFixtures.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,164 +40,163 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(${endpoint.entityName}Controller.class)
+@WebMvcTest(${Controller.className()}.class)
 @ActiveProfiles("test")
-class ${endpoint.entityName}ControllerTests {
+class ${Controller.testClass()} {
 
-@Autowired
-private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-@MockBean
-private ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
+    @MockBean
+    private ${ServiceImpl.className()} ${endpoint.entityVarName}Service;
 
-@Autowired
-private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-private List<${endpoint.pojoName}> ${endpoint.entityVarName}List;
-private Page<${endpoint.pojoName}> pageOfData;
+    private List<${EntityResource.className()}> ${endpoint.entityVarName}List;
+    private Page<${EntityResource.className()}> pageOfData;
 
-private final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
-@BeforeEach
-void setUp() {
-${endpoint.entityVarName}List = ${endpoint.entityName}TestFixtures.allItems();
+    @BeforeEach
+    void setUp() {
+        ${endpoint.entityVarName}List = ${PojoTestFixtures.className()}.allItems();
 
-objectMapper.registerModule(new ProblemModule());
-objectMapper.registerModule(new ConstraintViolationProblemModule());
+        objectMapper.registerModule(new ProblemModule());
+        objectMapper.registerModule(new ConstraintViolationProblemModule());
 
-pageOfData = new PageImpl<>(${endpoint.entityVarName}List);
-}
+        pageOfData = new PageImpl<>(${endpoint.entityVarName}List);
+    }
 
-@AfterEach
-void tearDownEachTime() {
-reset ( ${endpoint.entityVarName}Service );
-}
+    @AfterEach
+    void tearDownEachTime() {
+        reset ( ${endpoint.entityVarName}Service );
+    }
 
-@Nested
-class FindAllTests {
-/*
-* shouldFetchAll${endpoint.entityName}s
-*/
-@Test
-void shouldFetchAll${endpoint.entityName}s() throws Exception {
-int expectedSize = ${endpoint.entityName}TestFixtures.allItems().size();
-given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${endpoint.entityName}TestFixtures.allItems());
+    @Nested
+    class FindAllTests {
+        /*
+        * shouldFetchAll${endpoint.entityName}s
+        */
+        @Test
+        void shouldFetchAll${endpoint.entityName}s() throws Exception {
+            int expectedSize = ${PojoTestFixtures.className()}.allItems().size();
+            given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${PojoTestFixtures.className()}.allItems());
 
-findAllEntities()
-.andExpect(status().isOk())
-.andExpect(jsonPath("$.size()", is(expectedSize)));
-}
-}
+            findAllEntities()
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(expectedSize)));
+        }
+    }
 
-@Nested
-class FindByIdTests {
-/*
-*  shouldFind${endpoint.entityName}ById
-*/
-@Test
-void shouldFind${endpoint.entityName}ById() throws Exception {
-// given
-${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.entityName}TestFixtures.oneWithResourceId();
-String resourceId = ${endpoint.entityVarName}.getResourceId();
+    @Nested
+    class FindByIdTests {
+        /*
+        *  shouldFind${endpoint.entityName}ById
+        */
+        @Test
+        void shouldFind${endpoint.entityName}ById() throws Exception {
+            // given
+            ${EntityResource.className()} ${endpoint.entityVarName} = ${PojoTestFixtures.className()}.oneWithResourceId();
+            String resourceId = ${endpoint.entityVarName}.getResourceId();
 
-given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
-.willReturn(Optional.of(${endpoint.entityVarName}));
+            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
+                .willReturn(Optional.of(${endpoint.entityVarName}));
 
-// when/then
-findSpecificEntity(resourceId)
-.andExpect(status().isOk())
-.andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())))
-;
-}
+            // when/then
+            findSpecificEntity(resourceId)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())))
+                ;
+        }
 
-@Test
-void shouldReturn404WhenFetchingNonExisting${endpoint.entityName}() throws Exception {
-// given
-String resourceId = randomSeries.nextResourceId();
-given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
-.willReturn(Optional.empty());
+        @Test
+        void shouldReturn404WhenFetchingNonExisting${endpoint.entityName}() throws Exception {
+            // given
+            String resourceId = randomSeries.nextResourceId();
+            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
+                .willReturn(Optional.empty());
 
-// when/then
-findSpecificEntity(resourceId)
-.andExpect(status().isNotFound());
+            // when/then
+            findSpecificEntity(resourceId)
+                .andExpect(status().isNotFound());
+        }
+    }
 
-}
-}
+    @Nested
+    class Create${endpoint.entityName}Tests {
+        @Test
+        void shouldCreateNew${endpoint.entityName}() throws Exception {
+            // given
+            ${EntityResource.className()} resourceBeforeSave = ${PojoTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} resourceAfterSave = ${PojoTestFixtures.className()}.copyOf(resourceBeforeSave);
+            resourceAfterSave.setResourceId(randomSeries.nextResourceId());
+            given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
 
-@Nested
-class Create${endpoint.entityName}Tests {
-@Test
-void shouldCreateNew${endpoint.entityName}() throws Exception {
-// given
-${endpoint.pojoName} resourceBeforeSave = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
-${endpoint.pojoName} resourceAfterSave = ${endpoint.entityName}TestFixtures.copyOf(resourceBeforeSave);
-resourceAfterSave.setResourceId(randomSeries.nextResourceId());
-given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
+            // when/then
+            createEntity(resourceBeforeSave).andExpect(status().isCreated())
+            .andExpect(jsonPath("$.resourceId", notNullValue()))
+            .andExpect(jsonPath("$.text", is(resourceAfterSave.getText())));
+        }
 
-// when/then
-createEntity(resourceBeforeSave).andExpect(status().isCreated())
-.andExpect(jsonPath("$.resourceId", notNullValue()))
-.andExpect(jsonPath("$.text", is(resourceAfterSave.getText())));
-}
+        @Test
+        void whenDatabaseThrowsException_expectUnprocessableEntityResponse() throws Exception {
+            // given the database throws an exception when the entity is saved
+            given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
+            ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
 
-@Test
-void whenDatabaseThrowsException_expectUnprocessableEntityResponse() throws Exception {
-// given the database throws an exception when the entity is saved
-given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
-${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
+            createEntity(resource).andExpect(status().isUnprocessableEntity());
+        }
+    }
 
-createEntity(resource).andExpect(status().isUnprocessableEntity());
-}
-}
+    @Nested
+    class Update${endpoint.entityName}Tests {
+        @Test
+        void shouldUpdate${endpoint.entityName}() throws Exception {
+            // given
+            String resourceId = randomSeries.nextResourceId();
+            ${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.pojoName}.builder().resourceId(resourceId).text("sample text").build();
+            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
+            given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(List.of(${endpoint.entityVarName}));
 
-@Nested
-class Update${endpoint.entityName}Tests {
-@Test
-void shouldUpdate${endpoint.entityName}() throws Exception {
-// given
-String resourceId = randomSeries.nextResourceId();
-${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.pojoName}.builder().resourceId(resourceId).text("sample text").build();
-given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
-given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(List.of(${endpoint.entityVarName}));
+            // when/then
+            updateEntity(${endpoint.entityVarName}).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].text", is(${endpoint.entityVarName}.getText())))
+                .andExpect(jsonPath("$[0].resourceId", is(${endpoint.entityVarName}.getResourceId())));
+        }
 
-// when/then
-updateEntity(${endpoint.entityVarName}).andExpect(status().isOk())
-.andExpect(jsonPath("$[0].text", is(${endpoint.entityVarName}.getText())))
-.andExpect(jsonPath("$[0].resourceId", is(${endpoint.entityVarName}.getResourceId())));
-}
+        @Test
+        void shouldReturn404WhenUpdatingNonExisting${endpoint.entityName}() throws Exception {
+            // given
+            String resourceId = randomSeries.nextResourceId();
+            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
-@Test
-void shouldReturn404WhenUpdatingNonExisting${endpoint.entityName}() throws Exception {
-// given
-String resourceId = randomSeries.nextResourceId();
-given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
+            // when/then
+            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(resourceId).text("updated text").build();
 
-// when/then
-${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(resourceId).text("updated text").build();
+            // Attempt to update an entity that does not exist
+            updateEntity(resource).andExpect(status().isNotFound());
+        }
 
-// Attempt to update an entity that does not exist
-updateEntity(resource).andExpect(status().isNotFound());
-}
+        /**
+        * When the Ids in the query string and request body do not match, expect
+        * an 'Unprocessable Entity' response code
+        */
+        @Test
+        void shouldReturn422WhenIdsMismatch() throws Exception {
+            // given
+            String resourceId = randomSeries.nextResourceId();
+            String mismatchingId = randomSeries.nextResourceId();
+            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
-/**
-* When the Ids in the query string and request body do not match, expect
-* an 'Unprocessable Entity' response code
-*/
-@Test
-void shouldReturn422WhenIdsMismatch() throws Exception {
-// given
-String resourceId = randomSeries.nextResourceId();
-String mismatchingId = randomSeries.nextResourceId();
-given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
+            // when the ID in the request body does not match the ID in the query string...
+            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(mismatchingId).text("updated text").build();
 
-// when the ID in the request body does not match the ID in the query string...
-${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(mismatchingId).text("updated text").build();
-
-// Submit an update request, with the ID in the URL not matching the ID in the body.
-// Expect back an UnprocessableEntity status code
-updateEntity(resourceId, resource).andExpect(status().isUnprocessableEntity());
-}
-}
+            // Submit an update request, with the ID in the URL not matching the ID in the body.
+            // Expect back an UnprocessableEntity status code
+            updateEntity(resourceId, resource).andExpect(status().isUnprocessableEntity());
+        }
+    }
 
 @Nested
 class Delete${endpoint.entityName}Tests {

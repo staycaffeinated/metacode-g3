@@ -125,6 +125,11 @@ public class CustomPropertyAssembler {
     private record ResolvedJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                    String className) implements JavaArchetypeDescriptor {
 
+        @Override
+        public String testClass() {
+            return JavaArchetypeDescriptor.super.testClass();
+        }
+
         public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("ResolvedJavaArchetypeDescriptor[className: ").append(className()).append(", ");

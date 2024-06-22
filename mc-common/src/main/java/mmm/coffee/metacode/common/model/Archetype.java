@@ -39,6 +39,8 @@ public enum Archetype {
     // converters
     EntityToPojoConverter("EntityToPojoConverter"),
     PojoToEntityConverter("PojoToEntityConverter"),
+    PojoToDocumentConverter("PojoToDocumentConverter"),
+    DocumentToPojoConverter("DocumentToPojoConverter"),
 
     // exceptions and error handling
     GlobalExceptionHandler("GlobalExceptionHandler"),
@@ -103,8 +105,10 @@ public enum Archetype {
     DataStoreApi("DataStoreApi"),
     DataStoreImpl("DataStoreImpl"),
     MongoDataStore("MongoDataStore"),
+    MongoDataStoreProvider("MongoDataStoreProvider"),
     MongoCrudAwareApi("MongoCrudAwareApi"),
     Entity("Entity"),   // the EJB view of a POJO
+    Document("Document"), // nosql Document objects
     EntityResource("EntityResource"), // the POJO view of an EJB
     Repository("Repository"),
     PersistenceAdapter("PersistenceAdapter"),
@@ -113,6 +117,8 @@ public enum Archetype {
     CustomSQLRepository("CustomSQLRepository"),
     WebMvcEjbTestFixtures("WebMvcEjbTestFixtures"),
     WebMvcModelTestFixtures("WebMvcModelTestFixtures"),
+    DocumentTestFixtures("DocumentTestFixtures"),
+    PojoTestFixtures("PojoTestFixtures"),
 
     EntityWithText("EntityWithText"), // a predicate for a given EJB/POJO
 

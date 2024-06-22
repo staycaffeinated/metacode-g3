@@ -36,6 +36,7 @@ public class PackageLayoutRuleSet {
 
         mustacheModel.put("restResource", restObj.toLowerCase());
         mustacheModel.put("basePackage", "{{basePackage}}");
+        mustacheModel.put("endpoint", restObj.toLowerCase());
         return MustacheExpressionResolver.resolve(partialPkg, mustacheModel);
     }
 

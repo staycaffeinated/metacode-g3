@@ -9,11 +9,13 @@
         "ProblemConfiguration",
         "LocalDateConverter",
         "WebMvcConfiguration",
-        "ContainerConfiguration"
+        "ContainerConfiguration",
+        "SecurityResponseHeadersFilter",
+        "MongoContainerConfiguration"
       ]
     },
     {
-      "package": "{{basePackage}}.advice",
+      "package": "{{basePackage}}.infra.advice",
       "archetypes": [
         "GlobalExceptionHandler"
       ]
@@ -72,8 +74,10 @@
     {
       "package": "{{basePackage}}.converters",
       "archetypes": [
-        "EjbToPojoConverter",
-        "PojoToEjbConverter"
+        "EntityToPojoConverter",
+        "PojoToEntityConverter",
+        "PojoToDocumentConverter",
+        "DocumentToPojoConverter"
       ]
     },
     {
@@ -83,7 +87,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.infra",
+      "package": "{{basePackage}}",
       "archetypes": [
         "Application"
       ]
@@ -111,19 +115,27 @@
       ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.persistence",
+      "package": "{{basePackage}}.persistence",
       "archetypes": [
         "CustomRepository",
         "CustomSQLRepository",
         "DataStoreApi",
         "DataStoreImpl",
         "DatabaseTablePopulator",
-        "Entity",
-        "ExceptionHandler",
-        "ObjectDataStore",
-        "ObjectDataStoreProvider"
+        "Entity"
       ]
     },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.persistence",
+      "archetypes": [
+        "Entity",
+        "ObjectDataStore",
+        "ObjectDataStoreProvider",
+        "WebMvcEjbTestFixtures",
+        "Document"
+      ]
+    },
+
     {
       "package": "{{basePackage}}.infra.persistence",
       "archetypes": [
@@ -132,7 +144,9 @@
         "ObjectDataStore",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
-        "Repository"
+        "Repository",
+        "MongoDbContainerTests",
+        "PostgresDbContainerTests"
       ]
     },
     {
@@ -141,7 +155,7 @@
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.domain",
-      "archetypes": [ "Pojo", "EntityResource" ]
+      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures", "PojoTestFixtures" ]
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.persistence.predicate",

@@ -16,9 +16,9 @@ class ArchetypeDescriptorFactoryTest {
     ArchetypeDescriptorFactory factoryUnderTest;
 
     @BeforeEach
-    public void setUpFactory() {
-        PackageLayoutRuleSet plrs = PackageLayoutRuleSetTestFixture.basicRuleSet();
-        ClassNameRuleSet cnrs = ClassNameRuleSetTestFixture.basicRuleSet();
+    public void setUpFactory() throws Exception {
+        PackageLayoutRuleSet plrs = PackageLayoutRuleSetTestFixture.packageLayoutRuleSet();
+        ClassNameRuleSet cnrs = ClassNameRuleSetTestFixture.classNameRuleSet();
         factoryUnderTest = new ArchetypeDescriptorFactory(plrs, cnrs);
     }
 
@@ -28,8 +28,8 @@ class ArchetypeDescriptorFactoryTest {
         assertThat(descriptor).isNotNull();
         assertThat(descriptor.archetype()).isEqualTo(Archetype.Application);
         assertThat(descriptor.className()).isEqualTo("Application"); // default name of the main class
-        assertThat(descriptor.packageName()).isEqualTo("com.acme.petstore");    // as set by the fixture
-        assertThat(descriptor.fqcn()).isEqualTo("com.acme.petstore.Application");
+        assertThat(descriptor.packageName()).isEqualTo("{{basePackage}}");    // as set by the fixture
+        assertThat(descriptor.fqcn()).isEqualTo("{{basePackage}}.Application");
     }
 
     @Test
@@ -37,9 +37,9 @@ class ArchetypeDescriptorFactoryTest {
         JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.SecureRandomSeries);
         assertThat(descriptor).isNotNull();
         assertThat(descriptor.archetype()).isEqualTo(Archetype.SecureRandomSeries);
-        assertThat(descriptor.className()).isEqualTo("ResourceIdGenerator"); // default name of the main class
-        assertThat(descriptor.packageName()).isEqualTo("com.acme.petstore.utils");    // as set by the fixture
-        assertThat(descriptor.fqcn()).isEqualTo("com.acme.petstore.utils.ResourceIdGenerator");
+        assertThat(descriptor.className()).isEqualTo("ResourceIdGenerator"); // as set in test-classname-rules.properties
+        assertThat(descriptor.packageName()).isEqualTo("{{basePackage}}.infra.utils");  // as set in test-package-layout.jon
+        assertThat(descriptor.fqcn()).isEqualTo("{{basePackage}}.infra.utils.ResourceIdGenerator");
     }
 
     @Test
@@ -52,6 +52,9 @@ class ArchetypeDescriptorFactoryTest {
         // must define a fully-qualified classname that contains, somewhere, the restObject's name
         assertThat(descriptor.fqcn()).isNotBlank();
         assertThat(descriptor.fqcn()).contains("Book");
+        assertThat(descriptor.fqcn()).startsWith("{{basePackage}}");
+
+        assertThat(descriptor.className()).doesNotEndWith(ClassNameRuleSet.UNDEFINED_SUFFIX);
 
         assertThat(descriptor.fqcnUnitTest()).isNotBlank();
         assertThat(descriptor.fqcnUnitTest()).contains("Book");
@@ -59,7 +62,6 @@ class ArchetypeDescriptorFactoryTest {
         assertThat(descriptor.fqcnIntegrationTest()).isNotBlank();
         assertThat(descriptor.fqcnIntegrationTest()).contains("Book");
 
-        // must not contain any unresolved mustache expressions
-        assertThat(descriptor.fqcn()).doesNotContain("{{");
+
     }
 }

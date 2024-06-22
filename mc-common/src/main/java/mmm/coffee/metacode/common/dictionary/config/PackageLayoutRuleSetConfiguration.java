@@ -20,7 +20,7 @@ public class PackageLayoutRuleSetConfiguration {
     private String packageLayoutConfiguration;
 
     @Bean
-    PackageLayoutRuleSet packageLayoutRuleSet(PackageLayoutReader reader) throws IOException {
+    public PackageLayoutRuleSet packageLayoutRuleSet(PackageLayoutReader reader) throws IOException {
         log.debug("[packageLayoutRuleSet] Building the PackageLayoutRuleSet using the layout from {}", packageLayoutConfiguration);
         PackageLayout layout = reader.read(packageLayoutConfiguration);
         Map<String, String> rules = PackageLayoutToHashMapMapper.convertToHashMap(layout);
@@ -29,7 +29,7 @@ public class PackageLayoutRuleSetConfiguration {
     }
 
     @Bean
-    PackageLayoutReader packageLayoutReader() {
+    public PackageLayoutReader packageLayoutReader() {
         return new PackageLayoutReader();
     }
 }

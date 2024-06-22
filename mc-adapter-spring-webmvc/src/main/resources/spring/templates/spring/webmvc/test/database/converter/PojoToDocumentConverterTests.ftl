@@ -1,12 +1,12 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter;
+package ${PojoToDocumentConverter.packageName()};
 
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${Document.fqcn()};
+import ${EntityResource.fqcn()};
+import ${DocumentTestFixtures.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -17,39 +17,39 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("all")
-class ${endpoint.entityName}PojoToDocumentConverterTests {
+class ${PojoToDocumentConverter.testClass()} {
 
-${endpoint.entityName}PojoToDocumentConverter converter = new ${endpoint.entityName}PojoToDocumentConverter();
+    ${PojoToDocumentConverter.className()} converter = new ${PojoToDocumentConverter.className()}();
 
-final ResourceIdSupplier idSupplier = new SecureRandomSeries();
+    final ${ResourceIdSupplier.className()} idSupplier = new ${SecureRandomSeries.className()}();
 
-@Test
-void shouldReturnNullWhenResourceIsNull() {
-assertThrows (NullPointerException.class, () ->  { converter.convert((${endpoint.pojoName}) null); });
-}
+    @Test
+    void shouldReturnNullWhenResourceIsNull() {
+        assertThrows (NullPointerException.class, () ->  { converter.convert((${EntityResource.className()}) null); });
+    }
 
-@Test
-void shouldReturnNullWhenListIsNull() {
-assertThrows (NullPointerException.class, () -> { converter.convert((List<${endpoint.pojoName}>)null); });
-}
+    @Test
+    void shouldReturnNullWhenListIsNull() {
+        assertThrows (NullPointerException.class, () -> { converter.convert((List<${EntityResource.className()}>)null); });
+    }
 
-@Test
-void shouldPopulateAllFields() {
-${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(idSupplier.nextResourceId()).text("hello world").build();
+    @Test
+    void shouldPopulateAllFields() {
+        ${EntityResource.className()} resource = ${EntityResource.className()}.builder().resourceId(idSupplier.nextResourceId()).text("hello world").build();
 
-${endpoint.documentName} bean = converter.convert(resource);
-assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
-assertThat(bean.getText()).isEqualTo(resource.getText());
-}
+        ${Document.className()} bean = converter.convert(resource);
+        assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
+        assertThat(bean.getText()).isEqualTo(resource.getText());
+    }
 
-@Test
-void shouldCopyList() {
-${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(idSupplier.nextResourceId()).text("hello world").build();
-var pojoList = Lists.list(resource);
+    @Test
+    void shouldCopyList() {
+        ${EntityResource.className()} resource = ${EntityResource.className()}.builder().resourceId(idSupplier.nextResourceId()).text("hello world").build();
+        var pojoList = Lists.list(resource);
 
-List<${endpoint.documentName}> ejbList = converter.convert(pojoList);
-assertThat(ejbList.size()).isOne();
-assertThat(ejbList.get(0).getResourceId()).isEqualTo(resource.getResourceId());
-assertThat(ejbList.get(0).getText()).isEqualTo(resource.getText());
-}
+        List<${Document.className()}> ejbList = converter.convert(pojoList);
+        assertThat(ejbList.size()).isOne();
+        assertThat(ejbList.get(0).getResourceId()).isEqualTo(resource.getResourceId());
+        assertThat(ejbList.get(0).getText()).isEqualTo(resource.getText());
+    }
 }

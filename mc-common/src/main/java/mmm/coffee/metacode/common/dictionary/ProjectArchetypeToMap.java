@@ -56,7 +56,6 @@ public class ProjectArchetypeToMap {
             Archetype.WebMvcConfiguration,
             Archetype.ApplicationConfiguration,
             Archetype.ContainerConfiguration,
-            // Archetype.ConversionService, // endpoint asset, {basePath}{endpoint}.helper.ConversionService
             Archetype.DateTimeFormatConfiguration,
 
             // persistence stuff
@@ -71,7 +70,6 @@ public class ProjectArchetypeToMap {
             Archetype.ContainerConfiguration,
             Archetype.DatabaseInitFunction,
             Archetype.MongoDatabaseConfiguration,
-            // Archetype.DatabaseTablePopulator, // each endpoint has its own DatabaseTablePopulator...
 
             // miscellaneous
             Archetype.Text,

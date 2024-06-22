@@ -12,6 +12,8 @@ import java.util.Map;
 @Slf4j
 public class ClassNameRuleSet {
 
+    public static final String UNDEFINED_SUFFIX = "Undefined";
+
     private final HashMap<String,String> ruleset = new HashMap<>();
 
     /**
@@ -31,9 +33,10 @@ public class ClassNameRuleSet {
     }
 
     public String resolveClassName(String archetype, String resource) {
-        String pkgExpression = ruleset.getOrDefault(archetype, "{{restResource}}Thing");
-        if (pkgExpression.endsWith("Thing")) {
-            log.info("No classname rule was found for archetype '{}', so the suffix 'Thing' was used." , archetype);
+        // If an archetype isn't found in this ruleset, add a suffix to make it easy to identify that archetype
+        String pkgExpression = ruleset.getOrDefault(archetype, archetype.toString() + UNDEFINED_SUFFIX);
+        if (pkgExpression.endsWith("Undefined")) {
+            log.warn("No classname rule was found for archetype '{}', so the suffix 'Undefined' was used." , archetype);
         }
         Map<String,String> model = new HashMap<>();
         model.put("restResource", StringUtils.capitalize(resource));

@@ -75,7 +75,9 @@
       "package": "{{basePackage}}.converters",
       "archetypes": [
         "EntityToPojoConverter",
-        "PojoToEntityConverter"
+        "PojoToEntityConverter",
+        "PojoToDocumentConverter",
+        "DocumentToPojoConverter"
       ]
     },
     {
@@ -129,7 +131,8 @@
         "Entity",
         "ObjectDataStore",
         "ObjectDataStoreProvider",
-        "WebMvcEjbTestFixtures"
+        "WebMvcEjbTestFixtures",
+        "Document"
       ]
     },
 
@@ -152,7 +155,7 @@
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.domain",
-      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures" ]
+      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures", "PojoTestFixtures" ]
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.persistence.predicate",
