@@ -7,21 +7,28 @@ import ${ContainerConfiguration.fqcn()};
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
-import ${endpoint.basePackage}.database.*;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.predicate.*;
+import ${Entity.fqcn()};
+import ${EntityResource.fqcn()};
+import ${EntityWithText.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${WebMvcEjbTestFixtures.fqcn()};
 
-import org.junit.jupiter.api.*;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.*;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.DynamicPropertyRegistry;
+</#if>
 
 import java.util.List;
 
@@ -38,14 +45,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import(ContainerConfiguration.class)
 @Testcontainers
-class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
+class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties {
 <#else>
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
+class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties {
 </#if>
     @Autowired
-    private ${endpoint.entityName}Repository repositoryUnderTest;
+    private ${Repository.className()} repositoryUnderTest;
 
     // Generates the public identifier of an entity
     private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
@@ -55,7 +62,7 @@ class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
 
     @BeforeEach
     void insertTestData() {
-        repositoryUnderTest.saveAll(${endpoint.ejbName}TestFixtures.allItems());
+        repositoryUnderTest.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
     }
 
     @AfterEach
@@ -84,7 +91,7 @@ class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
         @Test
         void testFindAll() throws Exception {
             Pageable pageable = PageRequest.of(0, 10);
-            Page<${endpoint.ejbName}> page = repositoryUnderTest.findAll(pageable);
+            Page<${Entity.className()}> page = repositoryUnderTest.findAll(pageable);
 
             assertThat(page).isNotNull();
             assertThat(page.hasContent()).isTrue();
@@ -95,17 +102,17 @@ class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
     class ValidatePredicates {
         @Test
         void shouldIgnoreCase() {
-            String text = ${endpoint.ejbName}TestFixtures.allItems().get(0).getText();
-            ${endpoint.entityName}WithText spec = new ${endpoint.entityName}WithText(text);
-            List<${endpoint.ejbName}> list = repositoryUnderTest.findAll(spec);
+            String text = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getText();
+            ${EntityWithText.className()} spec = new ${EntityWithText.className()}(text);
+            List<${Entity.className()}> list = repositoryUnderTest.findAll(spec);
             assertThat(list).isNotNull().hasSize(1);
         }
 
         @Test
         void shouldFindAllWhenValueIsEmpty() {
-            ${endpoint.entityName}WithText spec = new ${endpoint.entityName}WithText("");
-            List<${endpoint.ejbName}> list = repositoryUnderTest.findAll(spec);
-            assertThat(list).isNotNull().hasSameSizeAs(${endpoint.ejbName}TestFixtures.allItems());
+            ${EntityWithText.className()} spec = new ${EntityWithText.className()}("");
+            List<${Entity.className()}> list = repositoryUnderTest.findAll(spec);
+            assertThat(list).isNotNull().hasSameSizeAs(${WebMvcEjbTestFixtures.className()}.allItems());
         }
     }
 
@@ -115,7 +122,7 @@ class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
     //
     // ------------------------------------------------------------------------------------------------------------
 
-    private ${endpoint.ejbName} new${endpoint.ejbName}(final String value)  {
-        return new ${endpoint.ejbName}(++rowId, randomSeries.nextResourceId(), value);
+    private ${Entity.className()} new${endpoint.ejbName}(final String value)  {
+        return new ${Entity.className()}(++rowId, randomSeries.nextResourceId(), value);
     }
 }

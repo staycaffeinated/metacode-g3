@@ -6,6 +6,8 @@ import ${Entity.fqcn()};
 import ${EntityResource.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${WebMvcEjbTestFixtures.fqcn()};
+import ${WebMvcModelTestFixtures.fqcn()};
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SuppressWarnings("all")
 class ${PojoToEntityConverter.testClass()} {
 
-    ${PojoToEntityConverter.className()} converter = new ${PojoToEntityConverter()}();
+    ${PojoToEntityConverter.className()} converter = new ${PojoToEntityConverter.className()}();
 
     final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 

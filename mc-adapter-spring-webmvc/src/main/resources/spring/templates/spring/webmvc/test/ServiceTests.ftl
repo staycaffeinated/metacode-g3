@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${ServiceImpl.package()};
+package ${ServiceImpl.packageName()};
 
 
 import ${Entity.fqcn()};

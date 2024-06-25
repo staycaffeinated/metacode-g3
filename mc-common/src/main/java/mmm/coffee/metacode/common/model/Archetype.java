@@ -91,7 +91,6 @@ public enum Archetype {
     Application("Application"), // the main class
     AbstractIntegrationTest("AbstractIntegrationTest"),
     AbstractDataJpaTest("AbstractDataJpaTest"),
-    ConversionService("ConversionService"), // todo: I think this is endpoint dependent
 
     /*
      * Endpoint-scope archetypes
@@ -100,6 +99,8 @@ public enum Archetype {
     ServiceApi("ServiceApi"),
     ServiceImpl("ServiceImpl"),
     Controller("Controller"),
+    ConversionService("ConversionService"), // todo: I think this is endpoint dependent
+    Document("Document"), // nosql Document objects
     Routes("Routes"),
     Pojo("Pojo"),
     DataStoreApi("DataStoreApi"),
@@ -108,7 +109,6 @@ public enum Archetype {
     MongoDataStoreProvider("MongoDataStoreProvider"),
     MongoCrudAwareApi("MongoCrudAwareApi"),
     Entity("Entity"),   // the EJB view of a POJO
-    Document("Document"), // nosql Document objects
     EntityResource("EntityResource"), // the POJO view of an EJB
     Repository("Repository"),
     PersistenceAdapter("PersistenceAdapter"),

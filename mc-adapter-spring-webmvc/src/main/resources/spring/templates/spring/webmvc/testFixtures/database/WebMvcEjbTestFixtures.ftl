@@ -10,7 +10,7 @@ import java.util.List;
 /**
 * Sample ${Entity.className()} objects suitable for test data
 */
-public class ${Entity.className()}TestFixtures {
+public class ${WebMvcEjbTestFixtures.className()} {
 
     static final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 

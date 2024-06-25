@@ -2,6 +2,7 @@
 
 package ${ObjectDataStoreProvider.packageName()};
 
+import ${ObjectDataStore.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
@@ -58,7 +59,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
         @Test
         void shouldFindOne() {
             // scenario: an item is know to exist in the database
-            Optional<${Entity.className()}> optional = Optional.of(${EntityResource.className()}EntityTestFixtures.oneWithResourceId());
+            Optional<${Entity.className()}> optional = Optional.of(${WebMvcEjbTestFixtures.className()}.oneWithResourceId());
             String expectedResourceId = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId().getResourceId();
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(optional);
 
@@ -176,7 +177,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
         @Test
         void shouldReturnNullWhenConverterReturnsNull() {
-            ${EntityToPojoConverter.className()} mockPojoToEntityConverter = Mockito.mock(${EntityToPojoConverter.className()}.class);
+            ${PojoToEntityConverter.className()} mockPojoToEntityConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
 
             // Create a DataStore that uses the mock converter
             ${ObjectDataStore.className()} edgeCaseDataStore = new ${ObjectDataStoreProvider.className()}(
@@ -221,7 +222,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
             given(mockRepository.findByResourceId(any(String.class))).willReturn(Optional.empty());
 
             // given:
-            Optional<${EntityResource.className()}> option = dataStoreUnderTest.update(${WebMvcEjbTestFixtures.className()}.oneWithResourceId());
+            Optional<${EntityResource.className()}> option = dataStoreUnderTest.update(${WebMvcModelTestFixtures.className()}.oneWithResourceId());
 
             // expect: a non-null, but empty, result
             assertThat(option).isNotNull().isEmpty();
