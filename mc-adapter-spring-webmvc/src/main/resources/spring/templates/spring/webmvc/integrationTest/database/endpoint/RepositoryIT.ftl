@@ -68,8 +68,10 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
     @AfterEach
     public void tearDownEachTime() {
         repositoryUnderTest.deleteAll();
+        repositoryUnderTest.flush();
     }
 
+    @SuppressWarnings({"java:S125"}) // false positive: this comment block does not contain code
     /*
      * Test custom methods.
      *
@@ -77,9 +79,9 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
      * simply having proper syntax does not ensure the records that _should_ be
      * returned are the one's being returned.
      *
-     * The scope of these tests is verify the semantics of custom JPA queries added
+     * The scope of these tests is to verify the semantics of custom JPA queries added
      * to the Repository interface. The repository methods that are available out-of-the-box,
-     * such as findById, do not need to be tested. Its entirely possible that this test class
+     * such as findById, do not need to be tested. It's entirely possible that this test class
      * can be removed altogether.
      */
     @Nested
@@ -112,7 +114,8 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
         void shouldFindAllWhenValueIsEmpty() {
             ${EntityWithText.className()} spec = new ${EntityWithText.className()}("");
             List<${Entity.className()}> list = repositoryUnderTest.findAll(spec);
-            assertThat(list).isNotNull().hasSameSizeAs(${WebMvcEjbTestFixtures.className()}.allItems());
+            long count = repositoryUnderTest.count();
+            assertThat(list).isNotNull().hasSize((int)count);
         }
     }
 

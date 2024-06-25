@@ -72,7 +72,7 @@ class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
         @SuppressWarnings("all")
         void shouldFind${endpoint.entityName}ById() throws Exception {
             // given: the public ID of an item known to be in the database
-            String expectedId = ${WebMvcModelTestFixtures.className()}.allItems().get(0).getResourceId();
+            String expectedId = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getResourceId();
 
             // when: the service is asked to find the item
             Optional<${endpoint.pojoName}> optional = serviceUnderTest.find${endpoint.entityName}ByResourceId(expectedId);
