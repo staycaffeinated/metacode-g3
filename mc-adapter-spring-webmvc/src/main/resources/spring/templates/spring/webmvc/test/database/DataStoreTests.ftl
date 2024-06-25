@@ -7,6 +7,7 @@ import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
+import ${Repository.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
 import ${WebMvcEjbTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};

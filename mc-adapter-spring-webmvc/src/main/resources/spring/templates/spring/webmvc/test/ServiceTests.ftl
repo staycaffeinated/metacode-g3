@@ -8,6 +8,7 @@ import ${EntityResource.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${ObjectDataStore.fqcn()};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

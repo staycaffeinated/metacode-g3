@@ -348,9 +348,6 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/ObjectDataStore.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStore.java"
-      - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/database/DataStoreTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStoreTests.java"
 
 
   - scope: "endpoint"
@@ -359,6 +356,9 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/ObjectDataStoreProvider.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStoreProvider.java"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/DataStoreTests.ftl"
+        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStoreTests.java"
 
   - scope: "endpoint"
     archetype: "EntityToPojoConverter"
@@ -464,9 +464,3 @@ entries:
         sourceTemplate: "/spring/webmvc/main/database/entity/DatabaseTablePopulator.ftl"
         destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{entityName}}/{{entityName}}TablePopulator.java"
 
-  - scope: "endpoint"
-    archetype: "ConversionService"
-    facets:
-      - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/FakeConversionService.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/FakeConversionService.java"

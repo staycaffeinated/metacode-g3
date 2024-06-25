@@ -9,8 +9,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
+import ${Repository.fqcn()};
 import ${ObjectDataStore.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
+import ${WebMvcEjbTestFixtures.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 import org.junit.jupiter.api.*;
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
@@ -53,7 +55,7 @@ class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
 
     @BeforeEach
     void insertTestData() {
-        ${endpoint.entityVarName}Repository.saveAll(${WebMvcEjbTestFixtures()}.allItems());
+        ${endpoint.entityVarName}Repository.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
     }
 
     @AfterEach
