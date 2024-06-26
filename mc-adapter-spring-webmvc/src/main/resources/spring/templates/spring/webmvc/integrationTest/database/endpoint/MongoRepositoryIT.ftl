@@ -16,10 +16,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
-* These tests verify custom queries added to the repository. If the JPA queries
-* are not modified, or not custom methods are added to the Repository class,
-* these tests may be deleted.
-*/
+ * These tests verify custom queries added to the repository. If the JPA queries
+ * are not modified, or not custom methods are added to the Repository class,
+ * these tests may be deleted.
+ */
 @DataMongoTest
 @SuppressWarnings("all")
 class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
