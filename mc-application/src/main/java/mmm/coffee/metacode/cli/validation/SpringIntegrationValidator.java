@@ -70,8 +70,8 @@ public class SpringIntegrationValidator implements ValidationTrait {
         });
         if (containsPostgres.get() && containsMongoDb.get())
             errorMessage = String.format("Two mutually-exclusive items were selected together: %s and %s."
-                            + " Only one of these is allowed per project.", SpringIntegrations.POSTGRES.toString(),
-                    SpringIntegrations.MONGODB.toString());
+                            + " Only one of these is allowed per project.", SpringIntegrations.POSTGRES,
+                    SpringIntegrations.MONGODB);
         return containsMongoDb.get() && containsPostgres.get();
     }
 }

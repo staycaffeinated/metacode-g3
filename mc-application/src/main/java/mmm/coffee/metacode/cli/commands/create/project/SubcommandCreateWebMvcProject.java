@@ -15,15 +15,12 @@
  */
 package mmm.coffee.metacode.cli.commands.create.project;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.cli.validation.PackageNameValidator;
 import mmm.coffee.metacode.cli.validation.SpringIntegrationValidator;
-import mmm.coffee.metacode.common.components.Publisher;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
