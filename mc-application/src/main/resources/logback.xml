@@ -2,9 +2,9 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
-    <root level="ERROR">
+    <root level="WARN">
         <appender-ref ref="CONSOLE"/>
     </root>
     <logger name="org.springframework" level="ERROR"/>
-    <logger name="mmm.coffee" level="INFO"/>
+    <logger name="mmm.coffee" level="WARN"/>
 </configuration>
