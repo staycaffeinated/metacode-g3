@@ -30,10 +30,12 @@
       ]
     },
     {
-      "package": "{{basePackage}}.api.home",
+      "package": "{{basePackage}}.home.api",
       "archetypes": [
         "RootController",
-        "RootService"
+        "RootService",
+        "DefaultController",
+        "DefaultService"
       ]
     },
     {
@@ -72,7 +74,7 @@
       "archetypes": [ "SecurityResponseHeadersFilter" ]
     },
     {
-      "package": "{{basePackage}}.converters",
+      "package": "{{basePackage}}.{{endpoint}}.persistence.converters",
       "archetypes": [
         "EntityToPojoConverter",
         "PojoToEntityConverter",
@@ -99,13 +101,6 @@
         "Routes",
         "ServiceApi",
         "ServiceImpl"
-      ]
-    },
-    {
-      "package": "{{basePackage}}.root.api",
-      "archetypes": [
-        "DefaultController",
-        "DefaultService"
       ]
     },
     {

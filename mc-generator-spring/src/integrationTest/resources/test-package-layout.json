@@ -30,7 +30,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.api.home",
+      "package": "{{basePackage}}.home.api",
       "archetypes": [
         "RootController",
         "RootService"
@@ -72,7 +72,7 @@
       "archetypes": [ "SecurityResponseHeadersFilter" ]
     },
     {
-      "package": "{{basePackage}}.converters",
+      "package": "{{basePackage}}.persistence.converters",
       "archetypes": [
         "EntityToPojoConverter",
         "PojoToEntityConverter",

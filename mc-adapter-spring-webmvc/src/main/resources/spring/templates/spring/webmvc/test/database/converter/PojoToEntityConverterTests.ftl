@@ -36,7 +36,7 @@ class ${PojoToEntityConverter.testClass()} {
 
     @Test
     void shouldPopulateAllFields() {
-        ${EntityResource.className()} resource = ${EntityResource.className()}.builder().resourceId(randomSeries.nextResourceId()).text("hello world").build();
+        ${EntityResource.className()} resource = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
 
         ${Entity.className()} bean = converter.convert(resource);
         assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
@@ -45,12 +45,12 @@ class ${PojoToEntityConverter.testClass()} {
 
     @Test
     void shouldCopyList() {
-        ${EntityResource.className()} resource = ${EntityResource.className()}.builder().resourceId(randomSeries.nextResourceId()).text("hello world").build();
-        var pojoList = Lists.list(resource);
+        var pojoList = ${WebMvcModelTestFixtures.className()}.allItems();
 
         List<${Entity.className()}> ejbList = converter.convert(pojoList);
-        assertThat(ejbList.size()).isOne();
-        assertThat(ejbList.get(0).getResourceId()).isEqualTo(resource.getResourceId());
-        assertThat(ejbList.get(0).getText()).isEqualTo(resource.getText());
+        assertThat(ejbList.size()).isSameAs(pojoList.size());
+        // spot check the first entry
+        assertThat(ejbList.get(0).getResourceId()).isEqualTo(pojoList.get(0).getResourceId());
+        assertThat(ejbList.get(0).getText()).isEqualTo(pojoList.get(0).getText());
     }
 }
