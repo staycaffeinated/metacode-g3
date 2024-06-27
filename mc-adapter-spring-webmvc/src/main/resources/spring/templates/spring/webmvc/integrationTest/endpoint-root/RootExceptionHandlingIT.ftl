@@ -54,10 +54,7 @@ class RootExceptionHandlingIT implements RegisterDatabaseProperties {
     MockMvc mockMvc;
 
     @MockBean
-    private RootService mockService;  // this is used to initialize the controller
-
-    @Autowired
-    private RootController controllerUnderTest;
+    private ${RootController.className()} controllerUnderTest;
 
     @Nested
     class ExceptionTests {

@@ -15,13 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class ${RootController.className()} {
 
-    ${RootService.className()} rootService;
-
     /*
      * Constructor
      */
-    public ${RootController.className()}(${RootService.className()} service) {
-        this.rootService = service;
+    public ${RootController.className()}() {
     }
 
     /*
@@ -29,7 +26,6 @@ public class ${RootController.className()} {
      */
     @GetMapping (value= "", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<String> getHome() {
-        rootService.doNothing();
         return ResponseEntity.ok().build();
     }
 }

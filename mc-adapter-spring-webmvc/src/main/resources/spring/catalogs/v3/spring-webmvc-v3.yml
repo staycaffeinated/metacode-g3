@@ -297,17 +297,17 @@ entries:
         destination: "{{appModule}}/src/main/java/{{sourceFile}}"
         _destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/root/RootExceptionHandlingIT.java"
 
-  - scope: "project"
-    archetype: "RootService"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/endpoint-root/RootService.ftl"
-        destination: "{{appModule}}/src/main/java/{{sourceFile}}"
-        _destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/root/RootService.java"
-      - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/endpoint-root/RootServiceTest.ftl"
-        destination: "{{appModule}}/src/main/java/{{sourceFile}}"
-        _destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/root/RootServiceTest.java"
+#  - scope: "project"
+#    archetype: "RootService"
+#    facets:
+#      - facet: "main"
+#        sourceTemplate: "/spring/webmvc/main/endpoint-root/RootService.ftl"
+#        destination: "{{appModule}}/src/main/java/{{sourceFile}}"
+#        _destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/root/RootService.java"
+#      - facet: "test"
+#        sourceTemplate: "/spring/webmvc/test/endpoint-root/RootServiceTest.ftl"
+#        destination: "{{appModule}}/src/main/java/{{sourceFile}}"
+#        _destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/root/RootServiceTest.java"
 
   - scope: "project"
     archetype: "AbstractIntegrationTest"
