@@ -2,6 +2,7 @@
 
 package ${Entity.packageName()};
 
+import ${SecureRandomSeries.fqcn()};
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -52,4 +53,9 @@ public class ${Entity.className()} {
     @Column(name=Columns.TEXT, nullable = false)
     @NotEmpty(message = "Text cannot be empty")
     private String text;
+
+    @PrePersist
+    public void prePersist() {
+        resourceId = ${SecureRandomSeries.className()}.instance().nextResourceId();
+    }
 }

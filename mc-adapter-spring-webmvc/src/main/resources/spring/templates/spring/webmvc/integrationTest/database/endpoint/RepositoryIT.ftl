@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${Entity.fqcn()};
-import ${EntityResource.fqcn()};
 import ${EntityWithText.fqcn()};
-import ${SecureRandomSeries.fqcn()};
-import ${ResourceIdSupplier.fqcn()};
 import ${WebMvcEjbTestFixtures.fqcn()};
 
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
 import org.springframework.boot.test.context.SpringBootTest;
+</#if>
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
@@ -54,9 +53,6 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
 </#if>
     @Autowired
     private ${Repository.className()} repositoryUnderTest;
-
-    // Generates the public identifier of an entity
-    private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     // Increment for rowIds in the database
     private long rowId = 0;
@@ -118,15 +114,5 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
             long count = repositoryUnderTest.count();
             assertThat(list).isNotNull().hasSize((int)count);
         }
-    }
-
-    // ------------------------------------------------------------------------------------------------------------
-    //
-    // Helper methods
-    //
-    // ------------------------------------------------------------------------------------------------------------
-
-    private ${Entity.className()} new${endpoint.ejbName}(final String value)  {
-        return new ${Entity.className()}(++rowId, randomSeries.nextResourceId(), value);
     }
 }

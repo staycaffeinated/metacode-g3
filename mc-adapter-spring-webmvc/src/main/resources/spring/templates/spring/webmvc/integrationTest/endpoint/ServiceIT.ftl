@@ -23,8 +23,12 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
+<#if endpoint.isWithTestContainers()>
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.DynamicPropertyRegistry;
+</#if>
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 import java.util.Optional;
 
@@ -39,9 +43,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 <#else>
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 </#if>
-class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
+class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
-    private ${Repository.className()} ${endpoint.entityVarName}Repository;
+    private ${Repository.className()} ${Repository.varName()};
 
     @Autowired
     private ${ObjectDataStore.className()} ${endpoint.entityVarName}DataStore;
@@ -55,12 +59,12 @@ class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
 
     @BeforeEach
     void insertTestData() {
-        ${endpoint.entityVarName}Repository.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
+        ${Repository.varName()}.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
     }
 
     @AfterEach
     void deleteTestData() {
-        ${endpoint.entityVarName}Repository.deleteAll();
+        ${Repository.varName()}.deleteAll();
     }
 
     /*
@@ -72,7 +76,7 @@ class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
         @SuppressWarnings("all")
         void shouldFind${endpoint.entityName}ById() throws Exception {
             // given: the public ID of an item known to be in the database
-            String expectedId = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getResourceId();
+            String expectedId = pickOne().getResourceId();
 
             // when: the service is asked to find the item
             Optional<${endpoint.pojoName}> optional = serviceUnderTest.find${endpoint.entityName}ByResourceId(expectedId);
@@ -112,7 +116,7 @@ class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
         @Test
         @SuppressWarnings("all")
         void shouldUpdate${endpoint.entityName}() throws Exception {
-            String resourceId = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getResourceId();
+            String resourceId = pickOne().getResourceId();
             ${endpoint.pojoName} modified = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
             final String newValue = "modified";
             modified.setText(newValue);
@@ -143,5 +147,18 @@ class ${endpoint.entityName}ServiceIT implements RegisterDatabaseProperties {
             Optional<${endpoint.pojoName}> option = serviceUnderTest.find${endpoint.entityName}ByResourceId(knownId);
             assertThat(option).isNotNull().isNotPresent();
         }
+    }
+
+    /**
+     * Returns one of the records persisted in the test database
+     */
+    ${Entity.className()} pickOne() {
+        ${Entity.className()} sample = ${WebMvcEjbTestFixtures.className()}.sampleOne();
+        ${Entity.className()} probe = ${Entity.className()}.builder().text(sample.getText()).build();
+        ExampleMatcher matcher = ExampleMatcher.matchingAny().withIgnoreNullValues();
+        Example<${Entity.className()}> example = Example.of(probe, matcher);
+        Optional<${Entity.className()}> possible = ${Repository.varName()}.findOne(example);
+        assertThat(possible).isNotNull().isPresent();
+        return possible.get();
     }
 }

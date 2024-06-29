@@ -5,8 +5,6 @@ package ${ObjectDataStoreProvider.packageName()};
 import ${Entity.fqcn()};
 import ${EntityWithText.fqcn()};
 import ${EntityResource.fqcn()};
-import ${SecureRandomSeries.fqcn()};
-import ${ResourceIdSupplier.fqcn()};
 import ${GenericDataStore.fqcn()};
 import ${ObjectDataStore.fqcn()};
 import ${Repository.fqcn()};
@@ -39,16 +37,13 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
      *            to convert EJBs to POJOs
      * @param pojoToEntityConverter
      *            to convert POJOs to EJBs
-     * @param idSupplier
-     *            to generate resourceIds
      */
     public ${ObjectDataStoreProvider.className()} (
             ${Repository.className()} repository,
             Converter<${Entity.className()},${EntityResource.className()}> ejbToPojoConverter,
-            Converter<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter,
-            ResourceIdSupplier idSupplier)
+            Converter<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter)
     {
-        super(repository, ejbToPojoConverter, pojoToEntityConverter, idSupplier);
+        super(repository, ejbToPojoConverter, pojoToEntityConverter);
     }
 
     @Override
@@ -71,7 +66,6 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
      */
     @Override
     protected void applyBeforeInsertSteps(${EntityResource.className()} from, ${Entity.className()} to) {
-        to.setResourceId(super.nextResourceId());
         this.applyBeforeUpdateSteps(from, to);
     }
 

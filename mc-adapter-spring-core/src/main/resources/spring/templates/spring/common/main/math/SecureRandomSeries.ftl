@@ -52,6 +52,8 @@ public class ${SecureRandomSeries.className()} implements ResourceIdSupplier {
     // If you opt for the numeric resource Ids, this is the max number of digits you'll encounter
     public static final int ENTROPY_MAX_NUMERIC_LENGTH = 49;
 
+    private static ${SecureRandomSeries.className()} instance = new ${SecureRandomSeries.className()}();
+
     /**
     * Default constructor, which selects a default algorithm
     */
@@ -79,6 +81,8 @@ public class ${SecureRandomSeries.className()} implements ResourceIdSupplier {
             random = new SecureRandom();
         }
     }
+
+    public static ${SecureRandomSeries.className()} instance() { return instance; }
 
     /**
      * Returns a secure random value with about 143 bits of entropy.

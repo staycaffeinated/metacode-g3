@@ -3,8 +3,6 @@
 package ${GenericDataStore.packageName()};
 
 import ${CustomRepository.fqcn()};
-import ${SecureRandomSeries.fqcn()};
-import ${ResourceIdSupplier.fqcn()};
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 
@@ -23,8 +21,7 @@ import java.util.Optional;
 * <p>{@code B} is the EntityBean type</p>
 * <p>{@code ID} is the primary key data type (e.g., Long or String)</p>
 *
-* For example {@code GenericDataStore
-<Pet,PetEntity,Long>}.
+* For example {@code GenericDataStore<Pet,PetEntity,Long>}.
 */
 @SuppressWarnings("java:S119") // 'ID' mimics Spring convention
 public abstract class ${GenericDataStore.className()}<D,B,ID> {
@@ -34,17 +31,13 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     private final Converter
     <D, B> pojoToEjbConverter;
 
-    private final ${ResourceIdSupplier.className()} resourceIdSupplier;
-
     protected ${GenericDataStore.className()}(${CustomRepository.className()}<B,ID> repository,
                                               Converter<B, D> ejbToPojoConverter,
-                                              Converter<D, B> pojoToEjbConverter,
-                                              ${ResourceIdSupplier.className()} idSupplier)
+                                              Converter<D, B> pojoToEjbConverter)
     {
         this.repository = repository;
         this.ejbToPojoConverter = ejbToPojoConverter;
         this.pojoToEjbConverter = pojoToEjbConverter;
-        this.resourceIdSupplier = idSupplier;
     }
 
     /**
@@ -63,11 +56,6 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
      * beans.
      */
     protected Converter<D, B> converterToEjb() { return pojoToEjbConverter; }
-
-    /**
-     * Returns a handle to the SecureRandom generator that yields resourceIds.
-     */
-    protected String nextResourceId() { return resourceIdSupplier.nextResourceId(); }
 
     /**
      * Retrieve an EJB having the given {@code resourceId}

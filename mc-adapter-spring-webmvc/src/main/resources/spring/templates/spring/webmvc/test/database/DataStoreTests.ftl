@@ -6,12 +6,8 @@ import ${ObjectDataStore.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
-import ${Entity.fqcn()};
 import ${Repository.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
-import ${SecureRandomSeries.fqcn()};
-import ${ResourceIdSupplier.fqcn()};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -46,13 +42,11 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
     ${EntityToPojoConverter.className()} ejbToPojoConverter = new ${EntityToPojoConverter.className()}();
     ${PojoToEntityConverter.className()} pojoToEjbConverter = new ${PojoToEntityConverter.className()}();
-    ${ResourceIdSupplier.className()} resourceIdSupplier = new ${SecureRandomSeries.className()}();
-
     ${ObjectDataStoreProvider.className()} dataStoreUnderTest;
 
     @BeforeEach
     void setUp() {
-        dataStoreUnderTest = new ${ObjectDataStoreProvider.className()}(mockRepository, ejbToPojoConverter, pojoToEjbConverter, resourceIdSupplier);
+        dataStoreUnderTest = new ${ObjectDataStoreProvider.className()}(mockRepository, ejbToPojoConverter, pojoToEjbConverter);
     }
 
     @Nested
@@ -100,7 +94,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
             // Create a DataStore that uses the mock converter
             ${ObjectDataStore.className()} storeUnderTest = new ${ObjectDataStoreProvider.className()}(
-                                mockRepository, mockEjbToPojoConverter, pojoToEjbConverter, resourceIdSupplier);
+                                mockRepository, mockEjbToPojoConverter, pojoToEjbConverter);
 
             // given: the repository is able to find a particular entity
             // but when the entity is converted to a POJO, a NULL value is returned
@@ -182,7 +176,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
             // Create a DataStore that uses the mock converter
             ${ObjectDataStore.className()} edgeCaseDataStore = new ${ObjectDataStoreProvider.className()}(
-                                mockRepository, ejbToPojoConverter, mockPojoToEntityConverter, resourceIdSupplier);
+                                mockRepository, ejbToPojoConverter, mockPojoToEntityConverter);
 
             // given: the converter returns a null value
             given(mockPojoToEntityConverter.convert(any(${EntityResource.className()}.class))).willReturn(null);
@@ -242,8 +236,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
             ${EntityResource.className()}EntityToPojoConverter mockEjbToPojoConverter = Mockito.mock(${EntityResource.className()}EntityToPojoConverter.class);
             given(mockEjbToPojoConverter.convert(any(${Entity.className()}.class))).willReturn(null);
             // Create a DataStore that uses the mock converter
-            ${EntityResource.className()}DataStore edgeCaseDataStore = new ${EntityResource.className()}DataStoreProvider(mockRepository, mockEjbToPojoConverter,
-            pojoToEjbConverter, resourceIdSupplier);
+            ${EntityResource.className()}DataStore edgeCaseDataStore = new ${EntityResource.className()}DataStoreProvider(mockRepository, mockEjbToPojoConverter, pojoToEjbConverter);
 
             // given: the repository finds the requested record, but the conversion to a
             // POJO yields a null value
