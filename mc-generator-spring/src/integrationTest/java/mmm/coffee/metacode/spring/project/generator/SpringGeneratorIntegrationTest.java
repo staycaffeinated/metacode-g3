@@ -47,7 +47,7 @@ class SpringGeneratorIntegrationTest {
      * Configure the code generator under test
      */
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         generatorUnderTest = SpringProjectCodeGenerator.builder()
                 .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())

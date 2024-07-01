@@ -126,6 +126,7 @@
         "Entity",
         "ObjectDataStore",
         "ObjectDataStoreProvider",
+        "MongoDataStoreProvider",
         "WebMvcEjbTestFixtures",
         "Document"
       ]

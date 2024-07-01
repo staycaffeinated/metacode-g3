@@ -4,6 +4,8 @@ import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Map;
 
@@ -21,14 +23,30 @@ class EndpointArchetypeToMapTest {
     }
 
 
-    @Test
-    void shouldWork() {
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Controller",
+            "ConversionService",
+            "DatabaseTablePopulator",
+            "Document",
+            "DocumentTestFixtures",
+            "DocumentToPojoConverter",
+            "EntityResource",
+            "MongoDataStore",
+            "ObjectDataStore",
+            "ObjectDataStoreProvider",
+            "PojoToDocumentConverter",
+            "Repository",
+            "Routes",
+            "ServiceApi",
+            "ServiceImpl"
+    })
+    void shouldRecognizeEndpointArchetypes(String archetypeName) {
         Map<String, ArchetypeDescriptor> mapping = EndpointArchetypeToMap.map(descriptorFactory, "Pet");
         assertThat(mapping).isNotEmpty();
 
-        ArchetypeDescriptor descriptor = mapping.get("Controller");
-
-        assertThat(mapping.get("Controller")).isNotNull();
+        ArchetypeDescriptor descriptor = mapping.get(archetypeName);
+        assertThat(mapping.get(archetypeName)).isNotNull();
     }
 
     @Test

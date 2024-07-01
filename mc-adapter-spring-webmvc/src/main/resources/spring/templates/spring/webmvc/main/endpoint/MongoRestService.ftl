@@ -1,9 +1,9 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${ServiceApi.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.validation.OnCreate;
-import ${endpoint.basePackage}.validation.OnUpdate;
+import ${EntityResource.fqcn()};
+import ${OnCreateAnnotation.fqcn()};
+import ${OnUpdateAnnotation.fqcn()};
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
@@ -13,35 +13,35 @@ import org.springframework.validation.annotation.Validated;
 import java.util.List;
 import java.util.Optional;
 
-public interface ${endpoint.entityName}Service {
+public interface ${ServiceApi.className()} {
 
-/*
-* findAll
-*/
-List<${endpoint.entityName}> findAll${endpoint.entityName}s();
+    /*
+     * findAll
+     */
+    List<${endpoint.entityName}> findAll${endpoint.entityName}s();
 
-/**
-* findByResourceId
-*/
-Optional<${endpoint.entityName}> find${endpoint.entityName}ByResourceId(String id);
+    /**
+     * findByResourceId
+     */
+    Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id);
 
-/*
-* findByText
-*/
-Page<${endpoint.entityName}> findByText(@NonNull String text, Pageable pageable);
+    /*
+     * findByText
+     */
+    Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable);
 
-/**
-* Persists a new resource
-*/
-${endpoint.entityName} create${endpoint.entityName}(@NonNull @Validated(OnCreate.class) ${endpoint.entityName} resource);
+    /**
+     * Persists a new resource
+     */
+    ${EntityResource.className()} create${endpoint.entityName}(@NonNull @Validated(${OnCreateAnnotation.className()}.class) ${EntityResource.className()} resource);
 
-/**
-* Updates an existing resource
-*/
-List<${endpoint.entityName}> update${endpoint.entityName}(@NonNull @Validated(OnUpdate.class) @Valid ${endpoint.entityName} resource);
+    /**
+     * Updates an existing resource
+     */
+    List<${EntityResource.className()}> update${endpoint.entityName}(@NonNull @Validated(${OnUpdateAnnotation.className()}.class) @Valid ${EntityResource.className()} resource);
 
-/**
-* delete
-*/
-void delete${endpoint.entityName}ByResourceId(@NonNull String id);
+    /**
+     * delete
+     */
+    void delete${endpoint.entityName}ByResourceId(@NonNull String id);
 }

@@ -20,7 +20,7 @@ public class OutputFileDestinationResolver {
                                              SpringTemplateModel templateModel,
                                              DecodeTrait decoder)
     {
-        log.debug("[resolveDestination] archetypeName: {}, facet: {}", archetypeName, facet);
+        log.info("[resolveDestination] archetypeName: {}, facet: {}", archetypeName, facet);
         String destinationExpression = facet.getDestination();
         Map<String,Object> customProps = templateModel.getCustomProperties();
         if (customProps != null) {
@@ -60,10 +60,11 @@ public class OutputFileDestinationResolver {
                 }
             }
         }
+        // If customProps is null we land here
         try {
             return decoder.decode(destinationExpression);
         }
-        catch (MustacheException e) {
+        catch (MustacheException | NullPointerException e) {
             log.error("Unable to determine the file destination for archetype: {}, facet: {}", archetypeName, facet, e);
             throw e;
         }

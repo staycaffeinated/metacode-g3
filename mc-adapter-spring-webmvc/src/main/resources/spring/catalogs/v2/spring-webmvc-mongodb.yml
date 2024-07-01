@@ -218,7 +218,7 @@ catalog:
       destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}Document.java"
       context: "endpoint"
   - entry:
-      template: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreIFace.ftl"
+      template: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"
       destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStore.java"
       context: "endpoint"
   - entry:

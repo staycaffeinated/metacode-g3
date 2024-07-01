@@ -3,10 +3,7 @@
  */
 package mmm.coffee.metacode.spring.project.mustache;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
 import mmm.coffee.metacode.common.trait.DecodeTrait;
 import mmm.coffee.metacode.spring.project.converter.RestTemplateModelToMapConverter;
@@ -41,7 +38,7 @@ public class MustacheDecoder implements DecodeTrait {
         map = converter.convert(model);
     }
 
-    public String decode(String incoming) {
+    public String decode(@NonNull String incoming) {
         return MustacheExpressionResolver.resolve(incoming, map);
     }
 }

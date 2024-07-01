@@ -58,7 +58,7 @@ class FreemarkerTemplateResolverIntegrationTest {
     }
 
     @BeforeEach
-    public void setUpTemplateModel() {
+    public void setUpTemplateModel() throws Exception {
         webMvcProject = RestProjectTemplateModel.builder()
                 .applicationName(APP_NAME)
                 .basePackage(BASE_PKG)

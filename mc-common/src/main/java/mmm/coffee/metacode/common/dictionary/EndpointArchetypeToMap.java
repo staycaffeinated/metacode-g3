@@ -31,7 +31,7 @@ public class EndpointArchetypeToMap {
      * @return a mapping of archetype.name() and the matching descriptor
      */
     public static Map<String, ArchetypeDescriptor> map(@NonNull IArchetypeDescriptorFactory factory, @NonNull String restResource) {
-        log.info("[map] factory is-a {}", factory.getClass().getSimpleName());
+        log.debug("[map] factory is-a {}", factory.getClass().getSimpleName());
         try {
             Map<String, ArchetypeDescriptor> results = new TreeMap<>();
             for (Archetype archetype : ProjectArchetypeToMap.PROJECT_ARCHETYPES) {
@@ -39,9 +39,9 @@ public class EndpointArchetypeToMap {
             }
 
             for (Archetype archetype : ENDPOINT_ARCHETYPES) {
-                log.info("Creating endpoint ArchetypeDescriptor for {}", archetype);
+                log.debug("Creating endpoint ArchetypeDescriptor for {}", archetype);
                 JavaArchetypeDescriptor descriptor = factory.createArchetypeDescriptor(archetype, restResource);
-                log.info("Descriptor = {}", descriptor);
+                log.debug("Descriptor = {}", descriptor);
                 results.put(archetype.name(), factory.createArchetypeDescriptor(archetype, restResource));
             }
 

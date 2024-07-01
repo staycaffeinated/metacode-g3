@@ -2,22 +2,30 @@ package mmm.coffee.metacode.spring.project.generator;
 
 import lombok.Builder;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
+import mmm.coffee.metacode.common.dictionary.PackageLayout;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
+import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutToHashMapMapper;
+import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
+import mmm.coffee.metacode.common.dictionary.io.PackageLayoutReader;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import org.apache.commons.text.WordUtils;
+import org.springframework.core.io.DefaultResourceLoader;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FakeArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
-    private final PackageLayoutRuleSet packageLayoutRuleSet = basicPackageLayoutRuleSet();
-    private final ClassNameRuleSet classNameRuleSet = basicClassNameRuleSet();
+    private final PackageLayoutRuleSet packageLayoutRuleSet;
+    private final ClassNameRuleSet classNameRuleSet;
 
 
-    public FakeArchetypeDescriptorFactory() {
+    public FakeArchetypeDescriptorFactory() throws IOException {
+        packageLayoutRuleSet = buildPackageLayoutRuleSet();
+        classNameRuleSet = buildClassNameRuleSet();
     }
 
     public JavaArchetypeDescriptor createArchetypeDescriptor(Archetype archetype) {
@@ -66,32 +74,16 @@ public class FakeArchetypeDescriptorFactory implements IArchetypeDescriptorFacto
      * Helper methods
      * ----------------------------------------------------------------------------------------------------------- */
 
-
-    private static PackageLayoutRuleSet basicPackageLayoutRuleSet() {
-        HashMap<String, String> rules = new HashMap<>();
-        Archetype[] values = Archetype.values();
-        for (Archetype e : values) {
-            rules.put(e.toString(), "com.acme.petstore");
-        }
-        rules.put("Controller", "com.acme.petstore.{{restResource}}.api");
-        rules.put("ServiceApi", "com.acme.petstore.{{restResource}}.api");
-        rules.put("ServiceImpl", "com.acme.petstore.{{restResource}}.api");
-        rules.put("Routes", "com.acme.petstore.{{restResource}}.api");
-        rules.put("Application", "com.acme.petstore");
-        rules.put(Archetype.SecureRandomSeries.toString(), "com.acme.petstore.utils");
-
-        return new PackageLayoutRuleSet(rules);
+    ClassNameRuleSet buildClassNameRuleSet() throws IOException {
+        ClassNameRulesReader reader = new ClassNameRulesReader(new DefaultResourceLoader(), "classpath:/test-classname-rules.properties");
+        Map<String, String> map = reader.read();
+        return new ClassNameRuleSet(map);
     }
 
-    private static ClassNameRuleSet basicClassNameRuleSet() {
-        Map<String, String> rules = new HashMap<>();
-        rules.put(Archetype.Application.toString(), "Application");
-        rules.put(Archetype.Controller.toString(), "{{restResource}}Controller");
-        rules.put(Archetype.GlobalExceptionHandler.toString(), "GlobalExceptionHandler");
-        rules.put(Archetype.SecureRandomSeries.toString(), "ResourceIdGenerator");  // an example of the classname not matching archetype name
-        rules.put(Archetype.ServiceApi.toString(), "{{restResource}}Service");
-        rules.put(Archetype.ServiceImpl.toString(), "{{restResource}}ServiceImpl");
-
-        return new ClassNameRuleSet(rules);
+    PackageLayoutRuleSet buildPackageLayoutRuleSet() throws IOException {
+        PackageLayoutReader reader = new PackageLayoutReader();
+        PackageLayout layout = reader.read("classpath:/test-package-layout.json");
+        Map<String, String> rules = PackageLayoutToHashMapMapper.convertToHashMap(layout);
+        return new PackageLayoutRuleSet(rules);
     }
 }

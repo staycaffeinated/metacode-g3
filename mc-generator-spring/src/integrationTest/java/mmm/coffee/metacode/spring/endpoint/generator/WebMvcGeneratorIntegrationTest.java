@@ -55,7 +55,7 @@ class WebMvcGeneratorIntegrationTest {
      * Initialization
      */
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         MetaPropertiesHandler<RestEndpointDescriptor> mockMetaPropertiesHandler = setUpMetaPropertiesHandler();
         MustacheEndpointDecoder decoder = setUpMustacheDecoder();
         Collector templateCollector = setUpTemplateCollector();

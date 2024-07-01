@@ -5,7 +5,7 @@ import ${EntityResource.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
-import ${ResourceIdTrait.fqcn()};
+import ${ResourceIdAnnotation.fqcn()};
 import ${SearchTextAnnotation.fqcn()};
 
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +91,7 @@ public class ${Controller.className()} {
      */
     @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<List<${EntityResource.className()}>> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(OnUpdate.class) ${endpoint.pojoName} ${endpoint.entityVarName}) {
-        if (!id.equals(${ServiceApi.varName()}.getResourceId())) {
+        if (!id.equals(${endpoint.entityVarName}.getResourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
         }
         List<${EntityResource.className()}> rs = ${ServiceApi.varName()}.update${endpoint.entityName}(${endpoint.entityVarName});

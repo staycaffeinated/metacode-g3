@@ -64,7 +64,6 @@ public class ProjectArchetypeToMap {
             Archetype.CustomSQLRepository,
             Archetype.DataStoreApi,
             Archetype.GenericDataStore,
-            Archetype.MongoDataStore,
             Archetype.RegisterDatabaseProperties,
             Archetype.MongoRegisterDatabaseProperties,
             Archetype.ContainerConfiguration,

@@ -5,10 +5,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/Application.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/Application.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/MongoApplicationIT.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/ApplicationTests.java"
 
   - scope: "project"
     archetype: "Text"
@@ -29,99 +27,78 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/advice/GlobalExceptionHandler.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/advice/GlobalExceptionHandler.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/advice/GlobalExceptionHandlerTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/advice/GlobalExceptionHandlerTests.java"
 
   - scope: "project"
     archetype: "UnprocessableEntityException"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/UnprocessableEntityException.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/UnprocessableEntityException.java"
 
   - scope: "project"
     archetype: "ResourceNotFoundException"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/ResourceNotFoundException.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/ResourceNotFoundException.java"
 
   - scope: "project"
     archetype: "BadRequestException"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/exception/BadRequestException.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/exception/BadRequestException.java"
-             
+
   - scope: "project"
     archetype: "SpringProfiles"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/common/SpringProfiles.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/common/SpringProfiles.java"
 
   - scope: "project"
     archetype: "ApplicationConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/ApplicationConfiguration.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/ApplicationConfiguration.java"
 
   - scope: "project"
     archetype: "DateTimeFormatConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/DateTimeFormatConfiguration.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/DateTimeFormatConfiguration.java"
 
   - scope: "project"
     archetype: "ProblemConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/ProblemConfiguration.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/ProblemConfiguration.java"
 
   - scope: "project"
     archetype: "WebMvcConfiguration"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/WebMvcConfiguration.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/WebMvcConfiguration.java"
 
   - scope: "project"
     archetype: "LocalDateConverter"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/config/LocalDateConverter.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/config/LocalDateConverter.java"
       - facet: "test"
         sourceTemplate: "/spring/common/test/config/LocalDateConverterTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/config/LocalDateConverterTests.java"
 
-  - scope: "project"
-    archetype: "MongoDataStore"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/spi/MongoDataStore.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/DataStore.java"
+
 
   - scope: "project"
     archetype: "RootController"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint-root/RootController.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/root/RootController.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/endpoint-root/RootControllerTest.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/MongoRootControllerIT.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/root/RootControllerIT.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/MongoRootExceptionHandlingIT.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/root/RootExceptionHandlingIT.java"
 
   - scope: "project"
     archetype: "RootService"
@@ -129,11 +106,9 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint-root/RootService.ftl"
         destination: "{{appModule}}/src/main/java/{{sourceFile}}"
-        _destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/root/RootService.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/endpoint-root/RootServiceTest.ftl"
         destination: "{{appModule}}/src/main/java/{{sourceFile}}"
-        _destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/root/RootServiceTest.java"
 
   - scope: "project"
     archetype: "SecurityResponseHeadersFilter"
@@ -141,110 +116,92 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/filter/SecurityResponseHeadersFilter.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/filter/SecurityResponseHeadersFilter.java"
 
   - scope: "project"
     archetype: "SecureRandomSeries"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/math/SecureRandomSeries.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/math/SecureRandomSeries.java"
       - facet: "test"
         sourceTemplate: "/spring/common/test/math/SecureRandomSeriesTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/math/SecureRandomSeriesTests.java"
 
   - scope: "project"
     archetype: "ResourceIdSupplier"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/spi/ResourceIdSupplier.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/ResourceIdSupplier.java"
 
   - scope: "project"
     archetype: "ResourceIdTrait"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/trait/ResourceIdTrait.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/trait/ResourceIdTrait.java"
 
   - scope: "project"
     archetype: "AlphabeticAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/Alphabetic.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/Alphabetic.java"
 
   - scope: "project"
     archetype: "AlphabeticValidator"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/AlphabeticValidator.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/AlphabeticValidator.java"
       - facet: "test"
         sourceTemplate: "/spring/common/test/validation/AlphabeticValidatorTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/AlphabeticValidatorTests.java"
 
   - scope: "project"
     archetype: "OnCreateAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnCreate.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/OnCreate.java"
 
   - scope: "project"
     archetype: "OnUpdateAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/validation/OnUpdate.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/OnUpdate.java"
 
   - scope: "project"
     archetype: "ResourceIdAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/ResourceId.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/ResourceId.java"
 
   - scope: "project"
     archetype: "ResourceIdValidator"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/ResourceIdValidator.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/ResourceIdValidator.java"
       - facet: "test"
         sourceTemplate: "/spring/common/test/validation/ResourceIdValidatorTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/ResourceIdValidatorTests.java"
 
   - scope: "project"
     archetype: "SearchTextAnnotation"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/SearchText.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/SearchText.java"
 
   - scope: "project"
     archetype: "SearchTextValidator"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/validation/SearchTextValidator.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/validation/SearchTextValidator.java"
       - facet: "test"
         sourceTemplate: "/spring/common/test/validation/SearchTextValidatorTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/validation/SearchTextValidatorTests.java"
 
   - scope: "project"
     archetype: "ContainerConfiguration"
     facets:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/config/MongoContainerConfiguration.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/config/ContainerConfiguration.java"
 
   - scope: "project"
     archetype: "RegisterDatabaseProperties"
     facets:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/database/MongoRegisterDatabaseProperties.ftl"
-        destination:  "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/database/RegisterDatabaseProperties.java"
 
   - scope: "project"
     archetype: "Text"
@@ -253,23 +210,26 @@ entries:
         sourceTemplate: "/spring/webmvc/integrationTest/resources/CreateSchemaDotSql.ftl"
         destination: "{{appModule}}/src/integrationTest/resources/create-schema.sql"
 
+  - scope: "project"
+    archetype: "DataStoreApi"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/spi/MongoDataStore.ftl"
+
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------
-
-# The restful Resource, as a POJO
   - scope: "endpoint"
-    archetype: "Entity"
+    archetype: "MongoDataStore"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/entity/Entity.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{ejbName}}.java"
-      - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/database/EntityTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}EntityTests.java"
-      - facet: "testFixtures"
-        sourceTemplate: "/spring/webmvc/testFixtures/database/WebMvcEjbTestFixtures.ftl"
-        destination: "{{appModule}}/src/testFixtures/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}EntityTestFixtures.java"
+        sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityResource"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
 
 # The database representation of the POJO
   - scope: "endpoint"
@@ -277,34 +237,29 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/Document.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}Document.java"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/MongoDocumentTests.ftl"
+
+# The test fixture for kinds of document instances
+  - scope: "endpoint"
+    archetype: "DocumentTestFixtures"
+    facets:
+      - facet: "testFixtures"
+        sourceTemplate: "/spring/webmvc/testFixtures/database/MongoDocumentTestFixtures.ftl"
 
 # the API for the persistence layer. A better name for this class might be, for example, PetPersistenceAdapter.
   - scope: "endpoint"
-    archetype: "DocumentStoreApi"
+    archetype: "ObjectDataStore"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreIFace.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStore.java"
+        sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"
 
 # The implementation of the DataStore Api
   - scope: "endpoint"
-    archetype: "DocumentStoreImpl"
+    archetype: "ObjectDataStoreProvider"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDataStoreProvider.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}DataStoreProvider.java"
-
-# A random class to illustrate using predicates for database searches
-  - scope: "endpoint"
-    archetype: "EntityWithText"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/predicate/EntityWithText.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/predicate/{{entityName}}WithText.java"
-      - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/database/predicate/EntityWithTextTest.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/predicate/{{entityName}}WithTextTest.java"
 
 #
 # The POJO representing the restful resource
@@ -314,10 +269,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/domain/{{pojoName}}.java"
       - facet: "testFixtures"
         sourceTemplate: "/spring/webmvc/testFixtures/domain/WebMvcModelTestFixtures.ftl"
-        destination: "{{appModule}}/src/testFixtures/java/{{basePackagePath}}/domain/{{entityName}}TestFixtures.java"
 
 #
 # The document repository class
@@ -327,10 +280,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDbRepository.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}Repository.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/database/endpoint/MongoRepositoryIT.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/{{entityName}}RepositoryIT.java"
 
 #
 # the pojo-to-document and document-to-pojo converters
@@ -340,20 +291,16 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/converter/PojoToDocumentConverter.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/converter/{{entityName}}PojoToDocumentConverter.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/database/converter/PojoToDocumentConverterTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/converter/{{entityName}}PojoToDocumentConverterTests.java"
 
   - scope: "endpoint"
     archetype: "DocumentToPojoConverter"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/converter/DocumentToPojoConverter.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/converter/{{entityName}}DocumentToPojoConverter.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/database/converter/DocumentToPojoConverterTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/database/{{lowerCaseEntityName}}/converter/{{entityName}}DocumentToPojoConverterTests.java"
 
 #
 # The controller
@@ -363,48 +310,43 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/MongoRestController.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Controller.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/endpoint/MongoControllerTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerTests.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint/MongoControllerIT.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerIT.java"
+      - facet: "integrationTest"
+        sourceTemplate:  "/spring/webmvc/integrationTest/endpoint/MongoExceptionHandlerIT.ftl"
+
 
 #
 # The interface (api) of the Service
 #
   - scope: "endpoint"
-    archetype: "RestServiceApi"
+    archetype: "ServiceApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/MongoRestService.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Service.java"
 
 # The concrete impl of the Service
 
   - scope: "endpoint"
-    archetype: "RestServiceImpl"
+    archetype: "ServiceImpl"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/MongoRestServiceProvider.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceProvider.java"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/endpoint/MongoServiceTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceTests.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint/MongoServiceIT.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceIT.java"
 
 #
 # A constants class enumerating the REST urls of a given restful resource
 #
   - scope: "endpoint"
-    archetype: "EntityRoutes"
+    archetype: "Routes"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/EntityRoutes.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Routes.java"
 
 # A helper class that loads example data into the DB. This is suitable for demo/dev work but probably not for production
   - scope: "endpoint"
@@ -412,7 +354,6 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDatabaseTablePopulator.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/database/{{entityName}}/{{entityName}}TablePopulator.java"
 
 # Hmmm. This may be dead code now.
   - scope: "endpoint"
@@ -420,14 +361,3 @@ entries:
     facets:
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/FakeConversionService.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/FakeConversionService.java"
-
-# Integration tests of a given Controller and its exception handling. Controller's decide _when_ a BadResourceException
-# or ResourceNotFoundException or UnprocessableEntityException is thrown. This test verifies that behavior.
-#
-  - scope: "endpoint"
-    archetype: "EndpointExceptionHandler"
-    facets:
-      - facet: "integrationTest"
-        sourceTemplate:  "/spring/webmvc/integrationTest/endpoint/MongoExceptionHandlerIT.ftl"
-        destination: "{{appModule}}/src/integrationTest/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ExceptionHandlingIT.java"
