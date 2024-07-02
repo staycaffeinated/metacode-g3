@@ -38,48 +38,48 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(ContainerConfiguration.class)
 @Testcontainers
 </#if>
-class RootExceptionHandlingIT implements RegisterDatabaseProperties {
+class ${RootController.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 
     @MockBean
-    private RootService mockService;  // this is used to initialize the controller
+    private ${RootService.className()} mockService;  // this is used to initialize the controller
 
-    @Autowired
-    private RootController controllerUnderTest;
+    @MockBean
+    private ${RootController.className()} controllerUnderTest;
 
     @Nested
     class ExceptionTests {
 
-    @Test
-    void shouldNotReturnStackTrace() throws Exception {
-        // when/then
-        mockMvc.perform(post("/").contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.stackTrace").doesNotExist()) // sometimes traces come back like this
-            .andExpect(jsonPath("$.trace").doesNotExist()) // sometimes traces come back like this
-            .andDo((print())).andReturn();
-    }
+        @Test
+        void shouldNotReturnStackTrace() throws Exception {
+            // when/then
+            mockMvc.perform(post("/").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.stackTrace").doesNotExist()) // sometimes traces come back like this
+                .andExpect(jsonPath("$.trace").doesNotExist()) // sometimes traces come back like this
+                .andDo((print())).andReturn();
+        }
 
-    /**
-     * This exercises the GlobalExceptionHandler by simulating an HttpRequestMethodNotSupportedException.
-     * If properly configured, the ProblemHandling method that handles this exception should catch it
-     * and configure a proper problem/json response.  The point of this test is not to validate ProblemHandling,
-     * but to ensure these kinds of exceptions return a problem/json response.
-     */
-    @Test
-    void onHttpRequestMethodNotSupported() throws Exception {
-        // For this test, let's say http GET is not allowed...
-        // Note: Mockito won't allow its <code>thenThrows</code> method to throw this particular exception.
-        // When attempted, Mockito gives the error "Checked exception is invalid for this method".
-        // The work-around is to use the <code>willAnswer</code> method.
-        given(controllerUnderTest.getHome()).willAnswer(invocation -> {
-                    throw new HttpRequestMethodNotSupportedException("GET");
-        });
+        /**
+         * This exercises the GlobalExceptionHandler by simulating an HttpRequestMethodNotSupportedException.
+         * If properly configured, the ProblemHandling method that handles this exception should catch it
+         * and configure a proper problem/json response.  The point of this test is not to validate ProblemHandling,
+         * but to ensure these kinds of exceptions return a problem/json response.
+         */
+        @Test
+        void onHttpRequestMethodNotSupported() throws Exception {
+            // For this test, let's say http GET is not allowed...
+            // Note: Mockito won't allow its <code>thenThrows</code> method to throw this particular exception.
+            // When attempted, Mockito gives the error "Checked exception is invalid for this method".
+            // The work-around is to use the <code>willAnswer</code> method.
+            given(controllerUnderTest.getHome()).willAnswer(invocation -> {
+                        throw new HttpRequestMethodNotSupportedException("GET");
+            });
 
-        // when/then
-        mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(HttpStatus.METHOD_NOT_ALLOWED.value()))
-                .andDo(print()).andReturn();
+            // when/then
+            mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().is(HttpStatus.METHOD_NOT_ALLOWED.value()))
+                    .andDo(print()).andReturn();
         }
     }
 }

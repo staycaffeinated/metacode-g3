@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Document.packageName()};
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -13,33 +13,44 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
 
-@Document("${endpoint.tableName}")
+@Document(${Document.className()}.COLLECTION_NAME)
 @EqualsAndHashCode(of = {"resourceId"})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ${endpoint.documentName} {
-private static final String COLLECTION_NAME = "${endpoint.tableName}";
+public class ${Document.className()} {
 
-static String collectionName() {
-return COLLECTION_NAME;
-}
+    public static final String COLLECTION_NAME = "${endpoint.tableName}";
 
-/*
-* This identifier is never exposed to the outside world because
-* database-generated Ids are commonly sequential values that a hacker can easily guess.
-*/
-@Id
-private String id;
+    public static String collectionName() {
+        return COLLECTION_NAME;
+    }
 
-/**
-* This is the identifier exposed to the outside world.
-* This is a secure random value with at least 160 bits of entropy, making it difficult for a hacker to guess.
-* This is a unique value in the database. This value can be a positive or negative number.
-*/
-private String resourceId;
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Columns {
+        public static final String ID = "id";
+        public static final String RESOURCE_ID = "resource_id";
+        public static final String TEXT = "text";
+    }
 
-private String text;
+    /*
+     * This identifier is never exposed to the outside world because
+     * database-generated Ids are commonly sequential values that a hacker can easily guess.
+     */
+    @Id
+    @Column(name=Columns.ID)
+    private String id;
+
+    /**
+     * This is the identifier exposed to the outside world.
+     * This is a secure random value with at least 160 bits of entropy, making it difficult for a hacker to guess.
+     * This is a unique value in the database. This value can be a positive or negative number.
+     */
+    @Column(name=Columns.RESOURCE_ID, nullable=false)
+    private String resourceId;
+
+    @Column(name=Columns.TEXT, nullable = true)
+    private String text;
 }

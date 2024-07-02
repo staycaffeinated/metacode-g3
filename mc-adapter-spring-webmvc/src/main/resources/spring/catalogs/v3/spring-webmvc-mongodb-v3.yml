@@ -249,14 +249,14 @@ entries:
 
 # the API for the persistence layer. A better name for this class might be, for example, PetPersistenceAdapter.
   - scope: "endpoint"
-    archetype: "ObjectDataStore"
+    archetype: "DocumentKindStore"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"
 
 # The implementation of the DataStore Api
   - scope: "endpoint"
-    archetype: "ObjectDataStoreProvider"
+    archetype: "DocumentKindStoreProvider"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDataStoreProvider.ftl"
@@ -356,8 +356,8 @@ entries:
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDatabaseTablePopulator.ftl"
 
 # Hmmm. This may be dead code now.
-  - scope: "endpoint"
-    archetype: "ConversionService"
-    facets:
-      - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/FakeConversionService.ftl"
+#  - scope: "endpoint"
+#    archetype: "ConversionService"
+#    facets:
+#      - facet: "test"
+#        sourceTemplate: "/spring/webmvc/test/FakeConversionService.ftl"

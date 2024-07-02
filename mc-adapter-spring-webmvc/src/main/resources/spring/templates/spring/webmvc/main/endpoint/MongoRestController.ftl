@@ -69,7 +69,7 @@ public class ${Controller.className()} {
      */
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<${EntityResource.className()}> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
+    public ResponseEntity<${EntityResource.className()}> create${endpoint.entityName}(@RequestBody @Validated(${OnCreateAnnotation.className()}.class) ${EntityResource.className()} resource ) {
         try {
             ${endpoint.pojoName} savedResource = ${ServiceApi.varName()}.create${endpoint.entityName} ( resource );
             URI uri = ServletUriComponentsBuilder
@@ -84,13 +84,13 @@ public class ${Controller.className()} {
             log.error(e.getMessage());
             throw new UnprocessableEntityException();
         }
-}
+    }
 
     /*
      * Update one
      */
     @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<List<${EntityResource.className()}>> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(OnUpdate.class) ${endpoint.pojoName} ${endpoint.entityVarName}) {
+    public ResponseEntity<List<${EntityResource.className()}>> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(${OnUpdateAnnotation.className()}.class) ${EntityResource.className()} ${endpoint.entityVarName}) {
         if (!id.equals(${endpoint.entityVarName}.getResourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
         }

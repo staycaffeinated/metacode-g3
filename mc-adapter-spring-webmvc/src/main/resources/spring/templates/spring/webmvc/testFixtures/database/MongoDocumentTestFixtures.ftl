@@ -1,60 +1,60 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${DocumentTestFixtures.packageName()};
 
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
-* Sample ${endpoint.documentName} objects
+* Sample ${Document.className()} objects
 */
-public class ${endpoint.documentName}TestFixtures {
+public class ${DocumentTestFixtures.className()} {
 
-private static final ResourceIdSupplier ID_SUPPLIER = new SecureRandomSeries();
+    private static final ${ResourceIdSupplier.className()} ID_SUPPLIER = new ${SecureRandomSeries.className()}();
 
-private static final ${endpoint.documentName} SAMPLE_ONE;
-private static final ${endpoint.documentName} SAMPLE_TWO;
-private static final ${endpoint.documentName} ONE_WITH_RESOURCE_ID;
+    private static final ${Document.className()} SAMPLE_ONE;
+    private static final ${Document.className()} SAMPLE_TWO;
+    private static final ${Document.className()} ONE_WITH_RESOURCE_ID;
 
-static {
-SAMPLE_ONE = aNew${endpoint.documentName}("Bluey");
-SAMPLE_TWO = aNew${endpoint.documentName}("Bingo");
-ONE_WITH_RESOURCE_ID = aNew${endpoint.documentName}("Muffin");
-}
+    static {
+        SAMPLE_ONE = aNew${Document.className()}("Bluey");
+        SAMPLE_TWO = aNew${Document.className()}("Bingo");
+        ONE_WITH_RESOURCE_ID = aNew${Document.className()}("Muffin");
+    }
 
-private static final List<${endpoint.documentName}> ALL_ITEMS = new ArrayList<>();
-static {
-ALL_ITEMS.add(SAMPLE_ONE);
-ALL_ITEMS.add(SAMPLE_TWO);
-}
+    private static final List<${Document.className()}> ALL_ITEMS = new ArrayList<>();
 
-public static List<${endpoint.documentName}> allItems() { return ALL_ITEMS; }
+    static {
+        ALL_ITEMS.add(SAMPLE_ONE);
+        ALL_ITEMS.add(SAMPLE_TWO);
+    }
+    public static List<${Document.className()}> allItems() { return ALL_ITEMS; }
 
-public static ${endpoint.documentName} getSampleOne() { return SAMPLE_ONE; }
-public static ${endpoint.documentName} getSampleTwo() { return SAMPLE_TWO; }
-public static ${endpoint.documentName} oneWithResourceId() { return SAMPLE_TWO; }
+    public static ${Document.className()} getSampleOne() { return SAMPLE_ONE; }
+    public static ${Document.className()} getSampleTwo() { return SAMPLE_TWO; }
+    public static ${Document.className()} oneWithResourceId() { return SAMPLE_TWO; }
 
 
-public static ${endpoint.documentName} copyOf(${endpoint.documentName} someDocument) {
-// @formatter:off
-        return ${endpoint.documentName}.builder()
+    public static ${Document.className()} copyOf(${Document.className()} someDocument) {
+        // @formatter:off
+        return ${Document.className()}.builder()
             .text(someDocument.getText())
             .resourceId(someDocument.getResourceId())
             .build();
         // @formatter:on
-}
+    }
 
-/* ===============================================================================
-* HELPER METHODS
-* =============================================================================== */
-private static ${endpoint.documentName} aNew${endpoint.documentName}(String text) {
-// @formatter:off
-         return ${endpoint.documentName}.builder()
+    /* ===============================================================================
+    * HELPER METHODS
+    * =============================================================================== */
+    private static ${Document.className()} aNew${Document.className()}(String text) {
+        // @formatter:off
+         return ${Document.className()}.builder()
                 .text(text)
                 .resourceId(ID_SUPPLIER.nextResourceId())
                 .build();
          // @formatter:on
-}
+    }
 }

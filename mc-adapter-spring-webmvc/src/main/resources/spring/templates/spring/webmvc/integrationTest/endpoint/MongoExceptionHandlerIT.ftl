@@ -1,14 +1,14 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${Controller.packageName()};
 
 <#if (endpoint.isWithTestContainers())>
 import ${ContainerConfiguration.fqcn()};
 </#if>
-import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
+import ${RegisterDatabaseProperties.fqcn()};
+import ${Document.fqcn()};
+import ${EntityResource.fqcn()};
+import ${WebMvcModelTestFixtures.fqcn()};
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,10 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 <#if (endpoint.isWithTestContainers())>
-    @Import(ContainerConfiguration.class)
-    @Testcontainers
+@Import(ContainerConfiguration.class)
+@Testcontainers
 </#if>
-class ${endpoint.entityName}ExceptionHandlingIT implements RegisterDatabaseProperties {
+class ${EntityResource.className()}ExceptionHandlingIT implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 
@@ -46,7 +46,7 @@ class ${endpoint.entityName}ExceptionHandlingIT implements RegisterDatabasePrope
     ObjectMapper objectMapper;
 
     @MockBean
-    private ${endpoint.entityName}Service theService;
+    private ${ServiceApi.className()} theService;
 
     @Nested
     class ExceptionTests {
@@ -60,7 +60,7 @@ class ${endpoint.entityName}ExceptionHandlingIT implements RegisterDatabasePrope
             given(theService.find${endpoint.entityName}ByResourceId(any(String.class))).willThrow(new RuntimeException("This is a test"));
             given(theService.update${endpoint.entityName}(any(${endpoint.entityName}.class))).willThrow(new RuntimeException("Bad data"));
 
-            ${endpoint.pojoName} payload = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+            ${endpoint.pojoName} payload = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
 
             // when/then
             // @formatter:off

@@ -1,15 +1,17 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${Controller.packageName()};
 
 <#if (endpoint.isWithTestContainers())>
 import ${ContainerConfiguration.fqcn()};
 </#if>
-import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter.*;
+import ${RegisterDatabaseProperties.fqcn()};
+import ${EntityResource.fqcn()};
+import ${WebMvcModelTestFixtures.fqcn()};
+import ${Document.fqcn()};
+import ${PojoToDocumentConverter.fqcn()};
+import ${DocumentToPojoConverter.fqcn()};
+import ${Repository.fqcn()};
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +38,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 <#if (endpoint.isWithTestContainers())>
-    @Import(ContainerConfiguration.class)
-    @Testcontainers
+@Import(ContainerConfiguration.class)
+@Testcontainers
 </#if>
-class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
+class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 
     @Autowired
     MockMvc mockMvc;
@@ -48,14 +50,14 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     ObjectMapper objectMapper;
 
     @Autowired
-    private ${endpoint.entityName}Repository repository;
+    private ${Repository.className()} repository;
 
-    private List<${endpoint.documentName}> documentList;
+    private List<${Document.className()}> documentList;
 
     @BeforeEach
     void setUp() {
-        documentList = ${endpoint.documentName}TestFixtures.allItems();
-        repository.saveAll(${endpoint.documentName}TestFixtures.allItems());
+        documentList = ${DocumentTestFixtures.className()}.allItems();
+        repository.saveAll(${DocumentTestFixtures.className()}.allItems());
     }
 
     @AfterEach
@@ -78,12 +80,12 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
 
     /*
      * FindById
-    */
+     */
     @Nested
     public class ValidateFindById {
         @Test
         void shouldFind${endpoint.entityName}ById() throws Exception {
-            ${endpoint.documentName} item = documentList.get(0);
+            ${Document.className()} item = documentList.get(0);
 
             findOne(item.getResourceId()).andExpect(status().isOk())
             .andExpect(jsonPath("$.resourceId", is(item.getResourceId())));
@@ -97,20 +99,20 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     public class ValidateCreate${endpoint.pojoName} {
         @Test
         void shouldCreateNew${endpoint.pojoName}() throws Exception {
-            ${endpoint.pojoName} resource = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
+            ${EntityResource.className()} resource = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
 
             createOne(resource).andExpect(status().isCreated())
-            .andExpect(jsonPath("$.text", is(resource.getText())));
+                .andExpect(jsonPath("$.text", is(resource.getText())));
         }
 
         /**
-        * Verify the controller's data validation catches malformed inputs, such as
-        * missing required fields, and returns either 'unprocessable entity' or 'bad
-        * request'.
-        */
+         * Verify the controller's data validation catches malformed inputs, such as
+         * missing required fields, and returns either 'unprocessable entity' or 'bad
+         * request'.
+         */
         @Test
         void shouldReturn201WhenCreateNew${endpoint.pojoName}WithoutText() throws Exception {
-            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
+            ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
 
             // Group validation appears to be buggy in Spring 6.
             // The validations in Group::OnCreate and Group::OnUpdate
@@ -130,12 +132,12 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
         @Test
         @SuppressWarnings("all")
         void shouldUpdate${endpoint.entityName}() throws Exception {
-            ${endpoint.documentName} doc = documentList.get(0);
-            ${endpoint.pojoName} modified = new ${endpoint.documentName}ToPojoConverter().convert(doc);
+            ${Document.className()} doc = documentList.get(0);
+            ${EntityResource.className()} modified = new ${DocumentToPojoConverter.className()}.convert(doc);
             modified.setText("modified");
 
             updateOne(modified).andExpect(status().isOk())
-            .andExpect(jsonPath("$..text").value(modified.getText()));
+                .andExpect(jsonPath("$..text").value(modified.getText()));
         }
     }
 
@@ -146,7 +148,7 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     public class ValidateDelete${endpoint.entityName} {
         @Test
         void shouldDelete${endpoint.entityName}() throws Exception {
-            ${endpoint.documentName} document = documentList.get(0);
+            ${Document.className()} document = documentList.get(0);
 
             deleteOne(document.getResourceId()).andExpect(status().isOk());
         }
@@ -159,24 +161,24 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     // ---------------------------------------------------------------------------------------------------------------
 
     protected ResultActions searchByText(String text) throws Exception {
-        return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.search}).param("text", text));
+        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("text", text));
     }
 
     protected ResultActions findOne(String resourceId) throws Exception {
-        return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, resourceId));
+        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.findOne}, resourceId));
     }
 
     protected ResultActions createOne(${endpoint.entityName} pojo) throws Exception {
-        return mockMvc.perform(post(${endpoint.entityName}Routes.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
+        return mockMvc.perform(post(${Routes.className()}.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(pojo)));
     }
 
     protected ResultActions updateOne(${endpoint.entityName} pojo) throws Exception {
-        return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, pojo.getResourceId()).contentType(MediaType.APPLICATION_JSON)
+        return mockMvc.perform(put(${Routes.className()}.${endpoint.routeConstants.update}, pojo.getResourceId()).contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(pojo)));
     }
 
     protected ResultActions deleteOne(String resourceId) throws Exception {
-        return mockMvc.perform(delete(${endpoint.entityName}Routes.${endpoint.routeConstants.delete}, resourceId));
+        return mockMvc.perform(delete(${Routes.className()}.${endpoint.routeConstants.delete}, resourceId));
     }
 }

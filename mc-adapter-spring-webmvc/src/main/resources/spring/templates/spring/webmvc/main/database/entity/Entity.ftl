@@ -22,7 +22,7 @@ import lombok.*;
 public class ${Entity.className()} {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-        public static class Columns {
+    public static class Columns {
         public static final String ID = "id";
         public static final String RESOURCE_ID = "resource_id";
         public static final String TEXT = "text";

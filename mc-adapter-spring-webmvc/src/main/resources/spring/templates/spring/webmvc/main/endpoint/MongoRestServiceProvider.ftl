@@ -1,7 +1,7 @@
 <#include "/common/Copyright.ftl">
 package ${ServiceImpl.packageName()};
 
-import ${Document.fqcn()}.*;
+import ${Document.fqcn()};
 import ${EntityResource.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
