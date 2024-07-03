@@ -219,11 +219,11 @@ entries:
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------
-  - scope: "endpoint"
-    archetype: "MongoDataStore"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"
+#  - scope: "endpoint"
+#    archetype: "MongoDataStore"
+#    facets:
+#      - facet: "main"
+#        sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"
 
   - scope: "endpoint"
     archetype: "EntityResource"
@@ -269,6 +269,10 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
+
+  - scope: "endpoint"
+    archetype: "WebMvcModelTestFixtures"
+    facets:
       - facet: "testFixtures"
         sourceTemplate: "/spring/webmvc/testFixtures/domain/WebMvcModelTestFixtures.ftl"
 
@@ -281,7 +285,7 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDbRepository.ftl"
       - facet: "integrationTest"
-        sourceTemplate: "/spring/webmvc/integrationTest/database/endpoint/MongoRepositoryIT.ftl"
+        sourceTemplate: "/spring/webmvc/integrationTest/database/endpoint/MongoRepositoryIntegrationTest.ftl"
 
 #
 # the pojo-to-document and document-to-pojo converters

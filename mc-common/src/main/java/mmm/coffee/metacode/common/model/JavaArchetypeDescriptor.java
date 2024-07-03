@@ -6,7 +6,7 @@ public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
 
     public static final String TEST_SUFFIX = "Test";
     public static final String IT_SUFFIX = "IntegrationTest";
-    public static final String FIXTURE_SUFFIX = "TestFixtures";
+    public static final String FIXTURE_SUFFIX = ""; // the archetype is already named TestFixtures
 
     /**
      * The fully-qualified class name, such as `com.acme.petstore.api.PetController`

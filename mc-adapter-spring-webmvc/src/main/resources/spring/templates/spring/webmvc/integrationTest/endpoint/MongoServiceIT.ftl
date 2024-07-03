@@ -7,6 +7,7 @@ import ${ContainerConfiguration.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import ${Document.fqcn()};
+import ${DocumentKindStore.fqcn()};
 import ${EntityResource.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.AfterEach;
@@ -127,7 +128,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         @Test
         void shouldDelete${endpoint.entityName}() {
             // given: the ID of an item known to exist in the database
-            String knownId = ${WebMvcModelTestFixtures.className()}.getSampleTwo().getResourceId();
+            String knownId = ${WebMvcModelTestFixtures.className()}.sampleTwo().getResourceId();
 
             // given: the service is asked to delete the item
             serviceUnderTest.delete${endpoint.entityName}ByResourceId(knownId);

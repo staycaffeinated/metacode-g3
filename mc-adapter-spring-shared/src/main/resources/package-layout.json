@@ -123,12 +123,16 @@
     {
       "package": "{{basePackage}}.{{endpoint}}.persistence",
       "archetypes": [
+        "Document",
+        "DocumentKindStore",
+        "DocumentKindStoreProvider",
         "Entity",
         "ObjectDataStore",
         "ObjectDataStoreProvider",
+        "Repository",
+        "MongoDataStore",
         "MongoDataStoreProvider",
-        "WebMvcEjbTestFixtures",
-        "Document"
+        "WebMvcEjbTestFixtures"
       ]
     },
 
@@ -136,11 +140,9 @@
       "package": "{{basePackage}}.infra.persistence",
       "archetypes": [
         "GenericDataStore",
-        "MongoDataStore",
         "ObjectDataStore",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
-        "Repository",
         "MongoDbContainerTests",
         "PostgresDbContainerTests"
       ]

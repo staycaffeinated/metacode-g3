@@ -1,5 +1,9 @@
 <#include "/common/Copyright.ftl">
 
+/*
+ * MongoDataStoreProvider.ftl
+ */
+
 package ${DocumentKindStoreProvider.packageName()};
 
 import ${DocumentToPojoConverter.fqcn()};

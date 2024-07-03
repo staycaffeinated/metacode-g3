@@ -1,10 +1,11 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Repository.packageName()};
 
-import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${RegisterDatabaseProperties.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
+import ${Document.fqcn()};
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -22,12 +23,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @DataMongoTest
 @SuppressWarnings("all")
-class ${endpoint.entityName}RepositoryIT implements RegisterDatabaseProperties {
-@Autowired
-private ${endpoint.entityName}Repository repositoryUnderTest;
+class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+    @Autowired
+    private ${Repository.className()} repositoryUnderTest;
 
-// Generates the public identifier of an entity
-private final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    // Generates the public identifier of an entity
+    private final ${ResourceIdSupplier.className()} randomSeries = new SecureRandomSeries();
 
 // Increment for rowIds in the database
 private long rowId = 0;

@@ -1,6 +1,7 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Repository.packageName()};
 
+import ${Document.fqcn()};
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,16 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("all")
-public interface ${endpoint.entityName}Repository
-extends
-MongoRepository<${endpoint.documentName}, String>,
-PagingAndSortingRepository<${endpoint.documentName}, String> {
+public interface ${Repository.className()} extends MongoRepository<${Document.className()}, String>,
+                                                   PagingAndSortingRepository<${Document.className()}, String> {
 
-@Query("{resourceId:?}")
-Optional<${endpoint.documentName}> findByResourceId(String resourceId);
+    @Query("{resourceId:?}")
+    Optional<${Document.className()}> findByResourceId(String resourceId);
 
-@Query("{text:?}")
-List<${endpoint.documentName}> findByText(String text);
+    @Query("{text:?}")
+    List<${Document.className()}> findByText(String text);
 
-Page<${endpoint.documentName}> findByTextContainingIgnoreCase(String title, Pageable pageable);
+    Page<${Document.className()}> findByTextContainingIgnoreCase(String title, Pageable pageable);
 }

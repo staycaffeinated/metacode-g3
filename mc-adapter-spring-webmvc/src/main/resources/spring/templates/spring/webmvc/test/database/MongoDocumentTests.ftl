@@ -3,6 +3,7 @@ package ${Document.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
+import ${WebMvcModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class ${Document.testClass()} {
 
     @BeforeEach
     void setUp() {
-        objectUnderTest = ${DocumentTestFixtures.className()}.getSampleOne();
+        objectUnderTest = ${DocumentTestFixtures.className()}.sampleOne();
     }
 
     @Nested
@@ -37,20 +38,20 @@ public class ${Document.testClass()} {
         @Test // for code coverage
         void shouldNotBeEqualWhenResourceIdsAreDifferent() {
             // This test merely exercises a branch within the equals method;
-            ${Document.className()} other = ${DocumentTestFixtures.className()}.getSampleTwo();
+            ${Document.className()} other = ${DocumentTestFixtures.className()}.sampleTwo();
             assertThat(objectUnderTest.getResourceId()).isNotEqualTo(other.getResourceId());
             assertThat(objectUnderTest.equals(other)).isFalse();
         }
 
         @Test
         void shouldNotEqualOtherClasses() {
-            ${EntityResource.className()} pojo = ${PojoTestFixtures.className()}.sampleOne();
+            ${EntityResource.className()} pojo = ${WebMvcModelTestFixtures.className()}.sampleOne();
             assertThat(objectUnderTest.equals(pojo)).isFalse();
         }
 
         @Test
         void shouldBeEqual() {
-            ${endpoint.documentName} that = ${DocumentTestFixtures.className()}.getSampleOne();
+            ${endpoint.documentName} that = ${DocumentTestFixtures.className()}.sampleOne();
             assertThat(objectUnderTest.equals(that)).isTrue();
         }
     }
@@ -65,10 +66,10 @@ public class ${Document.testClass()} {
         @Test
         void shouldYieldSameHashCode() {
             final String randomId = "abc12345XYZ";
-            ${Document.className()} sampleOne = ${DocumentTestFixtures.className()}.copyOf(${DocumentTestFixtures.className()}.getSampleOne());
+            ${Document.className()} sampleOne = ${DocumentTestFixtures.className()}.copyOf(${DocumentTestFixtures.className()}.sampleOne());
             sampleOne.setResourceId(randomId);
 
-            ${Document.className()} sampleTwo = ${DocumentTestFixtures.className()}.copyOf(${DocumentTestFixtures.className()}.getSampleTwo());
+            ${Document.className()} sampleTwo = ${DocumentTestFixtures.className()}.copyOf(${DocumentTestFixtures.className()}.sampleTwo());
             sampleTwo.setResourceId(randomId);
 
             assertThat(sampleOne.hashCode()).isEqualTo(sampleTwo.hashCode());

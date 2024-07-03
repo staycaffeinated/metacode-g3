@@ -3,13 +3,14 @@ package ${DocumentTestFixtures.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${Document.fqcn()};
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
-* Sample ${Document.className()} objects
-*/
+ * Sample ${Document.className()} objects
+ */
 public class ${DocumentTestFixtures.className()} {
 
     private static final ${ResourceIdSupplier.className()} ID_SUPPLIER = new ${SecureRandomSeries.className()}();
@@ -32,8 +33,8 @@ public class ${DocumentTestFixtures.className()} {
     }
     public static List<${Document.className()}> allItems() { return ALL_ITEMS; }
 
-    public static ${Document.className()} getSampleOne() { return SAMPLE_ONE; }
-    public static ${Document.className()} getSampleTwo() { return SAMPLE_TWO; }
+    public static ${Document.className()} sampleOne() { return SAMPLE_ONE; }
+    public static ${Document.className()} sampleTwo() { return SAMPLE_TWO; }
     public static ${Document.className()} oneWithResourceId() { return SAMPLE_TWO; }
 
 

@@ -1,5 +1,9 @@
 <#include "/common/Copyright.ftl">
 
+/*
+ * MongoDocumentDataStoreApi.ftl
+ */
+
 package ${DocumentKindStore.packageName()};
 
 import ${EntityResource.fqcn()};

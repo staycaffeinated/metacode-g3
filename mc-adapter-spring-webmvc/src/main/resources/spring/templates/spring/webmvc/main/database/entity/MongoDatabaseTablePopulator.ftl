@@ -42,7 +42,6 @@ public class ${DatabaseTablePopulator.className()} implements ApplicationListene
         repository.deleteAll();
         List<${Document.className()}> sampleData = createSampleData();
         repository.saveAll(sampleData);
-        repository.flush();
     }
 
     /**

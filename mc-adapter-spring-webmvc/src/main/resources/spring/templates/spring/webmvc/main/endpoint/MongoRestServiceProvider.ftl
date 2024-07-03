@@ -2,6 +2,7 @@
 package ${ServiceImpl.packageName()};
 
 import ${Document.fqcn()};
+import ${DocumentKindStore.fqcn()};
 import ${EntityResource.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};

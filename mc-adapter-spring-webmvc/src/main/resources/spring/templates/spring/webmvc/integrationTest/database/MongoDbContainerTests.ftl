@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${MongoDatabaseConfiguration.packageName()};
+package ${MongoDbContainerTests.packageName()};
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 @Testcontainers
 @SuppressWarnings("all")
-public class MongoDbContainerTests {
+public class ${MongoDbContainerTests.className()} {
 
     private static final String IMAGE = "mongo:6.0.4";
 
