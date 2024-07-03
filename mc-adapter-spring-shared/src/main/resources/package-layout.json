@@ -132,7 +132,8 @@
         "Repository",
         "MongoDataStore",
         "MongoDataStoreProvider",
-        "WebMvcEjbTestFixtures"
+        "WebMvcEjbTestFixtures",
+        "DocumentTextFixtures"
       ]
     },
 

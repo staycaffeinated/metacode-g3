@@ -133,7 +133,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
         @SuppressWarnings("all")
         void shouldUpdate${endpoint.entityName}() throws Exception {
             ${Document.className()} doc = documentList.get(0);
-            ${EntityResource.className()} modified = new ${DocumentToPojoConverter.className()}.convert(doc);
+            ${EntityResource.className()} modified = new ${DocumentToPojoConverter.className()}().convert(doc);
             modified.setText("modified");
 
             updateOne(modified).andExpect(status().isOk())

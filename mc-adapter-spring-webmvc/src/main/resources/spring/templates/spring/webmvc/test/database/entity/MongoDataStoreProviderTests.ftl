@@ -314,7 +314,7 @@ public class ${MongoDataStoreProvider.testName()} {
         void shouldReturnUpdatedVersionWhenItemExists() {
             // scenario: the repository contains the item being updated,
             // so the repository can find it and save it
-            ${Document.className()} expectedDocument = ${DocumentTestFixtures.className()}.getSampleOne();
+            ${Document.className()} expectedDocument = ${DocumentTestFixtures.className()}.sampleOne();
             ${EntityResource.className()} expectedPojo = documentToPojoConverter.convert(expectedDocument);
             UpdateResult mockUpdateResult = Mockito.mock(UpdateResult.class);
             given(mockUpdateResult.getModifiedCount()).willReturn(1L);
@@ -355,7 +355,7 @@ public class ${MongoDataStoreProvider.testName()} {
         @Test
         void shouldReturnEmptyListWhenUpdatedItemVanishes() {
             // scenario: an attempt is made to update an item that does not exist in the repository
-            ${Document.className()} expectedDocument = ${DocumentTestFixtures.className()}.getSampleOne();
+            ${Document.className()} expectedDocument = ${DocumentTestFixtures.className()}.sampleOne();
             ${EntityResource.className()} expectedPojo = documentToPojoConverter.convert(expectedDocument);
             UpdateResult mockUpdateResult = Mockito.mock(UpdateResult.class);
             given(mockUpdateResult.getModifiedCount()).willReturn(1L);
@@ -380,7 +380,7 @@ public class ${MongoDataStoreProvider.testName()} {
          */
         @Test
         void shouldReturnEmptyListWhenConversionToPojoYieldsNullItems() {
-            ${Document.className()} expectedDocument = ${DocumentTestFixtures.className()}.getSampleOne();
+            ${Document.className()} expectedDocument = ${DocumentTestFixtures.className()}.sampleOne();
             ${EntityResource.className()} expectedPojo = documentToPojoConverter.convert(expectedDocument);
             UpdateResult mockUpdateResult = Mockito.mock(UpdateResult.class);
             given(mockUpdateResult.getModifiedCount()).willReturn(1L);

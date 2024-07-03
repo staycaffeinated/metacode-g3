@@ -14,7 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.data.web.SortDefault;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -89,7 +92,7 @@ public class ${Controller.className()} {
     /*
      * Update one
      */
-    @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
+    @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.update}, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<List<${EntityResource.className()}>> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(${OnUpdateAnnotation.className()}.class) ${EntityResource.className()} ${endpoint.entityVarName}) {
         if (!id.equals(${endpoint.entityVarName}.getResourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
@@ -104,7 +107,7 @@ public class ${Controller.className()} {
     /*
      * Delete one
      */
-    @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne})
+    @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.delete})
     public ResponseEntity<${EntityResource.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
         return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)
                 .map(${endpoint.entityVarName} -> {
@@ -118,11 +121,13 @@ public class ${Controller.className()} {
      * Find by text
      */
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<${EntityResource.className()}> searchByText (
+    public PagedModel<EntityModel<${EntityResource.className()}>> searchByText (
         @RequestParam(name="text", required = true) @SearchText Optional<String> text,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-        @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable)
+        @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
+        PagedResourcesAssembler<${EntityResource.className()}> resourceAssembler)
     {
-        return ${ServiceApi.varName()}.findByText(text.orElse(""), pageable);
+        Page<${EntityResource.className()}> result = ${ServiceApi.varName()}.findByText(text.orElse(""), pageable);
+        return resourceAssembler.toModel(result);
     }
 }

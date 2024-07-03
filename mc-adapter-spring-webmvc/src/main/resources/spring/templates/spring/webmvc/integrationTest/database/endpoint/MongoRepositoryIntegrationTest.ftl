@@ -1,8 +1,5 @@
 <#include "/common/Copyright.ftl">
 
-/**
- * DEPRECATED
- */
 package ${Repository.packageName()};
 
 import ${RegisterDatabaseProperties.fqcn()};
