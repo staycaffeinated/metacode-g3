@@ -42,7 +42,7 @@ import static org.mockito.Mockito.verify;
 class ${ServiceImpl.testClass()} {
 
     @InjectMocks
-    private ${ServiceApi.className()} serviceUnderTest;
+    private ${ServiceImpl.className()} serviceUnderTest;
 
     @Mock
     private ${DocumentKindStore.className()} mockDataStore;
@@ -66,7 +66,7 @@ class ${ServiceImpl.testClass()} {
     class FindAllTests {
         @Test
         void shouldReturnAllRowsWhenRepositoryIsNotEmpty() {
-            given(mockDataStore.findAll()).willReturn(${WebMvcModelTestFixtures.className()}.allItems());
+            given(mockDataStore.findAll()).willReturn(pojoList);
 
             List<${endpoint.pojoName}> result = serviceUnderTest.findAll${endpoint.entityName}s();
 
