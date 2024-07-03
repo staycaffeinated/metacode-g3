@@ -8,6 +8,7 @@ import ${ContainerConfiguration.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 import ${EntityResource.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
+import ${DocumentTestFixtures.fqcn()};
 import ${Document.fqcn()};
 import ${PojoToDocumentConverter.fqcn()};
 import ${DocumentToPojoConverter.fqcn()};

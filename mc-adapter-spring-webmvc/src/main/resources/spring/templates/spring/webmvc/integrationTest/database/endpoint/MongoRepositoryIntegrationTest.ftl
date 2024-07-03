@@ -57,6 +57,7 @@ class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperti
 
     @Test
     void shouldSupportMongoTemplate() {
+        mongoTemplate.dropCollection(${Document.className()}.collectionName());
         mongoTemplate.createCollection(${Document.className()}.collectionName());
         mongoTemplate.insert(${DocumentTestFixtures.className()}.allItems(), ${Document.className()}.collectionName());
 
