@@ -81,8 +81,9 @@ class SpringWebMvcTemplateCatalogTest {
             assertThat(entry.getScope()).isAnyOf("project", "endpoint");
             assertThat(entry.getFacets()).isNotEmpty();
             for (TemplateFacet facet: entry.getFacets()) {
+                // The `facet` and `sourceTemplate` are required fields.
+                // The `destination` is optional; after all, class file destinations are computed, for example.
                 assertThat(facet.getFacet()).isAnyOf("main","test", "integrationTest", "testFixtures");
-                assertThat(facet.getDestination()).isNotEmpty();
                 assertThat(facet.getSourceTemplate()).isNotEmpty();
             }
         }

@@ -7,11 +7,15 @@ import ${ContainerConfiguration.fqcn()};
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.database.*;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter.*;
+import ${EntityResource.fqcn()};
+import ${Entity.fqcn()};
+import ${PojoToEntityConverter.fqcn()};
+import ${EntityToPojoConverter.fqcn()};
 import ${SecureRandomSeries.fqcn()};
+import ${RegisterDatabaseProperties.fqcn()};
+import ${Repository.fqcn()};
+import ${Routes.fqcn()};
+import ${WebMvcEjbTestFixtures.fqcn()};
 import org.junit.jupiter.api.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +40,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Import(ContainerConfiguration.class)
 @Testcontainers
 </#if>
-class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
+class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 
@@ -47,17 +51,17 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     public static final String JSON_PATH__RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
 
     @Autowired
-    private ${endpoint.entityName}Repository ${endpoint.entityVarName}Repository;
+    private ${Repository.className()} ${endpoint.entityVarName}Repository;
 
     // This holds sample ${endpoint.ejbName}s that will be saved to the database
-    private List<${endpoint.ejbName}> ${endpoint.entityVarName}List = null;
+    private List<${Entity.className()}> ${endpoint.entityVarName}List = null;
 
     private final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     @BeforeEach
     void setUp() {
-        ${endpoint.entityVarName}Repository.saveAll(${endpoint.ejbName}TestFixtures.allItems());
-        ${endpoint.entityVarName}List = ${endpoint.ejbName}TestFixtures.allItems();
+        ${endpoint.entityVarName}Repository.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
+        ${endpoint.entityVarName}List = ${WebMvcEjbTestFixtures.className()}.allItems();
     }
 
     @AfterEach
@@ -86,10 +90,10 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     class ValidateFindById {
         @Test
         void shouldFind${endpoint.entityName}ById() throws Exception {
-            ${endpoint.ejbName} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
+            ${Entity.className()} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
             String ${endpoint.entityVarName}Id = ${endpoint.entityVarName}.getResourceId();
 
-            mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, ${endpoint.entityVarName}Id))
+            mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.findOne}, ${endpoint.entityVarName}Id))
             .andExpect(status().isOk())
             .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
         }
@@ -102,14 +106,14 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     class ValidateCreate${endpoint.entityName} {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
-            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().text("I am a new resource").build();
+            ${EntityResource.className()} resource = ${EntityResource.className()}.builder().text("I am a new resource").build();
 
-            mockMvc.perform(post(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(resource)))
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath(JSON_PATH__TEXT, is(resource.getText())))
-            ;
+            mockMvc.perform(post(${Routes.className()}.${endpoint.routeConstants.create})
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(resource)))
+                    .andExpect(status().isCreated())
+                    .andExpect(jsonPath(JSON_PATH__TEXT, is(resource.getText())))
+                    ;
         }
 
         /**
@@ -119,15 +123,15 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
         */
         @Test
         void shouldReturn4xxWhenCreateNew${endpoint.entityName}WithoutText() throws Exception {
-            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
+            ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
 
             // Oddly, depending on whether the repository uses Postgres or H2, there are two
             // different outcomes. With H2, the controller's @Validated annotation is
             // applied and a 400 status code is returned. With Postgres, the @Validated
             // is ignored and a 422 error occurs when the database catches the invalid data.
-            mockMvc.perform(post(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
-            .content(objectMapper.writeValueAsString(resource)))
-            .andExpect(status().is4xxClientError());
+            mockMvc.perform(post(${Routes.className()}.${endpoint.routeConstants.create})
+                    .content(objectMapper.writeValueAsString(resource)))
+                    .andExpect(status().is4xxClientError());
         }
     }
 
@@ -140,14 +144,14 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
 
         @Test
         void shouldUpdate${endpoint.entityName}() throws Exception {
-            ${endpoint.ejbName} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
-            ${endpoint.pojoName} resource = new ${endpoint.entityName}EntityToPojoConverter().convert(${endpoint.entityVarName});
+            ${Entity.className()} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
+            ${EntityResource.className()} resource = new ${EntityToPojoConverter.className()}().convert(${endpoint.entityVarName});
 
-            mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(resource)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
+            mockMvc.perform(put(${Routes.className()}.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(resource)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
         }
     }
 
@@ -158,12 +162,12 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     class ValidateDelete${endpoint.entityName} {
         @Test
         void shouldDelete${endpoint.entityName}() throws Exception {
-            ${endpoint.ejbName} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
+            ${Entity.className()} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
 
             mockMvc.perform(
-            delete(${endpoint.entityName}Routes.${endpoint.routeConstants.delete}, ${endpoint.entityVarName}.getResourceId()))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
+                delete(${Routes.className()}.${endpoint.routeConstants.delete}, ${endpoint.entityVarName}.getResourceId()))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
         }
     }
 
@@ -174,7 +178,7 @@ class ${endpoint.entityName}ControllerIT implements RegisterDatabaseProperties {
     // ---------------------------------------------------------------------------------------------------------------
 
     protected ResultActions searchByText(String text) throws Exception {
-        return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.search}).param("text", text));
+        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("text", text));
     }
 
 }

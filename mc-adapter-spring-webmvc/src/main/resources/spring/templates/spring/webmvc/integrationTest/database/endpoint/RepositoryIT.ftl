@@ -10,6 +10,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import ${Entity.fqcn()};
 import ${EntityWithText.fqcn()};
 import ${WebMvcEjbTestFixtures.fqcn()};
+import ${RegisterDatabaseProperties.fqcn()};
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import(ContainerConfiguration.class)
 @Testcontainers
-class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties {
+class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 <#else>
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
