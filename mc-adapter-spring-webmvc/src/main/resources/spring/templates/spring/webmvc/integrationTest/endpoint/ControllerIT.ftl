@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${Controller.packageName()};
 
 <#if endpoint.isWithTestContainers()>
 import ${ContainerConfiguration.fqcn()};
@@ -11,7 +11,6 @@ import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
-import ${SecureRandomSeries.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 import ${Repository.fqcn()};
 import ${Routes.fqcn()};
@@ -26,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -56,12 +54,10 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     // This holds sample ${endpoint.ejbName}s that will be saved to the database
     private List<${Entity.className()}> ${endpoint.entityVarName}List = null;
 
-    private final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
-
     @BeforeEach
     void setUp() {
         ${endpoint.entityVarName}Repository.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
-        ${endpoint.entityVarName}List = ${WebMvcEjbTestFixtures.className()}.allItems();
+        ${endpoint.entityVarName}List = ${endpoint.entityVarName}Repository.findAll();
     }
 
     @AfterEach
@@ -180,5 +176,4 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     protected ResultActions searchByText(String text) throws Exception {
         return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("text", text));
     }
-
 }

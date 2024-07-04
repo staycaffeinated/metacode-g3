@@ -8,6 +8,7 @@ import ${OnUpdateAnnotation.fqcn()};
 import ${ResourceIdTrait.fqcn()};
 import ${SearchTextAnnotation.fqcn()};
 import ${ResourceIdAnnotation.fqcn()};
+import ${Routes.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +62,7 @@ public class ${Controller.className()} {
     @Operation(summary = "Retrieve all ${endpoint.entityName}")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found all ${endpoint.entityName}")})
     </#if>
-    @GetMapping (value=${endpoint.entityName}Routes.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping (value=${Routes.className()}.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
     public List<${EntityResource.className()}> getAll${endpoint.entityName}s() {
         return ${ServiceApi.varName()}.findAll${endpoint.entityName}s();
     }
@@ -124,7 +125,7 @@ public class ${Controller.className()} {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Updated the ${endpoint.entityName}"),
     @ApiResponse(responseCode = "400", description = "Incorrect data was submitted")})
 </#if>
-    @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
+    @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.update}, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<${EntityResource.className()}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(OnUpdate.class) ${EntityResource.className()} ${EntityResource.varName()}) {
         if (!id.equals(${EntityResource.varName()}.getResourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
@@ -141,7 +142,7 @@ public class ${Controller.className()} {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Removed the ${endpoint.entityName}"),
     @ApiResponse(responseCode = "400", description = "An incorrect identifier was submitted")})
 </#if>
-    @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne})
+    @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.delete})
     public ResponseEntity<${EntityResource.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
         return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)
             .map(${endpoint.entityVarName} -> {
