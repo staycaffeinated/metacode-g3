@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(ContainerConfiguration.class)
 @Testcontainers
 </#if>
-class ${RootController.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+class ${RootControllerExceptionHandler.className()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 
