@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${ControllerExceptionHandler.packageName()};
 
 <#if endpoint.isWithTestContainers()>
 import ${ContainerConfiguration.fqcn()};
@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
-import ${endpoint.basePackage}.math.SecureRandomSeries;
+import ${EntityResource.fqcn()};
+import ${WebMvcModelTestFixtures.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ServiceApi.fqcn()};
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,8 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
-* Verify exception handling
-*/
+ * Verify exception handling
+ */
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -42,14 +43,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 <#else>
 @ExtendWith(SpringExtension.class)
 </#if>
-class ${endpoint.entityName}ExceptionHandlingIT implements RegisterDatabaseProperties {
+class ${ControllerExceptionHandler.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 
     @Autowired
     ObjectMapper objectMapper;
     @MockBean
-    private ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
+    private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
     final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
@@ -60,18 +61,18 @@ class ${endpoint.entityName}ExceptionHandlingIT implements RegisterDatabasePrope
         void shouldNotReturnStackTrace() throws Exception {
             // given
             given( ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(any(String.class))).willThrow(new RuntimeException("Boom!"));
-            given( ${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}.class))).willThrow(new RuntimeException("Bad data"));
+            given( ${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${EntityResource.className()}.class))).willThrow(new RuntimeException("Bad data"));
 
-            ${endpoint.pojoName} payload = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("update me").build();
+            ${EntityResource.className()} payload = ${EntityResource.className()}.builder().resourceId(randomSeries.nextResourceId()).text("update me").build();
 
             // when/then
             mockMvc.perform(post("${endpoint.basePath}")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(payload)))
-            .andExpect(jsonPath("$.stackTrace").doesNotExist())
-            .andExpect(jsonPath("$.trace").doesNotExist())
-            .andDo((print()))
-            .andReturn();
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(jsonPath("$.stackTrace").doesNotExist())
+                .andExpect(jsonPath("$.trace").doesNotExist())
+                .andDo((print()))
+                .andReturn();
         }
     }
 }

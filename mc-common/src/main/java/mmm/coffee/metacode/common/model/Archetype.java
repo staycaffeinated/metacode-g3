@@ -99,6 +99,7 @@ public enum Archetype {
     ServiceApi("ServiceApi"),
     ServiceImpl("ServiceImpl"),
     Controller("Controller"),
+    ControllerExceptionHandler("ControllerExceptionHandler"),
     ConversionService("ConversionService"), // todo: I think this is endpoint dependent
     Document("Document"), // nosql Document objects
     Routes("Routes"),

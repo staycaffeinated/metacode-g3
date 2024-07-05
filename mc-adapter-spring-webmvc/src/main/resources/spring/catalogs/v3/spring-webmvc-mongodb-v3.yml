@@ -318,9 +318,12 @@ entries:
         sourceTemplate: "/spring/webmvc/test/endpoint/MongoControllerTests.ftl"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint/MongoControllerIT.ftl"
-#      - facet: "integrationTest"
-#        sourceTemplate:  "/spring/webmvc/integrationTest/endpoint/MongoExceptionHandlerIT.ftl"
-#        name: "{{restResource}}ExceptionHandlingTest"
+
+  - scope: "endpoint"
+    archetype: "ControllerExceptionHandler"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "spring/webmvc/integrationTest/endpoint/MongoExceptionHandlerIT.ftl"
 
 #
 # The interface (api) of the Service

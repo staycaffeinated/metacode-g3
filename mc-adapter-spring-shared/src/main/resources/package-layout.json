@@ -98,6 +98,7 @@
       "package": "{{basePackage}}.{{endpoint}}.api",
       "archetypes": [
         "Controller",
+        "ControllerExceptionHandler",
         "Routes",
         "ServiceApi",
         "ServiceImpl"
