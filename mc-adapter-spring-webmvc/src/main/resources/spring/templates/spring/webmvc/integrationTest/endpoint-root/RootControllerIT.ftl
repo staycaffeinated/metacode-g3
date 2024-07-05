@@ -28,7 +28,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Import(ContainerConfiguration.class)
 @Testcontainers
 </#if>
-class RootControllerIT implements RegisterDatabaseProperties {
+class ${RootController.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 

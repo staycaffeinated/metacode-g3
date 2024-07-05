@@ -219,8 +219,13 @@ entries:
         sourceTemplate: "/spring/webmvc/test/endpoint-root/RootControllerTest.ftl"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/RootControllerIT.ftl"
-#      - facet: "integrationTest"
-#        sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
+
+  - scope: "project"
+    archetype: "RootControllerExceptionHandler"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
+
 
   - scope: "project"
     archetype: "AbstractIntegrationTest"

@@ -70,6 +70,7 @@ public enum Archetype {
     DefaultController("DefaultController"), // handles the basePath, such as "/petstore/"
     DefaultService("DefaultService"),
     RootController("RootController"),
+    RootControllerExceptionHandler("RootControllerExceptionHandler"),
     RootService("RootService"),
 
 

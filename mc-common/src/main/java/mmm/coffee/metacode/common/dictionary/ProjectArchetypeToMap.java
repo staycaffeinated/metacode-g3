@@ -25,6 +25,7 @@ public class ProjectArchetypeToMap {
             // application class
             Archetype.Application,
             Archetype.RootController,
+            Archetype.RootControllerExceptionHandler,
             Archetype.RootService,
             Archetype.DefaultController,
             Archetype.DefaultService,

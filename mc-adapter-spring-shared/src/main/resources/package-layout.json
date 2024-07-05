@@ -33,6 +33,7 @@
       "package": "{{basePackage}}.home.api",
       "archetypes": [
         "RootController",
+        "RootControllerExceptionHandler",
         "RootService",
         "DefaultController",
         "DefaultService"

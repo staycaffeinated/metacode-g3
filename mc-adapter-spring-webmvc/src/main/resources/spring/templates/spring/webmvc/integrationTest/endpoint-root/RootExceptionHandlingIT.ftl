@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${RootController.packageName()};
+package ${RootControllerExceptionHandler.packageName()};
 
 <#-- ============================================================================== -->
 <#-- When using Postgres with TestContainers                                        -->
@@ -15,6 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.context.annotation.Import;
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
+import ${RootController.fqcn()};
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,7 +50,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 <#else>
 @ExtendWith(SpringExtension.class)
 </#if>
-class RootExceptionHandlingIT implements RegisterDatabaseProperties {
+class ${RootControllerExceptionHandler.className()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 
