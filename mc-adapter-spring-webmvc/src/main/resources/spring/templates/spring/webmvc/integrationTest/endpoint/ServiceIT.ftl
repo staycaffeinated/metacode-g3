@@ -30,6 +30,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -157,8 +158,8 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         ${Entity.className()} probe = ${Entity.className()}.builder().text(sample.getText()).build();
         ExampleMatcher matcher = ExampleMatcher.matchingAny().withIgnoreNullValues();
         Example<${Entity.className()}> example = Example.of(probe, matcher);
-        Optional<${Entity.className()}> possible = ${Repository.varName()}.findOne(example);
-        assertThat(possible).isNotNull().isPresent();
-        return possible.get();
+        List<${Entity.className()}> possible = ${Repository.varName()}.findAll(example);
+        assertThat(possible).isNotEmpty();
+        return possible.get(0);
     }
 }
