@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${CustomRepository.packageName()};
+package ${CustomSQLRepository.packageName()};
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +14,7 @@ import java.util.Optional;
 */
 @NoRepositoryBean
 @SuppressWarnings("java:S119") // 'ID' follows Spring convention
-public interface ${CustomRepository.className()}<T,ID> extends JpaRepository<T,ID>, JpaSpecificationExecutor<T> {
+public interface ${CustomSQLRepository.className()}<T,ID> extends JpaRepository<T,ID>, JpaSpecificationExecutor<T> {
     /**
      * Find T by its resourceId
      *
