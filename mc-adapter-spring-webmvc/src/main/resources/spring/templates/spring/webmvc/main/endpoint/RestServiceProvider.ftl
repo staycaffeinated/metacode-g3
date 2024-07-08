@@ -52,6 +52,13 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
         return ${ObjectDataStore.varName()}.findByText(text, pageable);
     }
 
+    /*
+     * Search
+     */
+    public Page<${EntityResource.className()}> search(@NonNull String rsqlQuery, Pageable pageable) {
+        return ${ObjectDataStore.varName()}.search(rsqlQuery, pageable);
+    }
+
     /**
     * Persists a new resource
     */

@@ -26,6 +26,12 @@ public interface ${ServiceApi.className()} {
     Page<${EntityResource.className()}> findByText(Optional<String> text, Pageable pageable);
 
     /**
+     * Search for elements with an RSQL query
+     */
+    Page<${EntityResource.className()}> search(String rsqlQuery, Pageable pageable);
+
+
+        /**
      * Persists a new resource
      */
     ${EntityResource.className()} create${endpoint.entityName}(${endpoint.pojoName} resource );
