@@ -2,6 +2,7 @@
 
 package ${ObjectDataStoreProvider.packageName()};
 
+import ${BadRequestException.fqcn()};
 import ${Entity.fqcn()};
 import ${EntityWithText.fqcn()};
 import ${EntityResource.fqcn()};
@@ -10,6 +11,8 @@ import ${ObjectDataStore.fqcn()};
 import ${Repository.fqcn()};
 import ${EntityWithText.fqcn()};
 import lombok.NonNull;
+import cz.jirutka.rsql.parser.RSQLParserException;
+import io.github.perplexhub.rsql.RSQLJPASupport;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -77,6 +80,29 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
         Page<${Entity.className()}> resultSet = repository().findAll(where, pageable);
         List<${EntityResource.className()}> list = resultSet.stream().map(converterToPojo()::convert).toList();
         return new PageImpl<>(list, pageable, list.size());
+    }
+
+    /**
+     * Returns a Page of ${endpoint.entityName} items that satisfy the {@code searchQuery}
+     * The search query is expressed in RSQL; see
+     * <a href="https://github.com/perplexhub/rsql-jpa-specification">RSQL Query Syntax</a> for query syntax
+     */
+    public Page<${EntityResource.className()}> search(@NonNull String searchQuery, Pageable pageable) {
+        try {
+            Page<${Entity.className()}> resultSet;
+            if (searchQuery != null) {
+                Specification<${Entity.className()}> where = RSQLJPASupport.toSpecification(searchQuery);
+                resultSet = repository().findAll(where, pageable);
+            }
+            else {
+                resultSet = repository().findAll(pageable);
+            }
+            List<${EntityResource.className()}> list = resultSet.stream().map(converterToPojo()::convert).toList();
+            return new PageImpl<>(list, pageable, list.size());
+        }
+        catch (RSQLParserException e) {
+            throw new BadRequestException(e.getLocalizedMessage());
+        }
     }
 }
 
