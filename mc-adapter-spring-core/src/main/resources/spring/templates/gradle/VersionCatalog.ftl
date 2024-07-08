@@ -12,6 +12,7 @@ nebulaLint = '19.0.2'
 openApiStarterWebMvc = '${project.openApiStarterWebMvcVersion}'
 openApiStarterWebflux = '${project.openApiStarterWebfluxVersion}'
 postgresql = '${project.postgresqlVersion}'
+rsql = '6.0.21'
 r2dbcH2 = '${project.r2dbc_h2Version}'
 r2dbcPostgres = '${project.r2dbc_postgresVersion}'
 r2dbcSpi = '${project.r2dbc_spiVersion}'
@@ -48,6 +49,7 @@ mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mongoDbDriverSync = { module = "org.mongodb:mongodb-driver-sync" }
 openApiStarterWebMvcUI = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "openApiStarterWebMvc" }
 openApiStarterWebfluxUI = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "openApiStarterWebflux" }
+rsqlJpaSpringBootStarter = { module = "io.github.perplexhub:rsql-jpa-spring-boot-starter", version.ref = "rsql" }
 r2dbcH2 = { module = "io.r2dbc:r2dbc-h2", version.ref="r2dbcH2" }
 r2dbcPostgres = { module = "io.r2dbc:r2dbc-postgresql", version.ref = "r2dbcPostgres" }
 r2dbcSpi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbcSpi" }

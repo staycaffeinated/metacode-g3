@@ -1,9 +1,9 @@
 plugins {
-id 'buildlogic.application-conventions'
-alias(libs.plugins.spring.boot)
-alias(libs.plugins.dependency.management)
-alias(libs.plugins.versions)
-alias(libs.plugins.lombok.plugin)
+    id 'buildlogic.application-conventions'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.dependency.management)
+    alias(libs.plugins.versions)
+    alias(libs.plugins.lombok.plugin)
 }
 
 version='0.0.1'
@@ -26,16 +26,16 @@ version='0.0.1'
 // Jib specific configuration for this application
 // --------------------------------------------------------------------------------
 jib {
-to {
-image = '${project.applicationName}'
-tags = [ 'latest' ]
-}
+    to {
+        image = '${project.applicationName}'
+        tags = [ 'latest' ]
+    }
 }
 
 sonar {
-properties {
-property "sonar.projectName", "${project.applicationName}"
-property "sonar.projectKey", "${project.applicationName}"
-property "sonar.gradle.skipCompile", "true"
-}
+    properties {
+        property "sonar.projectName", "${project.applicationName}"
+        property "sonar.projectKey", "${project.applicationName}"
+        property "sonar.gradle.skipCompile", "true"
+    }
 }
