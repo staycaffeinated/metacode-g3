@@ -43,6 +43,8 @@ public class RouteConstantsConverter {
         return "SEARCH_" + resourceNameUpperCase;
     }
 
+    public String query() { return "QUERY_" + resourceNameUpperCase; }
+
     public String idParameter() {
         return resourceNameUpperCase + "_ID";
     }
@@ -62,4 +64,5 @@ public class RouteConstantsConverter {
     public String events() {
         return "EVENTS_" + resourceNameUpperCase;
     }
+
 }

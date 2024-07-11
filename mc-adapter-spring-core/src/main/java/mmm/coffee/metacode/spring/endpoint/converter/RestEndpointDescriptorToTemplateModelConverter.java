@@ -47,6 +47,7 @@ public class RestEndpointDescriptorToTemplateModelConverter implements ConvertTr
                 .findOne(resourceConstantsConverter.findOne())
                 .idParameter(resourceConstantsConverter.idParameter())
                 .search(resourceConstantsConverter.search())
+                .query(resourceConstantsConverter.query())
                 .stream(resourceConstantsConverter.stream())
                 .update(resourceConstantsConverter.update())
                 .build();

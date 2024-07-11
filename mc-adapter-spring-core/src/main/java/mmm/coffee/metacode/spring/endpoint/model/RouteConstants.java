@@ -48,6 +48,7 @@ public class RouteConstants {
     String findOne;     // FIND_ONE_entityNameUpperCase
     String findAll;     // FIND_ALL_entityNameUpperCase
     String search;      // SEARCH_entityNameUpperCase
+    String query;       // QUERY_entityNameUpperCase
     String idParameter; // entityNameUpperCase_ID
     String stream;      // STREAM_entityNameUpperCase
     String update;      // UPDATE_entityNameUpperCase
