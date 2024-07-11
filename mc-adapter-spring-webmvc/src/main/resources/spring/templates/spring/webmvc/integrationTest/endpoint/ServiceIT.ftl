@@ -29,11 +29,16 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 </#if>
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -147,6 +152,35 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
             // expect: a subsequent attempt to find the deleted item comes back empty
             Optional<${endpoint.pojoName}> option = serviceUnderTest.find${endpoint.entityName}ByResourceId(knownId);
             assertThat(option).isNotNull().isNotPresent();
+        }
+    }
+
+    /**
+     * Search use cases
+     */
+    @Nested
+    class Search${endpoint.entityName} {
+        @Test
+        void whenSearchStringIsEmpty_shouldReturnAnyItems() {
+            Page<${EntityResource.className()}> results = serviceUnderTest.search("", Pageable.ofSize(10));
+            assertThat(results).isNotNull().isNotEmpty();
+        }
+
+        @Test
+        void whenSearchStringIsNull_shouldThrowException() {
+            Pageable page = Pageable.ofSize(10);
+            assertThrows(NullPointerException.class, () -> serviceUnderTest.search(null, page));
+        }
+
+        @Test
+        void whenSearchStringIsWellFormedQuery_shouldReturnMatchingItems() {
+            ${Entity.className()} anyItem = pickOne();
+            String query = ${Entity.className()}.Columns.TEXT + "==" + anyItem.getText();
+
+            Page<${EntityResource.className()}> results = serviceUnderTest.search(query, Pageable.ofSize(10));
+            assertThat(results).isNotNull().isNotEmpty();
+            Predicate<${EntityResource.className()}> predicate = item -> item.getText().equals(anyItem.getText());
+            assertThat(results.get().allMatch(predicate)).isTrue();
         }
     }
 

@@ -90,12 +90,12 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
     public Page<${EntityResource.className()}> search(@NonNull String searchQuery, Pageable pageable) {
         try {
             Page<${Entity.className()}> resultSet;
-            if (searchQuery != null) {
-                Specification<${Entity.className()}> where = RSQLJPASupport.toSpecification(searchQuery);
-                resultSet = repository().findAll(where, pageable);
+            if (searchQuery.isEmpty()) {
+                resultSet = repository().findAll(pageable);
             }
             else {
-                resultSet = repository().findAll(pageable);
+                Specification<${Entity.className()}> where = RSQLJPASupport.toSpecification(searchQuery);
+                resultSet = repository().findAll(where, pageable);
             }
             List<${EntityResource.className()}> list = resultSet.stream().map(converterToPojo()::convert).toList();
             return new PageImpl<>(list, pageable, list.size());

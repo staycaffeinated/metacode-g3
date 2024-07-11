@@ -275,4 +275,22 @@ class ${ServiceImpl.testClass()} {
             assertThrows(NullPointerException.class, () -> serviceUnderTest.delete${endpoint.entityName}ByResourceId(null));
         }
     }
+
+    @Nested
+    class SearchUseCases {
+        @Test
+        void shouldAcquireSearchResults() {
+            Pageable pageable = PageRequest.of(0, 25);
+            Page<${EntityResource.className()}> page = new PageImpl<>(${endpoint.entityVarName}List, pageable, ${endpoint.entityVarName}List.size());
+            given(${endpoint.entityVarName}DataStore.search(any(String.class), any(Pageable.class))).willReturn(page);
+
+            Page<${EntityResource.className()}> rs = serviceUnderTest.search("foo==bar", Pageable.unpaged());
+            assertThat(rs).isNotNull();
+        }
+
+        @Test
+        void shouldThrowExceptionIfQueryIsNull() {
+            assertThrows(NullPointerException.class, () -> serviceUnderTest.search(null, Pageable.unpaged()));
+        }
+    }
 }

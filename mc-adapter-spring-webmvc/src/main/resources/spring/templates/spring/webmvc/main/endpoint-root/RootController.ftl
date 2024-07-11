@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ${RootController.className()} {
 
     /*
-     * Constructor
-     */
-    public ${RootController.className()}() {
-    }
-
-    /*
      * The root path
      */
     @GetMapping (value= "", produces = MediaType.APPLICATION_JSON_VALUE )

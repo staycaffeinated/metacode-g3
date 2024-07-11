@@ -79,4 +79,10 @@ class ${SecureRandomSeries.className()}Tests {
         assertThat(resourceId).isNotBlank().hasSizeBetween(${SecureRandomSeries.className()}.ENTROPY_STRING_LENGTH, 49);
         resourceId.chars().forEach(ch -> assertThat(Character.isDigit(ch)));
     }
+
+    @Test
+    void shouldNotReturnNullInstance() {
+        ${SecureRandomSeries.className()} instance = ${SecureRandomSeries.className()}.instance();
+        assertThat(instance).isNotNull();
+    }
 }

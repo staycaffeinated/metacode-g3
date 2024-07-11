@@ -64,4 +64,15 @@ class ${Entity.testClass()} {
             assertThat(sample.hashCode()).isEqualTo(underTest.hashCode());
         }
     }
+
+    @Test
+    void shouldAssignResourceIdWhenPrePersistIsInvoked() {
+        // Creating an instance does not cause a resourceId to be assigned
+        ${Entity.className()} sample = new ${Entity.className()}();
+        assertThat(sample.getResourceId()).isNull();
+
+        // The resourceId is assigned when the entity is persisted. 
+        sample.prePersist();
+        assertThat(sample.getResourceId()).isNotNull();
+    }
 }

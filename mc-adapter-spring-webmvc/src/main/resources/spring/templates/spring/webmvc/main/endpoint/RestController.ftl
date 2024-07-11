@@ -168,4 +168,22 @@ public class ${Controller.className()} {
     {
         return resourceAssembler.toModel( ${ServiceApi.varName()}.findByText(text, pageable) );
     }
+
+    /*
+     * Search using an RSQL query
+     */
+    <#if endpoint.isWithOpenApi()>
+    @Operation(summary = "Search for ${endpoint.entityName} using an RSQL query")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
+    </#if>
+    @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.query}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
+    @RequestParam(name="q", required = true) @SearchText Optional<String> rsqlQuery,
+        @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
+        @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
+        PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
+    {
+        return resourceAssembler.toModel( ${ServiceApi.varName()}.search(rsqlQuery.orElse(""), pageable) );
+    }
+
 }

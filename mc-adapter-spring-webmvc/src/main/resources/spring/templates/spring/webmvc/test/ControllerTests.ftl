@@ -248,6 +248,15 @@ class ${Controller.testClass()} {
         }
     }
 
+    @Nested
+    class SearchUseCases {
+        @Test
+        void shouldReturnSomethingFromQuery() throws Exception {
+            given (${endpoint.entityVarName}Service.search(any(String.class), any(Pageable.class))).willReturn(pageOfData);
+            search("text!=Bluey").andExpect(status().isOk());
+        }
+    }
+
     // ---------------------------------------------------------------------------------------------------------------
     //
     // Helper methods
@@ -275,6 +284,14 @@ class ${Controller.testClass()} {
     protected ResultActions searchByText(String text) throws Exception {
         return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("text", text));
     }
+
+    /**
+     * Submits a search request
+     */
+    protected ResultActions search(String rsqlQuery) throws Exception {
+        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.query}).param("q", rsqlQuery));
+    }
+
 
     /**
     * Submits a Delete request

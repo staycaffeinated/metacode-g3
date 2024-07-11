@@ -2,12 +2,14 @@
 
 package ${ObjectDataStoreProvider.packageName()};
 
+import ${BadRequestException.fqcn()};
 import ${ObjectDataStore.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
 import ${Repository.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
+import cz.jirutka.rsql.parser.RSQLParserException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -320,6 +323,53 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
             // expect: the result to contain as many items as were found in the repository.
             assertThat(actual).isNotNull().hasSize(content.size());
+        }
+    }
+
+    @Nested
+    @SuppressWarnings("unchecked")
+    class SearchUseCases {
+        @Test
+        void shouldThrowExceptionIfQueryIsNull() {
+            assertThrows(NullPointerException.class, () -> dataStoreUnderTest.search(null, PageRequest.of(1, 10)));
+        }
+
+        @Test
+        void shouldReturnAnyItemsWhenQueryIsEmpty() {
+            List<${Entity.className()}> content = ${WebMvcEjbTestFixtures.className()}.allItems();
+            Page<${Entity.className()}> pageResult = new PageImpl<>(content, Pageable.unpaged(), content.size());
+            when(mockRepository.findAll(any(Pageable.class))).thenReturn(pageResult);
+
+            Page<${EntityResource.className()}> results = dataStoreUnderTest.search("", PageRequest.of(1, 10));
+            assertThat(results).isNotNull().isNotEmpty();
+        }
+
+        @Test
+        void shouldReturnMatchingItemsWhenQueryIsGiven() {
+            // given: an RSQL query against a known column
+            List<${Entity.className()}> content = ${WebMvcEjbTestFixtures.className()}.allItemsWithSameText();
+            Page<${Entity.className()}> pageResult = new PageImpl<>(content, Pageable.unpaged(), content.size());
+            when(mockRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(pageResult);
+
+            // Build a query from some known value (known to exist in the database)
+            String rsqlQuery = ${Entity.className()}.Columns.TEXT + "==" + content.get(0).getText();
+
+            // when: the data is searched with the rsql query...
+            Page<${EntityResource.className()}> results = dataStoreUnderTest.search(rsqlQuery, PageRequest.of(1, 10));
+
+            // expect results to come back, and the records to satisfy the search criteria
+            // (this is more to verify the implementation is right, not so much to verify the RSQL library).
+            assertThat(results).isNotNull().isNotEmpty();
+            Predicate<${EntityResource.className()}> predicate = (item) -> item.getText().equals(content.get(0).getText());
+            assertThat(results.get().allMatch(predicate)).isTrue();
+        }
+
+        @Test
+        void shouldMapRSQLExceptionToBadRequestException() {
+            when(mockRepository.findAll(any(Specification.class), any(Pageable.class)))
+                .thenThrow(RSQLParserException.class);
+
+            assertThrows(BadRequestException.class, () -> dataStoreUnderTest.search("anything", PageRequest.of(1, 10)));
         }
     }
 }

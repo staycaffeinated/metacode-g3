@@ -21,5 +21,6 @@ public final class ${Routes.className()} {
     public static final String ${endpoint.routeConstants.findOne} = ${endpoint.routeConstants.basePath} + ${endpoint.routeConstants.idParameter};
     public static final String ${endpoint.routeConstants.findAll} = ${endpoint.routeConstants.basePath} + "/findAll";
     public static final String ${endpoint.routeConstants.search} = ${endpoint.routeConstants.basePath} + "/search";
+    public static final String ${endpoint.routeConstants.query} = ${endpoint.routeConstants.basePath} + "/query";
 
 }

@@ -50,7 +50,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 <#else>
 @ExtendWith(SpringExtension.class)
 </#if>
-class ${RootControllerExceptionHandler.className()} implements ${RegisterDatabaseProperties.className()} {
+class ${RootControllerExceptionHandler.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvc mockMvc;
 

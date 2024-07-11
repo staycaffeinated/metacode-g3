@@ -24,11 +24,10 @@ public class ${PojoToEntityConverter.className()} implements Converter<${EntityR
      */
     @Override
     public ${Entity.className()} convert (@NonNull ${EntityResource.className()} resource) {
-        ${Entity.className()} target = ${Entity.className()}.builder()
+        return ${Entity.className()}.builder()
                 .resourceId(resource.getResourceId())
                 .text(resource.getText())
                 .build();
-        return target;
     }
 
     /**
