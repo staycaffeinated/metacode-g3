@@ -16,6 +16,7 @@ include("mc-common")
 include("mc-adapter-spring-shared")
 include("mc-adapter-spring-core")
 include("mc-adapter-spring-webmvc")
+include("mc-adapter-spring-webflux")
 include("mc-generator-spring")
 
 dependencyResolutionManagement {

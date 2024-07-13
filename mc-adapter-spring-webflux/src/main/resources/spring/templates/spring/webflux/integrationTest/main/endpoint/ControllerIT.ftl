@@ -1,0 +1,202 @@
+<#include "/common/Copyright.ftl">
+
+package ${endpoint.packageName};
+
+<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
+import ${endpoint.basePackage}.database.PostgresTestContainer;
+</#if>
+import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
+import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}Repository;
+import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}EntityTestFixtures;
+import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.ejbName};
+import ${endpoint.basePackage}.domain.${endpoint.entityName};
+import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
+<#if (endpoint.isWithTestContainers())>
+</#if>
+import org.springframework.test.web.reactive.server.FluxExchangeResult;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
+
+import java.time.Duration;
+
+/**
+ * Integration tests of ${endpoint.entityName}Controller
+ */
+@Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+<#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>
+class ${endpoint.entityName}ControllerIntegrationTest extends PostgresTestContainer {
+<#else>
+class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabaseProperties {
+</#if>
+   private static final String JSON_PATH__TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
+   private static final String JSON_PATH__RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
+
+   @LocalServerPort
+   int port;
+<#noparse>
+   @Value("${spring.webflux.base-path}")
+</#noparse>
+   String applicationBasePath;
+   private WebTestClient client;
+
+   @Autowired
+   private ${endpoint.entityName}Repository repository;
+
+   /*
+    * Use this to fetch a record known to exist. The underlying database record
+    * is created in the @BeforeEach method.
+    */
+   private String knownResourceId;
+
+   	@Autowired
+    public void setApplicationContext(ApplicationContext context) {
+        this.client = WebTestClient.bindToApplicationContext(context).configureClient().build();
+    }
+
+    @BeforeEach
+    void insertTestRecordsIntoDatabase() {
+        repository.saveAll(${endpoint.entityName}EntityTestFixtures.allItems()).blockLast(Duration.ofSeconds(10));
+        knownResourceId = ${endpoint.entityName}EntityTestFixtures.allItems().get(1).getResourceId();
+    }
+
+    @Test
+    void shouldGetAll${endpoint.entityName}s() {
+        // @formatter:off
+        sendFindAll${endpoint.entityName}sRequest()
+            .expectStatus().isOk()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody().jsonPath("$.[0].text")
+            .isNotEmpty().jsonPath("$.[0].resourceId").isNotEmpty();
+        // @formatter:on
+    }
+
+    @Test
+    void shouldGetExisting${endpoint.entityName}() {
+        // formatter:off
+        sendFindOne${endpoint.entityName}Request(knownResourceId).expectStatus().isOk()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody()
+            .jsonPath(JSON_PATH__RESOURCE_ID).isNotEmpty()
+            .jsonPath(JSON_PATH__TEXT).isNotEmpty();
+        // formatter:on
+    }
+
+    @Test
+    void shouldCreateNew${endpoint.entityName}() {
+        ${endpoint.entityName} pojo = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
+
+        // @formatter:off
+        sendCreate${endpoint.entityName}Request(pojo)
+            .expectStatus().isCreated()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON);
+        // @formatter:on
+    }
+
+    @Test
+    void shouldUpdateAnExisting${endpoint.entityName}() {
+        // Pick one of the persisted instances for an update.
+        // Any one will do, as long as it's been persisted.
+        ${endpoint.entityName}Entity targetEntity = ${endpoint.entityName}EntityTestFixtures.allItems().get(0);
+
+        // Create an empty POJO and set the fields to update
+        // (in this example, the text field).
+        // The resourceId indicates which instance to update.
+        ${endpoint.entityName} updatedItem = ${endpoint.entityName}.builder().build();
+        updatedItem.setText("My new text");
+        updatedItem.setResourceId(targetEntity.getResourceId());
+
+        sendUpdate${endpoint.entityName}Request(updatedItem).expectStatus().isOk();
+    }
+
+    @Test
+    void shouldQuietlyDeleteExistingEntity() {
+        // Pick one of the persisted instances to delete
+        ${endpoint.ejbName} existingItem = ${endpoint.ejbName}TestFixtures.allItems().get(1);
+        sendDelete${endpoint.entityName}Request(existingItem.getResourceId()).expectStatus().isNoContent();
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenResourceDoesNotExist() {
+        // @formatter:off
+        String validId = ${endpoint.entityName}TestFixtures.oneWithResourceId().getResourceId();
+        sendFindOne${endpoint.entityName}Request(validId).expectStatus().isNotFound()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody()
+                // I've seen stack traces come back both ways
+                .jsonPath("$.stackTrace").doesNotExist()
+                .jsonPath("$.trace").doesNotExist();
+        // @formatter:on
+    }
+    
+    @Test
+    void shouldReturnBadRequestWhenConstraintViolation() {
+        // The Problem library provides default handling of constraint violations.
+        // The Problem library _does_ send back a stack trace, which is
+        // usually a bad idea for client-facing applications, since stack traces leak information.
+        // @formatter:off
+        sendFindOne${endpoint.entityName}Request("iAmABadRequestId").expectStatus().isBadRequest()
+            .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON);
+        // @formatter:on
+    }    
+
+    @Test
+    void shouldGet${endpoint.entityName}AsStream() throws Exception {
+        FluxExchangeResult<${endpoint.pojoName}> result
+                = this.client.get()
+                      .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.stream})
+                      .accept(MediaType.TEXT_EVENT_STREAM)
+                      .exchange()
+                      .expectStatus().isOk()
+                      .returnResult(${endpoint.pojoName}.class);
+
+
+        Flux<${endpoint.pojoName}> events = result.getResponseBody();
+
+        StepVerifier.create(events)
+                    .expectSubscription()
+                    .expectNextMatches(p -> p.getResourceId() != null)
+   			        .thenCancel().verify();
+    }
+
+    /* -----------------------------------------------------------------------
+     * Helper methods
+     * ----------------------------------------------------------------------- */
+
+    WebTestClient.ResponseSpec sendFindOne${endpoint.entityName}Request(String id) {
+        return this.client.get().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}.replaceAll("\\{id}", id))
+            .accept(MediaType.APPLICATION_JSON).exchange();
+    }
+
+    WebTestClient.ResponseSpec sendFindAll${endpoint.entityName}sRequest() {
+        return this.client.get().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findAll})
+            .accept(MediaType.APPLICATION_JSON).exchange();
+    }
+
+    WebTestClient.ResponseSpec sendCreate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
+        return this.client.post().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
+    }
+
+    WebTestClient.ResponseSpec sendUpdate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
+        return this.client.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}.replaceAll("\\{id}", pojo.getResourceId()))
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
+    }
+
+    WebTestClient.ResponseSpec sendDelete${endpoint.entityName}Request(String resourceId) {
+        return this.client.delete().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}.replaceAll("\\{id}", resourceId)).exchange();
+    }
+}

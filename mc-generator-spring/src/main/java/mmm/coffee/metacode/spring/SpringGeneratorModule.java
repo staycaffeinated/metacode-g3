@@ -37,6 +37,7 @@ import mmm.coffee.metacode.common.stereotype.DependencyCollector;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.common.writer.ContentToFileWriter;
 import mmm.coffee.metacode.spring.catalog.SpringEndpointCatalog;
+import mmm.coffee.metacode.spring.catalog.SpringWebFluxTemplateCatalog;
 import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
 import mmm.coffee.metacode.spring.converter.NameConverter;
 import mmm.coffee.metacode.spring.converter.RouteConstantsConverter;
@@ -76,6 +77,9 @@ public class SpringGeneratorModule extends AbstractModule {
     private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
 
+    /**
+     * SpringWebMvc generator
+     */
     @Bean("springWebmvcGenerator")
     @SpringWebMvc
     ICodeGenerator<RestProjectDescriptor> providesSpringWebMvcGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
@@ -94,7 +98,26 @@ public class SpringGeneratorModule extends AbstractModule {
                 .build();
     }
 
+    @Bean("springWebFluxGenerator")
+    @SpringWebFlux
+    ICodeGenerator<RestProjectDescriptor> providesSpringWebFluxGenerator() {
+        return SpringProjectCodeGenerator.builder()
+                .collector(new SpringWebFluxTemplateCatalog(new CatalogFileReader()))
+                .descriptor2templateModel(new DescriptorToTemplateModelConverter())
+                .descriptor2predicate(new DescriptorToPredicateConverter())
+                .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
+                .outputHandler(new ContentToFileWriter())
+                .dependencyCatalog(new DependencyCatalog(DEPENDENCY_FILE))
+                .mustacheDecoder(
+                        MustacheDecoder.builder()
+                                .converter(new RestTemplateModelToMapConverter()).build())
+                .metaPropertiesHandler(providesMetaPropertiesHandler())
+                .build();
+    }
 
+    /**
+     * FreeMarkerConfiguration
+     */
     @Bean
     @FreemarkerConfigurationProvider
     Configuration providesFreemarkerConfiguration() {
