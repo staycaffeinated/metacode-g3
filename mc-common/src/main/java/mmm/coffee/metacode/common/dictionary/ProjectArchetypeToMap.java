@@ -50,6 +50,7 @@ public class ProjectArchetypeToMap {
             Archetype.ResourceNotFoundException,
             Archetype.UnprocessableEntityException,
             Archetype.BadRequestException,
+            Archetype.ProblemSummary,
 
             // config stuff
             Archetype.LocalDateConverter,
