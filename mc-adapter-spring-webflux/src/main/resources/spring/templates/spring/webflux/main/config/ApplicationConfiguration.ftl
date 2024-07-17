@@ -15,6 +15,6 @@ public class ${ApplicationConfiguration.className()} {
 
     @Bean
     public ${ResourceIdSupplier.className()} resourceIdSupplier() {
-        return new ${SecureRandomSeries.className()});
+        return new ${SecureRandomSeries.className()}();
     }
 }
