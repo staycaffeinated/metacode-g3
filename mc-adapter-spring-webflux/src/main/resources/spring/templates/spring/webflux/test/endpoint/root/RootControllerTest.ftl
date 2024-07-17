@@ -22,14 +22,10 @@ import reactor.test.StepVerifier;
  */
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = RootController.class)
-@Import(${RootService.className()}.class)
 class ${RootController.testClass()} {
 
     @Autowired
     protected WebTestClient webClient;
-
-    @MockBean
-    private ${RootService.className()} mockRootService;
 
     @Test
     void testHomePage() {
