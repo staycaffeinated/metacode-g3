@@ -34,6 +34,7 @@ public enum Archetype {
     ProblemConfiguration("ProblemConfiguration"),
     LocalDateConverter("LocalDateConverter"),
     WebMvcConfiguration("WebMvcConfiguration"),
+    WebFluxConfiguration("WebFluxConfiguration"),
     SpringProfiles("SpringProfiles"),
 
     // converters
@@ -48,6 +49,7 @@ public enum Archetype {
     ResourceNotFoundException("ResourceNotFoundException"),
     UnprocessableEntityException("UnprocessableEntityException"),
     Exception("Exception"), // can this replace specific exceptions?
+    ProblemSummary("ProblemSummary"),
 
     // validation and annotations
     ResourceIdTrait("ResourceIdTrait"),
@@ -123,6 +125,16 @@ public enum Archetype {
     WebMvcModelTestFixtures("WebMvcModelTestFixtures"),
     DocumentTestFixtures("DocumentTestFixtures"),
     PojoTestFixtures("PojoTestFixtures"),
+
+    // webflux stuff
+    TestTableInitializer("TestTableInitializer"), // to init a table during testing. TODO: use test-fixtures to init tables instead.
+    TableInitializer("TableInitializer"),
+    EjbTestFixtures("EntityTestFixtures"), // mirror of WebMvcEjbTestFixtures
+    ModelTestFixtures("ModelTestFixtures"),
+    ResourceIdentity("ResourceIdentity"), // makes ResourceId a type
+    EndpointConfiguration("EndpointConfiguration"), // registers a converter for each kind of pojo/ejb
+    EntityEvent("EntityEvent"), // an event object
+    EntityEventPublisher("EntityEventPublisher"),
 
     EntityWithText("EntityWithText"), // a predicate for a given EJB/POJO
 

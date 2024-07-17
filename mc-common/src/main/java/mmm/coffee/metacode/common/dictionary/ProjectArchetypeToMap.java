@@ -55,6 +55,7 @@ public class ProjectArchetypeToMap {
             Archetype.LocalDateConverter,
             Archetype.ProblemConfiguration,
             Archetype.WebMvcConfiguration,
+            Archetype.WebFluxConfiguration,
             Archetype.ApplicationConfiguration,
             Archetype.ContainerConfiguration,
             Archetype.DateTimeFormatConfiguration,

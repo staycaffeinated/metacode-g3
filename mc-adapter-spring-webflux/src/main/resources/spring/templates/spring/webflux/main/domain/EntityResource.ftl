@@ -1,8 +1,10 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.basePackage}.domain;
+package ${EntityResource.packageName()};
 
-import ${endpoint.basePackage}.trait.*;
-import ${endpoint.basePackage}.validation.*;
+import ${ResourceIdTrait.fqcn()};
+import ${AlphabeticAnnotation.fqcn()};
+import ${OnCreateAnnotation.fqcn()};
+import ${OnUpdateAnnotation.fqcn()};
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -23,7 +25,7 @@ import lombok.Builder;
 // See https://www.thecuriousdev.org/lombok-builder-with-jackson/
 @JsonDeserialize(builder = ${endpoint.pojoName}.DefaultBuilder.class)
 @Builder(builderClassName = "DefaultBuilder", toBuilder = true)
-public class ${endpoint.pojoName} implements ResourceIdTrait<String> {
+public class ${EntityResource.className()} implements ${ResourceIdTrait.className()}<String> {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Fields {

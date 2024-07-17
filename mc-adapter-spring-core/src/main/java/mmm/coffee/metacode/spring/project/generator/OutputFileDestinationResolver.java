@@ -3,6 +3,7 @@ package mmm.coffee.metacode.spring.project.generator;
 import com.samskivert.mustache.MustacheException;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.catalog.TemplateFacet;
+import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.common.rule.PackageNameConversion;
 import mmm.coffee.metacode.common.trait.DecodeTrait;
@@ -36,6 +37,11 @@ public class OutputFileDestinationResolver {
                         log.info("[resolveDestination] jad: {}", jad);
                         String facetName = facet.getFacet();
                         String sourceFileName = "";
+                        if (facetName == null) {
+                            log.error("A catalog entry was encountered that did not have a facet name.");
+                            log.error("The error was encountered on this sourceTemplate: {}", facet.getSourceTemplate());
+                            log.error("This most likely is a spelling error in the catalog (eg, 'facet' is misspelled");
+                        }
                         switch (facetName) {
                             case "test" -> {
                                 sourceFileName = "/src/test/java/" + PackageNameConversion.toFqFileName(jad.fqcnUnitTest());
@@ -54,20 +60,20 @@ public class OutputFileDestinationResolver {
                                 log.error(msg);
                                 throw new RuntimeException(msg);
                             }
-                        }
+                        };
                         return "application" + sourceFileName;
                     }
                 }
             }
         }
         // If customProps is null we land here
-        try {
-            return decoder.decode(destinationExpression);
-        }
-        catch (MustacheException | NullPointerException e) {
-            log.error("Unable to determine the file destination for archetype: {}, facet: {}", archetypeName, facet, e);
-            throw e;
-        }
+        log.error("Unable to resolve the destination of {}", archetypeName);
+        log.error("If this block is reached when processing a project-scope archetype, it is possible%n the archetype is not included in the ProjectArchetypeToMap class,%n so the archetype is mistaken for an endpoint-scope archetype.");
+        log.debug("[resolveDestination] destinationExpression: {}", destinationExpression);
+        log.debug("[resolveDestination] archetypeName: {}", archetypeName);
+        // return decoder.decode(destinationExpression);
+        return null;
+
     }
 
 }

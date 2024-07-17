@@ -1,13 +1,13 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Repository.packageName()};
 
 
-import ${endpoint.basePackage}.configuration.${endpoint.entityName}TestTableInitializer;
-import ${endpoint.basePackage}.configuration.TestDatabaseConfiguration;
+import ${TestTableInitializer.fqcn()};
+import ${TestDatabaseConfiguration.fqcn()};
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import ${endpoint.basePackage}.database.PostgresTestContainer;
+import ${PostgresTestContainer.fqcn()};
 </#if>
-import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
+import ${RegisterDatabaseProperties.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,16 +24,17 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest
 @ComponentScan(basePackageClasses = {
-  TestDatabaseConfiguration.class, 
-  ${endpoint.entityName}TestTableInitializer.class })
+        ${TestDatabaseConfiguration.className()}.class,
+        ${TestTableInitializer.className()}.class
+    })
 <#if ((endpoint.isWithPostgres()) && (endpoint.isWithTestContainers()))>
-class ${endpoint.entityName}RepositoryIntegrationTest extends PostgresTestContainer {
+class ${Repository.integrationTestClass()} extends ${PostgresTestContainer.className()} {
 <#else>
-class ${endpoint.entityName}RepositoryIntegrationTest implements RegisterDatabaseProperties {
+class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>
 
     @Autowired
-    ${endpoint.entityName}Repository repositoryUnderTest;
+    ${Repository.className()} repositoryUnderTest;
 
     @Test
     void shouldFindFirstRecord() {

@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.common;
+package ${ResourceIdentity.packageName()};
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResourceIdentity {
+public class ${ResourceIdentity.className()} {
     @NonNull
     private String resourceId;
 }

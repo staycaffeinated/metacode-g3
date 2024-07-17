@@ -1,8 +1,8 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${DatabaseTablePopulator.packageName()};
 
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
-import ${endpoint.basePackage}.math.SecureRandomSeries;
+import ${ResourceIdSupplier.fqcn()};
+import ${SecureRandomSeries.fqcn()};
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Flux;
  */
 @Component
 @Slf4j
-public class ${endpoint.entityName}TablePopulator implements ApplicationListener<ApplicationReadyEvent> {
+public class ${DatabaseTablePopulator.className()} implements ApplicationListener<ApplicationReadyEvent> {
 
 	private final ${endpoint.entityName}Repository repository;
 	private final ResourceIdSupplier resourceIdSupplier;
@@ -24,7 +24,10 @@ public class ${endpoint.entityName}TablePopulator implements ApplicationListener
 	/**
 	 * Constructor
 	 */
-	public ${endpoint.entityName}TablePopulator (${endpoint.entityName}Repository repository, ResourceIdSupplier resourceIdSupplier) {
+	public ${DatabaseTablePopulator.className()} (
+				${Repository.className()} repository,
+				${ResourceIdSupplier.className()} resourceIdSupplier)
+	{
 	    this.repository = repository;
 	    this.resourceIdSupplier = resourceIdSupplier;
 	}

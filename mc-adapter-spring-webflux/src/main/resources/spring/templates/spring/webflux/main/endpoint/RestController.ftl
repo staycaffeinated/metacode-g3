@@ -1,12 +1,13 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${Controller.packageName()};
 
-import ${endpoint.basePackage}.exception.*;
-import ${endpoint.basePackage}.common.ResourceIdentity;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.validation.OnCreate;
-import ${endpoint.basePackage}.validation.OnUpdate;
-import ${endpoint.basePackage}.validation.ResourceId;
+import ${ResourceIdentity.fqcn()};
+import ${EntityResource.fqcn()};
+import ${OnCreateAnnotation.fqcn()};
+import ${OnUpdateAnnotation.fqcn()};
+import ${ResourceIdentity.fqcn()};
+import ${ServiceApi.fqcn()};
+import ${UnprocessableEntityException.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,15 +35,15 @@ import java.time.Duration;
 </#noparse>
 @Slf4j
 @Validated
-public class ${endpoint.entityName}Controller {
+public class ${Controller.className()} {
 
-    private final ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
+    private final ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
     /*
      * Constructor
      */
      @Autowired
-     public ${endpoint.entityName}Controller(${endpoint.entityName}Service ${endpoint.entityVarName}Service) {
+     public ${endpoint.entityName}Controller(${ServiceApi.className()} ${endpoint.entityVarName}Service) {
         this.${endpoint.entityVarName}Service = ${endpoint.entityVarName}Service;
      }
 
@@ -53,7 +54,7 @@ public class ${endpoint.entityName}Controller {
     @Operation(summary = "Retrieve all ${endpoint.entityName}s")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found all ${endpoint.entityName}s")})
 </#if>
-    @GetMapping (value=${endpoint.entityName}Routes.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping (value=${Routes.className()}.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
     public Flux<${endpoint.pojoName}> getAll${endpoint.entityName}s() {
         return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
     }
@@ -69,7 +70,7 @@ public class ${endpoint.entityName}Controller {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ${endpoint.pojoName}.class))}),
         @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
-    @GetMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
     public Mono<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
         return ${endpoint.entityVarName}Service.findByResourceId(id);
     }
@@ -85,7 +86,7 @@ public class ${endpoint.entityName}Controller {
 	 * https://stackoverflow.com/questions/52098863/whats-the-difference-between-text-event-stream-and-application-streamjson
 	 *
 	 */
-    @GetMapping(value = ${endpoint.entityName}Routes.${endpoint.routeConstants.stream}, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = ${Routes.className()}.${endpoint.routeConstants.stream}, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public Flux<${endpoint.pojoName}> get${endpoint.entityName}Stream() {
 	    // This is only an example implementation. Modify this line as needed.
@@ -102,7 +103,7 @@ public class ${endpoint.entityName}Controller {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ${endpoint.entityName}.class))}),
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
-    @PostMapping (value=${endpoint.entityName}Routes.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @Validated(OnCreate.class) 
     public Mono<ResponseEntity<ResourceIdentity>> create${endpoint.entityName}(@RequestBody ${endpoint.pojoName} resource ) {

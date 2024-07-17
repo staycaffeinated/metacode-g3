@@ -1,8 +1,8 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.advice;
+package ${GlobalExceptionHandler.packageName()};
 
-import ${project.basePackage}.exception.ResourceNotFoundException;
-import ${project.basePackage}.exception.UnprocessableEntityException;
+import ${ResourceNotFoundException.fqcn()};
+import ${UnprocessableEntityException.fqcn()};
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,9 @@ import static org.mockito.Mockito.when;
 /**
  * Unit tests of the GlobalExceptionHandler
  */
-class GlobalExceptionHandlerTests {
+class ${GlobalExceptionHandler.testClass()} {
 
-    private GlobalExceptionHandler exceptionHandlerUnderTest;
+    private ${GlobalExceptionHandler.className()} exceptionHandlerUnderTest;
 
     @BeforeEach
     public void setUp() {

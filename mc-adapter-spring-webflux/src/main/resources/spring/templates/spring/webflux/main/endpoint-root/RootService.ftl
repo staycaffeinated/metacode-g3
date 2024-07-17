@@ -1,6 +1,6 @@
 <#-- @ftlroot "../../../.." -->
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.endpoint.root;
+package ${RootService.packageName()};
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 // Because sonarqube complains about doNothing returning a constant value
 @SuppressWarnings("java:S3400")
 @Service
-public class RootService {
+public class ${RootService.className()} {
 
     int doNothing() { return 0; }
 }

@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.config;
+package ${WebFluxConfiguration.packageName()};
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 
 @Configuration
 @EnableWebFlux
-public class WebFluxConfiguration implements WebFluxConfigurer {
+public class ${WebFluxConfiguration.className()} implements WebFluxConfigurer {
 
     /**
      * This allows you to set the allowed-origins in an environment variable or

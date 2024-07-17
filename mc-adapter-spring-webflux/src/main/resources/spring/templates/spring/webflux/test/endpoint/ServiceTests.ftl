@@ -1,15 +1,16 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${ServiceImpl.packageName()};
 
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}DataStore;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}DataStoreProvider;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}Repository;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter.*;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
-import ${endpoint.basePackage}.exception.UnprocessableEntityException;
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${ObjectDataStore.fqcn()};
+import ${ObjectDataStoreProvider.fqcn()};
+import ${Repository.fqcn()};
+import ${EntityToPojoConverter.fqcn()};
+import ${PojoToEntityConverter.fqcn()};
+import ${EntityResource.fqcn()};
+import ${ModelTestFixtures.fqcn()};
+import ${UnprocessableEntityException.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,23 +35,23 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings({"java:1201"})
-class ${endpoint.entityName}ServiceTests {
+class ${ServiceImpl.testClass()} {
     @Mock
-    private ${endpoint.entityName}DataStore mockDataStore;
+    private ${ObjectDataStore.className()} mockDataStore;
 
     @InjectMocks
-    private ${endpoint.entityName}ServiceProvider serviceUnderTest;
+    private ${ServiceImpl.className()} serviceUnderTest;
 
-    private final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     @Test
     void shouldFindAll${endpoint.entityName}s() {
-        Flux<${endpoint.pojoName}> itemList = ${endpoint.entityName}TestFixtures.FLUX_ITEMS;
+        Flux<${endpoint.pojoName}> itemList = ${ModelTestFixtures.className()}.FLUX_ITEMS;
         given(mockDataStore.findAll()).willReturn(itemList);
 
         Flux<${endpoint.pojoName}> stream = serviceUnderTest.findAll${endpoint.entityName}s();
 
-        StepVerifier.create(stream).expectSubscription().expectNextCount(${endpoint.entityName}TestFixtures.ALL_ITEMS.size()).verifyComplete();
+        StepVerifier.create(stream).expectSubscription().expectNextCount(${ModelTestFixtures.className()}.ALL_ITEMS.size()).verifyComplete();
     }
 
 
@@ -59,7 +60,7 @@ class ${endpoint.entityName}ServiceTests {
         /*
          * Mock the repository finding a given ${endpoint.ejbName}
          */
-        ${endpoint.pojoName} expectedItem = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+        ${endpoint.pojoName} expectedItem = ${ModelTestFixtures.className()}.oneWithResourceId();
         String expectedId = randomSeries.nextResourceId();
         expectedItem.setResourceId(expectedId);
         Mono<${endpoint.pojoName}> rs = Mono.just(expectedItem);
@@ -86,8 +87,8 @@ class ${endpoint.entityName}ServiceTests {
          * Mock the repository returning a flux stream of instances that all have matching values
          * in the column being searched.
          */
-        final String expectedText = ${endpoint.entityName}TestFixtures.allItemsWithSameText().get(0).getText();
-        Flux<${endpoint.pojoName}> expectedRows = Flux.fromIterable(${endpoint.entityName}TestFixtures.allItemsWithSameText());
+        final String expectedText = ${ModelTestFixtures.className()}.allItemsWithSameText().get(0).getText();
+        Flux<${endpoint.pojoName}> expectedRows = Flux.fromIterable(${ModelTestFixtures.className()}.allItemsWithSameText());
         given(mockDataStore.findAllByText(expectedText)).willReturn(expectedRows);
 
         /*
@@ -112,7 +113,7 @@ class ${endpoint.entityName}ServiceTests {
         // Given
         String expectedResourceId = randomSeries.nextResourceId();
         // what the client submits to the service
-        ${endpoint.pojoName} expectedPOJO = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
+        ${endpoint.pojoName} expectedPOJO = ${ModelTestFixtures.className()}.oneWithoutResourceId();
         given(mockDataStore.create${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(Mono.just(expectedResourceId));
 
         // When
@@ -129,7 +130,7 @@ class ${endpoint.entityName}ServiceTests {
     void shouldUpdate${endpoint.entityName}() {
         // Given
         // what the client submits
-        ${endpoint.pojoName} submittedPOJO = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+        ${endpoint.pojoName} submittedPOJO = ${ModelTestFixtures.className()}.oneWithResourceId();
         Mono<${endpoint.pojoName}> reply = Mono.justOrEmpty(submittedPOJO);
         when(mockDataStore.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).thenReturn(reply);
 
@@ -201,22 +202,22 @@ class ${endpoint.entityName}ServiceTests {
     @SuppressWarnings("all")
 	void whenConversionToEjbFails_expectUnprocessableEntityException() {
         // given
-        ${endpoint.entityName}Repository mockRepository = Mockito.mock(${endpoint.entityName}Repository.class);
-        ${endpoint.entityName}EntityToPojoConverter mockEjbConverter = Mockito.mock(${endpoint.entityName}EntityToPojoConverter.class);
-        ${endpoint.entityName}PojoToEntityConverter dodgyConverter = Mockito.mock(${endpoint.entityName}PojoToEntityConverter.class);
+        ${Repository.className()} mockRepository = Mockito.mock(${Repository.className()}.class);
+        ${EntityToPojoConverter.className()} mockEjbConverter = Mockito.mock(${EntityToPojoConverter.className()}.class);
+        ${PojoToEntityConverter.className()} dodgyConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
         given(dodgyConverter.convert(any(${endpoint.pojoName}.class))).willReturn(null);
 
-        ${endpoint.entityName}DataStore dodgyDataStore = ${endpoint.entityName}DataStoreProvider.builder()
+        ${ObjectDataStore.className()} dodgyDataStore = ${ObjectDataStoreProvider.className()}.builder()
                 .pojoToEjbConverter(dodgyConverter)
                 .ejbToPojoConverter(mockEjbConverter)
                 .repository(mockRepository)
                 .build();
 
-		${endpoint.entityName}Service dodgyService = new ${endpoint.entityName}ServiceProvider(dodgyDataStore);
+		${ServiceApi.className()} dodgyService = new ${ServiceImpl.className()}(dodgyDataStore);
 
-		${endpoint.pojoName} sample = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
+		${endpoint.pojoName} sample = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 		
-		    Mono<String> publisher = dodgyService.create${endpoint.entityName}(sample);
+		Mono<String> publisher = dodgyService.create${endpoint.entityName}(sample);
 
         // when/then
         // @formatter:off

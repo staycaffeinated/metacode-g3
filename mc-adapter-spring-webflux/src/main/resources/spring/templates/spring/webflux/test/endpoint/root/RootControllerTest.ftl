@@ -1,7 +1,7 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.endpoint.root;
+package ${RootController.packageName()};
 
-import ${project.basePackage}.exception.UnprocessableEntityException;
+import ${UnprocessableEntityException.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
@@ -22,14 +22,14 @@ import reactor.test.StepVerifier;
  */
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = RootController.class)
-@Import(RootService.class)
-class RootControllerTest {
+@Import(${RootService.className()}.class)
+class ${RootController.testClass()} {
 
     @Autowired
     protected WebTestClient webClient;
 
     @MockBean
-    private RootService mockRootService;
+    private ${RootService.className()} mockRootService;
 
     @Test
     void testHomePage() {

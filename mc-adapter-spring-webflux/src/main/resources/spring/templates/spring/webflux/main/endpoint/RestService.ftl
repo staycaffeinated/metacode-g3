@@ -1,34 +1,34 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${ServiceApi.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.exception.ResourceNotFoundException;
+import ${EntityResource.fqcn()};
+import ${ResourceNotFoundException.fqcn()};
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface ${endpoint.entityName}Service {
+public interface ${ServiceApi.className()} {
 
     /*
      * findAll
      */
-    Flux<${endpoint.pojoName}> findAll${endpoint.entityName}s();
+    Flux<${EntityResource.className()}> findAll${endpoint.entityName}s();
 
     /*
      * findAllByText
      */
-    Flux<${endpoint.pojoName}> findAllByText(String text);
+    Flux<${EntityResource.className()}> findAllByText(String text);
 
     /**
      * Create
      */
-    Mono<String> create${endpoint.entityName}(${endpoint.pojoName} resource );
+    Mono<String> create${endpoint.entityName}(${EntityResource.className()} resource );
 
     /**
      * Update
      */
-    Mono<${endpoint.entityName}> update${endpoint.entityName}(${endpoint.pojoName} resource );
+    Mono<${EntityResource.className()}> update${endpoint.entityName}(${EntityResource.className()} resource );
 
     /**
      * Delete
@@ -38,6 +38,6 @@ public interface ${endpoint.entityName}Service {
     /**
      * Find the POJO having the given resourceId
      */
-    Mono<${endpoint.entityName}> findByResourceId(String id) throws ResourceNotFoundException;
+    Mono<${EntityResource.className()}> findByResourceId(String id) throws ${ResourceNotFoundException.className()};
 
 }

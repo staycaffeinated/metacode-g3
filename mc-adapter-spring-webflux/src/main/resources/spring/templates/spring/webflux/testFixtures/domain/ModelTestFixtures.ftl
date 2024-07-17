@@ -13,9 +13,9 @@ import java.util.List;
 /**
  * Sample ${endpoint.entityName} objects suitable for test data
  */
-public class ${endpoint.entityName}TestFixtures {
+public class ${ModelTestFixtures.className()} {
 
-    static final SecureRandomSeries randomSeries = new SecureRandomSeries();
+    static final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     /*
      * Consider renaming these to something more meaningful to your use cases.

@@ -1,8 +1,8 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Entity.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
+import ${EntityResource.fqcn()};
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -17,7 +17,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 @Table("${endpoint.tableName}")
 @SuppressWarnings("java:S125") // false positive; comment has something that looks like code
-public class ${endpoint.ejbName} {
+public class ${Entity.className()} {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Columns {

@@ -1,9 +1,9 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${Entity.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
+import ${EntityResource.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
-* Unit tests of BookEntity
-*/
+ * Unit tests of ${Entity.className()}
+ */
 @SuppressWarnings("java:S5838") // false positive from sonarqube
-class ${endpoint.ejbName}Tests {
+class ${Entity.testClass()} {
 
-    ${endpoint.ejbName} underTest;
+    ${Entity.className()} underTest;
     String resourceId = "12345";
 
     @BeforeEach
     public void setUp() {
-        underTest = new ${endpoint.ejbName}();
+        underTest = new ${Entity.className()}();
         underTest.setResourceId(resourceId);
         underTest.setId(1L);
     }
@@ -35,7 +35,7 @@ class ${endpoint.ejbName}Tests {
 
         @Test
         void whenMatchingResourceId_thenReturnsTrue() {
-            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
+            ${endpoint.ejbName} sample = new ${Entity.className()}();
             sample.setResourceId(resourceId);
             assertThat(underTest.equals(sample)).isTrue();
         }
@@ -57,7 +57,7 @@ class ${endpoint.ejbName}Tests {
     class TestHashCode {
         @Test
         void whenEqualObjects_thenReturnsSameHashCode() {
-            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
+            ${endpoint.ejbName} sample = new ${Entity.className()}();
             sample.setResourceId(resourceId);
 
             assertThat(sample.hashCode()).isEqualTo(underTest.hashCode());
@@ -69,9 +69,9 @@ class ${endpoint.ejbName}Tests {
 	  class TestCopyMutableFields {
 		    @Test
 		    void shouldCopyMutableFields() {
-			      ${endpoint.pojoName} pojo = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+			      ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
 
-			      ${endpoint.ejbName} entity = ${endpoint.entityName}EntityTestFixtures.oneWithResourceId();
+			      ${endpoint.ejbName} entity = ${EntityTestFixtures.className()}.oneWithResourceId();
 			      final String immutableId = entity.getResourceId();
 
 			      ${endpoint.ejbName} actual = entity.copyMutableFieldsFrom(pojo);

@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.exception;
+package ${ResourceNotFoundException.packageName()};
 
 /**
  * Resource not found

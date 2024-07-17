@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${TableInitializer.packageName()};
 
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +17,7 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
  */
 @Configuration
 @EnableR2dbcRepositories
-public class ${endpoint.entityName}TableInitializer {
+public class ${TableInitializer.className()} {
 
 	@Bean
 	public ConnectionFactoryInitializer ${endpoint.entityVarName}Initializer(@Qualifier("connectionFactory")ConnectionFactory connectionFactory) {

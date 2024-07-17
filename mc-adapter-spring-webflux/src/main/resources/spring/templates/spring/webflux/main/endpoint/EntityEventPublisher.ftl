@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${EntityEventPublisher.packageName()};
 
 
 import lombok.NonNull;
@@ -22,18 +22,18 @@ import java.util.function.Consumer;
  */
 @Component
 @Slf4j
-public class ${endpoint.entityName}EventPublisher implements ApplicationListener<${endpoint.entityName}Event>, Consumer<FluxSink<${endpoint.entityName}Event>> {
+public class ${EntityEventPublisher.className()} implements ApplicationListener<${EntityEvent.className()}>, Consumer<FluxSink<${EntityEvent.className()}>> {
 
 	private final Executor executor;
-	private final BlockingQueue<${endpoint.entityName}Event> queue;
+	private final BlockingQueue<${EntityEvent.className()}> queue;
 
-	${endpoint.entityName}EventPublisher() {
+	${EntityEventPublisher.className()}() {
 		this.executor = Executors.newSingleThreadExecutor();
 		this.queue = new LinkedBlockingQueue<>();
 	}
 
 	@Override
-	public void onApplicationEvent(@NonNull ${endpoint.entityName}Event event) {
+	public void onApplicationEvent(@NonNull ${EntityEvent.className()} event) {
 		boolean success = this.queue.offer(event);
         if (!success) {
             log.info("Unable to add this event to the queue: {}", event);
@@ -42,11 +42,11 @@ public class ${endpoint.entityName}EventPublisher implements ApplicationListener
 
 	@Override
     @SuppressWarnings("java:S2142") // S2142 is a false positive
-	public void accept(FluxSink<${endpoint.entityName}Event> sink) {
+	public void accept(FluxSink<${EntityEvent.className()}> sink) {
 		this.executor.execute(() -> {
 			while (true) {
 				try {
-					${endpoint.entityName}Event event = queue.take();
+					${EntityEvent.className()} event = queue.take();
 					sink.next(event);
 				} catch (InterruptedException e) {
 					ReflectionUtils.rethrowRuntimeException(e);

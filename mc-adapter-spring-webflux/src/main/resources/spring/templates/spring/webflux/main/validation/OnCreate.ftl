@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.validation;
+package ${OnCreateAnnotation.packageName()};
 
 /**
  * This defines a validation group. This group is

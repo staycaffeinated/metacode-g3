@@ -1,11 +1,13 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${ObjectDataStoreProvider.packageName()};
 
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter.*;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.exception.*;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${PojoToEntityConverter.fqcn()};
+import ${EntityToPojoConverter.fqcn()};
+import ${EntityResource.fqcn()};
+import ${UnprocessableEntityException.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
+import ${Repository.fqcn()};
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +24,11 @@ import java.util.Objects;
 @Builder
 @RequiredArgsConstructor
 @Slf4j
-public class ${endpoint.entityName}DataStoreProvider implements ${endpoint.entityName}DataStore {
-    private final ${endpoint.entityName}Repository repository;
-    private final ${endpoint.entityName}EntityToPojoConverter ejbToPojoConverter;
-    private final ${endpoint.entityName}PojoToEntityConverter pojoToEjbConverter;
-    private final ResourceIdSupplier resourceIdSupplier;
+public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore.className()} {
+    private final ${Repository.className()} repository;
+    private final ${EntityToPojoConverter.className()} ejbToPojoConverter;
+    private final ${PojoToEntityConverter.className()} pojoToEjbConverter;
+    private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
     /**
      * create

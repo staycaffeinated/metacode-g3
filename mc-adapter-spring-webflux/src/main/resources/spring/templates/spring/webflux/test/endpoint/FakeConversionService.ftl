@@ -1,7 +1,8 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${ConversionService.packageName()};
 
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter.*;
+import ${EntityToPojoConverter.fqcn()};
+import ${PojoToEntityConverter.fqcn()};
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;
 
@@ -12,8 +13,8 @@ public class FakeConversionService {
 
     static ConversionService build() {
         DefaultConversionService service = new DefaultConversionService();
-        service.addConverter(new ${endpoint.entityName}EntityToPojoConverter());
-        service.addConverter(new ${endpoint.entityName}PojoToEntityConverter());
+        service.addConverter(new ${EntityToPojoConverter.className()}());
+        service.addConverter(new ${PojoToEntityConverter.className()}());
         return service;
     }
 }

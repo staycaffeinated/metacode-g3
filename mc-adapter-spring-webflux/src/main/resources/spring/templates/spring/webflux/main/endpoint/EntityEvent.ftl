@@ -1,14 +1,14 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${EntityEvent.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
+import ${EntityResource.fqcn()};
 import org.springframework.context.ApplicationEvent;
 
 /**
  * ${endpoint.entityName} events
  */
  @SuppressWarnings({"Java:1102"})
-public class ${endpoint.entityName}Event extends ApplicationEvent {
+public class ${EntityEvent.className()} extends ApplicationEvent {
 
 	public static final String CREATED = "CREATED";
 	public static final String UPDATED = "UPDATED";
@@ -18,7 +18,7 @@ public class ${endpoint.entityName}Event extends ApplicationEvent {
 
 	private final String eventType;
 
-	public ${endpoint.entityName}Event(String eventType, ${endpoint.pojoName} resource) {
+	public ${EntityEvent.className()} (String eventType, ${EntityResource.className()} resource) {
 		super(resource);
 		this.eventType = eventType;
 	}

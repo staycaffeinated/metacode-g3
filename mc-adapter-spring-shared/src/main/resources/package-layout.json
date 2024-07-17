@@ -9,6 +9,7 @@
         "ProblemConfiguration",
         "LocalDateConverter",
         "WebMvcConfiguration",
+        "WebFluxConfiguration",
         "ContainerConfiguration",
         "SecurityResponseHeadersFilter",
         "MongoContainerConfiguration"
@@ -17,7 +18,8 @@
     {
       "package": "{{basePackage}}.infra.advice",
       "archetypes": [
-        "GlobalExceptionHandler"
+        "GlobalExceptionHandler",
+        "ProblemSummary"
       ]
     },
     {
@@ -54,7 +56,8 @@
     {
       "package": "{{basePackage}}.traits",
       "archetypes": [
-        "ResourceIdTrait"
+        "ResourceIdTrait",
+        "ResourceIdentity"
       ]
     },
     {
@@ -77,10 +80,18 @@
     {
       "package": "{{basePackage}}.{{endpoint}}.requires.persistence.converters",
       "archetypes": [
+        "EndpointConfiguration",
         "EntityToPojoConverter",
         "PojoToEntityConverter",
         "PojoToDocumentConverter",
         "DocumentToPojoConverter"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.{{endpoint}}.requires.events",
+      "archetypes": [
+        "EntityEvent",
+        "EntityEventPublisher"
       ]
     },
     {

@@ -1,9 +1,9 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.advice;
+package ${GlobalExceptionHandler.packageName()};
 
 import lombok.extern.slf4j.Slf4j;
-import ${project.basePackage}.exception.ResourceNotFoundException;
-import ${project.basePackage}.exception.UnprocessableEntityException;
+import ${ResourceNotFoundException.fqcn()};
+import ${UnprocessableEntityException.fqcn()};
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -29,7 +29,7 @@ import java.util.Set;
 @Slf4j
 @ControllerAdvice
 @ResponseBody
-public class GlobalExceptionHandler implements ProblemHandling, ErrorWebExceptionHandler {
+public class ${GlobalExceptionHandler.className()} implements ProblemHandling, ErrorWebExceptionHandler {
 
     @ExceptionHandler(UnprocessableEntityException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)

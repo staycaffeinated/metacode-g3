@@ -2,16 +2,16 @@
 
 package ${endpoint.packageName};
 
-import ${endpoint.basePackage}.configuration.*;
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import ${endpoint.basePackage}.database.PostgresTestContainer;
+import ${PostgresTestContainer.fqcn()};
 </#if>
-import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}DataStore;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}EntityTestFixtures;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${RegisterDatabaseProperties.fqcn()};
+import ${ObjectDataStore.fqcn()};
+import ${EjbTestFixtures.fqcn()};
+import ${EntityResource.fqcn()};
+import ${Entity.fqcn()};
+import ${ModelTestFixtures.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,24 +30,26 @@ import java.time.Duration;
 /**
  * Integration test of the service component
  */
-@ComponentScan(basePackageClasses={TestDatabaseConfiguration.class,${endpoint.entityName}TestTableInitializer.class})
+@ComponentScan(basePackageClasses={
+    ${TestDatabaseConfiguration.className()}.class,
+    ${TestTableInitializer.className()}.class})
 @SpringBootTest
 @Slf4j
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>
-class ${endpoint.entityName}ServiceIntegrationTest extends PostgresTestContainer {
+class ${ServiceImpl.integrationTestClass()} extends ${PostgresTestContainer.className()} {
 <#else>
-class ${endpoint.entityName}ServiceIntegrationTest implements RegisterDatabaseProperties {
+class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>
 
     @Autowired
-    ${endpoint.entityName}DataStore dataStore;
+    ${ObjectDataStore.className()} dataStore;
 
-    ${endpoint.entityName}ServiceProvider serviceUnderTest;
+    ${ServiceImpl.className()} serviceUnderTest;
 
     @BeforeEach
     void setUp() {
-        serviceUnderTest = new ${endpoint.entityName}ServiceProvider(dataStore);
-        ${endpoint.entityName}TestFixtures.allItems().forEach(item -> {
+        serviceUnderTest = new ${ServiceImpl.className()}(dataStore);
+        ${ModelTestFixtures.className()}.allItems().forEach(item -> {
           serviceUnderTest.create${endpoint.entityName}(item).blockOptional(Duration.ofSeconds(1)); 
         });
     }
@@ -59,7 +61,7 @@ class ${endpoint.entityName}ServiceIntegrationTest implements RegisterDatabasePr
 
     @Test
     void shouldFindResults() {
-        int expectedCount = ${endpoint.ejbName}TestFixtures.allItems().size();
+        int expectedCount = ${EjbTestFixtures.className()}.allItems().size();
 
         Flux<${endpoint.entityName}> source = serviceUnderTest.findAll${endpoint.entityName}s();
 

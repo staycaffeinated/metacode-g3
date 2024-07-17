@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${project.basePackage}.configuration;
+package ${ContainerConfiguration.packageName()};
 
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
  * to initialize tables within the testcontainer database.
  */
 @Configuration
-public class TestDatabaseConfiguration {
+public class ${ContainerConfigration.className()} {
     @Bean
     public ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory) {
         ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();

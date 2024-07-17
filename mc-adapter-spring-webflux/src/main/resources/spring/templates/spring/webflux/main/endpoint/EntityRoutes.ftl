@@ -1,13 +1,13 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${Routes.packageName()};
 
 /**
  * Routes to ${endpoint.entityName} resources
  */
 @SuppressWarnings({"java:S1075"})
-public final class ${endpoint.entityName}Routes {
+public final class ${Routes.className()} {
 
-    private ${endpoint.entityName}Routes() {}
+    private ${Routes.className()}() {}
 
     public static final String ${endpoint.routeConstants.basePath} = "${endpoint.route}";
     public static final String ${endpoint.routeConstants.idParameter} = "/{id}";

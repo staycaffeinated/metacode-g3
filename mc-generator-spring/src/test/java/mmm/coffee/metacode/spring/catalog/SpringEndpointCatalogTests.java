@@ -122,7 +122,7 @@ class SpringEndpointCatalogTests {
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
 
-        @Disabled("need to migrate webflux code generator")
+        @Test
         void whenWebFlux() {
             RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);
             when(mockDescriptor.isWebFlux()).thenReturn(true);

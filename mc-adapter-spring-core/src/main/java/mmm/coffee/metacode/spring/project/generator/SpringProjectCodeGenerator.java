@@ -149,6 +149,7 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
                 String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
 
                 if (catalogEntry.getArchetype() == null) {
+                    // this may be dead code. need to see if error still occurs that lands us here
                     log.error("Detected a catalog entry with a null archetype: {}", catalogEntry);
                 }
                 else {

@@ -17,14 +17,14 @@ import java.util.Set;
  * Configures of the converters, since WebFlux does not automatically do this.
  */
 @Configuration
-public class ${endpoint.entityName}Config {
+public class ${EndpointConfiguration.className()} {
 
 	@Bean("${endpoint.entityVarName}Converter")
     ConversionService conversionService() {
 		    var factory = new ConversionServiceFactoryBean();
 		    Set<Converter<?, ?>> convSet = new HashSet<>();
-		    convSet.add(new ${endpoint.entityName}EntityToPojoConverter());
-		    convSet.add(new ${endpoint.entityName}PojoToEntityConverter());
+		    convSet.add(new ${EntityToPojoConverter.className()}());
+		    convSet.add(new ${PojoToEntityConverter.className()}());
 		    factory.setConverters(convSet);
 		    factory.afterPropertiesSet();
 		    return factory.getObject();

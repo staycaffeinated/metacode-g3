@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.advice;
+package ${ProblemSummary.packageName()};
 
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import org.zalando.problem.Status;
  */
 @Builder
 @Data
-public class ProblemSummary implements Problem {
+public class ${ProblemSummary.className()} implements Problem {
     private String title;
     private Status status;
     private String detail;

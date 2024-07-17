@@ -11,7 +11,7 @@ import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
 import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
 import mmm.coffee.metacode.common.writer.ContentToNullWriter;
-import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
+import mmm.coffee.metacode.spring.catalog.SpringWebFluxTemplateCatalog;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToPredicateConverter;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToTemplateModelConverter;
@@ -20,19 +20,26 @@ import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static com.google.common.truth.Truth.assertThat;
 
 
 /**
- * SpringWebMvcCodeGeneratorIT
+ * SpringGeneratorIntegrationTest
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
-class SpringGeneratorIntegrationTest {
+class SpringWebFluxGeneratorIntegrationTest {
 
     private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
@@ -47,9 +54,9 @@ class SpringGeneratorIntegrationTest {
      * Configure the code generator under test
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() throws IOException {
         generatorUnderTest = SpringProjectCodeGenerator.builder()
-                .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
+                .collector(new SpringWebFluxTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())
                 .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
@@ -66,13 +73,14 @@ class SpringGeneratorIntegrationTest {
      * Verify a project with the minimum required properties
      * can be generated.
      */
-    @Test
-    void whenSimpleProject_shouldRenderTemplate() {
+    @ParameterizedTest
+    @MethodSource("frameworks")
+    void whenSimpleProject_shouldRenderTemplate(Framework framework) {
         var spec = RestProjectDescriptor.builder()
                 .applicationName(APP_NAME)
                 .basePackage(BASE_PKG)
                 .basePackage(BASE_PATH)
-                .framework(Framework.SPRING_WEBMVC)
+                .framework(framework)
                 .build();
 
         assertThat(generatorUnderTest.generateCode(spec)).isEqualTo(ExitCodes.OK);
@@ -81,21 +89,23 @@ class SpringGeneratorIntegrationTest {
     /**
      * Verify a project that includes Postgres integration can be generated.
      */
-    @Test
-    void whenPostgresIntegration_shouldRenderTemplate() {
+    @ParameterizedTest
+    @MethodSource("frameworks")
+    void whenPostgresIntegration_shouldRenderTemplate(Framework framework) {
         // given: postgres integration is enabled
         Set<String> integrations = buildIntegrations(SpringIntegrations.POSTGRES.name());
         var spec = RestProjectDescriptor.builder()
                 .applicationName(APP_NAME)
                 .basePackage(BASE_PKG)
                 .basePath(BASE_PATH)
-                .framework(Framework.SPRING_WEBMVC)
+                .framework(framework)
                 .integrations(integrations)
                 .build();
 
         // when: generating code, expect success
         assertThat(generatorUnderTest.generateCode(spec)).isEqualTo(ExitCodes.OK);
     }
+
 
     @Test
     void whenMongoDbIntegration_shouldRenderTemplates() {
@@ -210,4 +220,14 @@ class SpringGeneratorIntegrationTest {
     private Set<String> buildIntegrations(String... args) {
         return new HashSet<>(Arrays.stream(args).toList());
     }
+
+    /**
+     * Returns the frameworks to test here
+     */
+    private Stream<Arguments> frameworks() {
+        return Stream.of(
+                Arguments.arguments(Framework.SPRING_WEBFLUX)
+        );
+    }
+
 }

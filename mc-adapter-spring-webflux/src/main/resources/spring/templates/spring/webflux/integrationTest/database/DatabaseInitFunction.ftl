@@ -1,11 +1,11 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.database;
+package ${DatabaseInitFunction.packageName()}.database;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.test.context.DynamicPropertyRegistry;
 
 @Slf4j
-public class DatabaseInitFunction {
+public class ${DatabaseInitFunction.className()} {
 
     public static void registerDatabaseProperties(DynamicPropertyRegistry registry) {
 <#if ((project.isWithPostgres()) && (project.isWithTestContainers()))>
@@ -32,7 +32,7 @@ public class DatabaseInitFunction {
         registry.add("spring.jpa.show-sql", () -> "true");
         registry.add("spring.jpa.properties.hibernate.format_sql", () -> "true");
     }
-<#if project.isWithTestContainers()>
+
     // If you prefer to use an init function to initialize your testcontainer database
     // (instead of using the TableInitializer classes), you can use this method as
     // a template. To invoke this method, change your datasource URL to follow this
@@ -49,19 +49,13 @@ public class DatabaseInitFunction {
         // The statements forgo the `if not exists` clause since we know these don't exist
         // in the temporary database of the container.
         final String createSchema = "create schema acme";
-        final String createTable = "create table acme.pet ("
-            + "pet_id serial primary key, "
-            + "public_id varchar(50) null, "
-            + "pet_name varchar(32), "
-            + "owner_id integer)";
 
         try {
             connection.createStatement().execute(createSchema);
-            connection.createStatement().execute(createTable);
-        } catch (java.sql.SQLException ex) {
+        }
+        catch (java.sql.SQLException ex) {
             log.error(ex.getMessage());
         }
     }
-</#if>
 }
 

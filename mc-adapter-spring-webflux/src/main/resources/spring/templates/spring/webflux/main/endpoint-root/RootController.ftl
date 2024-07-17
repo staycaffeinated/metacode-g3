@@ -1,6 +1,6 @@
 <#-- @ftlroot "../../../.." -->
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.endpoint.root;
+package ${RootController.packageName()};
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -20,16 +20,7 @@ import java.time.Duration;
 @RequestMapping("/")
 </#noparse>
 @Slf4j
-public class RootController {
-
-    private final RootService rootService;
-
-    /*
-     * Constructor
-     */
-    public RootController(RootService service) {
-        this.rootService = service;
-    }
+public class ${RootController.className()} {
 
     /*
      * A placeholder for the home page
@@ -44,7 +35,6 @@ public class RootController {
      */
     @GetMapping (value= "/mono", produces = MediaType.APPLICATION_JSON_VALUE )
     public Mono<String> getMono() {
-        rootService.doNothing();
         return Mono.just("OK").log();
     }
     

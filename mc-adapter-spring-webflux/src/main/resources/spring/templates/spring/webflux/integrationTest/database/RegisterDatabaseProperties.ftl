@@ -1,10 +1,10 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.database;
+package ${RegisterDatabaseProperties.packageName()};
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
-public interface RegisterDatabaseProperties {
+public interface ${RegisterDatabaseProperties.className()} {
 
     @DynamicPropertySource
     public static void registerDatabaseProperties(DynamicPropertyRegistry registry) {

@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${project.basePackage}.endpoint.root;
+package ${RootService.packageName()};
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,10 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  */
 @ExtendWith(MockitoExtension.class)
-class RootServiceTests {
+class ${RootService.testClass()} {
 
     @InjectMocks
-	private RootService serviceUnderTest;
+	private ${RootService.className()} serviceUnderTest;
 
 	@Test
 	void verifyServiceIsLoaded() {

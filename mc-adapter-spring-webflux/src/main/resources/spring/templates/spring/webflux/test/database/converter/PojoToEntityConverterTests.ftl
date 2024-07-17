@@ -1,11 +1,11 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter;
+package ${PojoToEntityConverter.packageName()};
 
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.*;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${Entity.fqcn()};
+import ${EntityResource.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ${endpoint.entityName}PojoToEntityConverterTests {
+class ${PojoToEntityConverter.testClass()} {
 
-    ${endpoint.entityName}PojoToEntityConverter converterUnderTest = new ${endpoint.entityName}PojoToEntityConverter();
+    ${PojoToEntityConverter.className()} converterUnderTest = new ${PojoToEntityConverter.className()}();
 
-    final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
 	@Test
 	void whenDataToConvertIsWellFormed_expectSuccessfulConversion() {

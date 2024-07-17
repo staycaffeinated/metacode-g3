@@ -1,10 +1,10 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${Controller.packageName()};
 
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
+import ${EntityResource.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -34,13 +34,13 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = ${endpoint.entityName}Controller.class)
-class ${endpoint.entityName}ControllerTests {
+class ${Controller.testClass()} {
 
     private static final String JSON_PATH__TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
     private static final String JSON_PATH__RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
 
     @MockBean
-    private ${endpoint.entityName}Service mock${endpoint.entityName}Service;
+    private ${ServiceApi.className()} mock${endpoint.entityName}Service;
 
     @Autowired
     private WebTestClient webClient;
@@ -49,7 +49,7 @@ class ${endpoint.entityName}ControllerTests {
 </#noparse>
     String applicationBasePath;
 
-    final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     @Autowired
     public void setApplicationContext(ApplicationContext context) {
@@ -62,7 +62,7 @@ class ${endpoint.entityName}ControllerTests {
         /*
          * Create a mock-up of the service.findByResourceId returning a known instance
          */
-        ${endpoint.pojoName} pojo = ${endpoint.pojoName}TestFixtures.oneWithResourceId();
+        ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
 
         /*
          * When a REST call is made to fetch a ${endpoint.entityName} by its ID, expect to get back the mocked instance
@@ -85,7 +85,7 @@ class ${endpoint.entityName}ControllerTests {
         /*
          * Mock the service.findAll returning a known list of instances
          */
-        Flux<${endpoint.pojoName}> flux = ${endpoint.pojoName}TestFixtures.FLUX_ITEMS;
+        Flux<${endpoint.pojoName}> flux = ${ModelTestFixtures.className()}.FLUX_ITEMS;
         when(mock${endpoint.entityName}Service.findAll${endpoint.entityName}s()).thenReturn(flux);
 
         /*
@@ -107,7 +107,7 @@ class ${endpoint.entityName}ControllerTests {
          * Mock the service returning a ${endpoint.pojoName} and returning a predetermined
          * resourceId (since resourceIds are assigned server-side).
          */
-        ${endpoint.pojoName} pojo = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
+        ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
         String expectedId = randomSeries.nextResourceId();
 
         when(mock${endpoint.entityName}Service.create${endpoint.entityName}(any(${endpoint.pojoName}.class))).thenReturn(Mono.just(expectedId));
@@ -121,7 +121,7 @@ class ${endpoint.entityName}ControllerTests {
 
     @Test
     void shouldUpdate${endpoint.entityName}() {
-        ${endpoint.pojoName} pojo = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+        ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
         
         sendUpdate${endpoint.entityName}Request(pojo).expectStatus().isOk();
     }
@@ -132,7 +132,7 @@ class ${endpoint.entityName}ControllerTests {
          * Mock an attempt to update a ${endpoint.pojoName}, but the ID in the request body
          * does not match the ID in the query string.
          */
-		${endpoint.pojoName} pojo = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+		${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
         String idInParameter = randomSeries.nextResourceId();
 
         /*
@@ -149,7 +149,7 @@ class ${endpoint.entityName}ControllerTests {
          * Mock the service finding the ${endpoint.pojoName} to be deleted,
          * to emulate deleting a ${endpoint.pojoName} that does exist.
          */
-        ${endpoint.pojoName} pojo = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+        ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}..oneWithResourceId();
         when(mock${endpoint.entityName}Service.findByResourceId(pojo.getResourceId())).thenReturn(Mono.just(pojo));
 
         /*
@@ -164,7 +164,7 @@ class ${endpoint.entityName}ControllerTests {
  	@Test
 	void shouldGet${endpoint.entityName}sAsStream() throws Exception {
 		// Given
-		Flux<${endpoint.pojoName}> fluxOfResources = ${endpoint.entityName}TestFixtures.FLUX_ITEMS;
+		Flux<${endpoint.pojoName}> fluxOfResources = ${ModelTestFixtures.className()}.FLUX_ITEMS;
 		given(mock${endpoint.entityName}Service.findAll${endpoint.entityName}s()).willReturn(fluxOfResources);
 
 		// When
@@ -188,29 +188,29 @@ class ${endpoint.entityName}ControllerTests {
      * ----------------------------------------------------------------------- */
 
     WebTestClient.ResponseSpec sendFindOne${endpoint.entityName}Request(String id) {
-        return webClient.get().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}.replaceAll("\\{id}", id))
+        return webClient.get().uri(${Routes.className()}.${endpoint.routeConstants.findOne}.replaceAll("\\{id}", id))
             .accept(MediaType.APPLICATION_JSON).exchange();
     }
 
     WebTestClient.ResponseSpec sendFindAll${endpoint.entityName}sRequest() {
-        return webClient.get().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findAll})
+        return webClient.get().uri(${Routes.className()}.${endpoint.routeConstants.findAll})
             .accept(MediaType.APPLICATION_JSON).exchange();
     }
 
     WebTestClient.ResponseSpec sendCreate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
-        return webClient.post().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
+        return webClient.post().uri(${Routes.className()}.${endpoint.routeConstants.create})
             .contentType(MediaType.APPLICATION_JSON)
             .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendUpdate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
-        return webClient.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}.replaceAll("\\{id}", pojo.getResourceId()))
+        return webClient.put().uri(${Routes.className()}.${endpoint.routeConstants.update}.replaceAll("\\{id}", pojo.getResourceId()))
             .contentType(MediaType.APPLICATION_JSON)
             .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendDelete${endpoint.entityName}Request(String resourceId) {
-        return webClient.delete().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}.replaceAll("\\{id}", resourceId)).exchange();
+        return webClient.delete().uri(${Routes.className()}.${endpoint.routeConstants.update}.replaceAll("\\{id}", resourceId)).exchange();
     }
 	
 }

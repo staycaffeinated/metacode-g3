@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.basePackage}.configuration;
+package ${TestTableInitializer.packageName()};
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.CompositeDatabasePopulator;
@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
  * class found under the 'src/main' source directory.
  */
 @Component
-public class ${endpoint.entityName}TestTableInitializer {
+public class ${TestTableInitializer.className()} {
 
-    public ${endpoint.entityName}TestTableInitializer(ConnectionFactoryInitializer initializer) {
+    public ${TableInitializer.className()} (ConnectionFactoryInitializer initializer) {
         // This is where the default sql script is found
         final String sqlScript = "database/${endpoint.lowerCaseEntityName}-schema.sql";
 

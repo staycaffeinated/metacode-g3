@@ -1,16 +1,16 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${Controller.packageName()};
 
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import ${endpoint.basePackage}.database.PostgresTestContainer;
+import ${PostgresTestContainer.fqcn()};
 </#if>
-import ${endpoint.basePackage}.database.RegisterDatabaseProperties;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}Repository;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}EntityTestFixtures;
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.ejbName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.domain.${endpoint.entityName}TestFixtures;
+import ${RegisterDatabaseProperties.fqcn()};
+import ${Repository.fqcn()};
+import ${EjbTestFixtures.fqcn()};
+import ${Entity.fqcn()};
+import ${EntityResource.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,9 +36,9 @@ import java.time.Duration;
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>
-class ${endpoint.entityName}ControllerIntegrationTest extends PostgresTestContainer {
+class ${Controller.integrationTestClass()} extends ${PostgresTestContainer.className()} {
 <#else>
-class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabaseProperties {
+class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>
    private static final String JSON_PATH__TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
    private static final String JSON_PATH__RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
@@ -52,7 +52,7 @@ class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabas
    private WebTestClient client;
 
    @Autowired
-   private ${endpoint.entityName}Repository repository;
+   private ${Repository.className()} repository;
 
    /*
     * Use this to fetch a record known to exist. The underlying database record
@@ -67,8 +67,8 @@ class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabas
 
     @BeforeEach
     void insertTestRecordsIntoDatabase() {
-        repository.saveAll(${endpoint.entityName}EntityTestFixtures.allItems()).blockLast(Duration.ofSeconds(10));
-        knownResourceId = ${endpoint.entityName}EntityTestFixtures.allItems().get(1).getResourceId();
+        repository.saveAll(${EjbTestFixtures.className()}.allItems()).blockLast(Duration.ofSeconds(10));
+        knownResourceId = ${EjbTestFixtures.className()}.allItems().get(1).getResourceId();
     }
 
     @Test
@@ -95,7 +95,7 @@ class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabas
 
     @Test
     void shouldCreateNew${endpoint.entityName}() {
-        ${endpoint.entityName} pojo = ${endpoint.entityName}TestFixtures.oneWithoutResourceId();
+        ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 
         // @formatter:off
         sendCreate${endpoint.entityName}Request(pojo)
@@ -108,12 +108,12 @@ class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabas
     void shouldUpdateAnExisting${endpoint.entityName}() {
         // Pick one of the persisted instances for an update.
         // Any one will do, as long as it's been persisted.
-        ${endpoint.entityName}Entity targetEntity = ${endpoint.entityName}EntityTestFixtures.allItems().get(0);
+        ${Entity.className()} targetEntity = ${EjbTestFixtures.className()}.allItems().get(0);
 
         // Create an empty POJO and set the fields to update
         // (in this example, the text field).
         // The resourceId indicates which instance to update.
-        ${endpoint.entityName} updatedItem = ${endpoint.entityName}.builder().build();
+        ${EntityResource.className()} updatedItem = ${EntityResource.className()}.builder().build();
         updatedItem.setText("My new text");
         updatedItem.setResourceId(targetEntity.getResourceId());
 
@@ -123,14 +123,14 @@ class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabas
     @Test
     void shouldQuietlyDeleteExistingEntity() {
         // Pick one of the persisted instances to delete
-        ${endpoint.ejbName} existingItem = ${endpoint.ejbName}TestFixtures.allItems().get(1);
+        ${Entity.className()} existingItem = ${EjbTestFixtures.className()}.allItems().get(1);
         sendDelete${endpoint.entityName}Request(existingItem.getResourceId()).expectStatus().isNoContent();
     }
 
     @Test
     void shouldReturnNotFoundWhenResourceDoesNotExist() {
         // @formatter:off
-        String validId = ${endpoint.entityName}TestFixtures.oneWithResourceId().getResourceId();
+        String validId = ${ModelTestFixtures.className()}.oneWithResourceId().getResourceId();
         sendFindOne${endpoint.entityName}Request(validId).expectStatus().isNotFound()
             .expectHeader().contentType(MediaType.APPLICATION_JSON)
             .expectBody()
@@ -175,28 +175,28 @@ class ${endpoint.entityName}ControllerIntegrationTest implements RegisterDatabas
      * ----------------------------------------------------------------------- */
 
     WebTestClient.ResponseSpec sendFindOne${endpoint.entityName}Request(String id) {
-        return this.client.get().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}.replaceAll("\\{id}", id))
+        return this.client.get().uri(${Routes.className()}.${endpoint.routeConstants.findOne}.replaceAll("\\{id}", id))
             .accept(MediaType.APPLICATION_JSON).exchange();
     }
 
     WebTestClient.ResponseSpec sendFindAll${endpoint.entityName}sRequest() {
-        return this.client.get().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findAll})
+        return this.client.get().uri(${Routes.className()}.${endpoint.routeConstants.findAll})
             .accept(MediaType.APPLICATION_JSON).exchange();
     }
 
     WebTestClient.ResponseSpec sendCreate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
-        return this.client.post().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
+        return this.client.post().uri(${Routes.className()}.${endpoint.routeConstants.create})
             .contentType(MediaType.APPLICATION_JSON)
             .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendUpdate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
-        return this.client.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}.replaceAll("\\{id}", pojo.getResourceId()))
+        return this.client.put().uri(${Routes.className()}.${endpoint.routeConstants.update}.replaceAll("\\{id}", pojo.getResourceId()))
             .contentType(MediaType.APPLICATION_JSON)
             .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendDelete${endpoint.entityName}Request(String resourceId) {
-        return this.client.delete().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}.replaceAll("\\{id}", resourceId)).exchange();
+        return this.client.delete().uri(${Routes.className()}.${endpoint.routeConstants.update}.replaceAll("\\{id}", resourceId)).exchange();
     }
 }

@@ -1,8 +1,8 @@
 
-package ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName};
+package ${EjbTestFixtures.packageName()};
 
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * Sample ${endpoint.ejbName} objects suitable for test data
  */
-public class ${endpoint.ejbName}TestFixtures {
+public class ${EjbTestFixtures.className()} {
 
-    static final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    static final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     /*
      * Consider renaming these to something more meaningful to your use cases.

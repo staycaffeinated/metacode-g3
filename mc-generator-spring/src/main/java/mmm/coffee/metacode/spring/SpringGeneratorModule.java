@@ -100,7 +100,7 @@ public class SpringGeneratorModule extends AbstractModule {
 
     @Bean("springWebFluxGenerator")
     @SpringWebFlux
-    ICodeGenerator<RestProjectDescriptor> providesSpringWebFluxGenerator() {
+    ICodeGenerator<RestProjectDescriptor> providesSpringWebFluxGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
         return SpringProjectCodeGenerator.builder()
                 .collector(new SpringWebFluxTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
@@ -112,6 +112,8 @@ public class SpringGeneratorModule extends AbstractModule {
                         MustacheDecoder.builder()
                                 .converter(new RestTemplateModelToMapConverter()).build())
                 .metaPropertiesHandler(providesMetaPropertiesHandler())
+                .archetypeDescriptorFactory(new ArchetypeDescriptorFactory(packageLayoutRuleSet, classNameRuleSet))
+
                 .build();
     }
 

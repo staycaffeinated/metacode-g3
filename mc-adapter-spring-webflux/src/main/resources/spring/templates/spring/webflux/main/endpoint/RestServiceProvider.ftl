@@ -5,11 +5,11 @@ package ${endpoint.packageName};
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.${endpoint.entityName}DataStore;
-import ${endpoint.basePackage}.validation.OnCreate;
-import ${endpoint.basePackage}.validation.OnUpdate;
-import ${endpoint.basePackage}.exception.ResourceNotFoundException;
+import ${EntityResource.fqcn()};
+import ${ObjectDataStore.fqcn()};
+import ${OnCreateAnnotation.fqcn()};
+import ${OnUpdateAnnotation.fqcn()};
+import ${ResourceNotFoundException.fqcn()};
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -21,9 +21,9 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 @Validated
-public class ${endpoint.entityName}ServiceProvider implements ${endpoint.entityName}Service {
+public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
 
-    private final ${endpoint.entityName}DataStore dataStore;
+    private final ${ObjectDataStore.className()} dataStore;
 
     /*
      * findAll
