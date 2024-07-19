@@ -11,7 +11,7 @@ import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
 import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
 import mmm.coffee.metacode.common.writer.ContentToNullWriter;
-import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
+import mmm.coffee.metacode.spring.catalog.SpringWebFluxTemplateCatalog;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToPredicateConverter;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToTemplateModelConverter;
@@ -39,7 +39,7 @@ import static com.google.common.truth.Truth.assertThat;
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
-class SpringWebMvcGeneratorIntegrationTest {
+class WebFluxProjectGeneratorIntegrationTest {
 
     private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
@@ -56,7 +56,7 @@ class SpringWebMvcGeneratorIntegrationTest {
     @BeforeEach
     public void setUp() throws IOException {
         generatorUnderTest = SpringProjectCodeGenerator.builder()
-                .collector(new SpringWebMvcTemplateCatalog(new CatalogFileReader()))
+                .collector(new SpringWebFluxTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())
                 .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
@@ -226,7 +226,7 @@ class SpringWebMvcGeneratorIntegrationTest {
      */
     private Stream<Arguments> frameworks() {
         return Stream.of(
-                Arguments.arguments(Framework.SPRING_WEBMVC)
+                Arguments.arguments(Framework.SPRING_WEBFLUX)
         );
     }
 

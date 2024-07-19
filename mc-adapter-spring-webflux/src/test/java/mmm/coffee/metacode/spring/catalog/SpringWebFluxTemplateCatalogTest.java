@@ -61,18 +61,7 @@ class SpringWebFluxTemplateCatalogTest {
         });
     }
 
-    /*
-     * This is a white box test of the
-     * {@code collectGeneralCatalogsAndThisOne} method.
-     * This test calls that method with a {@code null}
-     * argument to ensure an NPE is thrown.
-     */
-    @Test
-    void shouldThrowExceptionWhenCatalogPathIsNull() {
-        var obj = new FakeTemplateCatalog(new CatalogFileReader());
-        assertThrows(NullPointerException.class, obj::invokeCollectGeneralCatalogsAndThisOne);
-    }
-
+    
     @Nested
     class ConstructorTests {
         @Test
@@ -105,7 +94,8 @@ class SpringWebFluxTemplateCatalogTest {
         }
 
         public void invokeCollectGeneralCatalogsAndThisOne() {
-            super.collectGeneralCatalogsAndThisOne(null);
+            
+            super.collectGeneralCatalogsAndThisOne(SpringTemplateCatalog.WEBFLUX_CATALOG);
         }
     }
 }

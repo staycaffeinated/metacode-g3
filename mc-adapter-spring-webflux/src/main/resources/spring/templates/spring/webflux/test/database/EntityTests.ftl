@@ -71,7 +71,7 @@ class ${Entity.testClass()} {
 		    void shouldCopyMutableFields() {
 			      ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
 
-			      ${endpoint.ejbName} entity = ${EntityTestFixtures.className()}.oneWithResourceId();
+			      ${endpoint.ejbName} entity = ${EjbTestFixtures.className()}.oneWithResourceId();
 			      final String immutableId = entity.getResourceId();
 
 			      ${endpoint.ejbName} actual = entity.copyMutableFieldsFrom(pojo);

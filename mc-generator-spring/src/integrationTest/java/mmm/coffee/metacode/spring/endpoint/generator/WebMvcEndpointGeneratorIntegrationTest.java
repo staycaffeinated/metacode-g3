@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
  * with the rendered content written to /dev/null.
  */
 @Tag("integration")
-class WebMvcGeneratorIntegrationTest {
+class WebMvcEndpointGeneratorIntegrationTest {
 
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
 

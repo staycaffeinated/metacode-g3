@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${ServiceImpl.packageName()};
 
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
 import ${PostgresTestContainer.fqcn()};

@@ -129,12 +129,13 @@ public enum Archetype {
     // webflux stuff
     TestTableInitializer("TestTableInitializer"), // to init a table during testing. TODO: use test-fixtures to init tables instead.
     TableInitializer("TableInitializer"),
-    EjbTestFixtures("EntityTestFixtures"), // mirror of WebMvcEjbTestFixtures
+    EjbTestFixtures("EjbTestFixtures"), // mirror of WebMvcEjbTestFixtures
     ModelTestFixtures("ModelTestFixtures"),
     ResourceIdentity("ResourceIdentity"), // makes ResourceId a type
     EndpointConfiguration("EndpointConfiguration"), // registers a converter for each kind of pojo/ejb
     EntityEvent("EntityEvent"), // an event object
     EntityEventPublisher("EntityEventPublisher"),
+    TestDatabaseConfiguration("TestDatabaseConfiguration"),
 
     EntityWithText("EntityWithText"), // a predicate for a given EJB/POJO
 

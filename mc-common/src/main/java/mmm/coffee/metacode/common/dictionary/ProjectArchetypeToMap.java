@@ -43,6 +43,7 @@ public class ProjectArchetypeToMap {
             Archetype.SearchTextValidator,
             Archetype.SecureRandomSeries,
             Archetype.SpringProfiles,
+            Archetype.ResourceIdentity,
 
             // exception stuff
             Archetype.GlobalExceptionHandler,
@@ -72,6 +73,7 @@ public class ProjectArchetypeToMap {
             Archetype.ContainerConfiguration,
             Archetype.DatabaseInitFunction,
             Archetype.MongoDatabaseConfiguration,
+            Archetype.TestDatabaseConfiguration,
 
             // miscellaneous
             Archetype.Text,
