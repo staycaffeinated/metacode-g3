@@ -96,6 +96,12 @@ entries:
         sourceTemplate: "/spring/common/main/spi/ResourceIdSupplier.ftl"
 
   - scope: "project"
+    archetype: "ResourceIdentity"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/common/ResourceIdentity.ftl"
+
+  - scope: "project"
     archetype: "ResourceIdTrait"
     facets:
       - facet: "main"
@@ -180,60 +186,26 @@ entries:
   # ---------------------------------------------------------------------------------------------------
 
   - scope: "endpoint"
-    archetype: "Entity"
+    archetype: "TableInitializer"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webflux/main/database/Entity.ftl"
-      - facet: "test"
-        sourceTemplate: "/spring/webflux/test/database/EntityTests.ftl"
+        sourceTemplate:  "/spring/webflux/main/database/DatabaseTableInitializer.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webflux/integrationTest/configuration/TestTableInitializer.ftl"
 
   - scope: "endpoint"
-    archetype: "EjbTestFixtures"
-    facets:
-      - facet: "testFixtures"
-        sourceTemplate: "/spring/webflux/testFixtures/database/EjbTestFixtures.ftl"
-
-  - scope: "endpoint"
-    archetype: "ObjectDataStore"
+    archetype: "DatabaseTablePopulator"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webflux/main/database/ObjectDataStore.ftl"
-
-  - scope: "endpoint"
-    archetype: "ObjectDataStoreProvider"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webflux/main/database/ObjectDataStoreProvider.ftl"
-      - facet: "test"
-        sourceTemplate: "/spring/webflux/test/database/DataStoreProviderTests.ftl"
+        sourceTemplate:  "/spring/webflux/main/database/DatabaseTablePopulator.ftl"
 
   - scope: "endpoint"
     archetype: "EntityToPojoConverter"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webflux/main/database/converter/EntityToPojoConverter.ftl"
+        sourceTemplate:  "/spring/webflux/main/database/converter/EntityToPojoConverter.ftl"
       - facet: "test"
         sourceTemplate: "/spring/webflux/test/database/converter/EntityToPojoConverterTests.ftl"
-
-  - scope: "endpoint"
-    archetype: "EntityResource"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webflux/main/domain/EntityResource.ftl"
-
-  - scope: "endpoint"
-    archetype: "ModelTestFixtures"
-    facets:
-      - facet: "testFixtures"
-        sourceTemplate: "/spring/webflux/testFixtures/domain/ModelTestFixtures.ftl"
-
-  - scope: "endpoint"
-    archetype: "Repository"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webflux/main/database/Repository.ftl"
-      - facet: "integrationTest"
-        sourceTemplate: "/spring/webflux/integrationTest/database/endpoint/RepositoryIT.ftl"
 
   - scope: "endpoint"
     archetype: "PojoToEntityConverter"
@@ -244,22 +216,62 @@ entries:
         sourceTemplate: "/spring/webflux/test/database/converter/PojoToEntityConverterTests.ftl"
 
   - scope: "endpoint"
-    archetype: "EntityToPojoConverter"
+    archetype: "Entity"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webflux/main/database/converter/EntityToPojoConverter.ftl"
+        sourceTemplate: "/spring/webflux/main/database/Entity.ftl"
       - facet: "test"
-        sourceTemplate: "/spring/webflux/test/database/converter/EntityToPojoConverterTests.ftl"
+        sourceTemplate: "/spring/webflux/test/database/EntityTests.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityResource"
+    facets:
+      - facet: "main"
+        sourceTemplate:  "/spring/webflux/main/domain/EntityResource.ftl"
+
+  - scope: "endpoint"
+    archetype: "Repository"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/database/Repository.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webflux/integrationTest/database/entity/RepositoryIT.ftl"
+
+  - scope: "endpoint"
+    archetype: "DataStoreApi"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/database/DataStoreInterface.ftl"
+
+  - scope: "endpoint"
+    archetype: "DataStoreImpl"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/database/DataStoreProvider.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webflux/test/database/DataStoreProviderTests.ftl"
+
+  - scope: "endpoint"
+    archetype: "EndpointConfiguration"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/endpoint/EndpointConfig.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityEvent"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/endpoint/EntityEvent.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webflux/test/endpoint/EntityEventTests.ftl"
 
   - scope: "endpoint"
     archetype: "Controller"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/endpoint/RestController.ftl"
-        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Controller.java"
       - facet: "test"
         sourceTemplate: "/spring/webflux/test/endpoint/ControllerTests.ftl"
-        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerTests.java"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webflux/integrationTest/main/endpoint/ControllerIT.ftl"
 
@@ -279,16 +291,40 @@ entries:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webflux/integrationTest/main/endpoint/ServiceIT.ftl"
 
-
   - scope: "endpoint"
     archetype: "Routes"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/endpoint/EntityRoutes.ftl"
 
+  #
+  # Resource files
+  #
   - scope: "endpoint"
-    archetype: "DatabaseTablePopulator"
+    archetype: "Text"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webflux/main/database/DatabaseTablePopulator.ftl"
+        sourceTemplate: "/spring/webflux/main/resources/database/EntitySchema.ftl"
+        destination: "{{appModule}}/src/main/resources/database/{{lowerCaseEntityName}}-schema.sql"
 
+  - scope: "endpoint"
+    archetype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/resources/database/EntityData.ftl"
+        destination: "{{appModule}}/src/main/resources/database/{{lowerCaseEntityName}}-data.sql"
+
+  #
+  # Test fixtures
+  #
+  - scope: "endpoint"
+    archetype: "EjbTestFixtures"
+    facets:
+      - facet: "testFixtures"
+        sourceTemplate: "/spring/webflux/testFixtures/database/EjbTestFixtures.ftl"
+
+  - scope: "endpoint"
+    archetype: "ModelTestFixtures"
+    facets:
+      - facet: "testFixtures"
+        sourceTemplate: "/spring/webflux/testFixtures/domain/ModelTestFixtures.ftl"

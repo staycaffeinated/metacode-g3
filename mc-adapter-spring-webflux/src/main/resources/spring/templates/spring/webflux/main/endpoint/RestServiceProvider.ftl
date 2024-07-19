@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${ServiceImpl.packageName()};
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import ${ObjectDataStore.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
+import ${ServiceApi.fqcn()};
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
