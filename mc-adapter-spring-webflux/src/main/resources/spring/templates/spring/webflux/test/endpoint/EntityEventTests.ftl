@@ -1,9 +1,9 @@
 <#include "/common/Copyright.ftl">
-package ${endpoint.packageName};
+package ${EntityEvent.packageName()};
 
-import ${endpoint.basePackage}.domain.${endpoint.entityName};
-import ${endpoint.basePackage}.math.SecureRandomSeries;
-import ${endpoint.basePackage}.spi.ResourceIdSupplier;
+import ${EntityResource.fqcn()};
+import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -12,21 +12,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * unit tests
  */
-class ${endpoint.entityName}EventTests {
+class ${EntityEvent.testClass()} {
 
-    final ResourceIdSupplier randomSeries = new SecureRandomSeries();
+    final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     @Test
     void shouldReturnEventTypeOfCreated() {
-        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("Hello world").build();
-        ${EntityEvent.className()} event = new ${endpoint.entityName}Event(${EntityEvent.className()}.CREATED, resource);
+        ${EntityResource.className()} resource = ${EntityResource.className()}.builder().resourceId(randomSeries.nextResourceId()).text("Hello world").build();
+        ${EntityEvent.className()} event = new ${EntityEvent.className()}(${EntityEvent.className()}.CREATED, resource);
 
-   	    assertThat(event.getEventType()).isEqualTo(${endpoint.entityName}Event.CREATED);
+   	    assertThat(event.getEventType()).isEqualTo(${EntityEvent.className()}.CREATED);
     }
 
     @Test
     void shouldReturnEventTypeOfUpdated() {
-        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("Hello world").build();
+        ${EntityResource.className()} resource = ${EntityResource.className()}.builder().resourceId(randomSeries.nextResourceId()).text("Hello world").build();
         ${EntityEvent.className()} event = new ${EntityEvent.className()}(${EntityEvent.className()}.UPDATED, resource);
 
    	    assertThat(event.getEventType()).isEqualTo(${EntityEvent.className()}.UPDATED);
@@ -34,7 +34,7 @@ class ${endpoint.entityName}EventTests {
 
     @Test
     void shouldReturnEventTypeOfDeleted() {
-        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(randomSeries.nextResourceId()).text("Hello world").build();
+        ${EntityResource.className()} resource = ${EntityResource.className()}.builder().resourceId(randomSeries.nextResourceId()).text("Hello world").build();
         ${EntityEvent.className()} event = new ${EntityEvent.className()}(${EntityEvent.className()}.DELETED, resource);
 
    	    assertThat(event.getEventType()).isEqualTo(${EntityEvent.className()}.DELETED);

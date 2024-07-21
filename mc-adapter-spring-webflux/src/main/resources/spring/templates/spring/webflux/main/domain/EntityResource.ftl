@@ -1,10 +1,11 @@
 <#include "/common/Copyright.ftl">
 package ${EntityResource.packageName()};
 
-import ${ResourceIdTrait.fqcn()};
+import ${ResourceIdAnnotation.fqcn()};
 import ${AlphabeticAnnotation.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
+import ${ResourceIdTrait.fqcn()};
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -35,7 +36,7 @@ public class ${EntityResource.className()} implements ${ResourceIdTrait.classNam
 
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
-    @ResourceId
+    @${ResourceIdAnnotation.className()}
     @JsonProperty(Fields.RESOURCE_ID)
     private String resourceId;
 

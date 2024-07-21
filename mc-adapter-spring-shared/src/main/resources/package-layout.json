@@ -130,7 +130,6 @@
         "DataStoreApi",
         "DatabaseTablePopulator",
         "GenericDataStore",
-        "ObjectDataStore",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
         "MongoDbContainerTests",
@@ -151,7 +150,9 @@
         "MongoDataStore",
         "MongoDataStoreProvider",
         "WebMvcEjbTestFixtures",
-        "DocumentTestFixtures"
+        "DocumentTestFixtures",
+        "EjbTestFixtures",
+        "TestTableInitializer"
       ]
     },
     {
@@ -160,7 +161,7 @@
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.provides.domain",
-      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures", "PojoTestFixtures" ]
+      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures", "PojoTestFixtures", "ModelTestFixtures" ]
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.requires.persistence.predicate",

@@ -12,13 +12,12 @@ import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
 import ${ModelTestFixtures.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${ContainerConfiguration.fqcn()};
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-<#if endpoint.isWithTestContainers()>
-</#if>
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,8 +30,7 @@ import java.time.Duration;
  * Integration test of the service component
  */
 @ComponentScan(basePackageClasses={
-    ${TestDatabaseConfiguration.className()}.class,
-    ${TestTableInitializer.className()}.class})
+    ${ContainerConfiguration.className()}.class})
 @SpringBootTest
 @Slf4j
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>

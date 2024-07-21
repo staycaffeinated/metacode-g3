@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ${TestTableInitializer.className()} {
 
-    public ${TableInitializer.className()} (ConnectionFactoryInitializer initializer) {
+    public ${TestTableInitializer.className()} (ConnectionFactoryInitializer initializer) {
         // This is where the default sql script is found
         final String sqlScript = "database/${endpoint.lowerCaseEntityName}-schema.sql";
 

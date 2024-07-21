@@ -12,7 +12,7 @@ import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
  * to initialize tables within the testcontainer database.
  */
 @Configuration
-public class ${ContainerConfigration.className()} {
+public class ${ContainerConfiguration.className()} {
     @Bean
     public ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory) {
         ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();

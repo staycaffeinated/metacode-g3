@@ -149,7 +149,7 @@ class ${Controller.testClass()} {
          * Mock the service finding the ${endpoint.pojoName} to be deleted,
          * to emulate deleting a ${endpoint.pojoName} that does exist.
          */
-        ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}..oneWithResourceId();
+        ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
         when(mock${endpoint.entityName}Service.findByResourceId(pojo.getResourceId())).thenReturn(Mono.just(pojo));
 
         /*

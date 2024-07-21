@@ -67,6 +67,12 @@ entries:
         sourceTemplate: "/spring/webflux/main/config/WebFluxConfiguration.ftl"
 
   - scope: "project"
+    archetype: "ContainerConfiguration"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webflux/integrationTest/configuration/TestDatabaseConfiguration.ftl"
+
+  - scope: "project"
     archetype: "LocalDateConverter"
     facets:
       - facet: "main"
@@ -190,8 +196,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate:  "/spring/webflux/main/database/DatabaseTableInitializer.ftl"
-      - facet: "integrationTest"
-        sourceTemplate: "/spring/webflux/integrationTest/configuration/TestTableInitializer.ftl"
+      #- facet: "integrationTest"
+      #  sourceTemplate: "/spring/webflux/integrationTest/configuration/TestTableInitializer.ftl"
 
   - scope: "endpoint"
     archetype: "DatabaseTablePopulator"
@@ -238,13 +244,13 @@ entries:
         sourceTemplate: "/spring/webflux/integrationTest/database/entity/RepositoryIT.ftl"
 
   - scope: "endpoint"
-    archetype: "DataStoreApi"
+    archetype: "ObjectDataStore"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/database/DataStoreInterface.ftl"
 
   - scope: "endpoint"
-    archetype: "DataStoreImpl"
+    archetype: "ObjectDataStoreProvider"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/database/DataStoreProvider.ftl"

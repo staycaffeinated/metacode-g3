@@ -50,7 +50,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
     @BeforeEach
     public void setUp() {
-        mockRepository = Mockito.mock(${endpoint.entityName}Repository.class);
+        mockRepository = Mockito.mock(${Repository.className()}.class);
         dataStoreUnderTest = aWellFormedDataStore();
     }    
     
@@ -58,10 +58,10 @@ public class ${ObjectDataStoreProvider.testClass()} {
     class TestCreate {
         @Test
         void shouldCreateSuccessfully() {
-            Mono<${endpoint.ejbName}> mockReturnValue = Mono.just(${ModelTestFixtures.className()}.oneWithResourceId());
-            when(mockRepository.save(any(${endpoint.ejbName}.class))).thenReturn(mockReturnValue);
+            Mono<${Entity.className()}> mockReturnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
+            when(mockRepository.save(any(${Entity.className()}.class))).thenReturn(mockReturnValue);
 
-            ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             Mono<String> publisher = dataStoreUnderTest.create${endpoint.entityName}(pojo);
 
             // @formatter:off
@@ -74,7 +74,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
         @Test
         void shouldReturnError() {
             ${ObjectDataStoreProvider.className()} dodgyProvider = oneWithDodgyPojoConverter();
-            ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             
             Mono<String> publisher = dodgyProvider.create${endpoint.entityName}(pojo);
             
@@ -90,26 +90,26 @@ public class ${ObjectDataStoreProvider.testClass()} {
     class TestUpdate {
         @Test
         void shouldUpdateSuccessfully() {
-            Mono<${endpoint.ejbName}> mockReturnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
+            Mono<${Entity.className()}> mockReturnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(mockReturnValue);
-            when(mockRepository.save(any(${endpoint.ejbName}.class))).thenReturn(mockReturnValue);
+            when(mockRepository.save(any(${Entity.className()}.class))).thenReturn(mockReturnValue);
 
-            ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             pojo.setResourceId(${EjbTestFixtures.className()}.oneWithResourceId().getResourceId());
 
-            Mono<${endpoint.pojoName}> publisher = dataStoreUnderTest.update${endpoint.entityName}(pojo);
+            Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.update${endpoint.entityName}(pojo);
             StepVerifier.create(publisher).expectSubscription().expectNext(pojo).verifyComplete();
         }
 
         @Test
         void shouldReturnErrorWhenNotFound() {
-            Mono<${endpoint.ejbName}> notFound = Mono.empty();
+            Mono<${Entity.className()}> notFound = Mono.empty();
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(notFound);
             
-            ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             pojo.setResourceId(${EjbTestFixtures.className()}.oneWithResourceId().getResourceId());
 
-            Mono<${endpoint.pojoName}> publisher = dataStoreUnderTest.update${endpoint.entityName}(pojo);
+            Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.update${endpoint.entityName}(pojo);
             StepVerifier.create(publisher).expectSubscription().expectError(ResourceNotFoundException.class)
                     .verify(Duration.ofMillis(1000));
         }
@@ -119,11 +119,11 @@ public class ${ObjectDataStoreProvider.testClass()} {
     class TestFindByResourceId {
         @Test
         void shouldFindRecord() {
-            Mono<${endpoint.ejbName}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
+            Mono<${Entity.className()}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(returnValue);
 
             String expectedResourceId = ${EjbTestFixtures.className()}.oneWithResourceId().getResourceId();
-            Mono<${endpoint.pojoName}> publisher = dataStoreUnderTest.findByResourceId(expectedResourceId);
+            Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.findByResourceId(expectedResourceId);
 
             // @formatter:off
             StepVerifier.create(publisher).expectSubscription()
@@ -137,10 +137,10 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
         @Test
         void shouldReturnErrorWhenNotFound() {
-            Mono<${endpoint.ejbName}> notFound = Mono.empty();
+            Mono<${Entity.className()}> notFound = Mono.empty();
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(notFound);
 
-            Mono<${endpoint.entityName}> publisher = dataStoreUnderTest.findByResourceId("123abc456efg");
+            Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.findByResourceId("123abc456efg");
 
             // @formatter:off
             StepVerifier.create(publisher).expectSubscription()
@@ -153,11 +153,11 @@ public class ${ObjectDataStoreProvider.testClass()} {
         void shouldReturnErrorWhenConversionToPojoFails() {
             ${ObjectDataStoreProvider.className()} dodgyProvider = oneWithDodgyEjbConverter();
 
-            Mono<${endpoint.ejbName}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
+            Mono<${Entity.className()}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(returnValue);
 
             String expectedResourceId = ${EjbTestFixtures.className()}.oneWithResourceId().getResourceId();
-            Mono<${endpoint.entityName}> publisher = dodgyProvider.findByResourceId(expectedResourceId);
+            Mono<${EntityResource.className()}> publisher = dodgyProvider.findByResourceId(expectedResourceId);
 
             StepVerifier.create(publisher).expectSubscription().verifyError();
         }
@@ -167,10 +167,10 @@ public class ${ObjectDataStoreProvider.testClass()} {
     class TestFindById {
         @Test
         void shouldFindRecord() {
-            Mono<${endpoint.ejbName}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
+            Mono<${Entity.className()}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
             when(mockRepository.findById(any(Long.class))).thenReturn(returnValue);
 
-            Mono<${endpoint.pojoName}> publisher = dataStoreUnderTest.findById(1L);
+            Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.findById(1L);
 
             // @formatter:off
             StepVerifier.create(publisher).expectSubscription()
@@ -181,10 +181,10 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
         @Test
         void shouldReturnErrorWhenRecordNotFound() {
-            Mono<${endpoint.ejbName}> returnValue = Mono.empty();
+            Mono<${Entity.className()}> returnValue = Mono.empty();
             when(mockRepository.findById(any(Long.class))).thenReturn(returnValue);
 
-            Mono<${endpoint.entityName}> publisher = dataStoreUnderTest.findById(1L);
+            Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.findById(1L);
 
             // @formatter:off
             StepVerifier.create(publisher).expectSubscription()
@@ -225,10 +225,10 @@ public class ${ObjectDataStoreProvider.testClass()} {
     class TestFindAllByText {
         @Test
         void shouldFindRecords() {
-            Flux<${endpoint.ejbName}> returnValue = ${EjbTestFixtures.className()}.allItemsAsFlux();
+            Flux<${Entity.className()}> returnValue = ${EjbTestFixtures.className()}.allItemsAsFlux();
             when(mockRepository.findAllByText(any(String.class))).thenReturn(returnValue);
 
-            Flux<${endpoint.pojoName}> publisher = dataStoreUnderTest.findAllByText("Hello, world");
+            Flux<${EntityResource.className()}> publisher = dataStoreUnderTest.findAllByText("Hello, world");
 
             int expectedCount = ${EjbTestFixtures.className()}.allItems().size();
             StepVerifier.create(publisher).expectSubscription().expectNextCount(expectedCount).verifyComplete();
@@ -239,10 +239,10 @@ public class ${ObjectDataStoreProvider.testClass()} {
     class TestFindAll {
         @Test
         void shouldFindRecords() {
-            Flux<${endpoint.ejbName}> returnValue = ${EjbTestFixtures.className()}.allItemsAsFlux();
+            Flux<${Entity.className()}> returnValue = ${EjbTestFixtures.className()}.allItemsAsFlux();
             when(mockRepository.findAll()).thenReturn(returnValue);
 
-            Flux<${endpoint.pojoName}> publisher = dataStoreUnderTest.findAll();
+            Flux<${EntityResource.className()}> publisher = dataStoreUnderTest.findAll();
 
             int expectedCount = ${EjbTestFixtures.className()}.allItems().size();
             StepVerifier.create(publisher).expectSubscription().expectNextCount(expectedCount).verifyComplete();
@@ -270,7 +270,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
      */
     private ${ObjectDataStoreProvider.className()} oneWithDodgyPojoConverter() {
         ${PojoToEntityConverter.className()} dodgyConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
-        when(dodgyConverter.convert(any(${endpoint.pojoName}.class))).thenReturn(null);
+        when(dodgyConverter.convert(any(${EntityResource.className()}.class))).thenReturn(null);
 
         // @formatter:off
         return ${ObjectDataStoreProvider.className()}.builder()

@@ -1,9 +1,10 @@
 <#include "/common/Copyright.ftl">
 
-package ${endpoint.packageName};
+package ${EndpointConfiguration.packageName()};
 
 
-import ${endpoint.basePackage}.database.${endpoint.lowerCaseEntityName}.converter.*;
+import ${EntityToPojoConverter.fqcn()};
+import ${PojoToEntityConverter.fqcn()};
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ConversionServiceFactoryBean;

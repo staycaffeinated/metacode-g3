@@ -5,7 +5,7 @@ import ${ResourceIdentity.fqcn()};
 import ${EntityResource.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
-import ${ResourceIdentity.fqcn()};
+import ${ResourceIdAnnotation.fqcn()};
 import ${ServiceApi.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 
@@ -71,7 +71,7 @@ public class ${Controller.className()} {
         @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public Mono<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
+    public Mono<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable @${ResourceIdAnnotation.className()} String id) {
         return ${endpoint.entityVarName}Service.findByResourceId(id);
     }
     

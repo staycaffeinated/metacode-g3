@@ -3,15 +3,17 @@
 package ${Entity.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
+import ${Entity.fqcn()};
+import ${EntityResource.fqcn()};
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Entity
 <#if endpoint.schema?has_content>
-    @Table(name="${endpoint.tableName}", schema="${endpoint.schema}")
+@Table(name="${endpoint.tableName}", schema="${endpoint.schema}")
 <#else>
-    @Table(name="${endpoint.tableName}")
+@Table(name="${endpoint.tableName}")
 </#if>
 @EqualsAndHashCode(of = {"resourceId"})
 @Getter
@@ -58,4 +60,10 @@ public class ${Entity.className()} {
     public void prePersist() {
         resourceId = ${SecureRandomSeries.className()}.instance().nextResourceId();
     }
+
+    public ${Entity.className()} copyMutableFieldsFrom(${EntityResource.className()} pojo) {
+        this.text = pojo.getText();
+        return this;
+    }
+
 }

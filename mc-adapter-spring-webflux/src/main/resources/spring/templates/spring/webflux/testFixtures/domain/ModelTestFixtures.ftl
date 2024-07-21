@@ -1,7 +1,7 @@
 
-package ${endpoint.basePackage}.domain;
+package ${ModelTestFixtures.packageName()};
 
-import ${endpoint.basePackage}.math.SecureRandomSeries;
+import ${SecureRandomSeries.fqcn()};
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
