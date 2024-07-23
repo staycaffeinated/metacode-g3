@@ -7,7 +7,6 @@ import ${EntityToPojoConverter.fqcn()};
 import ${EntityResource.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
-import ${ResourceIdSupplier.fqcn()};
 import ${Repository.fqcn()};
 import ${ObjectDataStore.fqcn()};
 import lombok.Builder;
@@ -30,28 +29,33 @@ public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore
     private final ${Repository.className()} repository;
     private final ${EntityToPojoConverter.className()} ejbToPojoConverter;
     private final ${PojoToEntityConverter.className()} pojoToEjbConverter;
-    private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
     /**
      * create
      */
     public Mono<String> create${endpoint.entityName}(${endpoint.pojoName} pojo) {
         ${endpoint.ejbName} entity = pojoToEjbConverter.convert(pojo);
-		    if (entity == null) {
+		if (entity == null) {
 			      return Mono.error(new UnprocessableEntityException());
-  		  }
-        entity.setResourceId(resourceIdSupplier.nextResourceId());
+  		}
         return repository.save(entity).flatMap(item -> Mono.just(item.getResourceId()));
     }
 
     /**
-     * update
+     * Update the item. Returns either a Mono containing the updated item, or an empty Mono.
      */
     public Mono<${endpoint.entityName}> update${endpoint.entityName}(${endpoint.pojoName} resource) {
-		    return repository.findByResourceId(resource.getResourceId())
-				    .switchIfEmpty(Mono.error(new ResourceNotFoundException()))
-    				.flatMap(found -> repository.save(found.copyMutableFieldsFrom(resource)))
-		    		.mapNotNull(ejbToPojoConverter::convert);
+	    return repository.findByResourceId(resource.getResourceId())
+                    .map(Optional::of)
+				    .defaultIfEmpty(Optional.empty(())
+                    .flatMap(optionalItem -> {
+                        if (optionalItem.isPresent()) {
+                            ${Entity.className()} ejb = optionalItem.get();
+                            ejb.copyMutableFieldsFrom(resource);
+                            return repository.save(ejb).mapNotNull(ejbToPojoConverter::convert);
+    				}
+		    		return Mono.empty();
+               });
     }
 
     /**

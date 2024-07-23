@@ -7,8 +7,6 @@ import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
-import ${SecureRandomSeries.fqcn()};
-import ${ResourceIdSupplier.fqcn()};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,8 +43,6 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
     ${PojoToEntityConverter.className()} pojoToEntityConverter = new ${PojoToEntityConverter.className()}();
 
-    ${ResourceIdSupplier.className()} resourceIdSupplier = new ${SecureRandomSeries.className()}();
-    
 
     @BeforeEach
     public void setUp() {
@@ -102,7 +98,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
         }
 
         @Test
-        void shouldReturnErrorWhenNotFound() {
+        void shouldReturnEmptyMonoWhenNotFound() {
             Mono<${Entity.className()}> notFound = Mono.empty();
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(notFound);
             
@@ -110,8 +106,10 @@ public class ${ObjectDataStoreProvider.testClass()} {
             pojo.setResourceId(${EjbTestFixtures.className()}.oneWithResourceId().getResourceId());
 
             Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.update${endpoint.entityName}(pojo);
-            StepVerifier.create(publisher).expectSubscription().expectError(ResourceNotFoundException.class)
-                    .verify(Duration.ofMillis(1000));
+            StepVerifier.create(publisher)
+                .expectSubscription()
+                .expectNextCount(0) // there are no pending elements to iterate
+                .verifyComplete();
         }
     }    
     
@@ -260,7 +258,6 @@ public class ${ObjectDataStoreProvider.testClass()} {
                 .ejbToPojoConverter(entityToPojoConverter)
                 .pojoToEjbConverter(pojoToEntityConverter)
                 .repository(mockRepository)
-                .resourceIdSupplier(resourceIdSupplier)
                 .build();
         // @formatter:on       
     }
@@ -277,7 +274,6 @@ public class ${ObjectDataStoreProvider.testClass()} {
                 .ejbToPojoConverter(entityToPojoConverter)
                 .pojoToEjbConverter(dodgyConverter)
                 .repository(mockRepository)
-                .resourceIdSupplier(resourceIdSupplier)
                 .build();
         // @formatter:on        
     }
@@ -292,7 +288,6 @@ public class ${ObjectDataStoreProvider.testClass()} {
                 .ejbToPojoConverter(dodgyConverter)
                 .pojoToEjbConverter(pojoToEntityConverter)
                 .repository(mockRepository)
-                .resourceIdSupplier(resourceIdSupplier)
                 .build();
         // @formatter:on        
     }

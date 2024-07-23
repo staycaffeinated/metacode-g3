@@ -136,6 +136,7 @@ public enum Archetype {
     EntityEvent("EntityEvent"), // an event object
     EntityEventPublisher("EntityEventPublisher"),
     TestDatabaseConfiguration("TestDatabaseConfiguration"),
+    EntityCallback("EntityCallback"),
 
     EntityWithText("EntityWithText"), // a predicate for a given EJB/POJO
 

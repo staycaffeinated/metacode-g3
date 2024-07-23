@@ -3,13 +3,15 @@
 package ${Entity.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
-import ${Entity.fqcn()};
 import ${EntityResource.fqcn()};
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Entity
 <#if endpoint.schema?has_content>
 @Table(name="${endpoint.tableName}", schema="${endpoint.schema}")
 <#else>
@@ -21,7 +23,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ${Entity.className()} {
+public class ${Entity.className()} implements Persistable<Long> {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Columns {
@@ -31,9 +33,9 @@ public class ${Entity.className()} {
     }
 
     /*
-    * This identifier is never exposed to the outside world because
-    * database-generated Ids are commonly sequential values that a hacker can easily guess.
-    */
+     * This identifier is never exposed to the outside world because
+     * database-generated Ids are commonly sequential values that a hacker can easily guess.
+     */
     @Id
     <#if (endpoint.isWithPostgres())>
     @SequenceGenerator(name = "${Entity.varName()}_sequence", sequenceName = "${Entity.varName()}_id_seq", allocationSize = 1)
@@ -56,8 +58,16 @@ public class ${Entity.className()} {
     @NotEmpty(message = "Text cannot be empty")
     private String text;
 
-    @PrePersist
-    public void prePersist() {
+    @Override
+    public boolean isNew() {
+        return id == null;
+    }
+
+    /**
+     * This gets invoked by the ${Entity.className()}Callback::onBeforeSave method.
+     * R2DBC does not support @PrePersist, so a callback is used for the same effect.
+     */
+    public void beforeInsert() {
         resourceId = ${SecureRandomSeries.className()}.instance().nextResourceId();
     }
 

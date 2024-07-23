@@ -11,6 +11,7 @@ import ${EjbTestFixtures.fqcn()};
 import ${Entity.fqcn()};
 import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
+import ${TestTableInitializer.fqcn()};
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 <#if (endpoint.isWithTestContainers())>
 </#if>
@@ -33,6 +35,7 @@ import java.time.Duration;
 /**
  * Integration tests of ${endpoint.entityName}Controller
  */
+@ComponentScan(basePackageClasses = { ${TestTableInitializer.className()} })
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>

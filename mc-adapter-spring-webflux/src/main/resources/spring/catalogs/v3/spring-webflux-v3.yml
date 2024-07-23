@@ -230,6 +230,12 @@ entries:
         sourceTemplate: "/spring/webflux/test/database/EntityTests.ftl"
 
   - scope: "endpoint"
+    archetype: "EntityCallback"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/database/EntityCallback.ftl"
+        
+  - scope: "endpoint"
     archetype: "EntityResource"
     facets:
       - facet: "main"
