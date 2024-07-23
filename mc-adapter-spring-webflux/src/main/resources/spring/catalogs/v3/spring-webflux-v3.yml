@@ -196,8 +196,12 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate:  "/spring/webflux/main/database/DatabaseTableInitializer.ftl"
-      #- facet: "integrationTest"
-      #  sourceTemplate: "/spring/webflux/integrationTest/configuration/TestTableInitializer.ftl"
+
+  - scope: "endpoint"
+    archetype: "TestTableInitializer"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webflux/integrationTest/configuration/TestTableInitializer.ftl"
 
   - scope: "endpoint"
     archetype: "DatabaseTablePopulator"

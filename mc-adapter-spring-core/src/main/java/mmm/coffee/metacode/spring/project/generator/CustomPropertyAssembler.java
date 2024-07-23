@@ -96,8 +96,8 @@ public class CustomPropertyAssembler {
 
             switch (descriptor.archetype()) {
 
-                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties: {
-                    log.info("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
+                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties, TestTableInitializer: {
+                    log.debug("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
                     return EdgeCaseResolvedArchetypeDescriptor.builder()
                             .archetype(descriptor.archetype())
                             .fqcn(resolvedFQCN)
@@ -112,7 +112,7 @@ public class CustomPropertyAssembler {
                             .className(resolvedClassName)
                             .packageName(resolvedPkgName)
                             .build();
-                    log.info("Resolved descriptor of endpoint archetype: {}", foo);
+                    log.debug("Resolved descriptor of endpoint archetype: {}", foo);
                     return foo;
             }
         } else {

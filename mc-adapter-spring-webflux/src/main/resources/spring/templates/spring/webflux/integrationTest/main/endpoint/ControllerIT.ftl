@@ -35,7 +35,7 @@ import java.time.Duration;
 /**
  * Integration tests of ${endpoint.entityName}Controller
  */
-@ComponentScan(basePackageClasses = { ${TestTableInitializer.className()} })
+@ComponentScan(basePackageClasses = { ${TestTableInitializer.className()}.class })
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>

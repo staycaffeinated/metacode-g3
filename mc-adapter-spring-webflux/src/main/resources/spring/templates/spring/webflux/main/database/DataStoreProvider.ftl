@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * An Adapter for the persistence of ${endpoint.entityName}s
@@ -47,15 +48,15 @@ public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore
     public Mono<${endpoint.entityName}> update${endpoint.entityName}(${endpoint.pojoName} resource) {
 	    return repository.findByResourceId(resource.getResourceId())
                     .map(Optional::of)
-				    .defaultIfEmpty(Optional.empty(())
+				    .defaultIfEmpty(Optional.empty())
                     .flatMap(optionalItem -> {
                         if (optionalItem.isPresent()) {
                             ${Entity.className()} ejb = optionalItem.get();
                             ejb.copyMutableFieldsFrom(resource);
                             return repository.save(ejb).mapNotNull(ejbToPojoConverter::convert);
-    				}
-		    		return Mono.empty();
-               });
+                        }
+                        return Mono.empty();
+                    });
     }
 
     /**
