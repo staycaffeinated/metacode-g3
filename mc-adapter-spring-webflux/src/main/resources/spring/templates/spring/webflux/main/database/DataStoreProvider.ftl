@@ -60,12 +60,20 @@ public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore
     }
 
     /**
-     * findByResourceId
+     * findByResourceId.
+     * @return  a Mono containing the requested item or Mono.empty() if the item was not found
      */
     @Override
     public Mono<${endpoint.pojoName}> findByResourceId(String id) {
-        Mono<${endpoint.ejbName}> monoItem = repository.findByResourceId(id) .switchIfEmpty(Mono.defer(() -> Mono.error(
-                    new ResourceNotFoundException(String.format("Entity not found with the given resource ID: %s", id)))));
+        Mono<${endpoint.ejbName}> monoItem = repository.findByResourceId(id)
+                .map(Optional::of)
+                .defaultIfEmpty(Optional.empty())
+                .flatMap(optionalItem -> {
+                    if (optionalItem.isPresent()) {
+                      return Mono.just(optionalItem.get());
+                    }
+                    return Mono.empty();
+                });
         return monoItem.flatMap(it -> Mono.just(Objects.requireNonNull(ejbToPojoConverter.convert(it))));
     }
 
@@ -74,8 +82,15 @@ public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore
      */
     @Override
     public Mono<${endpoint.pojoName}> findById(Long id) {
-        Mono<${endpoint.ejbName}> monoItem = repository.findById(id).switchIfEmpty(Mono.defer(() -> Mono.error(
-            new ResourceNotFoundException(String.format("Entity not found with the given database ID: %s", id)))));
+        Mono<${endpoint.ejbName}> monoItem = repository.findById(id)
+                    .map(Optional::of)
+                    .defaultIfEmpty(Optional.empty())
+                    .flatMap(optionalItem -> {
+                        if (optionalItem.isPresent()) {
+                            return Mono.just(optionalItem.get());
+                        }
+                        return Mono.empty();
+                    });
         return monoItem.flatMap(it -> Mono.just(Objects.requireNonNull(ejbToPojoConverter.convert(it))));
     }
 

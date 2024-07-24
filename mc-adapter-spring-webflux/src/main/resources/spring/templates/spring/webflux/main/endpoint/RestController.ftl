@@ -8,6 +8,7 @@ import ${OnUpdateAnnotation.fqcn()};
 import ${ResourceIdAnnotation.fqcn()};
 import ${ServiceApi.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
+import ${ResourceNotFoundException.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,7 +73,8 @@ public class ${Controller.className()} {
 </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
     public Mono<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable @${ResourceIdAnnotation.className()} String id) {
-        return ${endpoint.entityVarName}Service.findByResourceId(id);
+        return ${endpoint.entityVarName}Service.findByResourceId(id)
+                .switchIfEmpty(Mono.error(new ${ResourceNotFoundException.className()}(id)));
     }
     
     /**

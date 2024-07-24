@@ -134,16 +134,16 @@ public class ${ObjectDataStoreProvider.testClass()} {
         }
 
         @Test
-        void shouldReturnErrorWhenNotFound() {
-            Mono<${Entity.className()}> notFound = Mono.empty();
-            when(mockRepository.findByResourceId(any(String.class))).thenReturn(notFound);
+        void shouldReturnEmptyWhenNotFound() {
+            Mono<${Entity.className()}> emptyHanded = Mono.empty();
+            when(mockRepository.findByResourceId(any(String.class))).thenReturn(emptyHanded);
 
             Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.findByResourceId("123abc456efg");
 
             // @formatter:off
             StepVerifier.create(publisher).expectSubscription()
-                  .expectError(ResourceNotFoundException.class)
-                  .verify(Duration.ofMillis(1000));
+                  .expectNextCount(0)
+                  .verifyComplete();
             // @formatter:on      
         }
 
@@ -178,17 +178,18 @@ public class ${ObjectDataStoreProvider.testClass()} {
         }
 
         @Test
-        void shouldReturnErrorWhenRecordNotFound() {
-            Mono<${Entity.className()}> returnValue = Mono.empty();
-            when(mockRepository.findById(any(Long.class))).thenReturn(returnValue);
+        void shouldReturnEmptyWhenRecordNotFound() {
+            Mono<${Entity.className()}> emptyHanded = Mono.empty();
+            when(mockRepository.findById(any(Long.class))).thenReturn(emptyHanded);
 
             Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.findById(1L);
 
             // @formatter:off
-            StepVerifier.create(publisher).expectSubscription()
-                .expectError(ResourceNotFoundException.class)
-                .verify(Duration.ofMillis(1000));
-            // @formatter:on    
+            StepVerifier.create(publisher)
+                        .expectSubscription()
+                        .expectNextCount(0)
+                        .verifyComplete();
+            // @formatter:on
         }
     }    
     
