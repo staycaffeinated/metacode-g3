@@ -79,6 +79,31 @@ class ${Entity.testClass()} {
 			      assertThat(actual.getResourceId()).isEqualTo(immutableId);
 			      assertThat(actual.getText()).isEqualTo(pojo.getText());
 		    }
-	  }    
-    
+	  }
+
+    @Nested
+    class TestIsNew {
+        @Test
+        void whenNewObject_thenReturnsTrue() {
+            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
+            assertThat(sample.isNew()).isTrue();
+        }
+
+        @Test
+        void whenIdAlreadySet_thenNotNewRow() {
+            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
+            sample.setId(2L);
+            assertThat(sample.isNew()).isFalse();
+        }
+    }
+
+    @Nested
+    class TestBeforeInsert {
+        @Test
+        void shouldAssignResourceId() {
+            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
+            sample.beforeInsert();
+            assertThat(sample.getResourceId()).isNotBlank().isNotEmpty();
+        }
+    }
 }

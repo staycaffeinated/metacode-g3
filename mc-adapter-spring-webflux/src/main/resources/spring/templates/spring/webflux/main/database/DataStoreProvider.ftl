@@ -68,12 +68,9 @@ public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore
         Mono<${endpoint.ejbName}> monoItem = repository.findByResourceId(id)
                 .map(Optional::of)
                 .defaultIfEmpty(Optional.empty())
-                .flatMap(optionalItem -> {
-                    if (optionalItem.isPresent()) {
-                      return Mono.just(optionalItem.get());
-                    }
-                    return Mono.empty();
-                });
+                .flatMap(optionalItem -> optionalItem
+                    .<Mono<? extends ${Entity.className()}>>map(Mono::just) // if found
+                    .orElseGet(Mono::empty)); // if not found
         return monoItem.flatMap(it -> Mono.just(Objects.requireNonNull(ejbToPojoConverter.convert(it))));
     }
 
@@ -85,12 +82,9 @@ public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore
         Mono<${endpoint.ejbName}> monoItem = repository.findById(id)
                     .map(Optional::of)
                     .defaultIfEmpty(Optional.empty())
-                    .flatMap(optionalItem -> {
-                        if (optionalItem.isPresent()) {
-                            return Mono.just(optionalItem.get());
-                        }
-                        return Mono.empty();
-                    });
+                    .flatMap(optionalItem -> optionalItem
+                        .<Mono<? extends ${Entity.className()}>>map(Mono::just) // if found
+                        .orElseGet(Mono::empty));  // if not found
         return monoItem.flatMap(it -> Mono.just(Objects.requireNonNull(ejbToPojoConverter.convert(it))));
     }
 
