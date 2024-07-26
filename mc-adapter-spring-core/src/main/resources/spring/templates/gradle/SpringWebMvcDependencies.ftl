@@ -1,66 +1,63 @@
 dependencies {
-    annotationProcessor libs.springBootConfigProcessor
+    annotationProcessor libs.spring.boot.config.processor
 
-    developmentOnly libs.springDevTools
+    developmentOnly libs.spring.devtools
 
 <#if (project.isWithMongoDb())>
-    implementation libs.springBootStarterWeb
-    implementation libs.springBootStarterDataMongoDb
-    implementation libs.springBootStarterValidation
-    implementation libs.problemSpringWebStarter
-    implementation libs.problemJacksonDataType
-    implementation libs.jakartaPersistenceApi
-    implementation libs.springBootStarterHateoas
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.data.mongodb
+    implementation libs.spring.boot.starter.validation
+    implementation libs.problem.spring.web.starter
+    implementation libs.problem.jackson.datatype
+    implementation libs.jakarta.persistence.api
+    implementation libs.spring.boot.starter.hateoas
 <#else>
-    implementation libs.springBootStarterActuator
-    implementation libs.springBootStarterWeb
-    implementation libs.springBootStarterDataJpa
-    implementation libs.springBootStarterValidation
-    implementation libs.problemSpringWeb
-    implementation libs.problemJacksonDataType
-    implementation libs.jakartaPersistenceApi
-    implementation libs.springBootStarterHateoas
-    implementation libs.rsqlJpaSpringBootStarter
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.data.jpa
+    implementation libs.spring.boot.starter.validation
+    implementation libs.problem.spring.web.starter
+    implementation libs.problem.jackson.datatype
+    implementation libs.jakarta.persistence.api
+    implementation libs.spring.boot.starter.hateoas
+    implementation libs.rsql.jpa.spring.boot.starter
 </#if>
 <#if project.isWithOpenApi()>
-    implementation libs.openApiStarterWebMvcUI
+    implementation libs.openapi.starter.webmvc.ui
 </#if>
 <#if (project.isWithLiquibase())>
-    implementation libs.liquibaseCore
+    implementation libs.liquibase.core
 </#if>
 
     // Optional: This reports out-of-date property names
-    runtimeOnly libs.springBootPropertiesMigrator
+    runtimeOnly libs.spring.boot.properties.migrator
 
 <#if (project.isWithPostgres())>
     runtimeOnly libs.postgresql
 <#elseif (project.isWithMongoDb())>
-    runtimeOnly libs.mongoDbDriverSync
+    runtimeOnly libs.mongodb.driver.sync
 <#else>
     runtimeOnly libs.h2
 </#if>
 
     testImplementation libs.assertJ
-    testImplementation (libs.springBootStarterTest)
-    testImplementation (platform( libs.junitBillOfMaterial ))
-    testImplementation (libs.junitJupiter)
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.junit.jupiter
 
 <#if (project.isWithTestContainers())>
-    testImplementation libs.springCloud
-    testImplementation platform( libs.testContainersBom )
-    testImplementation libs.testContainersJupiter
-    testImplementation libs.springBootTestContainers
-    testImplementation libs.springDevTools
+    testImplementation libs.spring.boot.testcontainers
+    testImplementation libs.spring.devtools
+    testImplementation libs.testcontainers.jupiter
     <#if (project.isWithPostgres())> <#-- if (testcontainers && postgres) -->
-    testImplementation libs.testContainersPostgres
+    testImplementation libs.testcontainers.postgres
     </#if>
     <#if (project.isWithMongoDb())> <#-- if (testcontainers && postgres) -->
-    testImplementation libs.testContainersMongoDb
+    testImplementation libs.testcontainers.mongodb
     </#if>
 <#else>
 <#-- if testcontainers aren't in use, default to using H2 to enable -->
 <#-- out-of-the-box tests to work until a QA DB is set up by the developer. -->
     testRuntimeOnly libs.h2
 </#if>
-    testFixturesImplementation libs.jakartaPersistenceApi
+    testFixturesImplementation libs.jakarta.persistence.api
 }

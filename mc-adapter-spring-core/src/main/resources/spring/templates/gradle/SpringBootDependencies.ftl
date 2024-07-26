@@ -1,15 +1,14 @@
 dependencies {
-    annotationProcessor libs.springBootConfigProcessor
+    annotationProcessor libs.spring.boot.config.processor
 
-    developmentOnly libs.springDevTools
+    developmentOnly libs.spring.devtools
 
-    implementation libs.springBootStarterActuator
-    implementation libs.springBootStarterWeb
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.spring.boot.starter.web
 
     // Optional: this reports out-of-date property names.
-    runtimeOnly libs.springBootPropertiesMigrator
+    runtimeOnly libs.spring.boot.properties.migrator
 
-    testImplementation (libs.springBootStarterTest)
-    testImplementation (platform( libs.junitBillOfMaterial ))
-    testImplementation (libs.junitJupiter)
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.junit.jupiter
 }

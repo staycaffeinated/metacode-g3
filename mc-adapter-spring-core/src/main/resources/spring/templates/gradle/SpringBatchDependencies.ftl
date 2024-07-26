@@ -1,28 +1,27 @@
 dependencies {
-    annotationProcessor libs.springBootConfigProcessor
+    annotationProcessor libs.spring.boot.config.processor
 
-    developmentOnly libs.springDevTools
+    developmentOnly libs.spring.devtools
 
-    implementation libs.springBootStarterWeb
-    implementation libs.springBootStarterBatch
-    implementation libs.springBootStarterDataJpa
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.batch
+    implementation libs.spring.boot.starter.data.jpa
 
 <#if (project.isWithPostgres())>
     runtimeOnly libs.postgresql
 </#if>
     // Optional: This reports out-of-date property names
-    runtimeOnly libs.springBootPropertiesMigrator
+    runtimeOnly libs.spring.boot.properties.migrator
 
 <#if (project.isWithTestContainers())>
-    testImplementation platform( libs.testContainersBom )
-    testImplementation libs.testContainersJupiter
+    testImplementation libs.spring.boot.testcontainers
+    testImplementation libs.testcontainers.jupiter
     <#if (project.isWithPostgres())> <#-- if (testcontainers && postgres) -->
-    testImplementation libs.testContainersPostgres
+    testImplementation libs.testcontainers.postgres
     </#if>
 </#if>
 
-    testImplementation (libs.springBootStarterTest)
-    testImplementation (platform( libs.junitBillOfMaterial ))
-    testImplementation (libs.junitJupiter)
-    testImplementation libs.springBatchTest
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.junit.jupiter
+    testImplementation libs.spring.batch.test
 }

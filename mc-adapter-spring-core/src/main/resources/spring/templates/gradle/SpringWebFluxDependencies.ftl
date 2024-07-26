@@ -1,44 +1,42 @@
 dependencies {
-    annotationProcessor libs.springBootConfigProcessor
+    annotationProcessor libs.spring.boot.config.processor
 
-    developmentOnly libs.springDevTools
+    developmentOnly libs.spring.devtools
 
-    implementation libs.jacksonDatatypeJsr310
-    implementation libs.r2dbcSpi
-    implementation libs.springBootStarterDataR2dbc
-    implementation libs.springBootStarterAop
-    implementation libs.springBootStarterActuator
-    implementation libs.springBootStarterWebFlux
-    implementation libs.springBootStarterValidation
-    implementation libs.problemSpringWebFlux
-    implementation libs.problemJacksonDataType
-    implementation libs.jakartaPersistenceApi
+    implementation libs.jackson.datatype.jsr310
+    implementation libs.r2dbc.spi
+    implementation libs.spring.boot.starter.data.r2dbc
+    implementation libs.spring.boot.starter.aop
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.spring.boot.starter.webflux
+    implementation libs.spring.boot.starter.validation
+    implementation libs.problem.spring.webflux
+    implementation libs.problem.jackson.datatype
+    implementation libs.jakarta.persistence.api
 <#if project.isWithOpenApi()>
-    implementation libs.openApiStarterWebfluxUI
+    implementation libs.openapi.starter.webflux.ui
 </#if>
 <#if (project.isWithLiquibase())>
-    implementation libs.liquibaseCore
+    implementation libs.liquibase.core
 </#if>
 <#if (project.isWithPostgres())>
-    implementation libs.r2dbcPostgres
+    implementation libs.r2dbc.postgres
     runtimeOnly libs.postgresql
 <#else>
-    implementation libs.r2dbcH2
+    implementation libs.r2dbc.h2
     runtimeOnly libs.h2
 </#if>
 
     // Optional: This reports out-of-date property names
-    runtimeOnly libs.springBootPropertiesMigrator
+    runtimeOnly libs.spring.boot.properties.migrator
 
 <#if (project.isWithTestContainers())>
-    testImplementation libs.springCloud
-    testImplementation platform( libs.testContainersBom )
-    testImplementation libs.testContainersJupiter
-    testImplementation libs.springBootTestContainers
-    testImplementation libs.springDevTools
+    testImplementation libs.spring.boot.testcontainers
+    testImplementation libs.testcontainers.jupiter
+    testImplementation libs.spring.devtools
     <#if (project.isWithPostgres())> <#-- if (testcontainers && postgres) -->
-    testImplementation libs.testContainersPostgres
-    testImplementation libs.testContainersR2DBC
+    testImplementation libs.testcontainers.postgres
+    testImplementation libs.testcontainers.r2dbc
     </#if>
 <#else>
 <#-- if testcontainers aren't in use, default to using H2 to enable -->
@@ -47,12 +45,11 @@ dependencies {
 </#if>
     testAnnotationProcessor libs.lombok
     testCompileOnly libs.lombok
-    testImplementation (libs.springBootStarterTest)
-    testImplementation (platform( libs.junitBillOfMaterial ))
-    testImplementation libs.junitJupiter
-    testImplementation libs.reactorTest
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.junit.jupiter
+    testImplementation libs.reactor.test
 
-    testFixturesImplementation libs.reactorTest
-    testFixturesImplementation libs.springBootStarterDataR2dbc
-    testFixturesImplementation libs.jakartaPersistenceApi
+    testFixturesImplementation libs.reactor.test
+    testFixturesImplementation libs.spring.boot.starter.data.r2dbc
+    testFixturesImplementation libs.jakarta.persistence.api
 }
