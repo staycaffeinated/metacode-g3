@@ -1,7 +1,7 @@
 dependencyResolutionManagement {
-versionCatalogs {
-libs {
-from(files("../libs.versions.toml"))
-}
-}
+    versionCatalogs {
+        libs {
+            from(files("../libs.versions.toml"))
+        }
+    }
 }

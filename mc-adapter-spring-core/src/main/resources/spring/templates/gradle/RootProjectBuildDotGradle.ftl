@@ -7,20 +7,20 @@
 * 2) Update settings.gradle and add the line: include "core-library"
 * 3) Create the core-library/build.gradle file. That build file might look like:
 * <code>
-    * plugins {
-    * id 'buildlogic.library-conventions'
-    * alias(libs.plugins.versions)
-    * alias(libs.plugins.lombok.plugin)
-    * }
-    * dependencies {
-    * implementation libs.guava // for example
-    * }
-    * </code>
+* plugins {
+*       id 'buildlogic.library-conventions'
+*       alias(libs.plugins.versions)
+*       alias(libs.plugins.lombok.plugin)
+* }
+* dependencies {
+*       implementation libs.guava // for example
+* }
+* </code>
 **/
 
 plugins {
-alias(libs.plugins.nebula.lint)
-alias(libs.plugins.sonar)
-alias(libs.plugins.lombok.plugin)
-id "buildlogic.subproject-configurations"
+    alias(libs.plugins.nebula.lint)
+    alias(libs.plugins.sonar)
+    alias(libs.plugins.lombok.plugin)
+    id "buildlogic.subproject-configurations"
 }

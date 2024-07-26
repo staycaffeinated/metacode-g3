@@ -1,4 +1,4 @@
 plugins {
-id "buildlogic.java-conventions"
-id "application"
+    id "buildlogic.java-conventions"
+    id "application"
 }

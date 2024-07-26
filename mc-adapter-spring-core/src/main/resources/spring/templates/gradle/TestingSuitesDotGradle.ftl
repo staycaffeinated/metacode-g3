@@ -11,57 +11,57 @@
 
 
 testing {
-suites {
-test {
-useJUnitJupiter()
+    suites {
+        test {
+            useJUnitJupiter()
+        }
+        /*
+         * Define the integration test suite
+         */
+        integrationTest(JvmTestSuite) {
+            testType.set(TestSuiteType.INTEGRATION_TEST)
+            dependencies {
+                implementation project()
+            }
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+            configurations {
+                integrationTestImplementation {
+                    extendsFrom testImplementation
+                }
+            }
+        }
+        /*
+         * Define the performance test suite
+         */
+        performanceTest(JvmTestSuite) {
+            testType.set(TestSuiteType.PERFORMANCE_TEST)
+            dependencies {
+                implementation project()
+            }
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+            configurations {
+                performanceTestImplementation {
+                    extendsFrom testImplementation
+                }
+            }
+        }
+    }
 }
 /*
-* Define the integration test suite
-*/
-integrationTest(JvmTestSuite) {
-testType.set(TestSuiteType.INTEGRATION_TEST)
-dependencies {
-implementation project()
-}
-targets {
-all {
-testTask.configure {
-shouldRunAfter(test)
-}
-}
-}
-configurations {
-integrationTestImplementation {
-extendsFrom testImplementation
-}
-}
-}
-/*
-* Define the performance test suite
-*/
-performanceTest(JvmTestSuite) {
-testType.set(TestSuiteType.PERFORMANCE_TEST)
-dependencies {
-implementation project()
-}
-targets {
-all {
-testTask.configure {
-shouldRunAfter(test)
-}
-}
-}
-configurations {
-performanceTestImplementation {
-extendsFrom testImplementation
-}
-}
-}
-}
-}
-/*
-* The 'check' task will trigger integration tests.
+ * The 'check' task will trigger integration tests.
 */
 tasks.named('check') {
-dependsOn(testing.suites.integrationTest)
+    dependsOn(testing.suites.integrationTest)
 }
