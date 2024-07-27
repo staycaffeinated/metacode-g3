@@ -1,0 +1,33 @@
+catalogName: "spring-boot"
+entries:
+  - scope: "project"
+    archetype: "Application"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/boot/main/Application.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/boot/test/ApplicationTest.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/boot/integrationTest/ApplicationIT.ftl"
+
+  - scope: "project"
+    archetype: "SpringProfiles"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/common/SpringProfiles.ftl"
+
+  - scope: "project"
+    archetype: "AbstractIntegrationTest"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/boot/integrationTest/common/AbstractIntegrationTest.ftl"
+
+  - scope: "project"
+    archetype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/boot/main/resources/ApplicationDotProperties.ftl"
+        destination: "{{appModule}}/src/main/resources/application.properties"
+      - facet: "main"
+        sourceTemplate: "ValidationMessages.ftl"
+        destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"
