@@ -1,0 +1,43 @@
+catalogName: "spring-batch"
+entries:
+  - scope: "project"
+    archetype: "Application"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/batch/main/Application.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/batch/test/ApplicationTest.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/batch/integrationTest/ApplicationIT.ftl"
+
+  - scope: "project"
+    archetype: "SpringProfiles"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/common/SpringProfiles.ftl"
+
+  - scope: "project"
+    archetype: "BatchConfiguration"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/batch/main/config/BatchConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "JobCompletionNotificationListener"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/batch/main/config/JobCompletionNotificationListener.ftl"
+
+  - scope: "project"
+    archetype: "AbstractIntegrationTest"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/batch/integrationTest/AbstractIntegrationTest.ftl"
+
+  - scope: "project"
+    archetype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/batch/main/resources/ApplicationDotYaml.ftl"
+        destination: "{{appModule}}/src/main/resources/application.yml"
+

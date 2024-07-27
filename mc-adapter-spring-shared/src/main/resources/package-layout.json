@@ -12,7 +12,9 @@
         "WebFluxConfiguration",
         "ContainerConfiguration",
         "SecurityResponseHeadersFilter",
-        "MongoContainerConfiguration"
+        "MongoContainerConfiguration",
+        "BatchConfiguration",
+        "JobCompletionNotificationListener"
       ]
     },
     {

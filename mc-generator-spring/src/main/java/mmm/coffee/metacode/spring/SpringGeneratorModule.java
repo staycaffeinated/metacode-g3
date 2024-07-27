@@ -36,9 +36,7 @@ import mmm.coffee.metacode.common.io.MetaPropertiesWriter;
 import mmm.coffee.metacode.common.stereotype.DependencyCollector;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.common.writer.ContentToFileWriter;
-import mmm.coffee.metacode.spring.catalog.SpringEndpointCatalog;
-import mmm.coffee.metacode.spring.catalog.SpringWebFluxTemplateCatalog;
-import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
+import mmm.coffee.metacode.spring.catalog.*;
 import mmm.coffee.metacode.spring.converter.NameConverter;
 import mmm.coffee.metacode.spring.converter.RouteConstantsConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToPredicateConverter;
@@ -57,7 +55,6 @@ import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.springframework.context.annotation.Bean;
-import mmm.coffee.metacode.spring.catalog.SpringBootTemplateCatalog;
 
 /**
  * Module for the Spring Project generator
@@ -122,6 +119,24 @@ public class SpringGeneratorModule extends AbstractModule {
     ICodeGenerator<RestProjectDescriptor> providesSpringBootGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
         return SpringProjectCodeGenerator.builder()
                 .collector(new SpringBootTemplateCatalog(new CatalogFileReader()))
+                .descriptor2templateModel(new DescriptorToTemplateModelConverter())
+                .descriptor2predicate(new DescriptorToPredicateConverter())
+                .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
+                .outputHandler(new ContentToFileWriter())
+                .dependencyCatalog(new DependencyCatalog(DEPENDENCY_FILE))
+                .mustacheDecoder(
+                        MustacheDecoder.builder()
+                                .converter(new RestTemplateModelToMapConverter()).build())
+                .metaPropertiesHandler(providesMetaPropertiesHandler())
+                .archetypeDescriptorFactory(new ArchetypeDescriptorFactory(packageLayoutRuleSet, classNameRuleSet))
+                .build();
+    }
+
+    @Bean("springBatchGenerator")
+    @SpringBootProvider
+    ICodeGenerator<RestProjectDescriptor> providesSpringBatchGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
+        return SpringProjectCodeGenerator.builder()
+                .collector(new SpringBatchTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())
                 .descriptor2predicate(new DescriptorToPredicateConverter())
                 .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))

@@ -61,6 +61,8 @@ public class ProjectArchetypeToMap {
             Archetype.ApplicationConfiguration,
             Archetype.ContainerConfiguration,
             Archetype.DateTimeFormatConfiguration,
+            Archetype.BatchConfiguration,
+            Archetype.JobCompletionNotificationListener,
 
             // persistence stuff
             Archetype.AbstractDataJpaTest,

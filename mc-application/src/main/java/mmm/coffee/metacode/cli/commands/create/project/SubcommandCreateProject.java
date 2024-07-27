@@ -35,7 +35,8 @@ import picocli.CommandLine;
         subcommands = {
                 SubcommandCreateWebMvcProject.class,
                 SubcommandCreateWebFluxProject.class,
-                SubcommandCreateSpringBootProject.class
+                SubcommandCreateSpringBootProject.class,
+                SubcommandCreateSpringBatchProject.class,
         },
         commandListHeading = "%nTemplates:%n",
         synopsisSubcommandLabel = "[TEMPLATE]"

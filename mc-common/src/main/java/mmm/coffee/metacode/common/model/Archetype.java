@@ -36,6 +36,8 @@ public enum Archetype {
     WebMvcConfiguration("WebMvcConfiguration"),
     WebFluxConfiguration("WebFluxConfiguration"),
     SpringProfiles("SpringProfiles"),
+    BatchConfiguration("BatchConfiguration"),
+    JobCompletionNotificationListener("JobCompletionNotificationListener"),
 
     // converters
     EntityToPojoConverter("EntityToPojoConverter"),
