@@ -34,7 +34,8 @@ import picocli.CommandLine;
         optionListHeading = "%nOptions:%n",
         subcommands = {
                 SubcommandCreateWebMvcProject.class,
-                SubcommandCreateWebFluxProject.class
+                SubcommandCreateWebFluxProject.class,
+                SubcommandCreateSpringBootProject.class
         },
         commandListHeading = "%nTemplates:%n",
         synopsisSubcommandLabel = "[TEMPLATE]"

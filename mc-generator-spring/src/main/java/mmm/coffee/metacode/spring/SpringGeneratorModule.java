@@ -57,6 +57,7 @@ import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.springframework.context.annotation.Bean;
+import mmm.coffee.metacode.spring.catalog.SpringBootTemplateCatalog;
 
 /**
  * Module for the Spring Project generator
@@ -114,6 +115,23 @@ public class SpringGeneratorModule extends AbstractModule {
                 .metaPropertiesHandler(providesMetaPropertiesHandler())
                 .archetypeDescriptorFactory(new ArchetypeDescriptorFactory(packageLayoutRuleSet, classNameRuleSet))
 
+                .build();
+    }
+    @Bean("springBootGenerator")
+    @SpringBootProvider
+    ICodeGenerator<RestProjectDescriptor> providesSpringBootGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
+        return SpringProjectCodeGenerator.builder()
+                .collector(new SpringBootTemplateCatalog(new CatalogFileReader()))
+                .descriptor2templateModel(new DescriptorToTemplateModelConverter())
+                .descriptor2predicate(new DescriptorToPredicateConverter())
+                .templateRenderer(new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY)))
+                .outputHandler(new ContentToFileWriter())
+                .dependencyCatalog(new DependencyCatalog(DEPENDENCY_FILE))
+                .mustacheDecoder(
+                        MustacheDecoder.builder()
+                                .converter(new RestTemplateModelToMapConverter()).build())
+                .metaPropertiesHandler(providesMetaPropertiesHandler())
+                .archetypeDescriptorFactory(new ArchetypeDescriptorFactory(packageLayoutRuleSet, classNameRuleSet))
                 .build();
     }
 

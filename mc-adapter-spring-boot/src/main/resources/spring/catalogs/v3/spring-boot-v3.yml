@@ -29,5 +29,5 @@ entries:
         sourceTemplate: "/spring/boot/main/resources/ApplicationDotProperties.ftl"
         destination: "{{appModule}}/src/main/resources/application.properties"
       - facet: "main"
-        sourceTemplate: "ValidationMessages.ftl"
+        sourceTemplate: "/spring/common/main/resources/ValidationMessages.ftl"
         destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"

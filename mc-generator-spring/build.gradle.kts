@@ -13,6 +13,7 @@ dependencies {
     api(project(":mc-adapter-spring-core"))
     api(project(":mc-adapter-spring-webmvc"))
     api(project(":mc-adapter-spring-webflux"))
+    api(project(":mc-adapter-spring-boot"))
 
     implementation(libs.spring.context)
     implementation(libs.commonsConfig)
