@@ -13,7 +13,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = NONE, classes = Application.class)
-public class SpringGeneratorConfigTest {
+class SpringGeneratorConfigTest {
 
     @Autowired
     SpringGeneratorConfig classUnderTest;

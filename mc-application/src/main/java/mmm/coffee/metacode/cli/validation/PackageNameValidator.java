@@ -18,7 +18,7 @@ package mmm.coffee.metacode.cli.validation;
 import java.util.StringTokenizer;
 
 /**
- * Validation of packageName to ensure its a legal Java package name
+ * Validation of packageName to ensure it's a legal Java package name
  * <p>
  * A review of the rules for package names
  * (from  https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html )

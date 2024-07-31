@@ -1,14 +1,12 @@
 package mmm.coffee.metacode.spring.catalog;
 
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -21,7 +19,6 @@ class SpringTemplateCatalogTest {
 
     ResourceLoader resourceLoader = new DefaultResourceLoader();
     SpringWebMvcTemplateCatalog catalogUnderTest;
-
 
 
     @BeforeEach

@@ -19,8 +19,8 @@ import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.List;
@@ -78,7 +78,7 @@ class SpringBatchTemplateCatalogTests {
     // ======================================================================================
     // Helper Methods
     // ======================================================================================
-    
+
     private static class FakeTemplateCatalog extends SpringBatchTemplateCatalog {
         public FakeTemplateCatalog(ICatalogReader reader) {
             super(reader);
@@ -97,7 +97,7 @@ class SpringBatchTemplateCatalogTests {
         @SuppressWarnings("all")
         public void invokeCollectGeneralCatalogsAndThisOne() {
             // The catalog is intentionally null to test handling of null values
-            super.collectGeneralCatalogsAndThisOne(null );
+            super.collectGeneralCatalogsAndThisOne(null);
         }
     }
 

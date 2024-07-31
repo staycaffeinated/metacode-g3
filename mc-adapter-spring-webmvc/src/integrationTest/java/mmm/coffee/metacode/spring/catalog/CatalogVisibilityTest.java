@@ -2,7 +2,6 @@ package mmm.coffee.metacode.spring.catalog;
 
 
 import com.google.common.truth.Truth;
-import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
@@ -15,8 +14,6 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import java.util.List;
-
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -24,7 +21,7 @@ import static org.mockito.Mockito.when;
  * This test tells us if integration tests have visibility to src/main/resources.
  * If they don't, then our integration-test plugin has a bug
  */
-public class CatalogVisibilityTest {
+class CatalogVisibilityTest {
 
     ResourceLoader resourceLoader = new DefaultResourceLoader();
 
@@ -68,7 +65,7 @@ public class CatalogVisibilityTest {
         when(mockDescriptor.isWithMongoDb()).thenReturn(true);
 
         catalogUnderTest.prepare(mockDescriptor);
-        List<CatalogEntry> entries = catalogUnderTest.collect();
+        catalogUnderTest.collect();
 
         Truth.assertThat(catalogUnderTest.collect()).isNotEmpty();
     }

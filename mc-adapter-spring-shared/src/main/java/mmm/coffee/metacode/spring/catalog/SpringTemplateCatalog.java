@@ -16,7 +16,6 @@
 package mmm.coffee.metacode.spring.catalog;
 
 import lombok.NonNull;
-import mmm.coffee.metacode.annotations.guice.SpringWebFlux;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
 import mmm.coffee.metacode.common.catalog.TemplateCatalog;
@@ -77,12 +76,10 @@ public abstract class SpringTemplateCatalog implements Collector {
         return resultSet.stream().toList();
     }
 
+    @Override
     public Set<String> catalogs() {
-        Set<String> candidates = new TreeSet<>();
         // Doing catalogs.stream().toList() is CPU expensive.
-        for (String commonCatalog : COMMON_CATALOGS) {
-            candidates.add(commonCatalog);
-        }
+        Set<String> candidates = new TreeSet<>(Arrays.asList(COMMON_CATALOGS));
         candidates.add(WEBMVC_CATALOG);
         candidates.add(WEBMVC_MONGODB_CATALOG);
         candidates.add(WEBFLUX_CATALOG);

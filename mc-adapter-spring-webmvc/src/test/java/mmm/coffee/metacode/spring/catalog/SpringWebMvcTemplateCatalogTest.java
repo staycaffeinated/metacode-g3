@@ -15,12 +15,14 @@
  */
 package mmm.coffee.metacode.spring.catalog;
 
-import mmm.coffee.metacode.common.catalog.*;
+import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.CatalogFileReader;
+import mmm.coffee.metacode.common.catalog.ICatalogReader;
+import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
-import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -80,10 +82,10 @@ class SpringWebMvcTemplateCatalogTest {
             assertThat(entry.getArchetype()).isInstanceOf(String.class);
             assertThat(entry.getScope()).isAnyOf("project", "endpoint");
             assertThat(entry.getFacets()).isNotEmpty();
-            for (TemplateFacet facet: entry.getFacets()) {
+            for (TemplateFacet facet : entry.getFacets()) {
                 // The `facet` and `sourceTemplate` are required fields.
                 // The `destination` is optional; after all, class file destinations are computed, for example.
-                assertThat(facet.getFacet()).isAnyOf("main","test", "integrationTest", "testFixtures");
+                assertThat(facet.getFacet()).isAnyOf("main", "test", "integrationTest", "testFixtures");
                 assertThat(facet.getSourceTemplate()).isNotEmpty();
             }
         }
@@ -92,7 +94,7 @@ class SpringWebMvcTemplateCatalogTest {
     /*
      * This is a white box test of the
      * {@code collectGeneralCatalogsAndThisOne} method.
-     * This test calls that method with a {@code null}
+     * This test calls that method with a `null`
      * argument to ensure an NPE is thrown.
      */
     @Test
@@ -110,8 +112,7 @@ class SpringWebMvcTemplateCatalogTest {
     @Test
     void shouldAlsoThrowExceptionOnNullArg() {
         assertThrows(NullPointerException.class, () -> {
-            ICatalogReader nullReader = null;
-            new SpringWebMvcTemplateCatalog(nullReader);
+            new SpringWebMvcTemplateCatalog((ICatalogReader) null);
         });
     }
 

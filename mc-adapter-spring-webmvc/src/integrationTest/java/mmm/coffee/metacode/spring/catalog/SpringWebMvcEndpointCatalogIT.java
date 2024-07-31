@@ -4,20 +4,17 @@
 package mmm.coffee.metacode.spring.catalog;
 
 import com.google.common.truth.Truth;
-import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,7 +69,7 @@ class SpringWebMvcEndpointCatalogIT {
     }
 
     @Test
-    void shouldWrapAnyExceptionAsRuntimeApplicationError() throws Exception {
+    void shouldWrapAnyExceptionAsRuntimeApplicationError() {
         // given: a CatalogFileReader that eagerly throws IOExceptions
         var mockReader = Mockito.mock(CatalogFileReader.class);
         when(mockReader.readCatalog(anyString())).thenThrow(IOException.class);
@@ -110,27 +107,8 @@ class SpringWebMvcEndpointCatalogIT {
             when(mockDescriptor.isWithMongoDb()).thenReturn(true);
 
             catalogUnderTest.prepare(mockDescriptor);
-            List<CatalogEntry> entries = catalogUnderTest.collect();
+            catalogUnderTest.collect();
 
-            Truth.assertThat(catalogUnderTest.collect()).isNotEmpty();
-        }
-
-        @Disabled("Need to put this in SpringWebFluxEndpointCatalogTest")
-        void whenNotWebFluxAndNotMongoDbIntegration() {
-            RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);
-            when(mockDescriptor.isWebFlux()).thenReturn(false);
-            when(mockDescriptor.isWithMongoDb()).thenReturn(false);
-
-            catalogUnderTest.prepare(mockDescriptor);
-
-            Truth.assertThat(catalogUnderTest.collect()).isNotEmpty();
-        }
-
-        @Disabled("Need to put this in SpringWebFluxEndpointCatalogTest")
-        void whenWebFlux() {
-            RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);
-            when(mockDescriptor.isWebFlux()).thenReturn(true);
-            catalogUnderTest.prepare(mockDescriptor);
             Truth.assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
     }

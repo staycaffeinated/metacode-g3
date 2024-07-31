@@ -21,6 +21,8 @@ import java.util.TreeMap;
  */
 public class ProjectArchetypeToMap {
 
+    private ProjectArchetypeToMap() {}
+
     public static final Archetype[] PROJECT_ARCHETYPES = {
             // application class
             Archetype.Application,

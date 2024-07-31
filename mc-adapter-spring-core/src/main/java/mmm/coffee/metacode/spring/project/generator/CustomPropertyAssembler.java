@@ -34,10 +34,9 @@ public class CustomPropertyAssembler {
         Map<String,Object> projectScopeProperties = assembleCustomProperties(archetypeDescriptorFactory, basePackage);
 
         Map<String, ArchetypeDescriptor> customProperties = EndpointArchetypeToMap.map(archetypeDescriptorFactory, restResource);
-        Map<String, Object> endpointScopeProperties = new TreeMap<>();
         // The templates of endpoint-scope classes (such as Controller) will need the coordinates
         // of project-scope classes (such as Exceptions and ResourceIdSuppliers). 
-        endpointScopeProperties.putAll(projectScopeProperties);
+        Map<String, Object> endpointScopeProperties = new TreeMap<>(projectScopeProperties);
         customProperties.forEach((key, value) -> {
             ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage, restResource);
             endpointScopeProperties.put(key, descriptor1);
@@ -49,34 +48,30 @@ public class CustomPropertyAssembler {
      *
      */
     private static ArchetypeDescriptor resolveBasePackageOf(ArchetypeDescriptor descriptor, String basePackage) {
-        if (descriptor instanceof JavaArchetypeDescriptor) {
-            JavaArchetypeDescriptor that = (JavaArchetypeDescriptor) descriptor;
+        if (descriptor instanceof JavaArchetypeDescriptor that) {
             Map<String, String> map = new HashMap<>();   // the map for the mustache resolver
             map.put("basePackage", basePackage);
             String resolvedClassName = MustacheExpressionResolver.resolve(that.className(), map);
             String resolvedFQCN = MustacheExpressionResolver.resolve(that.fqcn(), map);
             String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
 
-            switch (descriptor.archetype()) {
-
-                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties: {
+            return switch (descriptor.archetype()) {
+                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties -> {
                     log.info("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
-                    return EdgeCaseResolvedArchetypeDescriptor.builder()
+                    yield EdgeCaseResolvedArchetypeDescriptor.builder()
                             .archetype(descriptor.archetype())
                             .fqcn(resolvedFQCN)
                             .className(resolvedClassName)
                             .packageName(resolvedPkgName)
                             .build();
                 }
-                default:
-                    return ResolvedJavaArchetypeDescriptor.builder()
-                            .archetype(descriptor.archetype())
-                            .fqcn(resolvedFQCN)
-                            .className(resolvedClassName)
-                            .packageName(resolvedPkgName)
-                            .build();
-
-            }
+                default -> ResolvedJavaArchetypeDescriptor.builder()
+                        .archetype(descriptor.archetype())
+                        .fqcn(resolvedFQCN)
+                        .className(resolvedClassName)
+                        .packageName(resolvedPkgName)
+                        .build();
+            };
         } else {
             return descriptor;
         }
@@ -84,8 +79,7 @@ public class CustomPropertyAssembler {
 
     private static ArchetypeDescriptor resolveBasePackageOf(ArchetypeDescriptor descriptor, String basePackage, String restObj) {
         log.info("[resolveBasePackageOf] restObj: {}", restObj);
-        if (descriptor instanceof JavaArchetypeDescriptor) {
-            JavaArchetypeDescriptor that = (JavaArchetypeDescriptor) descriptor;
+        if (descriptor instanceof JavaArchetypeDescriptor that) {
             Map<String, String> map = new HashMap<>();   // the map for the mustache resolver
             map.put("basePackage", basePackage);
             map.put("restObj", restObj);
@@ -94,27 +88,25 @@ public class CustomPropertyAssembler {
             String resolvedFQCN = MustacheExpressionResolver.resolve(that.fqcn(), map);
             String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
 
-            switch (descriptor.archetype()) {
-
+            return switch (descriptor.archetype()) {
                 case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties, TestTableInitializer: {
                     log.debug("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
-                    return EdgeCaseResolvedArchetypeDescriptor.builder()
+                    yield EdgeCaseResolvedArchetypeDescriptor.builder()
                             .archetype(descriptor.archetype())
                             .fqcn(resolvedFQCN)
                             .className(resolvedClassName)
                             .packageName(resolvedPkgName)
                             .build();
                 }
-                default:
-                    var foo = ResolvedJavaArchetypeDescriptor.builder()
+                default: {
+                    yield ResolvedJavaArchetypeDescriptor.builder()
                             .archetype(descriptor.archetype())
                             .fqcn(resolvedFQCN)
                             .className(resolvedClassName)
                             .packageName(resolvedPkgName)
                             .build();
-                    log.debug("Resolved descriptor of endpoint archetype: {}", foo);
-                    return foo;
-            }
+                }
+            };
         } else {
             return descriptor;
         }
@@ -131,34 +123,33 @@ public class CustomPropertyAssembler {
         }
 
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("ResolvedJavaArchetypeDescriptor[className: ").append(className()).append(", ");
-            sb.append("fqcn: ").append(fqcn()).append(", ");
-            sb.append("unitTest: ").append(fqcnUnitTest()).append(", ");
-            sb.append("integrationTest: ").append(fqcnIntegrationTest()).append(", ");
-            sb.append("packageName: ").append(packageName()).append("]");
-            return sb.toString();
+            return "ResolvedJavaArchetypeDescriptor[className: " + className() + ", " +
+                    "fqcn: " + fqcn() + ", " +
+                    "unitTest: " + fqcnUnitTest() + ", " +
+                    "integrationTest: " + fqcnIntegrationTest() + ", " +
+                    "packageName: " + packageName() + "]";
         }
     }
 
     @Builder
     private record EdgeCaseResolvedArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                        String className) implements JavaArchetypeDescriptor {
+        @Override
         public String fqcnIntegrationTest() {
             return fqcn();
         }
+
+        @Override
         public String fqcnUnitTest() {
             return fqcn();
         }
 
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("NoOpTestDescriptor[className: ").append(className()).append(", ");
-            sb.append("fqcn: ").append(fqcn()).append(", ");
-            sb.append("unitTestClass: ").append(fqcnUnitTest()).append(", ");
-            sb.append("integrationTestClass: ").append(fqcnIntegrationTest()).append(", ");
-            sb.append("packageName: ").append(packageName()).append("]");
-            return sb.toString();
+            return "NoOpTestDescriptor[className: " + className() + ", " +
+                    "fqcn: " + fqcn() + ", " +
+                    "unitTestClass: " + fqcnUnitTest() + ", " +
+                    "integrationTestClass: " + fqcnIntegrationTest() + ", " +
+                    "packageName: " + packageName() + "]";
         }
     }
 

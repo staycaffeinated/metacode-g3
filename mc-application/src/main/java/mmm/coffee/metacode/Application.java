@@ -89,7 +89,7 @@ public class Application implements CommandLineRunner, ExitCodeGenerator {
      */
     @Override
     public int getExitCode() {
-        return 0;
+        return exitCode;
     }
 }
 
