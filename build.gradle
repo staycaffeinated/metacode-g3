@@ -1,0 +1,12 @@
+plugins {
+  id "org.sonarqube" version "5.1.0.4882"
+}
+
+subprojects {
+  sonar {
+    properties {
+      property("sonar.sources", "src/main/java")
+      property("sonar.tests", [ "src/test/java", "src/integrationTest/java" ])
+    }
+  }
+}
