@@ -1,5 +1,6 @@
 package mmm.coffee.metacode.common.dictionary.config;
 
+import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,15 +12,15 @@ import java.io.IOException;
 import java.util.Map;
 
 @Configuration
+@ExcludeFromJacocoGeneratedReport
 public class ClassNameRuleSetConfiguration {
 
     @Value("classpath:classname-rules.properties")
     private String classNameRulesProperties;
 
     @Bean
-    public ClassNameRulesReader classNameRulesReaderFactory() throws IOException {
-        ClassNameRulesReader reader = new ClassNameRulesReader(new DefaultResourceLoader(), classNameRulesProperties);
-        return reader;
+    public ClassNameRulesReader classNameRulesReaderFactory() {
+        return new ClassNameRulesReader(new DefaultResourceLoader(), classNameRulesProperties);
     }
 
 

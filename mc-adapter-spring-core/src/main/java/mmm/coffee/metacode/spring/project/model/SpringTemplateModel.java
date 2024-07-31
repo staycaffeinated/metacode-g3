@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
-import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 
 import java.util.Map;
@@ -38,7 +37,7 @@ public abstract class SpringTemplateModel implements MetaTemplateModel {
      *     - src/test/java
      */
     @Getter
-    private static String appModule = "application";
+    private final String appModule = "application";
 
     @Setter(AccessLevel.PUBLIC)
     private boolean isWebFlux;
@@ -75,20 +74,5 @@ public abstract class SpringTemplateModel implements MetaTemplateModel {
     public final boolean isWebMvc() {
         return isWebMvc;
     }
-
-    /*
-     * this method is invoked by the templates; intelliJ won't detect any java code calling this
-     */
-    public final boolean isSpringBoot() {
-        return isSpringBoot;
-    }
-
-    /*
-     * This method is invoked by the templates; intelliJ won't detect any java code calling this
-     */
-    public final boolean isSpringBatch() {
-        return isSpringBatch;
-    }
-
 
 }

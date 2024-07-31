@@ -52,6 +52,7 @@ public class SpringWebFluxTemplateCatalog extends SpringTemplateCatalog {
         return activeCatalog;
     }
 
+    @Override
     public Collector prepare(Descriptor descriptor) {
         log.debug("[prepare] starting 'prepare' step of life-cycle...");
 

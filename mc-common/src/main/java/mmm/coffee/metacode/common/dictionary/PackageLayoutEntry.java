@@ -14,13 +14,11 @@ public class PackageLayoutEntry {
     private String packageName;
 
     @JsonProperty("archetypes")
-    private List<String> archetypes = new ArrayList();
+    private List<String> archetypes = new ArrayList<>();
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{").append("packageName: ").append(packageName).append(",");
-        sb.append("archetypes: ").append(archetypes).append("}");
-        return sb.toString();
+        return "{" + "packageName: " + packageName + "," +
+                "archetypes: " + archetypes + "}";
     }
 }

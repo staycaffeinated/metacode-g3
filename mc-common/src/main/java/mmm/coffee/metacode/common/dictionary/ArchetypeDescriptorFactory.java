@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
-    private ClassNameRuleSet classNameRuleSet;
-    private PackageLayoutRuleSet packageLayoutRuleSet;
+    private final ClassNameRuleSet classNameRuleSet;
+    private final PackageLayoutRuleSet packageLayoutRuleSet;
 
     /**
      * Constructor
@@ -56,11 +56,9 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
     }
 
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("ArchetypeDescriptor [");
-        builder.append("packageLayoutRules.size: ").append(packageLayoutRuleSet.size()).append(", ");
-        builder.append("classNameRules.size: ").append(classNameRuleSet.size()).append("]");
-        return builder.toString();
+        return "ArchetypeDescriptor [" +
+                "packageLayoutRules.size: " + packageLayoutRuleSet.size() + ", " +
+                "classNameRules.size: " + classNameRuleSet.size() + "]";
     }
 
 
@@ -68,60 +66,13 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
     private record DefaultJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                   String className) implements JavaArchetypeDescriptor {
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("DefaultJavaArchetype[className: ").append(className()).append(", ");
-            sb.append("fqcn: ").append(fqcn()).append(", ");
-            sb.append("unitTestClass: ").append(fqcnUnitTest()).append(", ");
-            sb.append("integrationTestClass: ").append(fqcnIntegrationTest()).append(", ");
-            sb.append("packageName: ").append(packageName()).append("]");
-            return sb.toString();
+            return "DefaultJavaArchetype[className: " + className() + ", " +
+                    "fqcn: " + fqcn() + ", " +
+                    "unitTestClass: " + fqcnUnitTest() + ", " +
+                    "integrationTestClass: " + fqcnIntegrationTest() + ", " +
+                    "packageName: " + packageName() + "]";
         }
     }
-
-    @Builder
-    private record RegisterDatabasePropertiesDescriptor(Archetype archetype, String fqcn, String packageName,
-                                                        String className) implements JavaArchetypeDescriptor {
-        public String fqcnIntegrationTest() {
-            return className();
-        }
-
-        public String fqcnUnitTest() {
-            return className();
-        }
-
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("RegisterDatabasePropertiesDescriptor[className: ").append(className()).append(", ");
-            sb.append("fqcn: ").append(fqcn()).append(", ");
-            sb.append("unitTestClass: ").append(fqcnUnitTest()).append(", ");
-            sb.append("integrationTestClass: ").append(fqcnIntegrationTest()).append(", ");
-            sb.append("packageName: ").append(packageName()).append("]");
-            return sb.toString();
-        }
-    }
-
-    @Builder
-    private record ContainerConfigurationDescriptor(Archetype archetype, String fqcn, String packageName,
-                                                    String className) implements JavaArchetypeDescriptor {
-        public String fqcnIntegrationTest() {
-            return className();
-        }
-
-        public String fqcnUnitTest() {
-            return className();
-        }
-
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("ContainerConfigurationDescriptor[className: ").append(className()).append(", ");
-            sb.append("fqcn: ").append(fqcn()).append(", ");
-            sb.append("unitTestClass: ").append(fqcnUnitTest()).append(", ");
-            sb.append("integrationTestClass: ").append(fqcnIntegrationTest()).append(", ");
-            sb.append("packageName: ").append(packageName()).append("]");
-            return sb.toString();
-        }
-    }
-
 }
 
 

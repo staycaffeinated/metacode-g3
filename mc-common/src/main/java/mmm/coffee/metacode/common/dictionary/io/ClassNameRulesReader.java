@@ -13,7 +13,6 @@ import java.util.Properties;
 public class ClassNameRulesReader {
     private final ResourceLoader resourceLoader;
     private final String fileName;
-    private final Map<String, String> patterns = new HashMap<>();
 
     public ClassNameRulesReader(@NonNull ResourceLoader resourceLoader, @NonNull String fileName) {
         this.resourceLoader = resourceLoader;
@@ -27,9 +26,7 @@ public class ClassNameRulesReader {
 
         // Convert property entries into a Map that will be consumed by ClassNameRuleSet
         HashMap<String, String> map = new HashMap<>();
-        properties.forEach((key, value) -> {
-            map.put(key.toString(), value.toString());
-        });
+        properties.forEach((key, value) -> map.put(key.toString(), value.toString()));
         return map;
     }
 

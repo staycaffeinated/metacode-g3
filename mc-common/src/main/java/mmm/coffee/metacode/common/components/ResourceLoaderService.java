@@ -2,7 +2,6 @@ package mmm.coffee.metacode.common.components;
 
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

@@ -8,6 +8,7 @@ import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
+import mmm.coffee.metacode.common.stereotype.Collector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -130,4 +131,5 @@ class SpringEndpointCatalogTests {
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
     }
+    
 }

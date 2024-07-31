@@ -1,16 +1,10 @@
 package mmm.coffee.metacode.common.dictionary;
 
-import lombok.Builder;
 import lombok.NonNull;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
-import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
-import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
-import org.apache.commons.lang3.arch.Processor;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -21,9 +15,10 @@ import java.util.TreeMap;
  */
 public class ProjectArchetypeToMap {
 
-    private ProjectArchetypeToMap() {}
+    private ProjectArchetypeToMap() {
+    }
 
-    public static final Archetype[] PROJECT_ARCHETYPES = {
+    protected static final Archetype[] PROJECT_ARCHETYPES = {
             // application class
             Archetype.Application,
             Archetype.RootController,

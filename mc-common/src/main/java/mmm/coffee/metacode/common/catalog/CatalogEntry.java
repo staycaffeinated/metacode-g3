@@ -24,11 +24,10 @@ import mmm.coffee.metacode.common.model.Archetype;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * CatalogEntry
- *
+ * <p>
  * See: <a href="https://howtodoinjava.com/jackson/ignore-null-empty-absent-values/">Ignoring values</a>
  * for details on how the `Include` annotation works.
  */
@@ -36,7 +35,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 // The code doesn't care what order the properties are in,
 // but this order is easier to read.
-@JsonPropertyOrder({"scope","archetype","facets"})
+@JsonPropertyOrder({"scope", "archetype", "facets"})
 @ToString
 public class CatalogEntry {
     /*

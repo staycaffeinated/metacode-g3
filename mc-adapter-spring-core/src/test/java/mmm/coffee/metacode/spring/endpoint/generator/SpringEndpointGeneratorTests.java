@@ -100,6 +100,7 @@ class SpringEndpointGeneratorTests {
      * a handful of components that are assembled into the pipeline that
      * provides this flow: templates -> rendered content -> output files
      */
+    @SuppressWarnings("java:S125") // false positive; there are no commented-out lines of code
     private SpringEndpointGenerator setUpGenerator(String frameworkToUse) throws IOException {
         // In the TemplateResolver, we just need the
         // {@code render} method to return a non-null String.
@@ -158,11 +159,11 @@ class SpringEndpointGeneratorTests {
          * Builds a data set of CatalogEntry's
          */
         private static List<CatalogEntry> buildSampleSet() {
-            CatalogEntry e1 = buildEntry("Service.ftl", "Service.java", null);
-            CatalogEntry e2 = buildEntry("Controller.ftl", "Controller.java", null);
-            CatalogEntry e3 = buildEntry("Repository.ftl", "Repository.java", null);
-            CatalogEntry e4 = buildEntry("ServiceTest.ftl", "ServiceTest.java", null);
-            CatalogEntry e5 = buildEntry("ControllerIT.ftl", "ControllerTest.java", null);
+            CatalogEntry e1 = buildEntry("Service.ftl", "Service.java");
+            CatalogEntry e2 = buildEntry("Controller.ftl", "Controller.java");
+            CatalogEntry e3 = buildEntry("Repository.ftl", "Repository.java");
+            CatalogEntry e4 = buildEntry("ServiceTest.ftl", "ServiceTest.java");
+            CatalogEntry e5 = buildEntry("ControllerIT.ftl", "ControllerTest.java");
 
             return List.of(e1, e2, e3, e4, e5);
         }
@@ -170,16 +171,15 @@ class SpringEndpointGeneratorTests {
         /**
          * Builds a single CatalogEntry
          */
-        private static CatalogEntry buildEntry(String source, String destination, String tags) {
-            CatalogEntry entry = CatalogEntryBuilder.builder()
+        private static CatalogEntry buildEntry(String source, String destination) {
+            return CatalogEntryBuilder.builder()
                     .addFacet(TemplateFacetBuilder.builder()
                             .source(source)
                             .destination(destination)
                             .build())
                     .scope(MetaTemplateModel.Key.ENDPOINT.value())
-                    .tags(tags)
+                    .tags(null)
                     .build();
-            return entry;
         }
 
         /**

@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
@@ -47,7 +46,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
     // At this time, we don't know which Collector to use until the doPreprocessing
     // method is called, because we have one collector for WebMvc templates, and a
     // different collector for WebFlux. This choice is worth revisiting.
-    // TODO: Perhaps use a Strategy object to handle collection based on style, webmvc vs flux
+    // NB: Perhaps use a Strategy object to handle collection based on style, webmvc vs flux
     private Collector collector;
 
     private final IArchetypeDescriptorFactory archetypeDescriptorFactory;
@@ -121,8 +120,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
                 String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
                 if (catalogEntry.getArchetype() == null) {
                     log.error("Detected a catalog entry with a null archetype: {}", catalogEntry);
-                }
-                else {
+                } else {
                     String outputFileName = OutputFileDestinationResolver.resolveDestination(
                             facet,
                             catalogEntry.getArchetype(),

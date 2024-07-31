@@ -6,7 +6,6 @@ package mmm.coffee.metacode.common.stereotype;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,7 +21,8 @@ public interface MetaTemplateModel {
 
     ArchetypeDescriptor getArchetypeDescriptor();
 
-    Map<String,Object> getCustomProperties();
+    Map<String, Object> getCustomProperties();
+
     void setCustomProperties(Map<String, Object> customProperties);
 
     /*

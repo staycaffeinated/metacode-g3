@@ -9,6 +9,7 @@ import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class PackageLayoutReader {
 
@@ -30,26 +31,20 @@ public class PackageLayoutReader {
      * @param mapper a preconfigured mapper
      */
     public PackageLayoutReader(ObjectMapper mapper, ResourceLoader resourceLoader) {
-        if (mapper != null) {
-            this.mapper = mapper;
-        }
-        else {
-            this.mapper = new ObjectMapper();
-        }
-        if (resourceLoader != null) {
-            this.resourceLoader = resourceLoader;
-        }
-        else {
-            this.resourceLoader = new DefaultResourceLoader();
-        }
+        this.mapper = Objects.requireNonNullElseGet(mapper, ObjectMapper::new);
+        this.resourceLoader = Objects.requireNonNullElseGet(resourceLoader, DefaultResourceLoader::new);
     }
 
-
+    /**
+     * Reads the given `jsonFile` and materializes the json file as a `PackageLayout`
+     * @param jsonFile the resource path of the json file (eg: "classpath:/path/to/file")
+     * @return the PackageLayout representation
+     * @throws IOException an InputStream cannot be created for the `jsonFile`. 
+     */
     public PackageLayout read(@NonNull String jsonFile) throws IOException {
         InputStream is = resourceLoader.getResource(jsonFile).getInputStream();
         ObjectReader reader = mapper.readerFor(PackageLayout.class);
-        PackageLayout packageLayout = reader.readValue(is, PackageLayout.class);
-        return packageLayout;
+        return reader.readValue(is, PackageLayout.class);
     }
 
 }

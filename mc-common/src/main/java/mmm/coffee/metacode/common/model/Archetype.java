@@ -57,9 +57,9 @@ public enum Archetype {
     ResourceIdTrait("ResourceIdTrait"),
     AlphabeticAnnotation("AlphabeticAnnotation"), 
     AlphabeticValidator("AlphabeticValidator"),
-    ResourceIdAnnotation("ResourceIdAnnotation"), // todo: sb: ResourceIdFieldAnnotation
+    ResourceIdAnnotation("ResourceIdAnnotation"),
     ResourceIdValidator("ResourceIdValidator"),
-    SecureRandomSeries("SecureRandomSeries"), // todo: sb ResourceIdGenerator
+    SecureRandomSeries("SecureRandomSeries"),
     ResourceIdSupplier("ResourceIdSupplier"), // interface for ResourceIdGenerator
     OnUpdateAnnotation("OnUpdateAnnotation"),
     OnCreateAnnotation("OnCreateAnnotation"),
@@ -105,7 +105,7 @@ public enum Archetype {
     ServiceImpl("ServiceImpl"),
     Controller("Controller"),
     ControllerExceptionHandler("ControllerExceptionHandler"),
-    ConversionService("ConversionService"), // todo: I think this is endpoint dependent
+    ConversionService("ConversionService"),
     Document("Document"), // nosql Document objects
     Routes("Routes"),
     Pojo("Pojo"),
@@ -129,7 +129,7 @@ public enum Archetype {
     PojoTestFixtures("PojoTestFixtures"),
 
     // webflux stuff
-    TestTableInitializer("TestTableInitializer"), // to init a table during testing. TODO: use test-fixtures to init tables instead.
+    TestTableInitializer("TestTableInitializer"), // to init a table during testing. NB: use test-fixtures to init tables instead.
     TableInitializer("TableInitializer"),
     EjbTestFixtures("EjbTestFixtures"), // mirror of WebMvcEjbTestFixtures
     ModelTestFixtures("ModelTestFixtures"),

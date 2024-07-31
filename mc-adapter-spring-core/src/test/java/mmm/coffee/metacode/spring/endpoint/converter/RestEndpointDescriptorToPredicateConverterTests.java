@@ -94,6 +94,7 @@ class RestEndpointDescriptorToPredicateConverterTests {
 
 
     @Test
+    @SuppressWarnings("java:S4738") // allow guava predicates
     void shouldOnlyAcceptWebFluxEndpointTemplates() {
         Predicate<CatalogEntry> predicate = converterUnderTest.convert(webFluxDescriptor);
 
@@ -108,6 +109,7 @@ class RestEndpointDescriptorToPredicateConverterTests {
     }
 
     @Test
+    @SuppressWarnings("java:S4738") // allow guava predicates
     void shouldOnlyAcceptWebMvcEndpointTemplates() {
         Predicate<CatalogEntry> predicate = converterUnderTest.convert(webMvcDescriptor);
 

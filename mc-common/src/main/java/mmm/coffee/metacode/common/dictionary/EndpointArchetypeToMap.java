@@ -18,7 +18,11 @@ import java.util.*;
 @Slf4j
 public class EndpointArchetypeToMap {
 
-    public static final Archetype[] ENDPOINT_ARCHETYPES = computeEndpointArchetypes();
+    protected static final Archetype[] ENDPOINT_ARCHETYPES = computeEndpointArchetypes();
+
+    private EndpointArchetypeToMap() {
+        // essentially sealed
+    }
 
     /**
      * Returns a map of each project-scope archetype and that archetype's descriptor.
@@ -57,7 +61,7 @@ public class EndpointArchetypeToMap {
      */
     public static Archetype[] computeEndpointArchetypes() {
         Archetype[] projectValues = ProjectArchetypeToMap.PROJECT_ARCHETYPES;
-        List<Archetype> endpointList = new ArrayList<Archetype>(EnumSet.allOf(Archetype.class));
+        List<Archetype> endpointList = new ArrayList<>(EnumSet.allOf(Archetype.class));
 
         // Subtract the project-scoped archetypes from the set of all archetypes.
         // Whatever is left are the endpoint-scoped archetypes

@@ -81,6 +81,8 @@ tasks {
  * Short-cut to copy the jar to my scratch directory for testing
  */
 tasks.register("stage") {
+    group = "Verification"
+    description = "Copy the jar to a staging area for end-to-end testing"
     doLast {
         exec {
             workingDir = File(".")

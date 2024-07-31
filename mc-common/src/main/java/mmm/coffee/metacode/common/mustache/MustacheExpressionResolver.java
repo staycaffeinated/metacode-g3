@@ -30,6 +30,7 @@ import java.util.Map;
 @Slf4j
 public class MustacheExpressionResolver {
     private MustacheExpressionResolver() {
+        // essentially sealed
     }
 
     /**

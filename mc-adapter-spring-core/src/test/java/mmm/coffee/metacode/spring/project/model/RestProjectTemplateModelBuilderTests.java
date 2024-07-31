@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-public class RestProjectTemplateModelBuilderTests {
+class RestProjectTemplateModelBuilderTests {
 
     private static final String BASE_PATH = "/bookstore";
     private static final String BASE_PACKAGE = "io.example.bookstore";

@@ -11,6 +11,10 @@ import java.util.Map;
 @Slf4j
 public class PackageLayoutToHashMapMapper {
 
+    private PackageLayoutToHashMapMapper() {
+        // essentially sealed
+    }
+
     /**
      * Returns a Map where the key is an archtype name and the value is the package name.
      * The package name may contain mustache expressions, such as "{{basePackage}}.infrastructure.config"
