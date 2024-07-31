@@ -29,6 +29,9 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Unit test
  */
+@SuppressWarnings({
+        "java:S4738"    // allow guava predicates
+})
 class DescriptorToPredicateConverterTest {
 
     private static final String BASE_PATH = "/petstore";
@@ -53,7 +56,7 @@ class DescriptorToPredicateConverterTest {
     @BeforeEach
     public void setUpTestData() {
         // A template that's applied for common usage, such as error advice, won't have any tag
-        commonEntry = buildCatalogEntry("ErrorAdvice.ftl", "ErrorAdvice.java");
+        commonEntry = buildCatalogEntry("ErrorAdvice.ftl");
 
         // A template specific to Postgres support should contain the 'postgres' tag
         postgresEntry = buildCatalogEntry("DatabaseConfig.ftl", "DatabaseConfig.java", SpringIntegrations.POSTGRES.toString());
@@ -159,15 +162,15 @@ class DescriptorToPredicateConverterTest {
     /*
      * Helper method to build a CatalogEntry w/o any tags
      */
-    private CatalogEntry buildCatalogEntry(String source, String destination) {
-        return buildCatalogEntry(source, destination, null);
+    private CatalogEntry buildCatalogEntry(String source) {
+        return buildCatalogEntry(source, "SomeClassName.java", null);
     }
 
     /*
      * Helper method to build a CatalogEntry with tags
      */
     private CatalogEntry buildCatalogEntry(String source, String destination, String tags) {
-        CatalogEntry entry = CatalogEntryBuilder
+        return CatalogEntryBuilder
                 .builder()
                 .scope("project")
                 .addFacet(TemplateFacetBuilder.builder()
@@ -177,7 +180,6 @@ class DescriptorToPredicateConverterTest {
                         .build())
                 .tags(tags)
                 .build();
-        return entry;
     }
 
 }

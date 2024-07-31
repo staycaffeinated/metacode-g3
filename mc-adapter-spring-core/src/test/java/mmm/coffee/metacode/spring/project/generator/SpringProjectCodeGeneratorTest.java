@@ -199,7 +199,7 @@ class SpringProjectCodeGeneratorTest {
      *
      * @return a mocked instance of a SpringMetaPropertiesHandler
      */
-    private SpringMetaPropertiesHandler setUpMetaPropertiesHandler() throws Exception {
+    private SpringMetaPropertiesHandler setUpMetaPropertiesHandler() {
         var mockWriter = Mockito.mock(MetaPropertiesWriter.class);
         doNothing().when(mockWriter).saveProperties(any());
 
@@ -232,7 +232,7 @@ class SpringProjectCodeGeneratorTest {
          * Builds a single CatalogEntry
          */
         private static CatalogEntry buildEntry(String source, String destination, String tags) {
-            CatalogEntry entry = CatalogEntryBuilder.builder()
+            return CatalogEntryBuilder.builder()
                     .scope(MetaTemplateModel.Key.PROJECT.value())
                     .addFacet(TemplateFacetBuilder.builder()
                             .facet("main")
@@ -241,7 +241,6 @@ class SpringProjectCodeGeneratorTest {
                             .build())
                     .tags(tags)
                     .build();
-            return entry;
         }
 
         /**

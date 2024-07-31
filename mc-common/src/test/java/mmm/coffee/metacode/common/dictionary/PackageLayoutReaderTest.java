@@ -10,7 +10,7 @@ import java.io.IOException;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
-public class PackageLayoutReaderTest {
+class PackageLayoutReaderTest {
 
     private static final String SAMPLE_FILE = "classpath:test-package-layout.json";
 

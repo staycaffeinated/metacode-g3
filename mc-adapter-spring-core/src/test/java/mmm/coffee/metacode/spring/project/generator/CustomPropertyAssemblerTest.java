@@ -1,11 +1,9 @@
 package mmm.coffee.metacode.spring.project.generator;
 
-import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -13,9 +11,8 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CustomPropertyAssemblerTest {
+class CustomPropertyAssemblerTest {
 
-    CustomPropertyAssembler assemblerUnderTest = new CustomPropertyAssembler();
     IArchetypeDescriptorFactory factory;
 
     @BeforeEach
@@ -23,9 +20,6 @@ public class CustomPropertyAssemblerTest {
         factory = new FakeArchetypeDescriptorFactory();
     }
 
-
-    @Test
-    void shouldAssembleProjectArchetype() {}
 
     @ParameterizedTest
     @ValueSource(strings = {
@@ -35,7 +29,7 @@ public class CustomPropertyAssemblerTest {
     })
     void shouldAssembleEndpointArchetype(String archetypeName) {
 
-        Map<String,Object> properties = CustomPropertyAssembler.assembleCustomProperties(factory, "com.example.bookstore", "Book");
+        Map<String, Object> properties = CustomPropertyAssembler.assembleCustomProperties(factory, "com.example.bookstore", "Book");
 
         assertThat(properties).isNotNull().isNotEmpty();
 
