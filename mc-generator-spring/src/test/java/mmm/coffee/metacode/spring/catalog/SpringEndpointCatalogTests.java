@@ -3,6 +3,7 @@
  */
 package mmm.coffee.metacode.spring.catalog;
 
+import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,6 +28,11 @@ import static org.mockito.Mockito.when;
  * SpringEndpointCatalogTests
  */
 class SpringEndpointCatalogTests {
+
+    static final String BASE_PATH = "/petstore";
+    static final String BASE_PKG = "acme.petstore";
+    static final String PET_RESOURCE = "Pet";
+    static final String PET_PATH = "/pet";
 
     SpringEndpointCatalog catalogUnderTest;
 
@@ -38,12 +45,8 @@ class SpringEndpointCatalogTests {
                 .reader(new CatalogFileReader())
                 .build();
 
-        endpointDescriptor = RestEndpointDescriptor.builder()
-                .basePath("/petstore")
-                .basePackage("acme.petstore")
+        endpointDescriptor = endpointBuilder()
                 .framework(Framework.SPRING_WEBMVC.name())
-                .resource("Pet")
-                .route("/pets")
                 .withMongoDb(true)
                 .build();
         // @formatter:on
@@ -131,5 +134,52 @@ class SpringEndpointCatalogTests {
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
     }
-    
+
+    @Test
+    void shouldPrepareWebFluxEndpoint() {
+        SpringEndpointCatalog catalog = SpringEndpointCatalog.builder().reader(new CatalogFileReader()).build();
+        Collector collector = catalog.prepare(webFluxEndpointDescriptor());
+        assertThat(collector).isNotNull();
+        assertThat(collector.collect().size()).isGreaterThan(0);
+
+        List<CatalogEntry> items = catalog.collect();
+        assertThat(items).isNotNull();
+        assertThat(items.size()).isGreaterThan(0);
+    }
+
+    @Test
+    void shouldPrepareWebMvcEndpoint() {
+        SpringEndpointCatalog catalog = SpringEndpointCatalog.builder().reader(new CatalogFileReader()).build();
+        Collector collector = catalog.prepare(webMvcEndpointDescriptor());
+        assertThat(collector).isNotNull();
+        assertThat(collector.collect().size()).isGreaterThan(0);
+
+        List<CatalogEntry> items = catalog.collect();
+        assertThat(items).isNotNull();
+        assertThat(items.size()).isGreaterThan(0);
+    }
+
+    /* -------------------------------------------------------------------------------------
+     * HELPER METHODS
+     * ------------------------------------------------------------------------------------- */
+
+    RestEndpointDescriptor webFluxEndpointDescriptor() {
+        return endpointBuilder()
+                .framework(Framework.SPRING_WEBFLUX.frameworkName())
+                .build();
+    }
+    RestEndpointDescriptor webMvcEndpointDescriptor() {
+        return endpointBuilder()
+                .framework(Framework.SPRING_WEBMVC.frameworkName())
+                .build();
+    }
+
+    RestEndpointDescriptor.RestEndpointDescriptorBuilder endpointBuilder() {
+        return RestEndpointDescriptor.builder()
+                .basePath(BASE_PATH)
+                .basePackage(BASE_PKG)
+                .resource(PET_RESOURCE)
+                .route(PET_RESOURCE);
+    }
+
 }

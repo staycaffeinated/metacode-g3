@@ -8,8 +8,12 @@ import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ArchetypeDescriptorFactoryTest {
 
@@ -63,5 +67,30 @@ class ArchetypeDescriptorFactoryTest {
         assertThat(descriptor.fqcnIntegrationTest()).contains("Book");
 
 
+    }
+
+    @Test
+    void shouldThrowExceptionIfPackageLayoutRuleSetIsNull() {
+        // Because the fixture's method could throw IOException which gets in the way of this NPE test
+        ClassNameRuleSet mockClassRules = Mockito.mock(ClassNameRuleSet.class);
+        assertThrows(NullPointerException.class,
+                () -> new ArchetypeDescriptorFactory(null, mockClassRules));
+    }
+
+    @Test
+    void shouldThrowExceptionIfClassNameRuleSetIsEmpty()  {
+        // Because the fixture's method could throw IOException which gets in the way of this NPE test
+        PackageLayoutRuleSet mockRuleSet = Mockito.mock(PackageLayoutRuleSet.class);
+        assertThrows(NullPointerException.class,
+                () -> new ArchetypeDescriptorFactory(mockRuleSet, null));
+    }
+
+    @Test
+    void verifyToString() {
+        assertThat(factoryUnderTest.toString()).isNotBlank();
+    }
+    @Test
+    void verifyToStringOnJavaArchetypeDescriptor() {
+        assertThat(factoryUnderTest.createArchetypeDescriptor(Archetype.Application).toString()).isNotBlank();
     }
 }

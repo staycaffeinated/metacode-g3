@@ -24,11 +24,6 @@ import java.util.List;
 @Slf4j
 public class SpringEndpointCatalog implements Collector {
 
-    private static final String[] ENDPOINT_CATALOGS = {
-            SpringTemplateCatalog.WEBFLUX_CATALOG,
-            SpringTemplateCatalog.WEBMVC_CATALOG,
-            SpringTemplateCatalog.WEBMVC_MONGODB_CATALOG
-    };
     final ICatalogReader reader;
     // To hide this field from the Builder, we limit both the getter and setter
     @Getter(AccessLevel.NONE)

@@ -1,5 +1,6 @@
 package mmm.coffee.metacode;
 
+import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.cli.CommandHelpRenderer;
 import mmm.coffee.metacode.cli.ManifestVersionProvider;
 import mmm.coffee.metacode.cli.ParameterExceptionHandler;
@@ -29,6 +30,7 @@ import static picocli.CommandLine.Model.UsageMessageSpec.SECTION_KEY_COMMAND_LIS
         mixinStandardHelpOptions = true,
         subcommands = {AutoComplete.GenerateCompletion.class, CreateCommand.class}
 )
+@ExcludeFromJacocoGeneratedReport
 public class Application implements CommandLineRunner, ExitCodeGenerator {
 
     private final MetaCodeCommand metaCodeCommand;

@@ -27,6 +27,7 @@ import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
 import mmm.coffee.metacode.common.writer.ContentToNullWriter;
+import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
 import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToMetaProperties;
 import mmm.coffee.metacode.spring.project.converter.DescriptorToPredicateConverter;

@@ -2,32 +2,26 @@ package mmm.coffee.metacode.spring.project.generator;
 
 import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
-import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
-import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
-import mmm.coffee.metacode.common.dictionary.PackageLayout;
-import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
-import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
-import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutToHashMapMapper;
-import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
-import mmm.coffee.metacode.common.dictionary.io.PackageLayoutReader;
+import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.trait.DecodeTrait;
-import mmm.coffee.metacode.spring.endpoint.model.RestEndpointTemplateModel;
-import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
+import mmm.coffee.metacode.spring.SpringTemplateModelFixture;
 import mmm.coffee.metacode.spring.project.model.SpringTemplateModel;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.core.io.DefaultResourceLoader;
+import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
-public class OutputFileDestinationResolverTest {
+class OutputFileDestinationResolverTest {
 
     static final String SAMPLE_TEMPLATE = "/some/folder/with/template.ftl";
     static final String MAIN = "main";
@@ -63,6 +57,46 @@ public class OutputFileDestinationResolverTest {
         assertThat(destination).isNotBlank();
     }
 
+    @Test
+    void whenTemplateHasNullCustomProperties_expectNullDestination() {
+        SpringTemplateModel templateModel = Mockito.mock(SpringTemplateModel.class);
+        when(templateModel.getCustomProperties()).thenReturn(null);
+
+        String output = OutputFileDestinationResolver.resolveDestination(
+                aTemplateFacetOf(MAIN),
+                Archetype.ApplicationConfiguration.toString(),
+                templateModel,
+                defaultDecoder);
+        assertThat(output).isNull();
+    }
+
+    @Test
+    void whenUnknownFacet_expectException() throws IOException {
+        SpringTemplateModel templateModel = aSpringProjectTemplateModel();
+        TemplateFacet facet = aTemplateFacetOf("UnknownFacet");
+        String archetypeName = Archetype.ApplicationConfiguration.toString();
+
+        assertThrows(RuntimeApplicationError.class,
+                () -> OutputFileDestinationResolver.resolveDestination(facet, archetypeName, templateModel, defaultDecoder));
+    }
+
+    @Test
+    void whenNullFacetName_expectException() throws IOException {
+        SpringTemplateModel templateModel = aSpringProjectTemplateModel();
+        String archetypeName = Archetype.ApplicationConfiguration.toString();
+
+        // Given a facet that has a null name instead of an expected value
+        TemplateFacet facet = aTemplateFacetOf("UnknownFacet");
+        facet.setFacet(null);
+
+        // expect an NPE
+        assertThrows(NullPointerException.class,
+                () -> OutputFileDestinationResolver.resolveDestination(facet, archetypeName, templateModel, defaultDecoder));
+    }
+
+    /* ----------------------------------------------------------------------------------------------------------
+     * HELPER METHODS
+     * ---------------------------------------------------------------------------------------------------------- */
 
     private static Stream<Arguments> provideFacets() {
         return Stream.of(
@@ -79,53 +113,10 @@ public class OutputFileDestinationResolverTest {
     }
 
     SpringTemplateModel aSpringProjectTemplateModel() throws IOException {
-        return RestProjectTemplateModel.builder()
-                .applicationName("petstore")
-                .basePackage(BASE_PACKAGE)
-                .basePath("/petstore")
-                .groupId("org.acme")
-                .isWebMvc(true)
-                .customProperties(projectScopeCustomProperties())
-                .build();
+        return SpringTemplateModelFixture.aSpringEndpointTemplateModel();
     }
 
     SpringTemplateModel aSpringEndpointTemplateModel() throws IOException {
-        return RestEndpointTemplateModel.builder()
-                .basePackage(BASE_PACKAGE)
-                .basePath("/petstore")
-                .isWebMvc(true)
-                .customProperties(endpointScopeCustomProperties())
-                .resource(REST_RESOURCE)
-                .route("/pet")
-                .build();
+        return SpringTemplateModelFixture.aSpringEndpointTemplateModel();
     }
-
-    Map<String, Object> projectScopeCustomProperties() throws IOException {
-        return CustomPropertyAssembler.assembleCustomProperties(fakeArchetypeDescriptorFactory(), BASE_PACKAGE);
-    }
-    Map<String, Object> endpointScopeCustomProperties() throws IOException {
-        return CustomPropertyAssembler.assembleCustomProperties(fakeArchetypeDescriptorFactory(), BASE_PACKAGE, REST_RESOURCE);
-    }
-
-    IArchetypeDescriptorFactory fakeArchetypeDescriptorFactory() throws IOException {
-        PackageLayoutRuleSet plrs = packageLayoutRuleSet();
-        ClassNameRuleSet cnrs = classNameRuleSet();
-        return new ArchetypeDescriptorFactory(plrs, cnrs);
-    }
-
-    public static PackageLayoutRuleSet packageLayoutRuleSet() throws IOException {
-        PackageLayoutReader reader = new PackageLayoutReader();
-        PackageLayout layout = reader.read("classpath:/test-package-layout.json");
-        Map<String, String> rules = PackageLayoutToHashMapMapper.convertToHashMap(layout);
-        return new PackageLayoutRuleSet(rules);
-    }
-
-    public static ClassNameRuleSet classNameRuleSet() throws IOException {
-        ClassNameRulesReader reader = new ClassNameRulesReader(
-                new DefaultResourceLoader(),
-                "classpath:/test-classname-rules.properties");
-        Map<String, String> map = reader.read();
-        return new ClassNameRuleSet(map);
-    }
-
 }

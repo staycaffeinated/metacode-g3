@@ -15,9 +15,12 @@
  */
 package mmm.coffee.metacode.spring.constant;
 
+import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
+
 /**
  * Integrations supported by the code generator
  */
+@ExcludeFromJacocoGeneratedReport
 public enum SpringIntegrations {
     POSTGRES("postgres"),
     LIQUIBASE("liquibase"),

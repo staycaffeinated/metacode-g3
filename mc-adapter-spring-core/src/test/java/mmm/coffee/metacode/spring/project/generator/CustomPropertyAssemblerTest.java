@@ -3,6 +3,7 @@ package mmm.coffee.metacode.spring.project.generator;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
+import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

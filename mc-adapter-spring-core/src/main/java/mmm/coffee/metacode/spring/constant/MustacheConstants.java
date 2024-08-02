@@ -3,9 +3,12 @@
  */
 package mmm.coffee.metacode.spring.constant;
 
+import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
+
 /**
  * MustacheConstants
  */
+@ExcludeFromJacocoGeneratedReport
 public class MustacheConstants {
     /*
      * These are the variables found in mustache expressions, which are used by CatalgoEntry's

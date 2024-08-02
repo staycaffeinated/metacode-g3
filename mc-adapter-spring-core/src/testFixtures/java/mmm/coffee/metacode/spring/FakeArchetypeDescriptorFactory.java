@@ -1,6 +1,7 @@
-package mmm.coffee.metacode.spring.project.generator;
+package mmm.coffee.metacode.spring;
 
 import lombok.Builder;
+import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.PackageLayout;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
@@ -10,17 +11,19 @@ import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
 import mmm.coffee.metacode.common.dictionary.io.PackageLayoutReader;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
-import org.apache.commons.text.WordUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class FakeArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
     private final PackageLayoutRuleSet packageLayoutRuleSet;
     private final ClassNameRuleSet classNameRuleSet;
+
+    public static IArchetypeDescriptorFactory archetypeDescriptorFactory() throws IOException {
+        return new FakeArchetypeDescriptorFactory();
+    }
 
 
     public FakeArchetypeDescriptorFactory() throws IOException {

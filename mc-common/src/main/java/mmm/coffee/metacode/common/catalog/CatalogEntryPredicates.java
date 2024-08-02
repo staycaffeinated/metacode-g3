@@ -81,19 +81,6 @@ public class CatalogEntryPredicates {
         return p -> containsTag(p, "liquibase");
     }
 
-    /**
-     * Returns the subset of entries that fulfil the predicate.
-     *
-     * @param entries   the general population of CatalogEntry's
-     * @param predicate essentially, the filter applied to the population
-     * @return those entries in the population that satisfy the predicate
-     */
-    public static Set<CatalogEntry> filterCatalogEntries(Set<CatalogEntry> entries,
-                                                         Predicate<CatalogEntry> predicate) {
-        return entries.stream()
-                .filter(predicate)
-                .collect(Collectors.<CatalogEntry>toSet());
-    }
 
     private static boolean containsTag(CatalogEntry entry, String text) {
         return entry.getTags() != null && entry.getTags().contains(text);

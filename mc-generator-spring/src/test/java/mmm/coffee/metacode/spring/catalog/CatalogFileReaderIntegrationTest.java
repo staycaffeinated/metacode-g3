@@ -1,6 +1,8 @@
-package mmm.coffee.metacode.common.catalog;
+package mmm.coffee.metacode.spring.catalog;
 
-import mmm.coffee.metacode.spring.catalog.SpringTemplateCatalog;
+import mmm.coffee.metacode.common.catalog.CatalogEntry;
+import mmm.coffee.metacode.common.catalog.CatalogFileReader;
+import mmm.coffee.metacode.common.catalog.TemplateCatalog;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

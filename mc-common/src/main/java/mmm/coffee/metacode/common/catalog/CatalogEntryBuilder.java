@@ -1,7 +1,5 @@
 package mmm.coffee.metacode.common.catalog;
 
-import mmm.coffee.metacode.common.model.Archetype;
-
 import java.util.ArrayList;
 import java.util.List;
 

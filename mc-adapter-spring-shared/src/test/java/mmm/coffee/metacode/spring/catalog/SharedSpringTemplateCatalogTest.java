@@ -1,8 +1,8 @@
 package mmm.coffee.metacode.spring.catalog;
 
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.model.Archetype;
+import mmm.coffee.metacode.fixtures.SpringTemplateCatalogFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,18 +14,17 @@ import org.springframework.core.io.ResourceLoader;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SpringTemplateCatalogTest {
+class SharedSpringTemplateCatalogTest {
 
     ResourceLoader resourceLoader = new DefaultResourceLoader();
-    SpringWebMvcTemplateCatalog catalogUnderTest;
+    SpringTemplateCatalog catalogUnderTest;
 
 
     @BeforeEach
     public void setUp() {
-        CatalogFileReader catalogFileReader = new CatalogFileReader();
-        catalogUnderTest = new SpringWebMvcTemplateCatalog(catalogFileReader);
+        catalogUnderTest = SpringTemplateCatalogFixture.springTemplateCatalog();
     }
 
 
@@ -36,13 +35,6 @@ class SpringTemplateCatalogTest {
     })
     void canFindResources(String resourcePath) {
         Resource r1 = resourceLoader.getResource(resourcePath);
-        assertThat(r1.exists()).isTrue();
-    }
-
-    @Test
-    void canFindCatalogs() {
-        String catalogName = catalogUnderTest.getActiveCatalog();
-        Resource r1 = resourceLoader.getResource(catalogName);
         assertThat(r1.exists()).isTrue();
     }
 
@@ -65,14 +57,13 @@ class SpringTemplateCatalogTest {
     @Test
     void shouldHaveValidStateAfterLoadingSomeCatalog() {
         List<CatalogEntry> entries = catalogUnderTest.collectGeneralCatalogsAndThisOne(SpringTemplateCatalog.WEBMVC_CATALOG);
-        assertThat(catalogUnderTest.getActiveCatalog()).isNotBlank();
         assertThat(entries).isNotNull().isNotEmpty();
         assertThat(catalogUnderTest.catalogs()).isNotEmpty();
     }
 
     @Test
     void shouldThrowExceptionWhenCatalogReaderIsNull() {
-        assertThrows(NullPointerException.class, () -> new SpringWebMvcTemplateCatalog(null));
+        assertThrows(NullPointerException.class, () -> new SpringTemplateCatalogFixture.FakeSpringTemplateCatalog(null));
     }
 
 
