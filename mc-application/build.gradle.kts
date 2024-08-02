@@ -91,3 +91,14 @@ tasks.register("stage") {
     }
 }
 
+// Since some projects have integrationTests, and some don't,
+// the sonar.tests needs to be set for each project. Otherwise,
+// it's possible for the sonar.tests value from another project
+// to leak into this one, and an error will be raised that
+// `The folder src/integrationTest/java' does not exist for...`
+sonar {
+    properties {
+        property("sonar.tests", "src/test/java")
+    }
+}
+

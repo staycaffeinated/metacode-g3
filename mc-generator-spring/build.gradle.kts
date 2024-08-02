@@ -34,3 +34,14 @@ dependencies {
     testImplementation(libs.mockito)
     testRuntimeOnly(libs.junit.platform.runner)
 }
+
+// Since some projects have integrationTests, and some don't,
+// the sonar.tests needs to be set for each project. Otherwise,
+// it's possible for this sonar.tests value to leak into another project
+// leading to the error:
+// `The folder 'src/integrationTest/java' does not exist for [a project w/ no integrationTests]`
+sonar {
+    properties {
+        property("sonar.tests", "src/test/java,src/integrationTest/java")
+    }
+}

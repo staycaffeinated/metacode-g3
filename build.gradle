@@ -1,12 +1,25 @@
 plugins {
   id "org.sonarqube" version "5.1.0.4882"
+  id("jacoco")
 }
 
 subprojects {
   sonar {
     properties {
       property("sonar.sources", "src/main/java")
-      property("sonar.tests", [ "src/test/java", "src/integrationTest/java" ])
+      property("sonar.tests", "src/test/java")
     }
   }
 }
+
+//jacocoTestReport {
+//  executionData integrationTest
+//  reports {
+//    xml.required = true
+//  }
+//  dependsOn test, integrationTest
+//}
+//tasks.named("sonar").configure {
+//  dependsOn jacocoTestReport
+//}
+

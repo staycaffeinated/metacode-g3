@@ -29,15 +29,13 @@ dependencies {
     testImplementation(libs.spring.boot.starter.test)
 }
 
-//tasks.jacocoTestReport {
-//    reports {
-//        xml.required.set(true)
-//    }
-//}
-
-//sonar {
-//    properties {
-//        property("sonar.projectName", "mc-adapter-spring-webflux")
-//        property("sonar.projectKey", "mmm.coffee.metacode:mc-adapter-spring-webflux")
-//    }
-//}
+// Since some projects have integrationTests, and some don't,
+// the sonar.tests needs to be set for each project. Otherwise,
+// it's possible for the sonar.tests value from another project
+// to leak into this one, and an error will be raised that
+// `The folder src/integrationTest/java' does not exist for...`
+sonar {
+    properties {
+        property("sonar.tests", "src/test/java")
+    }
+}

@@ -3,6 +3,7 @@ plugins {
     id("buildlogic.versioning")
     alias(libs.plugins.lombok)
     alias(libs.plugins.versions)
+    `java-test-fixtures`
 }
 
 dependencies {
@@ -29,12 +30,22 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.mockito)
 
-    /*
-    integrationTestImplementation(platform(libs.junitBillOfMaterial))
-    integrationTestImplementation(libs.junitJupiter)
-    integrationTestImplementation(libs.junitSystemRules)
-    integrationTestImplementation(libs.truth)
-    integrationTestImplementation(libs.mockito)
-    */
+    testFixturesImplementation(libs.mockito)
+    testFixturesImplementation(libs.commonsConfig)
+    testFixturesImplementation(libs.spring.core)
+    testFixturesImplementation(libs.freemarker)
+    testFixturesImplementation(libs.guice)
+    testFixturesImplementation(project(":mc-common"))
+    testFixturesImplementation(project(":mc-adapter-spring-shared"))
 
+}
+// Since some projects have integrationTests, and some don't,
+// the sonar.tests needs to be set for each project. Otherwise,
+// it's possible for the sonar.tests value from another project
+// to leak into this one, and an error will be raised that
+// `The folder src/integrationTest/java' does not exist for...`
+sonar {
+    properties {
+        property("sonar.tests", "src/test/java")
+    }
 }

@@ -25,3 +25,9 @@ dependencies {
     testImplementation(libs.spring.boot.starter.test)
 
 }
+
+sonar {
+    properties {
+        property("sonar.tests", "src/test/java,src/integrationTest/java")
+    }
+}

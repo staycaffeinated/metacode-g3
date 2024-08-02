@@ -13,3 +13,8 @@ dependencies {
     implementation(libs.guice)
     implementation(libs.jakartaInject)
 }
+
+// No reason to have code coverage on annotations
+sonar {
+    isSkipProject = true
+}
