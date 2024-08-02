@@ -29,6 +29,7 @@ public enum Facet {
     /**
      * Enables Jackson library to handle undefined values gracefully.
      * Unknown values will be mapped to the `Unknown` value.
+     *
      * @param value the text being mapped to a Facet
      * @return the corresponding Facet of `value`
      */
@@ -36,13 +37,10 @@ public enum Facet {
     public static Facet fromString(String value) {
         try {
             return Facet.valueOf(value);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return Facet.Undefined;
         }
     }
-
-
 
 
 }

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -66,7 +65,6 @@ import static org.springframework.util.ResourceUtils.FILE_URL_PREFIX;
  * <a href="https://github.com/helm/helm/issues/7771">helm search by keywords</a>
  */
 @Component
-@Slf4j
 public class CatalogFileReader implements ICatalogReader {
 
     private final ResourceLoader resourceLoader;

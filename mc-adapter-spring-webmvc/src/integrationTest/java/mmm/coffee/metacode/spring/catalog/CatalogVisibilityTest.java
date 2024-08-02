@@ -33,7 +33,8 @@ class CatalogVisibilityTest {
     @ParameterizedTest
     @ValueSource(strings = {
             "classpath:/spring/catalogs/v3/spring-webmvc-v3.yml",
-            "classpath:/spring/catalogs/v3/spring-webmvc-mongodb-v3.yml"
+            "classpath:/spring/catalogs/v3/spring-webmvc-mongodb-v3.yml",
+            "classpath:/spring/catalogs/common-stuff.yml"
     })
     void canFindResources(String resourcePath) {
         Resource r1 = resourceLoader.getResource(resourcePath);
