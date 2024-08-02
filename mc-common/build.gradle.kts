@@ -30,7 +30,8 @@ dependencies {
     testImplementation(libs.junitSystemRules)
     testImplementation(libs.truth)
     testImplementation(libs.mockito)
-
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
 }
 // Since some projects have integrationTests, and some don't,
 // the sonar.tests needs to be set for each project. Otherwise,
@@ -40,5 +41,9 @@ dependencies {
 sonar {
     properties {
         property("sonar.tests", "src/test/java")
+
+        // Having trouble mapping a Resource to a File that's usable to these classes.
+        // Maybe need to change these to use Resource instead of File...
+        property("sonar.excludes", "**/FreemarkerTemplateResolver.class,**/CatalogFileReader.class")
     }
 }
