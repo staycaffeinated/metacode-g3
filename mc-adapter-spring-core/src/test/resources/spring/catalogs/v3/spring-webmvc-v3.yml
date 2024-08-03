@@ -1,0 +1,372 @@
+catalogName: "spring-webmvc"
+entries:
+  - scope: "project"
+    archetype: "Application"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/Application.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/ApplicationIT.ftl"
+
+  - scope: "project"
+    archetype: "Text"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/resources/ApplicationDotProperties.ftl"
+        destination: "{{appModule}}/src/main/resources/application.properties"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/resources/ApplicationTestDotYaml.ftl"
+        destination: "{{appModule}}/src/test/resources/application-test.yaml"
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/resources/ValidationMessages.ftl"
+        destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"
+
+
+  - scope: "project"
+    archetype: "Text"
+    feature: "liquibase"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/resources/db/liquibase/db.changelog-master.ftl"
+        destination: "{{appModule}}/src/main/resources/db/changelog/db.changelog-master.yaml"
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/resources/db/liquibase/db.changelog-001-create-schema.ftl"
+        destination: "{{appModule}}/src/main/resources/db/changelog/db.changelog-001-create-schema.sql"
+
+
+  - scope: "project"
+    archetype: "GlobalExceptionHandler"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/advice/GlobalExceptionHandler.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/advice/GlobalExceptionHandlerTests.ftl"
+
+  - scope: "project"
+    archetype: "UnprocessableEntityException"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/exception/UnprocessableEntityException.ftl"
+
+  - scope: "project"
+    archetype: "ResourceNotFoundException"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/exception/ResourceNotFoundException.ftl"
+
+  - scope: "project"
+    archetype: "BadRequestException"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/exception/BadRequestException.ftl"
+
+  - scope: "project"
+    archetype: "SpringProfiles"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/common/SpringProfiles.ftl"
+
+  - scope: "project"
+    archetype: "ApplicationConfiguration"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/config/ApplicationConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "DateTimeFormatConfiguration"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/config/DateTimeFormatConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "ProblemConfiguration"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/config/ProblemConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "WebMvcConfiguration"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/config/WebMvcConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "LocalDateConverter"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/config/LocalDateConverter.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/config/LocalDateConverterTests.ftl"
+
+  - scope: "project"
+    archetype: "CustomSQLRepository"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/CustomSQLRepository.ftl"
+
+  - scope: "project"
+    archetype: "GenericDataStore"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/GenericDataStore.ftl"
+
+  - scope: "project"
+    archetype: "SecurityResponseHeadersFilter"
+    tags: "security:headers"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/filter/SecurityResponseHeadersFilter.ftl"
+
+  - scope: "project"
+    archetype: "SecureRandomSeries"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/math/SecureRandomSeries.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/math/SecureRandomSeriesTests.ftl"
+
+  - scope: "project"
+    archetype: "ResourceIdSupplier"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/spi/ResourceIdSupplier.ftl"
+
+  - scope: "project"
+    archetype: "ResourceIdTrait"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/trait/ResourceIdTrait.ftl"
+
+  - scope: "project"
+    archetype: "AlphabeticAnnotation"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/validation/Alphabetic.ftl"
+
+  - scope: "project"
+    archetype: "AlphabeticValidator"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/validation/AlphabeticValidator.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/validation/AlphabeticValidatorTests.ftl"
+
+  - scope: "project"
+    archetype: "OnCreateAnnotation"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/validation/OnCreate.ftl"
+
+  - scope: "project"
+    archetype: "OnUpdateAnnotation"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/validation/OnUpdate.ftl"
+
+  - scope: "project"
+    archetype: "ResourceIdAnnotation"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/validation/ResourceId.ftl"
+
+  - scope: "project"
+    archetype: "ResourceIdValidator"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/validation/ResourceIdValidator.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/validation/ResourceIdValidatorTests.ftl"
+
+  - scope: "project"
+    archetype: "SearchTextAnnotation"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/validation/SearchText.ftl"
+
+  - scope: "project"
+    archetype: "SearchTextValidator"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/validation/SearchTextValidator.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/validation/SearchTextValidatorTests.ftl"
+
+  - scope: "project"
+    archetype: "ContainerConfiguration"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/config/ContainerConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "RegisterDatabaseProperties"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/database/RegisterDatabaseProperties.ftl"
+
+  - scope: "project"
+    archetype: "Text"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/resources/CreateSchemaDotSql.ftl"
+        destination: "{{appModule}}/src/integrationTest/resources/create-schema.sql"
+
+  - scope: "project"
+    archetype: "RootController"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint-root/RootController.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/endpoint-root/RootControllerTest.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/RootControllerIT.ftl"
+
+  - scope: "project"
+    archetype: "RootControllerExceptionHandler"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
+
+
+  - scope: "project"
+    archetype: "AbstractIntegrationTest"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate:  "/spring/webmvc/integrationTest/common/AbstractIntegrationTest.ftl"
+
+  - scope: "project"
+    archetype: "DataStoreApi"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/spi/DataStore.ftl"
+
+  # ---------------------------------------------------------------------------------------------------
+  # Endpoint artifacts
+  # ---------------------------------------------------------------------------------------------------
+
+  - scope: "endpoint"
+    archetype: "Entity"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/entity/Entity.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/EntityTests.ftl"
+
+  - scope: "endpoint"
+    archetype: "WebMvcEjbTestFixtures"
+    facets:
+      - facet: "testFixtures"
+        sourceTemplate: "/spring/webmvc/testFixtures/database/WebMvcEjbTestFixtures.ftl"
+
+  - scope: "endpoint"
+    archetype: "ObjectDataStore"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/entity/ObjectDataStore.ftl"
+
+  - scope: "endpoint"
+    archetype: "ObjectDataStoreProvider"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/entity/ObjectDataStoreProvider.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/DataStoreTests.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityToPojoConverter"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/converter/EntityToPojoConverter.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/converter/EntityToPojoConverterTests.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityWithText"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/predicate/EntityWithText.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/predicate/EntityWithTextTest.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityResource"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
+
+  - scope: "endpoint"
+    archetype: "WebMvcModelTestFixtures"
+    facets:
+      - facet: "testFixtures"
+        sourceTemplate: "/spring/webmvc/testFixtures/domain/WebMvcModelTestFixtures.ftl"
+
+  - scope: "endpoint"
+    archetype: "Repository"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/entity/Repository.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/database/endpoint/RepositoryIT.ftl"
+
+  - scope: "endpoint"
+    archetype: "PojoToEntityConverter"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/converter/PojoToEntityConverter.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/converter/PojoToEntityConverterTests.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityToPojoConverter"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/converter/EntityToPojoConverter.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/converter/EntityToPojoConverterTests.ftl"
+
+  - scope: "endpoint"
+    archetype: "Controller"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint/RestController.ftl"
+        destination: "{{appModule}}/src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Controller.java"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/ControllerTests.ftl"
+        destination: "{{appModule}}/src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerTests.java"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/endpoint/ControllerIT.ftl"
+
+  - scope: "endpoint"
+    archetype: "ControllerExceptionHandler"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "spring/webmvc/integrationTest/endpoint/ExceptionHandlingIT.ftl"
+
+
+  - scope: "endpoint"
+    archetype: "ServiceApi"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint/RestService.ftl"
+
+  - scope: "endpoint"
+    archetype: "ServiceImpl"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint/RestServiceProvider.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/ServiceTests.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/endpoint/ServiceIT.ftl"
+
+  - scope: "endpoint"
+    archetype: "Routes"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/endpoint/EntityRoutes.ftl"
+
+  - scope: "endpoint"
+    archetype: "DatabaseTablePopulator"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/entity/DatabaseTablePopulator.ftl"
+
