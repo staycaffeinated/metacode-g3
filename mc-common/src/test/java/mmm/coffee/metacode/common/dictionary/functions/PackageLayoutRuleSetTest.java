@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PackageLayoutRuleSetTest {
     PackageLayoutRuleSet rulesUnderTest;
@@ -45,5 +46,16 @@ class PackageLayoutRuleSetTest {
 
         String storePkg = rulesUnderTest.resolvePackageName("Controller", "Store");
         assertThat(storePkg).isEqualTo("{{basePackage}}.store.api");
+    }
+
+    @Test
+    void shouldThrowExceptionIfRulesAreNull() {
+        assertThrows(NullPointerException.class, () -> new PackageLayoutRuleSet(null));
+    }
+
+    @Test
+    void shouldReturnDefaultForUnmappedArchetype() {
+        String pkgName = rulesUnderTest.resolvePackageName(Archetype.PersistenceAdapter);
+        assertThat(pkgName).isEqualTo("com.acme.petstore");
     }
 }

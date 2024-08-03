@@ -27,8 +27,9 @@ class MustacheExpressionResolverTest {
 
     @Test
     void shouldThrowExceptionIfExpressionIsNull() {
+        Map<String,String> map = anExampleMap();
         assertThrows(NullPointerException.class,
-                () -> MustacheExpressionResolver.resolve(null, anExampleMap()));
+                () -> MustacheExpressionResolver.resolve(null, map));
     }
 
     /*
@@ -43,8 +44,9 @@ class MustacheExpressionResolverTest {
     @Test
     void shouldThrowExceptionIfAllVariablesDoNotResolve() {
         String expression = "{{This}}{{value}}{{is}}{{not}}{{Defined}}";
+        Map<String,String> map = anExampleMap();
         assertThrows(MustacheException.class,
-                () -> MustacheExpressionResolver.resolve(expression, anExampleMap()));
+                () -> MustacheExpressionResolver.resolve(expression, map));
     }
 
     /* ------------------------------------------------------------------------------------------

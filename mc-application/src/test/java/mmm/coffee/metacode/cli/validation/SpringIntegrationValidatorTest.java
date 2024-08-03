@@ -65,6 +65,13 @@ class SpringIntegrationValidatorTest {
         assertThat(SpringIntegrationValidator.of(bothPostgresAndMongoDb).errorMessage()).isNotEmpty();
     }
 
+    @Test
+    void shouldQuietlyAllowNullInputs() {
+        SpringIntegrationValidator validator = SpringIntegrationValidator.of(null);
+        assertThat(validator.isValid()).isTrue();
+        assertThat(validator.isInvalid()).isFalse();
+    }
+
     @Nested
     class ErrorMessageTests {
         @Test

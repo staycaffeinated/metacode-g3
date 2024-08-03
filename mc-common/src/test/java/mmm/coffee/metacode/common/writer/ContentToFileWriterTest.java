@@ -6,17 +6,17 @@ import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ContentToFileWriterTest {
 
     @ParameterizedTest
     @NullAndEmptySource
-    void shouldIgnoreEmptyContent(String content) throws IOException {
+    void shouldIgnoreEmptyContent(String content) {
         ContentToFileWriter writer = new ContentToFileWriter();
         writer.writeOutput("never-used-in-this-use-case", content);
         assertThat(writer).isNotNull();
@@ -33,7 +33,7 @@ class ContentToFileWriterTest {
     }
 
     @Test
-    void shouldWriteUsingFileSystemWrapper(@TempDir Path tempDir)  {
+    void shouldWriteUsingFileSystemWrapper(@TempDir Path tempDir) {
         FileSystem fs = new FileSystem();
         ContentToFileWriter writer = new ContentToFileWriter(fs);
         Path path = tempDir.resolve("deleteme02.txt");
@@ -41,5 +41,12 @@ class ContentToFileWriterTest {
 
         writer.writeOutput(tmpFileName, "it is safe to delete me");
         assertThat(Files.exists(path)).isTrue();
+    }
+
+    @Test
+    void shouldThrowExceptionIfDestinationIsNull() {
+        FileSystem fs = new FileSystem();
+        ContentToFileWriter writer = new ContentToFileWriter(fs);
+        assertThrows(NullPointerException.class, () -> writer.writeOutput(null, "it is safe to delete me"));
     }
 }

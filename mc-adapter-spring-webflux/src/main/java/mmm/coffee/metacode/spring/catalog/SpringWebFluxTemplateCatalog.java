@@ -18,8 +18,6 @@ package mmm.coffee.metacode.spring.catalog;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
-import mmm.coffee.metacode.common.descriptor.Descriptor;
-import mmm.coffee.metacode.common.stereotype.Collector;
 
 import java.util.List;
 
@@ -27,10 +25,14 @@ import java.util.List;
  * Reads the catalogs of Spring WebFlux templates
  */
 @Slf4j
+@SuppressWarnings({
+        "java:S115" // allow static var names to use lower-case
+})
 public class SpringWebFluxTemplateCatalog extends SpringTemplateCatalog {
 
-    private String activeCatalog;
-
+    // We do not yet support WebFlux + MongoDB. When we do, this needs to be refactored.
+    // In the meantime, since only one catalog is available...
+    private static final String activeCatalog = WEBFLUX_CATALOG;
 
     /**
      * Constructor
@@ -46,20 +48,7 @@ public class SpringWebFluxTemplateCatalog extends SpringTemplateCatalog {
      * This is exposed to make the state available for unit tests
      */
     String getActiveCatalog() {
-        if (activeCatalog == null) {
-            return WEBFLUX_CATALOG;
-        }
         return activeCatalog;
-    }
-
-    @Override
-    public Collector prepare(Descriptor descriptor) {
-        log.debug("[prepare] starting 'prepare' step of life-cycle...");
-
-        // We do not yet support WebFlux + MongoDB. When we do, this method needs to be updated.
-        // In the meantime, only one catalog is available.
-        activeCatalog = WEBFLUX_CATALOG;
-        return this;
     }
 
     @Override

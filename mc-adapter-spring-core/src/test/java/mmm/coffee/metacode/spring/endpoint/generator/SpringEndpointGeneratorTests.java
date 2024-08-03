@@ -19,6 +19,7 @@ import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
 import mmm.coffee.metacode.spring.ClassNameRuleSetFixture;
+import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
 import mmm.coffee.metacode.spring.MetaPropertiesHandlerFixture;
 import mmm.coffee.metacode.spring.PackageLayoutRulesetFixture;
 import mmm.coffee.metacode.spring.converter.NameConverter;
@@ -27,7 +28,6 @@ import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToPre
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToTemplateModelConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointTemplateModelToMapConverter;
 import mmm.coffee.metacode.spring.endpoint.mustache.MustacheEndpointDecoder;
-import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
 import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -48,7 +48,6 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("unchecked")
 class SpringEndpointGeneratorTests {
 
-    private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
     final static String BASE_PATH = "/petstore";
     final static String BASE_PACKAGE = "org.acme.petstore";
     final static String WEBFLUX_FRAMEWORK = Framework.SPRING_WEBFLUX.frameworkName();

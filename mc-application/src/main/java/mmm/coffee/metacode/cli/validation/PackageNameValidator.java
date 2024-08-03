@@ -34,8 +34,8 @@ public class PackageNameValidator implements ValidationTrait {
 
     private boolean evaluated;
 
-    // Creating a private constructor to ensure instances of this are not created
-    private PackageNameValidator(String value) {
+    // Only subclasses need to create instances
+    protected PackageNameValidator(String value) {
         this.value = value;
     }
 
@@ -57,10 +57,8 @@ public class PackageNameValidator implements ValidationTrait {
 
         // a valid subsequent letters can be: a-z, A-Z, 0-9, or underscore
         for (var i = 1; i < token.length(); i++) {
-            if (!isLowerCaseLetter(token.charAt(i)) &&
-                    !isUpperCaseLetter(token.charAt(i)) &&
-                    !isDigit(token.charAt(i)) &&
-                    token.charAt(i) != '_')
+            char ch = token.charAt(i);
+            if (!isLowerCaseLetter(ch) && !isUpperCaseLetter(ch) && !isDigit(ch) && ch != '_')
                 return false;
         }
         return true;
@@ -104,6 +102,7 @@ public class PackageNameValidator implements ValidationTrait {
             errorMessage = "A Java package name cannot be null nor an empty string.";
             return false;
         }
+
         boolean flag = check(value);
         if (!flag) {
             errorMessage = "A Java package name must not contain reserved words or invalid characters.";
@@ -119,6 +118,10 @@ public class PackageNameValidator implements ValidationTrait {
      * @return if it can be used as a package name
      */
     private boolean check(String candidate) {
+        // Edge case: don't want a package name starting with '.'
+        if (value.charAt(0) == '.')
+            return false;
+
         var tokenizer = new StringTokenizer(candidate, ".");
 
         while (tokenizer.hasMoreTokens()) {
