@@ -1,6 +1,7 @@
 package mmm.coffee.metacode.common.dictionary.config;
 
 import lombok.extern.slf4j.Slf4j;
+import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.common.dictionary.PackageLayout;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutToHashMapMapper;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @Configuration
 @Slf4j
+@ExcludeFromJacocoGeneratedReport // don't need spring config classes tested
 public class PackageLayoutRuleSetConfiguration {
 
     @Value("classpath:package-layout.json")

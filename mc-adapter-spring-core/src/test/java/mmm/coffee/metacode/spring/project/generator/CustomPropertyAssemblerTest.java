@@ -1,12 +1,17 @@
 package mmm.coffee.metacode.spring.project.generator;
 
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
+import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
+import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
+import org.apache.commons.lang3.arch.Processor;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 
 import java.util.Map;
 
@@ -45,6 +50,32 @@ class CustomPropertyAssemblerTest {
         // this kind of error is probably caused by a spelling error or incorrect archetype name
         // (for example, if the package-layout.json uses an archetype name not found in the Archetype class)
         assertThat(properties.get("SoapToDocumentConverter")).isNull();
+    }
+
+    @Test
+    void shouldQuietlyHandleUnknownArchetypeDescriptor() {
+        FakeCustomPropertyAssembler assembler = new FakeCustomPropertyAssembler();
+        ArchetypeDescriptor mockDescriptor = Mockito.mock(ArchetypeDescriptor.class);
+
+        ArchetypeDescriptor actual = assembler.resolveBasePackage(mockDescriptor, "org.example.petstore");
+        assertThat(actual).isNotNull();
+
+        actual = assembler.resolveBasePackage(mockDescriptor, "org.example.hotel", "PetStay");
+        assertThat(actual).isNotNull();
+
+    }
+
+
+    static class FakeCustomPropertyAssembler extends CustomPropertyAssembler {
+
+        public ArchetypeDescriptor resolveBasePackage(ArchetypeDescriptor descriptor, String basePackage, String restObj) {
+            return super.resolveBasePackageOf(descriptor, basePackage, restObj);
+        }
+
+        public ArchetypeDescriptor resolveBasePackage(ArchetypeDescriptor descriptor, String basePackage) {
+            return super.resolveBasePackageOf(descriptor, basePackage);
+        }
+
     }
 
 }

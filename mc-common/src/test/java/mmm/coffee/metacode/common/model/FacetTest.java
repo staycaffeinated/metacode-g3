@@ -17,4 +17,10 @@ class FacetTest {
         Facet actual = Facet.fromString(Facet.Main.name());
         assertThat(actual).isEqualTo(Facet.Main);
     }
+
+    @Test
+    void shouldReturnNonBlankString() {
+        Facet actual = Facet.fromString(Facet.Main.name());
+        assertThat(actual.toString()).isNotBlank();
+    }
 }

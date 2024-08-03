@@ -1,6 +1,7 @@
 package mmm.coffee.metacode.common.catalog;
 
 import mmm.coffee.metacode.common.model.Archetype;
+import mmm.coffee.metacode.common.model.Facet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ class CatalogEntryTest {
     CatalogEntry catalogEntryUnderTest = new CatalogEntry();
 
     private static final String EXPECTED_SCOPE = "endpoint";
-    private static final String EXPECTED_ARCHETYPE =  Archetype.Controller.toString();
+    private static final String EXPECTED_ARCHETYPE = Archetype.Controller.toString();
 
     @BeforeEach
     public void setUp() {
@@ -44,6 +45,48 @@ class CatalogEntryTest {
     @Test
     void shouldSupportToString() {
         assertThat(catalogEntryUnderTest.toString()).isNotBlank();
+    }
+
+    @Test
+    void shouldReturnUndefinedIfArchetypeIsUnset() {
+        CatalogEntry entry = new CatalogEntry();
+        assertThat(entry.archetypeValue()).isEqualTo(Archetype.Undefined);
+    }
+
+    @Test
+    void verifyGetters() {
+        CatalogEntry entry = CatalogEntryBuilder.builder()
+                .scope(EXPECTED_SCOPE)
+                .addFacet(TemplateFacetBuilder.builder()
+                        .source("/src/main/template.ftl")
+                        .destination("/output.txt")
+                        .facet(Facet.Main.name())
+                        .build())
+                .addFacet(TemplateFacetBuilder.builder()
+                        .source("src/test/template.ftl")
+                        .destination("/test-output.txt")
+                        .facet(Facet.Test.name()).build())
+                .archetype(Archetype.Application.name())
+                .build();
+
+        assertThat(entry.getArchetype()).isEqualTo(Archetype.Application.name());
+        assertThat(entry.getFacets()).hasSize(2);
+        assertThat(entry.getScope()).isEqualTo(EXPECTED_SCOPE);
+        assertThat(entry.getTags()).isBlank();
+    }
+
+    @Test
+    void verifySetters() {
+        CatalogEntry entry = new CatalogEntry();
+        entry.setScope(EXPECTED_SCOPE);
+        entry.setArchetype(Archetype.Application.name());
+        entry.setFacets(exampleFacets());
+        entry.setTags("postgres");
+
+        assertThat(entry.getScope()).isEqualTo(EXPECTED_SCOPE);
+        assertThat(entry.getArchetype()).isEqualTo(Archetype.Application.name());
+        assertThat(entry.getFacets()).hasSameSizeAs(exampleFacets());
+        assertThat(entry.getTags()).isEqualTo("postgres");
     }
 
     /* ----------------------------------------------------------------
