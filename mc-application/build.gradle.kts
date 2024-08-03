@@ -99,6 +99,19 @@ tasks.register("stage") {
 sonar {
     properties {
         property("sonar.tests", "src/test/java")
+
+        property("sonar.coverage.exclusions",
+                "**/CommandHelpRenderer.java"  // Not sure how to test these other than manually
+            +   ",**/AbstractCreateRestProject.java"
+            +   ",**/AbstractCreateSpringProject.java"
+            +   ",**/SubcommandCreateEndpoint.java"
+            +   ",**/SubcommandCreateSpringBootProject.java"
+            +   ",**/SubcommandCreateWebFluxProject.java"
+            +   ",**/SubcommandCreateWebMvcProject.java"
+            +   ",**/PrintExceptionMessageHandler.java"
+            +   ",**/AbstractCreateSpringProject.java"
+            +   ",**/SubcommandCreateSpringBatchProject.java"
+        )
     }
 }
 

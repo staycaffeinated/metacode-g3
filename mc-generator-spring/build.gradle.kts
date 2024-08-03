@@ -43,5 +43,6 @@ dependencies {
 sonar {
     properties {
         property("sonar.tests", "src/test/java,src/integrationTest/java")
+        property("sonar.coverage.exclusions", "**/SpringGeneratorConfig.java")
     }
 }

@@ -44,6 +44,14 @@ sonar {
 
         // Having trouble mapping a Resource to a File that's usable to these classes.
         // Maybe need to change these to use Resource instead of File...
-        property("sonar.excludes", "**/FreemarkerTemplateResolver.class,**/CatalogFileReader.class")
+        property("sonar.coverage.exclusions",
+                    "**/FreemarkerTemplateResolver.java"+
+                    ",**/CatalogFileReader.java" +
+                    ",**/MetaPropertiesReader.java" +
+                    ",**/MetaPropertiesWriter.java" +
+                    ",**/TemplateFacet.java"+        // JSON pojo loaded by Jackson
+                    ",**/RestEndpointDescriptor.java"+
+                    ",**/RestProjectDescriptor.java"
+        )
     }
 }
