@@ -46,12 +46,13 @@ sonar {
         // Maybe need to change these to use Resource instead of File...
         property("sonar.coverage.exclusions",
                     "**/FreemarkerTemplateResolver.java"+
-                    ",**/CatalogFileReader.java" +
-                    ",**/MetaPropertiesReader.java" +
-                    ",**/MetaPropertiesWriter.java" +
-                    ",**/TemplateFacet.java"+        // JSON pojo loaded by Jackson
-                    ",**/RestEndpointDescriptor.java"+
-                    ",**/RestProjectDescriptor.java"
+                    ",**/CatalogFileReader.java" +      // need to refactor to use Resources instead of Files
+                    ",**/MetaPropertiesReader.java" +   // need to refactor to use Resources instead of Files
+                    ",**/MetaPropertiesWriter.java" +   // ditto
+                    ",**/PackageLayout.java" +          // JSON pojo loaded by Jackson
+                    ",**/TemplateFacet.java"+           // JSON pojo loaded by Jackson
+                    ",**/RestEndpointDescriptor.java"+  // simple POJO
+                    ",**/RestProjectDescriptor.java"    // simple POJO
         )
     }
 }
