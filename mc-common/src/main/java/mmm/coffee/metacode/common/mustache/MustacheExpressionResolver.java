@@ -29,8 +29,9 @@ import java.util.Map;
 @Component
 @Slf4j
 public class MustacheExpressionResolver {
+
     private MustacheExpressionResolver() {
-        // essentially sealed
+        // empty
     }
 
     /**

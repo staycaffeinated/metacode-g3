@@ -24,7 +24,14 @@ class JavaArchetypeDescriptorTest {
         assertThat(jad.testClass()).isNotBlank();
         assertThat(jad.integrationTestClass()).isNotBlank();
         assertThat(jad.varName()).isNotBlank();
+        assertThat(jad.testFixture()).isNotBlank();
+    }
 
+    @Test
+    void shouldHandleNullClassName() {
+        // Since JavaArchetypeDescriptor is an interface, there's no way to enforce non-null
+        JavaArchetypeDescriptor jad = new DefaultJavaArchetypeDescriptor(Archetype.Application, "org.example.Application", "org.example", null);
+        assertThat(jad.varName()).isNotBlank();
     }
 
 

@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import mmm.coffee.metacode.common.model.Archetype;
 
@@ -31,7 +33,8 @@ import java.util.List;
  * See: <a href="https://howtodoinjava.com/jackson/ignore-null-empty-absent-values/">Ignoring values</a>
  * for details on how the `Include` annotation works.
  */
-@Data
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 // The code doesn't care what order the properties are in,
 // but this order is easier to read.

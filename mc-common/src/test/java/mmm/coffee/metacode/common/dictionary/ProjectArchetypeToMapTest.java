@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProjectArchetypeToMapTest {
 
@@ -31,6 +32,10 @@ class ProjectArchetypeToMapTest {
         assertThat(map.get(Archetype.GlobalExceptionHandler.toString())).isNotNull();
     }
 
+    @Test
+    void shouldThrowExceptionIfFactoryIsNull() {
+        assertThrows(NullPointerException.class, () -> { ProjectArchetypeToMap.map(null); });
+    }
     /* ------------------------------------------------------------------------------------------------
      * HELPER METHODS
      * ------------------------------------------------------------------------------------------------ */

@@ -36,4 +36,9 @@ class PackageNameConversionTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @Test
+    void shouldThrowExceptionWhenFqcnIsNull() {
+        assertThrows(NullPointerException.class, () -> PackageNameConversion.toFqFileName(null));
+    }
+
 }

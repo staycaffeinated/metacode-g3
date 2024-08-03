@@ -107,7 +107,11 @@ class DescriptorToMetaPropertiesTests {
     @Test
     void whenIntegrationWithMultipleTools_expectPropertyIsSetForEachTool() {
         // Given: a RestProject with TestContainers integration added
-        RestProjectDescriptor descriptor = newWebMvcProject(SpringIntegrations.TESTCONTAINERS, SpringIntegrations.POSTGRES, SpringIntegrations.LIQUIBASE);
+        RestProjectDescriptor descriptor = newWebMvcProject(
+                SpringIntegrations.TESTCONTAINERS,
+                SpringIntegrations.POSTGRES,
+                SpringIntegrations.OPENAPI,
+                SpringIntegrations.LIQUIBASE);
 
         // When: the RestProjectDescriptor is converted to a Map
         Map<String, Object> map = converterUnderTest.convert(descriptor);

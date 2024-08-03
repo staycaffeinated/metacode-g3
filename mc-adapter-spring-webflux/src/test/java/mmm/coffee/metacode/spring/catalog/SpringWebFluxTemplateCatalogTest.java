@@ -54,6 +54,9 @@ class SpringWebFluxTemplateCatalogTest {
      * the super's constructor with a null argument to verify
      * an NPE is thrown.
      */
+    @SuppressWarnings({
+            "java:S125" // false positive; there's no commented-out code here
+    })
     @Test
     void shouldThrowExceptionWhenCatalogReaderArgIsNull() {
         assertThrows(NullPointerException.class, () -> {
@@ -77,6 +80,22 @@ class SpringWebFluxTemplateCatalogTest {
         }
     }
 
+    @Test
+    void shouldHaveAnActiveCatalog() {
+        assertThat(catalogUnderTest.getActiveCatalog()).isNotEmpty();
+    }
+
+    @Test
+    void shouldReturnDefaultCatalogWhenNothingActive() {
+        ICatalogReader reader = Mockito.mock(ICatalogReader.class);
+        SpringWebFluxTemplateCatalog catalog = new SpringWebFluxTemplateCatalog(reader);
+        assertThat(catalog.getActiveCatalog()).isNotEmpty();
+        assertThat(catalog.getActiveCatalog()).isEqualTo(SpringTemplateCatalog.WEBFLUX_CATALOG);
+    }
+
+    /* --------------------------------------------------------------------------------------------
+     * HELPER METHODS
+     * -------------------------------------------------------------------------------------------- */
     private static class FakeTemplateCatalog extends SpringTemplateCatalog {
 
         public FakeTemplateCatalog(ICatalogReader reader) {
@@ -93,9 +112,5 @@ class SpringWebFluxTemplateCatalogTest {
             return null;
         }
 
-        public void invokeCollectGeneralCatalogsAndThisOne() {
-            
-            super.collectGeneralCatalogsAndThisOne(SpringTemplateCatalog.WEBFLUX_CATALOG);
-        }
     }
 }

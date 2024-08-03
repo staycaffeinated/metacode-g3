@@ -152,23 +152,6 @@ public class CustomPropertyAssembler {
     @Builder
     private record EdgeCaseResolvedArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                        String className) implements JavaArchetypeDescriptor {
-        @Override
-        public String fqcnIntegrationTest() {
-            return fqcn();
-        }
-
-        @Override
-        public String fqcnUnitTest() {
-            return fqcn();
-        }
-
-        public String toString() {
-            return "NoOpTestDescriptor[className: " + className() + ", " +
-                    "fqcn: " + fqcn() + ", " +
-                    "unitTestClass: " + fqcnUnitTest() + ", " +
-                    "integrationTestClass: " + fqcnIntegrationTest() + ", " +
-                    "packageName: " + packageName() + "]";
-        }
     }
 
 }
