@@ -4,7 +4,7 @@ package ${Repository.packageName()};
 
 import ${ContainerConfiguration.fqcn()};
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import ${PostgresTestContainer.fqcn()};
+import ${PostgresDbContainerTests.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import org.junit.jupiter.api.Test;
@@ -23,8 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest
 @ComponentScan(basePackageClasses = {${ContainerConfiguration.className()}.class})
-<#if ((endpoint.isWithPostgres()) && (endpoint.isWithTestContainers()))>
-class ${Repository.integrationTestClass()} extends ${PostgresTestContainer.className()} {
+<#if ((endpoint.isWithPostgres()))>
+class ${Repository.integrationTestClass()} extends ${PostgresDbContainerTests.className()} {
 <#else>
 class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>

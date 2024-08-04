@@ -3,7 +3,7 @@
 package ${Controller.packageName()};
 
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import ${PostgresTestContainer.fqcn()};
+import ${PostgresDbContainerTests.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import ${Repository.fqcn()};
@@ -39,7 +39,7 @@ import java.time.Duration;
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>
-class ${Controller.integrationTestClass()} extends ${PostgresTestContainer.className()} {
+class ${Controller.integrationTestClass()} extends ${PostgresDbContainerTests.className()} {
 <#else>
 class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>

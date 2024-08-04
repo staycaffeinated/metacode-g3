@@ -3,7 +3,7 @@
 package ${ServiceImpl.packageName()};
 
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import ${PostgresTestContainer.fqcn()};
+import ${PostgresDbContainerTests.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import ${ObjectDataStore.fqcn()};
@@ -34,7 +34,7 @@ import java.time.Duration;
 @SpringBootTest
 @Slf4j
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>
-class ${ServiceImpl.integrationTestClass()} extends ${PostgresTestContainer.className()} {
+class ${ServiceImpl.integrationTestClass()} extends ${PostgresDbContainerTests.className()} {
 <#else>
 class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>

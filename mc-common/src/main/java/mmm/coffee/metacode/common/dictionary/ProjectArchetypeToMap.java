@@ -73,6 +73,7 @@ public class ProjectArchetypeToMap {
             Archetype.DatabaseInitFunction,
             Archetype.MongoDatabaseConfiguration,
             Archetype.TestDatabaseConfiguration,
+            Archetype.PostgresDbContainerTests,
 
             // miscellaneous
             Archetype.Text,

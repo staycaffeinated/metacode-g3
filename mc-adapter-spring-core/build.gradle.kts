@@ -50,6 +50,7 @@ sonar {
 
         property("sonar.coverage.exclusions",
             "**/WebMvcTemplateModel.java"  // this is a pojo decored with lombok:Data
+            + ",**/EdgeCaseResolvedArchetypeDescriptor**"
         )
     }
 }
