@@ -152,6 +152,33 @@ public class CustomPropertyAssembler {
     @Builder
     private record EdgeCaseResolvedArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                        String className) implements JavaArchetypeDescriptor {
+
+        /*
+         * Do not remove this method. There are some classes that only
+         * get generated within the `integrationTest` folder, such as the
+         * ContainerConfiguration class, which has testcontainer configuration data;
+         * testcontainers are only applicable in integration tests. For those cases,
+         * we don't want the classname to be `ContainerConfigurationIntegrationTest`,
+         * but only `ContainerConfiguration`. This method and `fqcnUnitTest` are overridden
+         * to support those use cases. 
+         */
+        @Override
+        public String fqcnIntegrationTest() {
+            return fqcn();
+        }
+
+        @Override
+        public String fqcnUnitTest() {
+            return fqcn();
+        }
+
+        public String toString() {
+            return "NoOpTestDescriptor[className: " + className() + ", " +
+                    "fqcn: " + fqcn() + ", " +
+                    "unitTestClass: " + fqcnUnitTest() + ", " +
+                    "integrationTestClass: " + fqcnIntegrationTest() + ", " +
+                    "packageName: " + packageName() + "]";
+        }
     }
 
 }
