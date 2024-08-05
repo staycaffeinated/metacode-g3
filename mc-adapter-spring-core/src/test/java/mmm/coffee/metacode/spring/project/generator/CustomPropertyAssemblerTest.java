@@ -3,6 +3,7 @@ package mmm.coffee.metacode.spring.project.generator;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
+import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
@@ -62,6 +63,25 @@ class CustomPropertyAssemblerTest {
 
         actual = assembler.resolveBasePackage(mockDescriptor, "org.example.hotel", "PetStay");
         assertThat(actual).isNotNull();
+
+    }
+
+    @Test
+    void shouldProvideValues() {
+        CustomPropertyAssembler.EdgeCaseResolvedArchetypeDescriptor descriptor = CustomPropertyAssembler.EdgeCaseResolvedArchetypeDescriptor.builder()
+                .archetype(Archetype.Application)
+                .className("Application")
+                .fqcn("org.example.petstore.Application")
+                .packageName("org.example.petstore")
+                .build();
+
+        assertThat(descriptor.fqcnIntegrationTest()).isNotBlank();
+        assertThat(descriptor.fqcnIntegrationTest()).doesNotEndWith("Test");
+        
+        assertThat(descriptor.fqcnUnitTest()).isNotBlank();
+        assertThat(descriptor.fqcnUnitTest()).doesNotEndWith("Test");
+
+        assertThat(descriptor.toString()).isNotBlank();
 
     }
 
