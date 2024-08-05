@@ -4,36 +4,51 @@
 package mmm.coffee.metacode.spring.endpoint.generator;
 
 import mmm.coffee.metacode.common.ExitCodes;
-import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
-import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
+import mmm.coffee.metacode.common.catalog.*;
+import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
+import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
+import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
+import mmm.coffee.metacode.common.dictionary.PackageLayout;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
+import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutToHashMapMapper;
+import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
+import mmm.coffee.metacode.common.dictionary.io.PackageLayoutReader;
 import mmm.coffee.metacode.common.exception.CreateEndpointUnsupportedException;
+import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
+import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
 import mmm.coffee.metacode.common.io.MetaProperties;
 import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
+import mmm.coffee.metacode.common.io.MetaPropertiesReader;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
+import mmm.coffee.metacode.common.writer.ContentToNullWriter;
 import mmm.coffee.metacode.spring.ClassNameRuleSetFixture;
 import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
 import mmm.coffee.metacode.spring.MetaPropertiesHandlerFixture;
 import mmm.coffee.metacode.spring.PackageLayoutRulesetFixture;
+import mmm.coffee.metacode.spring.catalog.SpringTemplateCatalog;
+import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import mmm.coffee.metacode.spring.converter.NameConverter;
 import mmm.coffee.metacode.spring.converter.RouteConstantsConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToPredicateConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToTemplateModelConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointTemplateModelToMapConverter;
+import mmm.coffee.metacode.spring.endpoint.io.SpringEndpointMetaPropertiesHandler;
 import mmm.coffee.metacode.spring.endpoint.mustache.MustacheEndpointDecoder;
+import mmm.coffee.metacode.spring.project.model.WebMvcTemplateModel;
 import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,6 +63,8 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("unchecked")
 class SpringEndpointGeneratorTests {
 
+    private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
+    
     final static String BASE_PATH = "/petstore";
     final static String BASE_PACKAGE = "org.acme.petstore";
     final static String WEBFLUX_FRAMEWORK = Framework.SPRING_WEBFLUX.frameworkName();
@@ -90,6 +107,17 @@ class SpringEndpointGeneratorTests {
         assertThrows(CreateEndpointUnsupportedException.class, () -> {
             generator.generateCode(descriptor);
         });
+    }
+
+    @Test
+    void shouldGenerateCode() throws IOException {
+        generatorUnderTest = setUpGenerator(WEBMVC_FRAMEWORK);
+        var descriptor = RestEndpointDescriptor.builder().resource("Pet").route("/pet").build();
+        SpringEndpointGenerator generator = setUpLiveGenerator(WEBMVC_FRAMEWORK);
+
+        int rc = generator.doPreprocessing(descriptor).generateCode(descriptor);
+        assertThat(rc).isEqualTo(ExitCodes.OK);
+
     }
 
     // -------------------------------------------------------------------------------------
@@ -147,6 +175,26 @@ class SpringEndpointGeneratorTests {
                 .templateRenderer(mockTemplateResolver)
                 .outputHandler(mockOutputHandler)
                 .archetypeDescriptorFactory(new FakeArchetypeDescriptorFactory())
+                .build();
+    }
+
+    public SpringEndpointGenerator setUpLiveGenerator(String frameworkToUse) throws IOException {
+        MetaPropertiesHandler<RestEndpointDescriptor> mockMetaPropertiesHandler = setUpMetaPropertiesHandler(frameworkToUse);
+        MustacheEndpointDecoder decoder = setUpMustacheDecoder();
+        Collector templateCollector = setUpTemplateCollector();
+        TemplateResolver<MetaTemplateModel> templateResolver = setUpTemplateResolver();
+        PackageLayoutRuleSet packageLayoutRuleSet = buildPackageLayoutRuleSet();
+        ClassNameRuleSet classNameRuleSet = buildClassNameRuleSet();
+
+        return SpringEndpointGenerator.builder()
+                .metaPropertiesHandler(mockMetaPropertiesHandler)
+                .mustacheDecoder(decoder)
+                .collector(templateCollector)
+                .descriptor2templateModel(new RestEndpointDescriptorToTemplateModelConverter(new NameConverter(), new RouteConstantsConverter()))
+                .descriptor2predicate(new RestEndpointDescriptorToPredicateConverter())
+                .outputHandler(new ContentToNullWriter())
+                .templateRenderer(templateResolver)
+                .archetypeDescriptorFactory(new ArchetypeDescriptorFactory(packageLayoutRuleSet, classNameRuleSet))
                 .build();
     }
 
@@ -208,6 +256,48 @@ class SpringEndpointGeneratorTests {
 
     MetaPropertiesHandler<RestEndpointDescriptor> buildMockMetaPropertiesHandler(String frameworkToUse) {
         return MetaPropertiesHandlerFixture.buildMockMetaPropertiesHandler(frameworkToUse);
+    }
+
+    private MetaPropertiesHandler<RestEndpointDescriptor> setUpMetaPropertiesHandler(String frameworkToUse) {
+        Configuration mockConfiguration = Mockito.mock(Configuration.class);
+        when(mockConfiguration.getString(MetaProperties.FRAMEWORK)).thenReturn(frameworkToUse);
+        when(mockConfiguration.getString(MetaProperties.BASE_PACKAGE)).thenReturn("org.acme.petstore");
+        when(mockConfiguration.getString(MetaProperties.BASE_PATH)).thenReturn("/petstore");
+
+        MetaPropertiesReader mockReader = Mockito.mock(MetaPropertiesReader.class);
+        when(mockReader.read()).thenReturn(mockConfiguration);
+
+        return SpringEndpointMetaPropertiesHandler.builder().reader(mockReader).build();
+    }
+
+    private MustacheEndpointDecoder setUpMustacheDecoder() {
+        return MustacheEndpointDecoder.builder().converter(new RestEndpointTemplateModelToMapConverter()).build();
+    }
+
+    private Collector setUpTemplateCollector() {
+        return new FakeTemplateCatalog(new CatalogFileReader());
+    }
+
+    private TemplateResolver<MetaTemplateModel> setUpTemplateResolver() {
+        return new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_DIRECTORY));
+    }
+
+    static class FakeTemplateCatalog extends SpringTemplateCatalog {
+
+        private static final String ACTIVE_CATALOG = WEBMVC_CATALOG;
+
+        public FakeTemplateCatalog(ICatalogReader reader) {
+            super(reader);
+        }
+
+        String getActiveCatalog() {
+            return ACTIVE_CATALOG;
+        }
+
+        @Override
+        public List<CatalogEntry> collect() {
+            return super.collectGeneralCatalogsAndThisOne(getActiveCatalog());
+        }
     }
 
 }

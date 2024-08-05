@@ -45,6 +45,7 @@ import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -148,20 +149,14 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
             catalogEntry.getFacets().forEach(facet -> {
                 String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
 
-                if (catalogEntry.getArchetype() == null) {
-                    // this may be dead code. need to see if error still occurs that lands us here
-                    log.error("Detected a catalog entry with a null archetype: {}", catalogEntry);
-                }
-                else {
-                    String outputFileName = OutputFileDestinationResolver.resolveDestination(
-                            facet,
-                            catalogEntry.getArchetype(),
-                            templateModel,
-                            mustacheDecoder);
-                    log.info("Resolved destination: archetype: {}, destination: {}", catalogEntry.getArchetype(), outputFileName);
-                    //String outputFileName = mustacheDecoder.decode(facet.getDestination());
-                    outputHandler.writeOutput(outputFileName, renderedContent);
-                }
+                String outputFileName = OutputFileDestinationResolver.resolveDestination(
+                        facet,
+                        catalogEntry.getArchetype(),
+                        templateModel,
+                        mustacheDecoder);
+                log.debug("Resolved destination: archetype: {}, destination: {}", catalogEntry.getArchetype(), outputFileName);
+                //String outputFileName = mustacheDecoder.decode(facet.getDestination());
+                outputHandler.writeOutput(outputFileName, renderedContent);
             });
         });
 

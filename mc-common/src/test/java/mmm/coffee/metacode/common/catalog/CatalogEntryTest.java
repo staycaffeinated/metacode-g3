@@ -89,6 +89,13 @@ class CatalogEntryTest {
         assertThat(entry.getTags()).isEqualTo("postgres");
     }
 
+    @Test
+    void verifyDefaultArchetypeIsSetWhenUnknownOrNull() {
+        CatalogEntry entry = new CatalogEntry();
+        entry.setArchetype(null);
+        assertThat(entry.getArchetype()).isNotNull().isEqualTo(Archetype.Undefined.name());
+    }
+
     /* ----------------------------------------------------------------
      * HELPER METHODS
      * ---------------------------------------------------------------- */

@@ -18,6 +18,7 @@ package mmm.coffee.metacode.common.catalog;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -55,8 +56,16 @@ public class CatalogEntry {
      *  - the canonical filename of the file emitted by the template (eg, application/src/main/java/org/example/Application.java)
      */
     @JsonProperty("archetype")
-    private String archetype; // eg: Controller, Service, etc.
+    // Assign a default value.
+    private String archetype = Archetype.Undefined.toString();
 
+    @JsonSetter("archetype")
+    public void setArchetype(String archetype) {
+        if (archetype != null) {
+            this.archetype = archetype;
+        }
+    }
+    
     public Archetype archetypeValue() {
         if (archetype == null)
             return Archetype.Undefined;

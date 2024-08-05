@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MustacheDecoderTest {
 
@@ -22,6 +23,17 @@ class MustacheDecoderTest {
         String result = decoder.decode(expression);
         assertThat(result).contains("bar");
         assertThat(result).contains("bin");
+    }
+
+    @Test
+    void shouldThrowExceptionIfExpressionIsNull() {
+        MustacheDecoder decoder = MustacheDecoder.builder()
+                .map(exampleModel())
+                .converter(getTemplateModelConverter())
+                .build();
+
+        assertThrows(NullPointerException.class, () -> decoder.decode(null) );
+
     }
 
     /* --------------------------------------------------------------------------------

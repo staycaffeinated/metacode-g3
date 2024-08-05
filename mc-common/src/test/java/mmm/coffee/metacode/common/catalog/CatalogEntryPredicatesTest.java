@@ -13,7 +13,10 @@ class CatalogEntryPredicatesTest {
         Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isCommonProjectArtifact();
 
         assertThat(predicate.test(aBasicProjectCatalogEntry())).isTrue();
+        assertThat(predicate.test(aProjectCatalogEntryWithEmptyTags())).isTrue();
+        
         assertThat(predicate.test(aBasicEndpointCatalogEntry())).isFalse();
+        assertThat(predicate.test(aCatalogEntryWithNullScope())).isFalse();
     }
 
     @Test
@@ -21,7 +24,9 @@ class CatalogEntryPredicatesTest {
         Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isEndpointArtifact();
 
         assertThat(predicate.test(aBasicEndpointCatalogEntry())).isTrue();
+
         assertThat(predicate.test(aBasicProjectCatalogEntry())).isFalse();
+        assertThat(predicate.test(aCatalogEntryWithNullScope())).isFalse();
     }
 
     @Test
@@ -29,15 +34,19 @@ class CatalogEntryPredicatesTest {
         Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isWebFluxArtifact();
 
         assertThat(predicate.test(aWebFluxCatalogEntry())).isTrue();
+
         assertThat(predicate.test(aWebMvcCatalogEntry())).isFalse();
+        assertThat(predicate.test(aCatalogEntryWithEmptyFacets())).isFalse();
     }
 
     @Test
     void shouldRecognizeWebMvcArtifacts() {
         Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isWebMvcArtifact();
-        
+
         assertThat(predicate.test(aWebMvcCatalogEntry())).isTrue();
+
         assertThat(predicate.test(aWebFluxCatalogEntry())).isFalse();
+        assertThat(predicate.test(aCatalogEntryWithEmptyFacets())).isFalse();
     }
 
     @Test
@@ -79,6 +88,24 @@ class CatalogEntryPredicatesTest {
                 .build();
     }
 
+    private CatalogEntry aCatalogEntryWithNullScope() {
+        return CatalogEntryBuilder.builder()
+                .scope(null)
+                .addFacet(aMainComponentTemplate())
+                .addFacet(aVanillaTemplate())
+                .build();
+    }
+
+    private CatalogEntry aProjectCatalogEntryWithEmptyTags() {
+        return CatalogEntryBuilder.builder()
+                .scope("project")
+                .addFacet(aMainComponentTemplate())
+                .addFacet(aVanillaTemplate())
+                .tags("")
+                .build();
+    }
+
+
     private CatalogEntry aBasicEndpointCatalogEntry() {
         return CatalogEntryBuilder.builder()
                 .scope("endpoint")
@@ -116,6 +143,12 @@ class CatalogEntryPredicatesTest {
                 .tags("mongodb")
                 .addFacet(aMainComponentTemplate())
                 .addFacet(aVanillaTemplate())
+                .build();
+    }
+
+    private CatalogEntry aCatalogEntryWithEmptyFacets() {
+        return CatalogEntryBuilder.builder()
+                .scope("project")
                 .build();
     }
 

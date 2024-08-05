@@ -149,6 +149,7 @@ public class CustomPropertyAssembler {
         }
     }
 
+    @SuppressWarnings("java:S125") // false positive; there are no commented-out lines of code here
     @Builder
     private record EdgeCaseResolvedArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                        String className) implements JavaArchetypeDescriptor {
