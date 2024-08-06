@@ -38,57 +38,54 @@ class PackageNameValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(chars = {'0', '1', '9'})
-    void shouldRecognizeDigits(char character) {
-        FakePackageNameValidator validator = new FakePackageNameValidator(String.valueOf(character));
-
-        assertThat(validator.checkForDigit(character)).isTrue();
-
-        assertThat(validator.checkForUpperCaseLetter(character)).isFalse();
-        assertThat(validator.checkForLowerCaseLetter(character)).isFalse();
+    @ValueSource(strings = {
+            "abc.def.ghi",
+            "acme",
+            "acme.anvil_tools.coyote"
+    })
+    void shouldAcceptValidPackageNames(String candidate) {
+        FakePackageNameValidator validator = new FakePackageNameValidator(candidate);
+        assertThat(validator.evaluate(candidate)).isTrue();
     }
 
     @ParameterizedTest
-    @ValueSource(chars = {'A', 'B', 'C'})
-    void shouldRecognizeUpperCaseLetters(char character) {
-        FakePackageNameValidator validator = new FakePackageNameValidator(String.valueOf(character));
-
-        assertThat(validator.checkForUpperCaseLetter(character)).isTrue();
-
-        assertThat(validator.checkForLowerCaseLetter(character)).isFalse();
-        assertThat(validator.checkForDigit(character)).isFalse();
+    @ValueSource(strings = {
+            "Acme.Tools.Anvils",
+            "acme-tools-anvils",
+            "9wednesdayDrive.wicked.Spells",
+            "int.class.float.byte.boolean.data",
+            ".time.of.day.functions",
+            "foo.#@!bar.helpers"
+    })
+    void shouldRejectInvalidPackageNames(String candidate) {
+        FakePackageNameValidator validator = new FakePackageNameValidator(candidate);
+        assertThat(validator.evaluate(candidate)).isFalse();
     }
 
-    @ParameterizedTest
-    @ValueSource(chars = {'a', 'b', 'z'})
-    void shouldRecognizeLowerCaseLetters(char character) {
-        FakePackageNameValidator validator = new FakePackageNameValidator(String.valueOf(character));
 
-        assertThat(validator.checkForLowerCaseLetter(character)).isTrue();
-        assertThat(validator.checkForUpperCaseLetter(character)).isFalse();
-        assertThat(validator.checkForDigit(character)).isFalse();
-    }
-
+    /* ------------------------------------------------------------------------------------------------
+     * HELPER METHODS
+     * ------------------------------------------------------------------------------------------------ */
 
     /*
      * A bit of white-box testing to verify the isDigit/isLowerCaseLetter/isUpperCaseLetter
      * are being exercised.
      */
     class FakePackageNameValidator extends PackageNameValidator {
+        public FakePackageNameValidator() {
+            super("");
+        }
+
         public FakePackageNameValidator(String packageName) {
             super(packageName);
         }
 
-        public boolean checkForDigit(char ch) {
-            return isDigit(ch);
-        }
-
         public boolean checkForLowerCaseLetter(char ch) {
-            return isLowerCaseLetter(ch);
+            return Characters.isLowerCase(ch);
         }
 
         public boolean checkForUpperCaseLetter(char ch) {
-            return isUpperCaseLetter(ch);
+            return Characters.isUpperCase(ch);
         }
     }
 

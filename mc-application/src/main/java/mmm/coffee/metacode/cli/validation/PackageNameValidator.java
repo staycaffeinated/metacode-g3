@@ -43,39 +43,6 @@ public class PackageNameValidator implements ValidationTrait {
         return new PackageNameValidator(value);
     }
 
-    /**
-     * Not exactly the rules of a Java identifier, but sufficient for package names
-     *
-     * @param token the token to check
-     * @return true if the token is a legal part of a package name
-     */
-    private static boolean isLegalIdentifier(String token) {
-        // first character must be a-z or underscore
-        if (!(isLowerCaseLetter(token.charAt(0)) || token.charAt(0) == '_')) {
-            return false;
-        }
-
-        // a valid subsequent letters can be: a-z, A-Z, 0-9, or underscore
-        for (var i = 1; i < token.length(); i++) {
-            char ch = token.charAt(i);
-            if (!isLowerCaseLetter(ch) && !isUpperCaseLetter(ch) && !isDigit(ch) && ch != '_')
-                return false;
-        }
-        return true;
-    }
-
-    protected static boolean isDigit(char ch) {
-        return ch >= '0' && ch <= '9';
-    }
-
-    protected static boolean isLowerCaseLetter(char ch) {
-        return ch >= 'a' && ch <= 'z';
-    }
-
-    protected static boolean isUpperCaseLetter(char ch) {
-        return ch >= 'A' && ch <= 'Z';
-    }
-
     public boolean isValid() {
         return evaluate(this.value);
     }
@@ -96,18 +63,13 @@ public class PackageNameValidator implements ValidationTrait {
      * @param value the String to check
      * @return true if {@code value} is a valid Java package name
      */
-    private boolean evaluate(String value) {
+    public final boolean evaluate(String value) {
         evaluated = true;
         if (value == null || value.isBlank()) {
             errorMessage = "A Java package name cannot be null nor an empty string.";
             return false;
         }
-
-        boolean flag = check(value);
-        if (!flag) {
-            errorMessage = "A Java package name must not contain reserved words or invalid characters.";
-        }
-        return flag;
+        return check(value);
     }
 
     /**
@@ -117,10 +79,12 @@ public class PackageNameValidator implements ValidationTrait {
      * @param candidate the candidate value
      * @return if it can be used as a package name
      */
-    private boolean check(String candidate) {
+    protected final boolean check(String candidate) {
         // Edge case: don't want a package name starting with '.'
-        if (value.charAt(0) == '.')
+        if (value.charAt(0) == '.') {
+            errorMessage = "A Java package name cannot begin with the '.' character";
             return false;
+        }
 
         var tokenizer = new StringTokenizer(candidate, ".");
 
@@ -130,7 +94,7 @@ public class PackageNameValidator implements ValidationTrait {
                 errorMessage = String.format("Your Java package name contains the reserved word, '%s', which will cause compile errors.", token);
                 return false;
             }
-            if (!isLegalIdentifier((token))) {
+            if (!Characters.isLegalIdentifier((token))) {
                 errorMessage = String.format("Your Java package name contains the illegal identifier, '%s', which will cause compile errors", token);
                 return false;
             }
