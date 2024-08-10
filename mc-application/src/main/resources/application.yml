@@ -4,8 +4,8 @@ logging:
     org.springframework: ERROR
     mmm.coffee: WARN
   pattern:
-    console: "[%p] %c{1} - %m%n"
-    file: "[%p] %c{1} - %m%n"
+    console: "%logger{36} - %msg%n"
+    file: "%logger{36} - %msg%n"
 
 spring:
   main:

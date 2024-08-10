@@ -13,15 +13,6 @@ plugins {
     alias(libs.plugins.spring.dependency.management)
 }
 
-// Help from: https://tomgregory.com/gradle/how-to-exclude-gradle-dependencies/
-// also look at: https://springframework.guru/using-log4j-2-spring-boot/
-configurations.implementation {
-    exclude(group = "com.google.code.findbugs", "jsr305" )
-    exclude(group = "ch.qos.logback", module = "logback-classic")
-    exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j-impl")
-    exclude(group = "org.springframework.boot", module="spring-boot-starter-logging")
-}
-
 dependencies {
     implementation(project(":mc-annotations"))
     implementation(project(":mc-common"))
@@ -30,7 +21,8 @@ dependencies {
 
 
     implementation(libs.picocli.spring.boot.starter)
-    implementation(libs.spring.boot.starter.logging.log4j2)
+    implementation(libs.spring.boot.starter.logging)
+
     implementation(libs.spring.context)
     implementation(libs.spring.core)
 
