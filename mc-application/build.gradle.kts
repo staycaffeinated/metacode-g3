@@ -9,6 +9,17 @@ plugins {
     alias(libs.plugins.shadow.jar)  // builds runnable jar containing all dependencies; use for local testing
     alias(libs.plugins.versions)    // checks for newer versions of dependencies
     alias(libs.plugins.lombok)
+    alias(libs.plugins.springframework.boot)
+    alias(libs.plugins.spring.dependency.management)
+}
+
+// Help from: https://tomgregory.com/gradle/how-to-exclude-gradle-dependencies/
+// also look at: https://springframework.guru/using-log4j-2-spring-boot/
+configurations.implementation {
+    exclude(group = "com.google.code.findbugs", "jsr305" )
+    exclude(group = "ch.qos.logback", module = "logback-classic")
+    exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j-impl")
+    exclude(group = "org.springframework.boot", module="spring-boot-starter-logging")
 }
 
 dependencies {
@@ -17,10 +28,12 @@ dependencies {
     implementation(project(":mc-adapter-spring-shared"))
     implementation(project(":mc-generator-spring"))
 
+
     implementation(libs.picocli.spring.boot.starter)
+    implementation(libs.spring.boot.starter.logging.log4j2)
     implementation(libs.spring.context)
     implementation(libs.spring.core)
-    implementation(libs.spring.boot.starter.logging)
+
     implementation(libs.guava)
     implementation(libs.commonsConfig)
 

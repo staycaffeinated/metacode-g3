@@ -17,18 +17,22 @@ junitPlatform = '1.10.2'
 log4j = '2.18.0'
 logback = '1.4.7'
 lombok = '1.18.26'
+lombokPlugin = '8.7.1'
 mockito = '5.12.0'
-picocli = '4.7.5'
+picocli = '4.7.6'
 slf4j = '2.0.7'
-springDependencyManagement = '1.1.6'
 systemRules = '1.19.0'
 systemLambda = '1.2.1'
 spring = '6.1.11'
 springBoot = '3.3.2'
+springDependencyManagement = '1.1.6'
 toml = '1.1.1'               # tomlj
 truth = '1.4.2'
 vavr = '1.0.0-alpha-4'
 
+# -------------------------------------------------------------
+# Libraries
+# -------------------------------------------------------------
 
 [libraries]
 
@@ -61,6 +65,7 @@ picocli-spring-boot-starter = { module = "info.picocli:picocli-spring-boot-start
 slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 spring-context = { module = "org.springframework:spring-context", version.ref = "spring" }
 spring-core = { module = "org.springframework:spring-core", version.ref = "spring" }
+spring-boot-starter-logging-log4j2 = { module = "org.springframework.boot:spring-boot-starter-log4j2", version.ref="springBoot" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "springBoot" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
 
@@ -69,6 +74,9 @@ toml = { module = "org.tomlj:tomlj", version.ref = "toml" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 vavr = { module = "io.vavr:vavr", version.ref = "vavr" }
 
+# -------------------------------------------------------------
+# Plugins
+# -------------------------------------------------------------
 
 [plugins]
 dependency-management = { id = "io.spring.dependency-management", version.ref="springDependencyManagement" }
@@ -76,7 +84,9 @@ versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
 kordamp-jacoco = { id = "org.kordamp.gradle.jacoco", version = "0.54.0" }
 kordamp-testing = { id = "org.kordamp.gradle.testing", version = "0.54.0" }
-lombok = { id = "io.freefair.lombok", version = "8.6" }
+lombok = { id = "io.freefair.lombok", version.ref = "lombokPlugin" }
 shadow-jar = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
 sonar = { id = "org.sonarqube", version = "5.0.0.4638" }
 
+springframework-boot = { id = "org.springframework.boot", version.ref="springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
