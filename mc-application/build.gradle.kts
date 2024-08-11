@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.shadow.jar)  // builds runnable jar containing all dependencies; use for local testing
     alias(libs.plugins.versions)    // checks for newer versions of dependencies
     alias(libs.plugins.lombok)
+    alias(libs.plugins.springframework.boot)
+    alias(libs.plugins.spring.dependency.management)
 }
 
 dependencies {
@@ -17,10 +19,13 @@ dependencies {
     implementation(project(":mc-adapter-spring-shared"))
     implementation(project(":mc-generator-spring"))
 
+
     implementation(libs.picocli.spring.boot.starter)
+    implementation(libs.spring.boot.starter.logging)
+
     implementation(libs.spring.context)
     implementation(libs.spring.core)
-    implementation(libs.spring.boot.starter.logging)
+
     implementation(libs.guava)
     implementation(libs.commonsConfig)
 

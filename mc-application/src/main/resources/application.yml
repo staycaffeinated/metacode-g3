@@ -2,7 +2,7 @@ logging:
   level:
     root: ERROR
     org.springframework: ERROR
-    mmm.coffee: DEBUG
+    mmm.coffee: WARN
   pattern:
     console: "%logger{36} - %msg%n"
     file: "%logger{36} - %msg%n"

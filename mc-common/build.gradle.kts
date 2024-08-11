@@ -22,7 +22,7 @@ dependencies {
     implementation(libs.picocli)
     implementation(libs.freemarker)
     implementation(libs.jacksonYaml)
-    implementation(libs.toml)
+    // implementation(libs.toml)
     implementation(libs.slf4jApi)
 
     testImplementation(libs.spring.boot.starter.test)
