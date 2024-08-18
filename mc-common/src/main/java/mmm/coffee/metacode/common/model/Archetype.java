@@ -141,6 +141,7 @@ public enum Archetype {
     EntityCallback("EntityCallback"),
 
     EntityWithText("EntityWithText"), // a predicate for a given EJB/POJO
+    EntitySpecification("EntitySpecification"), // an improved predicate class
 
     // for plain text files, like the README.adoc, lombok.config, settings.gradle, etc.
     Text("Text"),
