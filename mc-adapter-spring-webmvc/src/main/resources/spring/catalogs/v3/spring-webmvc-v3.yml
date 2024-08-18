@@ -288,6 +288,14 @@ entries:
         sourceTemplate: "/spring/webmvc/test/database/predicate/EntityWithTextTest.ftl"
 
   - scope: "endpoint"
+    archetype: "EntitySpecification"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/database/predicate/EntitySpecification.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/predicate/EntitySpecificationTest.ftl"
+
+  - scope: "endpoint"
     archetype: "EntityResource"
     facets:
       - facet: "main"
