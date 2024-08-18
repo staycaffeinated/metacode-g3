@@ -170,7 +170,8 @@
     {
       "package": "{{basePackage}}.{{endpoint}}.requires.persistence.predicate",
       "archetypes": [
-        "EntityWithText"
+        "EntityWithText",
+        "EntitySpecification"
       ]
     },
     {
