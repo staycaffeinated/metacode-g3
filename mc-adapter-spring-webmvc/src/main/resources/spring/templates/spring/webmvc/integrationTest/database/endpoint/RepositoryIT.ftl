@@ -9,6 +9,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${Entity.fqcn()};
 import ${EntityWithText.fqcn()};
+import ${EntitySpecification.fqcn()};
 import ${WebMvcEjbTestFixtures.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 
@@ -30,6 +31,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.DynamicPropertyRegistry;
 </#if>
+import org.springframework.data.jpa.domain.Specification;
+
 
 import java.util.List;
 
@@ -54,9 +57,6 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
 </#if>
     @Autowired
     private ${Repository.className()} repositoryUnderTest;
-
-    // Increment for rowIds in the database
-    private long rowId = 0;
 
     @BeforeEach
     void insertTestData() {
@@ -89,7 +89,7 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
          * This test is only an example of how you might want to write such a test.
          */
         @Test
-        void testFindAll() throws Exception {
+        void shouldFindAll() {
             Pageable pageable = PageRequest.of(0, 10);
             Page<${Entity.className()}> page = repositoryUnderTest.findAll(pageable);
 
@@ -115,5 +115,19 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
             long count = repositoryUnderTest.count();
             assertThat(list).isNotNull().hasSize((int)count);
         }
+
+        @Test
+        void shouldFindMatchingRecords() {
+            // Pick a value known to be present in the database
+            String text = ${WebMvcEjbTestFixtures.className()}.allItems().get(1).getText();
+            // Construct a Specification to search for that value
+            Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text).build();
+
+            // Search using the specification
+            List<${Entity.className()}> list = repositoryUnderTest.findAll(where);
+            // Verify at least one matching record was found
+            assertThat(list).isNotNull().isNotEmpty();
+        }
     }
+
 }

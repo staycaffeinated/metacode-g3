@@ -5,11 +5,11 @@ package ${ObjectDataStoreProvider.packageName()};
 import ${BadRequestException.fqcn()};
 import ${Entity.fqcn()};
 import ${EntityWithText.fqcn()};
+import ${EntitySpecification.fqcn()};
 import ${EntityResource.fqcn()};
 import ${GenericDataStore.fqcn()};
 import ${ObjectDataStore.fqcn()};
 import ${Repository.fqcn()};
-import ${EntityWithText.fqcn()};
 import lombok.NonNull;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.github.perplexhub.rsql.RSQLJPASupport;
@@ -76,7 +76,7 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
      * Returns a Page of ${endpoint.entityName} items that have the given {@code text}
      */
     public Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable) {
-        Specification<${Entity.className()}> where = Specification.where(new ${EntityWithText.className()}(text.orElse("")));
+        Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text.orElse("")).build();
         Page<${Entity.className()}> resultSet = repository().findAll(where, pageable);
         List<${EntityResource.className()}> list = resultSet.stream().map(converterToPojo()::convert).toList();
         return new PageImpl<>(list, pageable, list.size());
