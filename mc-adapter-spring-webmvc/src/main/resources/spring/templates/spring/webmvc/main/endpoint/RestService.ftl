@@ -23,7 +23,7 @@ public interface ${ServiceApi.className()} {
     /*
      * findByText
      */
-    Page<${EntityResource.className()}> findByText(Optional<String> text, Pageable pageable);
+    Page<${EntityResource.className()}> findByText(String text, Pageable pageable);
 
     /**
      * Search for elements with an RSQL query

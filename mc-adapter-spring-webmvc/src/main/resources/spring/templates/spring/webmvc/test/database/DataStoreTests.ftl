@@ -319,7 +319,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
             given(mockRepository.findAll(any(Specification.class), any(Pageable.class))).willReturn(pageResult);
 
             // when: attempting a findByText
-            Page<${EntityResource.className()}> actual = dataStoreUnderTest.findByText(Optional.of("anything"), PageRequest.of(1, 10));
+            Page<${EntityResource.className()}> actual = dataStoreUnderTest.findByText("anything", PageRequest.of(1, 10));
 
             // expect: the result to contain as many items as were found in the repository.
             assertThat(actual).isNotNull().hasSize(content.size());

@@ -166,7 +166,7 @@ public class ${Controller.className()} {
             @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
             PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
-        return resourceAssembler.toModel( ${ServiceApi.varName()}.findByText(text, pageable) );
+        return resourceAssembler.toModel( ${ServiceApi.varName()}.findByText(text.orElse(""), pageable) );
     }
 
     /*

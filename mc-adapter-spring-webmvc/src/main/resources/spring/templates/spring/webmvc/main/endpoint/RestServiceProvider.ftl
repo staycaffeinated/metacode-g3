@@ -48,7 +48,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /*
      * findByText
      */
-    public Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable) {
+    public Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable) {
         return ${ObjectDataStore.varName()}.findByText(text, pageable);
     }
 

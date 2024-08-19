@@ -75,8 +75,8 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
     /**
      * Returns a Page of ${endpoint.entityName} items that have the given {@code text}
      */
-    public Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable) {
-        Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text.orElse("")).build();
+    public Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable) {
+        Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text).build();
         Page<${Entity.className()}> resultSet = repository().findAll(where, pageable);
         List<${EntityResource.className()}> list = resultSet.stream().map(converterToPojo()::convert).toList();
         return new PageImpl<>(list, pageable, list.size());

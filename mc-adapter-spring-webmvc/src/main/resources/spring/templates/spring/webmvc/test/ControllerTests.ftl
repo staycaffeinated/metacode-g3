@@ -228,7 +228,7 @@ class ${Controller.testClass()} {
         @Test
         @SuppressWarnings("unchecked")
         void shouldReturnListWhenMatchesAreFound() throws Exception {
-            given (${endpoint.entityVarName}Service.findByText(any(Optional.class), any(Pageable.class))).willReturn(pageOfData);
+            given (${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class))).willReturn(pageOfData);
 
             // when/then (the default Pageable in the controller is sufficient for testing)
             searchByText("text").andExpect(status().isOk());

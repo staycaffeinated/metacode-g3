@@ -16,7 +16,7 @@ import java.util.Optional;
  * ${Entity.className()}-specific search API.
  */
 public interface ${ObjectDataStore.className()} extends ${DataStoreApi.className()}<${EntityResource.className()}> {
-    Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable);
+    Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable);
 
     /**
      * Returns a Page of ${endpoint.entityName} items that satisfy the {@code searchQuery}
