@@ -21,14 +21,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import(ContainerConfiguration.class)
 @Testcontainers
-class ApplicationTests implements RegisterDatabaseProperties {
+class ${Application.integrationTestClass()} implements RegisterDatabaseProperties {
 <#else>
 <#-- ========================= -->
 <#-- Vanilla                   -->
 <#-- ========================= -->
 import org.junit.jupiter.api.Test;
 
-class ApplicationTests implements RegisterDatabaseProperties {
+class ${Application.integrationTestClass()} implements RegisterDatabaseProperties {
 </#if>
 
     @Test
