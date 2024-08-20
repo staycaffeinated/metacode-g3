@@ -9,6 +9,7 @@ import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
 import ${Repository.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
+import ${WebMvcEjbTestFixtures.fqcn()};
 import cz.jirutka.rsql.parser.RSQLParserException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

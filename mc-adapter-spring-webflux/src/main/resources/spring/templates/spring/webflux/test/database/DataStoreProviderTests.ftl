@@ -5,6 +5,7 @@ import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 import org.junit.jupiter.api.BeforeEach;

@@ -3,6 +3,7 @@ package ${EjbTestFixtures.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${Entity.fqcn()};
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

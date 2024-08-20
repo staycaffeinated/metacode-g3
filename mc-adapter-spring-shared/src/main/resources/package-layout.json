@@ -2,7 +2,7 @@
   "layoutName": "spring-package-layout",
   "layout": [
     {
-      "package": "{{basePackage}}.infra.config",
+      "package": "{{basePackage}}.infrastructure.config",
       "archetypes": [
         "ApplicationConfiguration",
         "DateTimeFormatConfiguration",
@@ -18,14 +18,14 @@
       ]
     },
     {
-      "package": "{{basePackage}}.infra.advice",
+      "package": "{{basePackage}}.infrastructure.advice",
       "archetypes": [
         "GlobalExceptionHandler",
         "ProblemSummary"
       ]
     },
     {
-      "package": "{{basePackage}}.exceptions",
+      "package": "{{basePackage}}.common.exceptions",
       "archetypes": [
         "Exception",
         "BadRequestException",
@@ -44,26 +44,26 @@
       ]
     },
     {
-      "package": "{{basePackage}}.infra.profiles",
+      "package": "{{basePackage}}.infrastructure.profiles",
       "archetypes": [
         "SpringProfiles"
       ]
     },
     {
-      "package": "{{basePackage}}.infra.utils",
+      "package": "{{basePackage}}.infrastructure.utils",
       "archetypes": [
         "SecureRandomSeries"
       ]
     },
     {
-      "package": "{{basePackage}}.traits",
+      "package": "{{basePackage}}.common.traits",
       "archetypes": [
         "ResourceIdTrait",
         "ResourceIdentity"
       ]
     },
     {
-      "package": "{{basePackage}}.infra.validation",
+      "package": "{{basePackage}}.infrastructure.validation",
       "archetypes": [
         "AlphabeticAnnotation",
         "AlphabeticValidator",
@@ -76,7 +76,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.infra.filter",
+      "package": "{{basePackage}}.infrastructure.filter",
       "archetypes": [ "SecurityResponseHeadersFilter" ]
     },
     {
@@ -97,7 +97,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.infra.common",
+      "package": "{{basePackage}}.infrastructure.common",
       "archetypes": [
         "AbstractIntegrationTest"
       ]
@@ -125,7 +125,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.persistence",
+      "package": "{{basePackage}}.common.persistence",
       "archetypes": [
         "CustomRepository",
         "CustomSQLRepository",
@@ -152,20 +152,31 @@
         "Repository",
         "MongoDataStore",
         "MongoDataStoreProvider",
-        "WebMvcEjbTestFixtures",
-        "DocumentTestFixtures",
-        "EjbTestFixtures",
         "TestTableInitializer",
         "TableInitializer"
       ]
     },
     {
-      "package": "{{basePackage}}.infra.api.providers",
+      "package": "{{basePackage}}.fixtures",
+      "archetypes": [
+        "WebMvcEjbTestFixtures",
+        "DocumentTestFixtures",
+        "EjbTestFixtures",
+        "WebMvcModelTestFixtures",
+        "PojoTestFixtures",
+        "ModelTestFixtures"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.infrastructure.api.providers",
       "archetypes": [ "ResourceIdSupplier" ]
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.provides.domain",
-      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures", "PojoTestFixtures", "ModelTestFixtures" ]
+      "archetypes": [
+          "Pojo",
+          "EntityResource"
+      ]
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.requires.persistence.predicate",

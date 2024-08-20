@@ -2,6 +2,7 @@
 package ${ModelTestFixtures.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
+import ${EntityResource.fqcn()};
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
