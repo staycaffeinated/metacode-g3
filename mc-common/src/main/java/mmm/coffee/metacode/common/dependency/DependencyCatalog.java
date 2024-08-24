@@ -30,7 +30,6 @@ public class DependencyCatalog implements DependencyCollector {
 
     private final String resourceLocation;
     private final DependencyFileReader reader;
-    private final DependencyLoader loader;
 
     /**
      * This constructor creates a default DependencyCatalogReader.
@@ -38,7 +37,6 @@ public class DependencyCatalog implements DependencyCollector {
     public DependencyCatalog(@NonNull String resourceLocation) {
         this.resourceLocation = resourceLocation;
         reader = new DependencyFileReader();
-        this.loader = null;
     }
 
     /**
@@ -51,15 +49,8 @@ public class DependencyCatalog implements DependencyCollector {
     public DependencyCatalog(@NonNull String resourceLocation, @NonNull DependencyFileReader reader) {
         this.resourceLocation = resourceLocation;
         this.reader = reader;
-        this.loader = null;
     }
-
-    public DependencyCatalog(@NonNull String resourceLocation, @NonNull DependencyLoader loader) {
-        this.resourceLocation = resourceLocation;
-        this.loader = loader;
-        this.reader = null;
-    }
-
+    
     /**
      * Reads the YAML resource file that contains Dependency entries
      * and returns those Dependency entries.
@@ -78,9 +69,7 @@ public class DependencyCatalog implements DependencyCollector {
             Library library =
                     reader != null
                         ? reader.readDependencyFile(resourceLocation)
-                        : loader != null
-                            ? loader.loadLibrary(resourceLocation)
-                            : new Library(); // should never hit this line; this object is in an illegal state if we do
+                        : new Library();
             return library.getDependencies();
         } catch (IOException e) {
             throw new RuntimeApplicationError(e.getMessage(), e);
