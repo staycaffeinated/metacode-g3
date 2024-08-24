@@ -72,7 +72,7 @@ import org.springframework.context.annotation.Bean;
 @org.springframework.context.annotation.Configuration
 public class SpringGeneratorModule extends AbstractModule {
 
-    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
+    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.properties";
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
 
     /**

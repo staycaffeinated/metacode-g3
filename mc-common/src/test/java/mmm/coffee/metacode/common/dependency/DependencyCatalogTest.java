@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @Tag("integration")
 class DependencyCatalogTest {
 
-    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
+    private static final String DEPENDENCY_FILE = "/dependencies/example-dependencies.properties";
 
     final DependencyCatalog catalogUnderTest = new DependencyCatalog(DEPENDENCY_FILE);
 
@@ -53,7 +53,7 @@ class DependencyCatalogTest {
 
     @Test
     void shouldThrowExceptionWhenReaderIsNull() {
-        assertThrows(NullPointerException.class, () -> new DependencyCatalog(DEPENDENCY_FILE, null));
+        assertThrows(NullPointerException.class, () -> new DependencyCatalog(DEPENDENCY_FILE, (DependencyFileReader)null));
     }
 
     @Test

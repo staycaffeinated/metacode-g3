@@ -28,27 +28,36 @@ import java.util.List;
  */
 public class DependencyCatalog implements DependencyCollector {
 
-    private final String resourceName;
+    private final String resourceLocation;
     private final DependencyFileReader reader;
+    private final DependencyLoader loader;
 
     /**
      * This constructor creates a default DependencyCatalogReader.
      */
-    public DependencyCatalog(@NonNull String resourceName) {
-        this.resourceName = resourceName;
+    public DependencyCatalog(@NonNull String resourceLocation) {
+        this.resourceLocation = resourceLocation;
         reader = new DependencyFileReader();
+        this.loader = null;
     }
 
     /**
      * This constructor allows all fields to be defined by the caller.
      *
-     * @param resourceName the classpath of the resource file,
+     * @param resourceLocation the classpath of the resource file,
      *                     such as "/spring/dependencies/dependencies.yml"
      * @param reader       a reader capable of parsing the dependencies.yml file
      */
-    public DependencyCatalog(@NonNull String resourceName, @NonNull DependencyFileReader reader) {
-        this.resourceName = resourceName;
+    public DependencyCatalog(@NonNull String resourceLocation, @NonNull DependencyFileReader reader) {
+        this.resourceLocation = resourceLocation;
         this.reader = reader;
+        this.loader = null;
+    }
+
+    public DependencyCatalog(@NonNull String resourceLocation, @NonNull DependencyLoader loader) {
+        this.resourceLocation = resourceLocation;
+        this.loader = loader;
+        this.reader = null;
     }
 
     /**
@@ -61,9 +70,17 @@ public class DependencyCatalog implements DependencyCollector {
      * @return the Dependency entries
      */
     @Override
+    @SuppressWarnings({
+            "java:S3358"    // allow ternary operations
+    })
     public List<Dependency> collect() {
         try {
-            var library = reader.readDependencyFile(resourceName);
+            Library library =
+                    reader != null
+                        ? reader.readDependencyFile(resourceLocation)
+                        : loader != null
+                            ? loader.loadLibrary(resourceLocation)
+                            : new Library(); // should never hit this line; this object is in an illegal state if we do
             return library.getDependencies();
         } catch (IOException e) {
             throw new RuntimeApplicationError(e.getMessage(), e);

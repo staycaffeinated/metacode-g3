@@ -20,6 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,5 +31,5 @@ import java.util.List;
 @AllArgsConstructor
 @ExcludeFromJacocoGeneratedReport
 public class Library {
-    private List<Dependency> dependencies;
+    private List<Dependency> dependencies = new ArrayList<>();
 }

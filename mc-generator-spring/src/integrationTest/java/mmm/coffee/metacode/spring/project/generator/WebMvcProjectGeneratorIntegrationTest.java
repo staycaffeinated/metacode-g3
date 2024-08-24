@@ -41,7 +41,7 @@ import static com.google.common.truth.Truth.assertThat;
 @Tag("integration")
 class WebMvcProjectGeneratorIntegrationTest {
 
-    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
+    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.properties";
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
 
     private static final String APP_NAME = "petstore";      // thought: change to 'artifactName'?

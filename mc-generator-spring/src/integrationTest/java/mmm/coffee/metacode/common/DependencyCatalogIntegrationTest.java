@@ -15,7 +15,7 @@ import static com.google.common.truth.Truth.assertThat;
 @Tag("integration")
 class DependencyCatalogIntegrationTest {
 
-    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
+    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.properties";
 
     final DependencyCatalog catalogUnderTest = new DependencyCatalog(DEPENDENCY_FILE);
 

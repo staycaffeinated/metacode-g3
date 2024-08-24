@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class DependencyFileReaderTest {
-    private static final String TEST_FILE = "/spring/dependencies/dependencies.yml";
+    private static final String TEST_FILE = "/dependencies/example-dependencies.properties";
 
     DependencyFileReader readerUnderTest = new DependencyFileReader();
 

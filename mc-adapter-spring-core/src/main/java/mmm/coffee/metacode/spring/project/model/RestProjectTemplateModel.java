@@ -15,10 +15,7 @@
  */
 package mmm.coffee.metacode.spring.project.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
@@ -27,6 +24,7 @@ import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -71,6 +69,15 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
     private boolean withMongoDb;
     @Setter
     private boolean withOpenApi;
+
+    /*
+     * Key: the library name, such as 'assertJ'
+     * Value: the library version, such as '3.3.0'
+     * The values are accessible in the FTL templates with the syntax
+     * `${project.versions['key']}`, such as `${project.versions['assertJ']}`
+     */
+    @Builder.Default
+    private HashMap<String,String> versions = new HashMap<>();
 
     /*
      * Library versions
@@ -132,7 +139,8 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
         //      this.setPostgresqlVersion(...)
         //      this.setReactorTestVersion(...)
         // through all the dependency's found in the DependencyCatalog. 
-        dependencyCatalog.collect().forEach(it -> setField(it.getName(), it.getVersion()));
+        // dependencyCatalog.collect().forEach(it -> setField(it.getName(), it.getVersion()));
+        dependencyCatalog.collect().forEach(it -> versions.put(it.getName(), it.getVersion()));
     }
 
     // visible for testing

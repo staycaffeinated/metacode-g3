@@ -9,8 +9,6 @@ import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
-import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
-import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.trait.ConvertTrait;
 import mmm.coffee.metacode.spring.catalog.SpringWebMvcTemplateCatalog;
@@ -21,6 +19,7 @@ import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,11 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * FreemarkerTemplateResolverIT
  */
-@SuppressWarnings("DuplicatCode")
+@SuppressWarnings({
+        "DuplicateCode",
+        "java:S1075",       // false positive
+        "java:S4738"        // yes, I need to change guava predicates to java predicates
+})
 class FreemarkerTemplateResolverIntegrationTest {
 
     private static final String TEMPLATE_FOLDER = "/spring/templates";
@@ -37,7 +40,7 @@ class FreemarkerTemplateResolverIntegrationTest {
     private static final String BASE_PATH = "/petstore";
     private static final String BASE_PKG = "acme.petstore";
 
-    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
+    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.properties";
 
     final FreemarkerTemplateResolver resolverUnderTest = new FreemarkerTemplateResolver(ConfigurationFactory.defaultConfiguration(TEMPLATE_FOLDER));
     final DependencyCatalog dependencyCatalog = new DependencyCatalog(DEPENDENCY_FILE);
@@ -58,7 +61,7 @@ class FreemarkerTemplateResolverIntegrationTest {
     }
 
     @BeforeEach
-    public void setUpTemplateModel() throws Exception {
+    public void setUpTemplateModel() throws IOException {
         webMvcProject = RestProjectTemplateModel.builder()
                 .applicationName(APP_NAME)
                 .basePackage(BASE_PKG)

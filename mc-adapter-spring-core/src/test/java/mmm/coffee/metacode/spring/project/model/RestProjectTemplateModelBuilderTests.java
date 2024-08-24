@@ -14,7 +14,7 @@ class RestProjectTemplateModelBuilderTests {
     private static final String GROUP_ID = "io.example";
     private static final String APP_NAME = "bookstore";
 
-    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.yml";
+    private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.properties";
 
 
     @Test
