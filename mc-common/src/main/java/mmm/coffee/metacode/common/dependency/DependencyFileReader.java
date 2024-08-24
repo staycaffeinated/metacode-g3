@@ -36,34 +36,16 @@ public class DependencyFileReader {
     public Library readDependencyFile(@NonNull String resourceLocation) throws IOException {
         Properties properties = read(resourceLocation);
         Library library = new Library();
-        // library.setDependencies(new ArrayList<>());
         properties.forEach((k, v) -> {
             Dependency dependency = new Dependency((String) k, (String) v);
             library.getDependencies().add(dependency);
         });
         return library;
-
     }
 
     public Properties read(@NonNull String location) throws IOException {
         Properties properties = new Properties();
         properties.load(resourceLoader.getResource(location).getInputStream());
         return properties;
-    }
-
-    /**
-     * Reads the dependencies file and returns a POJO that mirrors it content.
-     *
-     * @param resourcePathOfDependenciesYaml the YAML file to read, usually the dependencies.yml
-     * @return a Library object that mirrors the content of the file
-     * @throws IOException if the dependencyFile cannot be read
-     */
-    public Library __readDependencyFile(@NonNull String resourcePathOfDependenciesYaml) throws IOException {
-        try (InputStream is = this.getClass().getResourceAsStream(resourcePathOfDependenciesYaml)) {
-            // This null check only ever fails during testing, since the file location will be fixed in production
-            Objects.requireNonNull(is, String.format("The file resource, '%s', was not found. Verify the resource exists on the classpath in the given directory", resourcePathOfDependenciesYaml));
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            return mapper.readValue(is, Library.class);
-        }
     }
 }

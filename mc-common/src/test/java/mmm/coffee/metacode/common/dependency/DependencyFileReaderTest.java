@@ -1,6 +1,8 @@
 package mmm.coffee.metacode.common.dependency;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,9 +21,16 @@ class DependencyFileReaderTest {
         assertThat(library.getDependencies().size()).isAtLeast(2);
     }
 
-    @Test
-    void shouldThrowExceptionIfFileNameIsNull() {
-        assertThrows(NullPointerException.class, () -> readerUnderTest.readDependencyFile(null));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionIfFileNameIsNull(String location) {
+        assertThrows(NullPointerException.class, () -> readerUnderTest.readDependencyFile(location));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionIfLocationIsNull(String location) {
+        assertThrows(NullPointerException.class, () -> readerUnderTest.read(location));
     }
 
 }
