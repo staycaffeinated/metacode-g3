@@ -17,7 +17,7 @@ package mmm.coffee.metacode.common.catalog;
 
 import lombok.NonNull;
 
-import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Stereotype for a Reader of catalog files. Catalog files in YAML format
@@ -26,11 +26,11 @@ import java.io.IOException;
 public interface ICatalogReader {
 
     /**
-     * Reads the given catalog file.
+     * Reads the given catalog file. Returns an `Optional` containing the result.
+     * The `Optional` is empty if an error is encountered (such as an IOException).
      *
-     * @param catalogYamlFile the file to read; this must be a yaml file
-     * @return a TemplateCatalog containing the content of the yaml file
-     * @throws IOException if the file cannot be read (for example, if it's not found)
+     * @param catalogLocation the file to read; this must be a yaml file
+     * @return a TemplateCatalog containing the content of the catalog file
      */
-    TemplateCatalog readCatalog(@NonNull String catalogYamlFile) throws IOException;
+    Optional<TemplateCatalog> readCatalog(@NonNull String catalogLocation);
 }

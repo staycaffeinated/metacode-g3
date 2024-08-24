@@ -96,6 +96,13 @@ class CatalogEntryTest {
         assertThat(entry.getArchetype()).isNotNull().isEqualTo(Archetype.Undefined.name());
     }
 
+    @Test
+    void shouldReturnArchetypeValueThatMatchesArchetype() {
+        CatalogEntry entry = new CatalogEntry();
+        entry.setArchetype(Archetype.Text.name());
+        assertThat(entry.archetypeValue()).isEqualTo(Archetype.Text);
+    }
+
     /* ----------------------------------------------------------------
      * HELPER METHODS
      * ---------------------------------------------------------------- */

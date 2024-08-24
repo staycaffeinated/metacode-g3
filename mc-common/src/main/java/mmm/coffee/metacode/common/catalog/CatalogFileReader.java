@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX;
 import static org.springframework.util.ResourceUtils.FILE_URL_PREFIX;
@@ -93,14 +94,14 @@ public class CatalogFileReader implements ICatalogReader {
      * @param catalogClassPath the resource path of the catalog.yaml file
      * @return the entries of the catalog, as a list of CatalogEntry
      */
-    public TemplateCatalog readCatalog(@NonNull String catalogClassPath) {
+    public Optional<TemplateCatalog> readCatalog(@NonNull String catalogLocation) {
         ObjectMapper objectMapper = getYamlFriendlyObjectMapper();
-        try (InputStream is = loadResourceAsInputStream(catalogClassPath)) {
+        try (InputStream is = loadResourceAsInputStream(catalogLocation)) {
             // fail fast if file isn't found
-            Objects.requireNonNull(is, String.format("The catalog file, '%s', was not found. Verify the resource exists at the given path.", catalogClassPath));
-            return objectMapper.readValue(is, TemplateCatalog.class);
+            Objects.requireNonNull(is, String.format("The catalog file, '%s', was not found. Verify the resource exists at the given path.", catalogLocation));
+            return Optional.of(objectMapper.readValue(is, TemplateCatalog.class));
         } catch (IOException e) {
-            String msg = String.format("Unable to read catalog file: %s", catalogClassPath);
+            String msg = String.format("Unable to read catalog file: %s", catalogLocation);
             throw new RuntimeApplicationError(msg, e);
         }
     }

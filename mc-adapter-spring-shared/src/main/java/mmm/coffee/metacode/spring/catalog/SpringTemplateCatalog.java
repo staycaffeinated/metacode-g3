@@ -19,10 +19,8 @@ import lombok.NonNull;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
 import mmm.coffee.metacode.common.catalog.TemplateCatalog;
-import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.common.stereotype.Collector;
 
-import java.io.IOException;
 import java.util.*;
 
 
@@ -59,26 +57,21 @@ public abstract class SpringTemplateCatalog implements Collector {
      * @param specificCatalog a specific file to include
      * @return the collection of CatalogEntry's
      */
-    protected List<CatalogEntry> collectGeneralCatalogsAndThisOne(@NonNull String specificCatalog) {
+    protected List<CatalogEntry> collectGeneralCatalogsAndThisOne(String specificCatalog) {
         Set<CatalogEntry> resultSet = new HashSet<>();
 
         for (String catalog : COMMON_CATALOGS) {
-            try {
-                TemplateCatalog templateCatalog = reader.readCatalog(catalog);
-                if (templateCatalog != null) {
-                    resultSet.addAll(templateCatalog.getEntries());
-                }
-                resultSet.addAll(reader.readCatalog(specificCatalog).getEntries());
-            } catch (IOException e) {
-                throw new RuntimeApplicationError("An error occurred while reading the Spring template catalogs", e);
-            }
+            Optional<TemplateCatalog> maybeCatalog = reader.readCatalog(catalog);
+            maybeCatalog.ifPresent(tc -> resultSet.addAll(tc.getEntries()));
+            Optional<TemplateCatalog> specCatalog = reader.readCatalog(specificCatalog);
+            specCatalog.ifPresent(tc -> resultSet.addAll(tc.getEntries()));
         }
         return resultSet.stream().toList();
     }
 
     @Override
     public Set<String> catalogs() {
-        // Doing catalogs.stream().toList() is CPU expensive.
+        // Doing catalogs.stream().toList() is CPU expensive for only 3 values
         Set<String> candidates = new TreeSet<>(Arrays.asList(COMMON_CATALOGS));
         candidates.add(WEBMVC_CATALOG);
         candidates.add(WEBMVC_MONGODB_CATALOG);

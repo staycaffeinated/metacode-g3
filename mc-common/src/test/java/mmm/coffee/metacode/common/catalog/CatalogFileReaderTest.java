@@ -11,6 +11,7 @@ import org.springframework.core.io.ResourceLoader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -32,16 +33,18 @@ class CatalogFileReaderTest {
     @Disabled("Not finding resource folder")
     void shouldBuildDefaultFileReader() {
         CatalogFileReader catalogFileReader = new CatalogFileReader();
-        TemplateCatalog catalog = catalogFileReader.readCatalog(catalogFileName());
+        Optional<TemplateCatalog> maybeCatalog = catalogFileReader.readCatalog(catalogFileName());
 
-        assertThat(catalog).isNotNull();
-        assertThat(catalog.getEntries()).isNotEmpty();
+        assertThat(maybeCatalog.isPresent()).isTrue();
+        assertThat(maybeCatalog.get().getEntries()).isNotEmpty();
     }
 
     @Disabled("Not finding resource folder")
     void shouldReadCatalogFileEntries() {
         CatalogFileReader catalogFileReader = new CatalogFileReader();
-        List<CatalogEntry> entries = catalogFileReader.readCatalog(catalogFileName()).getEntries();
+        Optional<TemplateCatalog> catalog = catalogFileReader.readCatalog(catalogFileName());
+        assertThat(catalog.isPresent()).isTrue();
+        List<CatalogEntry> entries = catalog.get().getEntries();
 
         assertThat(entries).isNotNull();
         assertThat(entries).isNotEmpty();

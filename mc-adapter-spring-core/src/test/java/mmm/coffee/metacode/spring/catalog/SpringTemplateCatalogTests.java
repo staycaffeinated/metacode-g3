@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -44,16 +45,16 @@ class SpringTemplateCatalogTests {
     @ValueSource(strings = {COMMON_STUFF, SPRING_GRADLE})
     void shouldReadCatalog(String catalogName) throws IOException {
         CatalogFileReader reader = new CatalogFileReader(resourceLoader);
-        TemplateCatalog catalog= reader.readCatalog(catalogName);
+        Optional<TemplateCatalog> maybeCatalog= reader.readCatalog(catalogName);
 
-        assertThat(catalog).isNotNull();
-        assertThat(catalog.getEntries()).isNotEmpty();
+        assertThat(maybeCatalog).isPresent();
+        assertThat(maybeCatalog.get().getEntries()).isNotEmpty();
     }
 
     @Test
     void shouldThrowException() throws Exception {
         var mockReader = Mockito.mock(ICatalogReader.class);
-        when(mockReader.readCatalog(anyString())).thenThrow(IOException.class);
+        when(mockReader.readCatalog(anyString())).thenThrow(RuntimeApplicationError.class);
 
         SimpleTemplateCatalog catalog = new SimpleTemplateCatalog(mockReader);
         assertThrows(RuntimeApplicationError.class, () -> catalog.collectGeneralCatalogsAndThisOne(""));

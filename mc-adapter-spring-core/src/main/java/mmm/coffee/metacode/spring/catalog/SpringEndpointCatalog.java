@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
+import mmm.coffee.metacode.common.catalog.TemplateCatalog;
 import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
@@ -15,6 +16,7 @@ import mmm.coffee.metacode.common.stereotype.Collector;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * SpringEndpointCatalog
@@ -62,11 +64,8 @@ public class SpringEndpointCatalog implements Collector {
     public List<CatalogEntry> collect() {
         List<CatalogEntry> resultSet = new ArrayList<>();
         for (String catalog : appliedCatalogs) {
-            try {
-                resultSet.addAll(reader.readCatalog(catalog).getEntries());
-            } catch (IOException e) {
-                throw new RuntimeApplicationError(String.format("Error reading endpoint catalog file: %s", e.getMessage()), e);
-            }
+            Optional<TemplateCatalog> optional = reader.readCatalog(catalog);
+            optional.ifPresent(tc -> resultSet.addAll(tc.getEntries()));
         }
         return resultSet;
     }

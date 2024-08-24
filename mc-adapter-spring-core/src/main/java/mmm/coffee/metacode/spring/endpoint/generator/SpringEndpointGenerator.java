@@ -114,13 +114,8 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Render the templates
         collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
             catalogEntry.getFacets().forEach(facet -> {
-                if (facet.getSourceTemplate().contains("PojoToDocumentConverterTests")) {
-                    log.info("At the problematic archetype");
-                }
                 String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
-                if (catalogEntry.getArchetype() == null) {
-                    log.error("Detected a catalog entry with a null archetype: {}", catalogEntry);
-                } else {
+                if (catalogEntry.getArchetype() != null) {
                     String outputFileName = OutputFileDestinationResolver.resolveDestination(
                             facet,
                             catalogEntry.getArchetype(),

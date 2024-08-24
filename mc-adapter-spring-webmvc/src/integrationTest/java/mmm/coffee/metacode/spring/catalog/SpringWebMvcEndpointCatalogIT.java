@@ -68,17 +68,18 @@ class SpringWebMvcEndpointCatalogIT {
         assertThat(catalog.prepare(endpointDescriptor).collect().size()).isGreaterThan(0);
     }
 
+    @SuppressWarnings("java:S5960") // sonar doesn't like the last assertion
     @Test
     void shouldWrapAnyExceptionAsRuntimeApplicationError() {
         // given: a CatalogFileReader that eagerly throws IOExceptions
         var mockReader = Mockito.mock(CatalogFileReader.class);
-        when(mockReader.readCatalog(anyString())).thenThrow(IOException.class);
+        when(mockReader.readCatalog(anyString())).thenThrow(RuntimeApplicationError.class);
 
         // given: a catalog that uses this iffy reader...
         var catalog = new SpringEndpointCatalog(mockReader);
 
-        // When an IOException occurs when collecting templates,
-        // then expect a RuntimeApplicationError is thrown instead
+        // RuntimeApplicationError's (RAE) should percolate up the call stack.
+        // If the reader throws an RAE when reading the catalog, the `prepare`
         var collector = catalog.prepare(endpointDescriptor);
         assertThrows(RuntimeApplicationError.class, collector::collect);
     }
@@ -100,8 +101,9 @@ class SpringWebMvcEndpointCatalogIT {
 
     @Nested
     class MongoIntegrationTests {
+        @SuppressWarnings("java:S100") // sonar doesn't like this method name
         @Test
-        void whenBuildingWebMvcWithMongoDb_expect_WebMvcWithMongoDbEntries() {
+        void whenBuildingWebMvcWithMongoDb_expect_webMvcWithMongoDbEntries() {
             RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);
             when(mockDescriptor.isWebFlux()).thenReturn(false);
             when(mockDescriptor.isWithMongoDb()).thenReturn(true);
