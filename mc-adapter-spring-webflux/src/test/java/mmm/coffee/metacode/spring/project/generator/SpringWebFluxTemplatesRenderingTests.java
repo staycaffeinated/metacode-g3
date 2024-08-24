@@ -63,7 +63,7 @@ class SpringWebFluxTemplatesRenderingTests {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithTestContainers(true);
             templateModel.setWebMvc(true);
-            
+
             String content = templateResolver.render(template, templateModel);
 
             assertThat(content).isNotNull();
@@ -191,7 +191,7 @@ class SpringWebFluxTemplatesRenderingTests {
             assertThat(content).contains("spring.r2dbc.username");
             assertThat(content).contains("spring.r2dbc.password");
         }
-        
+
         @Test
         void whenPostgresFlagIsNotEnabled_expectH2JdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
@@ -257,21 +257,8 @@ class SpringWebFluxTemplatesRenderingTests {
         // the version numbers here are hypothetical
         return RestProjectTemplateModel.builder()
                 .applicationName("petstore")
-                .benManesPluginVersion("1.0")
-                .coditoryPluginVersion("1.4")
-                .javaVersion("11")
-                .springBootVersion("2.5")
-                .springDependencyManagementVersion("1.1")
-                .sonarqubeVersion("3.3")
-                .jibPluginVersion("1.0")
-                .spotlessVersion("1.0")
-                .lombokPluginVersion("1.3")
+                .basePackage("acme.petstore")
+                .basePath("/petstore")
                 .build();
-
-
     }
-
-
-
-
 }

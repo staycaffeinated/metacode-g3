@@ -41,18 +41,9 @@ class SpringCoreTemplatesRenderingTests {
         // the version numbers here are hypothetical
         return RestProjectTemplateModel.builder()
                 .applicationName("petstore")
-                .benManesPluginVersion("1.0")
-                .coditoryPluginVersion("1.4")
-                .javaVersion("11")
-                .springBootVersion("2.5")
-                .springDependencyManagementVersion("1.1")
-                .sonarqubeVersion("3.3")
-                .jibPluginVersion("1.0")
-                .spotlessVersion("1.0")
-                .lombokPluginVersion("1.3")
+                .basePackage("acme.petstore")
+                .basePath("/petstore")
                 .build();
-
-
     }
 
     @Nested

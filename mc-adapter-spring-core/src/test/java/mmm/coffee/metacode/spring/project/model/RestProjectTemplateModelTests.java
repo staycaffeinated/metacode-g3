@@ -61,26 +61,7 @@ class RestProjectTemplateModelTests {
         when(mockDependencyCatalog.collect()).thenReturn(fakeDependencies);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {
-            "apacheKafka,setApacheKafkaVersion",
-            "springBoot,setSpringBootVersion",
-            "springCloud,setSpringCloudVersion",
-            "springDependencyManagement,setSpringDependencyManagementVersion",
-            "problemSpringWeb,setProblemSpringWebVersion",
-            "assertJ,setAssertJVersion",
-            "benManesPlugin,setBenManesPluginVersion",
-            "junitSystemRules,setJunitSystemRulesVersion",
-            "junit,setJunitVersion",
-            "liquibase,setLiquibaseVersion",
-            "lombok,setLombokVersion",
-            "log4j,setLog4jVersion",
-            "testContainers,setTestContainersVersion"
-    })
-    void shouldConjureSetterName(String field, String expectedMethod) {
-        assertThat(modelUnderTest.conjureSetterMethod(field)).isEqualTo(expectedMethod);
-    }
-
+    
     @Test
     void whenIsWebMvc_shouldReturnWebMvcFramework() {
         RestProjectTemplateModel model = RestProjectTemplateModel.builder()
@@ -107,57 +88,6 @@ class RestProjectTemplateModelTests {
         assertThat(model.isWebFlux()).isTrue();
     }
 
-    /**
-     * The various '**Version' fields are set using reflection.
-     * This test confirms the reflection-based setter methods work
-     * by verifying the equivalent getter methods return the expected value.
-     * <p>
-     * The setField method is only package-visible, and only to
-     * enable testing it.
-     */
-    @Test
-    void shouldSetField() {
-        final String expectedVersion = "1.2.3";
-
-        modelUnderTest.setField("apacheKafka", expectedVersion);
-        assertThat(modelUnderTest.getApacheKafkaVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("springBoot", expectedVersion);
-        assertThat(modelUnderTest.getSpringBootVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("springCloud", expectedVersion);
-        assertThat(modelUnderTest.getSpringCloudVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("springDependencyManagement", expectedVersion);
-        assertThat(modelUnderTest.getSpringCloudVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("problemSpringWeb", expectedVersion);
-        assertThat(modelUnderTest.getProblemSpringWebVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("assertJ", expectedVersion);
-        assertThat(modelUnderTest.getAssertJVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("benManesPlugin", expectedVersion);
-        assertThat(modelUnderTest.getBenManesPluginVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("junitSystemRules", expectedVersion);
-        assertThat(modelUnderTest.getJunitSystemRulesVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("junit", expectedVersion);
-        assertThat(modelUnderTest.getJunitVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("liquibase", expectedVersion);
-        assertThat(modelUnderTest.getLiquibaseVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("lombok", expectedVersion);
-        assertThat(modelUnderTest.getLombokVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("log4j", expectedVersion);
-        assertThat(modelUnderTest.getLombokVersion()).isEqualTo(expectedVersion);
-
-        modelUnderTest.setField("testContainers", expectedVersion);
-        assertThat(modelUnderTest.getTestContainersVersion()).isEqualTo(expectedVersion);
-    }
 
     /**
      * The dependencyCatalog.entries() method returns a long list of Dependency entries.
@@ -172,17 +102,6 @@ class RestProjectTemplateModelTests {
         // with the getter method returning the expected value
         assertThat(modelUnderTest.getVersions().get("apacheKafka")).isEqualTo(APACHE_KAFKA_VERSION);
         assertThat(modelUnderTest.getVersions().get("assertJ")).isEqualTo(ASSERTJ_VERSION);
-//        assertThat(modelUnderTest.getSpringBootVersion()).isEqualTo(SPRINGBOOT_VERSION);
-//        assertThat(modelUnderTest.getSpringCloudVersion()).isEqualTo(SPRING_CLOUD_VERSION);
-//        assertThat(modelUnderTest.getSpringDependencyManagementVersion()).isEqualTo(SPRING_DM_VERSION);
-//        assertThat(modelUnderTest.getProblemSpringWebVersion()).isEqualTo(PROBLEM_VERSION);
-//        assertThat(modelUnderTest.getBenManesPluginVersion()).isEqualTo(BEN_MANES_VERSION);
-//        assertThat(modelUnderTest.getJunitSystemRulesVersion()).isEqualTo(JUNIT_RULES_VERSION);
-//        assertThat(modelUnderTest.getJunitVersion()).isEqualTo(JUNIT_VERSION);
-//        assertThat(modelUnderTest.getLiquibaseVersion()).isEqualTo(LIQUIBASE_VERSION);
-//        assertThat(modelUnderTest.getLombokVersion()).isEqualTo(LOMBOK_VERSION);
-//        assertThat(modelUnderTest.getLog4jVersion()).isEqualTo(LOG4J_VERSION);
-//        assertThat(modelUnderTest.getTestContainersVersion()).isEqualTo(TESTCONTAINER_VERSION);
     }
 
     // -------------------------------------------------------------------------------------------
