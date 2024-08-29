@@ -4,6 +4,7 @@ package ${EjbTestFixtures.packageName()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${Entity.fqcn()};
+import net.datafaker.Faker;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,6 +17,8 @@ import java.util.List;
 public class ${EjbTestFixtures.className()} {
 
     static final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
+
+    static final Faker faker = new Faker();
 
     /*
      * Consider renaming these to something more meaningful to your use cases.
@@ -43,20 +46,21 @@ public class ${EjbTestFixtures.className()} {
     private static final ${endpoint.ejbName} SAME_TEXT_THREE;
 
     static {
-        SAMPLE_ONE = aNew${endpoint.ejbName}("Bingo");
-        SAMPLE_TWO = aNew${endpoint.ejbName}("Bluey");
-        SAMPLE_THREE = aNew${endpoint.ejbName}("Chilli");
-        SAMPLE_FOUR = aNew${endpoint.ejbName}("Bandit");
-        SAMPLE_FIVE = aNew${endpoint.ejbName}("Muffin");
-        SAMPLE_SIX = aNew${endpoint.ejbName}("Jack");
-        SAMPLE_SEVEN = aNew${endpoint.ejbName}("Rusty");
+        SAMPLE_ONE = aNew${endpoint.ejbName}();
+        SAMPLE_TWO = aNew${endpoint.ejbName}();
+        SAMPLE_THREE = aNew${endpoint.ejbName}();
+        SAMPLE_FOUR = aNew${endpoint.ejbName}();
+        SAMPLE_FIVE = aNew${endpoint.ejbName}();
+        SAMPLE_SIX = aNew${endpoint.ejbName}();
+        SAMPLE_SEVEN = aNew${endpoint.ejbName}();
 
-        ONE_WITH_RESOURCE_ID = aNew${endpoint.ejbName}("Socks");
-        ONE_WITHOUT_RESOURCE_ID = ${endpoint.ejbName}.builder().text("Uncle Stripe").build();
+        ONE_WITH_RESOURCE_ID = aNew${endpoint.ejbName}();
+        ONE_WITHOUT_RESOURCE_ID = aNew${endpoint.ejbName}WithNoResourceId();
 
-        SAME_TEXT_ONE = aNew${endpoint.ejbName}("Calypso");
-        SAME_TEXT_TWO = aNew${endpoint.ejbName}("Calypso");
-        SAME_TEXT_THREE = aNew${endpoint.ejbName}("Calypso");
+        String matchingText = faker.book().title(); // TODO: Replace with something meaningful to your business objects
+        SAME_TEXT_ONE = aNew${endpoint.ejbName}WithText(matchingText);
+        SAME_TEXT_TWO = aNew${endpoint.ejbName}WithText(matchingText);
+        SAME_TEXT_THREE = aNew${endpoint.ejbName}WithText(matchingText);
     }
 
     public static final List<${endpoint.ejbName}> ALL_ITEMS = new ArrayList<>();
@@ -104,13 +108,32 @@ public class ${EjbTestFixtures.className()} {
         return ONE_WITHOUT_RESOURCE_ID;
     }
 
-    /**
-     * Create a sample ${endpoint.ejbName}
+    /* ------------------------------------------------------------------------------------
+     * Helper Methods
+     * ------------------------------------------------------------------------------------ */
+
+    /*
+     * Create an entity with it's `text` attribute having the given value.
+     * Naturally, if the real business object has some other attribute (eg, `title`, `firstName`
+     * `accountNumber`, and such), then change this method to set the relevant attribute.
      */
-    private static ${endpoint.ejbName} aNew${endpoint.ejbName}(String text) {
+    private static ${endpoint.ejbName} aNew${endpoint.ejbName}WithText(String text) {
         return ${endpoint.ejbName}.builder()
                 .resourceId(randomSeries.nextResourceId())
                 .text(text)
+                .build();
+    }
+
+    private static ${endpoint.ejbName} aNew${endpoint.ejbName}() {
+        return ${endpoint.ejbName}.builder()
+                .resourceId(randomSeries.nextResourceId())
+                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
+                .build();
+    }
+
+    private static ${endpoint.ejbName} aNew${endpoint.ejbName}WithNoResourceId() {
+        return ${endpoint.ejbName}.builder()
+                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
                 .build();
     }
 }

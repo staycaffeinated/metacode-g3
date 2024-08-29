@@ -3,6 +3,7 @@ package ${WebMvcEjbTestFixtures.packageName()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${Entity.fqcn()};
+import net.datafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
 public class ${WebMvcEjbTestFixtures.className()} {
 
     static final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
+
+    static final Faker faker = new Faker();
 
     /*
      * Consider renaming these to something more meaningful to your use cases.
@@ -40,20 +43,21 @@ public class ${WebMvcEjbTestFixtures.className()} {
     private static final ${Entity.className()} SAME_TEXT_THREE;
 
     static {
-        SAMPLE_ONE = aNew${Entity.className()}("Bingo");
-        SAMPLE_TWO = aNew${Entity.className()}("Bluey");
-        SAMPLE_THREE = aNew${Entity.className()}("Chilli");
-        SAMPLE_FOUR = aNew${Entity.className()}("Bandit");
-        SAMPLE_FIVE = aNew${Entity.className()}("Muffin");
-        SAMPLE_SIX = aNew${Entity.className()}("Jack");
-        SAMPLE_SEVEN = aNew${Entity.className()}("Rusty");
+        SAMPLE_ONE = aNew${Entity.className()}();
+        SAMPLE_TWO = aNew${Entity.className()}();
+        SAMPLE_THREE = aNew${Entity.className()}();
+        SAMPLE_FOUR = aNew${Entity.className()}();
+        SAMPLE_FIVE = aNew${Entity.className()}();
+        SAMPLE_SIX = aNew${Entity.className()}();
+        SAMPLE_SEVEN = aNew${Entity.className()}();
 
-        ONE_WITH_RESOURCE_ID = aNew${Entity.className()}("Socks");
-        ONE_WITHOUT_RESOURCE_ID = ${Entity.className()}.builder().text("Uncle Stripe").build();
+        ONE_WITH_RESOURCE_ID = aNew${Entity.className()}();
+        ONE_WITHOUT_RESOURCE_ID = aNew${Entity.className()}WithNoResourceId();
 
-        SAME_TEXT_ONE = aNew${Entity.className()}("Calypso");
-        SAME_TEXT_TWO = aNew${Entity.className()}("Calypso");
-        SAME_TEXT_THREE = aNew${Entity.className()}("Calypso");
+        String matchingValue = faker.book().title(); // TODO: replace with something meaningful to your business objects
+        SAME_TEXT_ONE = aNew${Entity.className()}WithText(matchingValue);
+        SAME_TEXT_TWO = aNew${Entity.className()}WithText(matchingValue);
+        SAME_TEXT_THREE = aNew${Entity.className()}WithText(matchingValue);
     }
 
     private static final List<${Entity.className()}> ALL_ITEMS = new ArrayList<>();
@@ -100,10 +104,24 @@ public class ${WebMvcEjbTestFixtures.className()} {
     /**
      * Create a sample ${Entity.className()}
      */
-    private static ${Entity.className()} aNew${Entity.className()}(String text) {
+    private static ${Entity.className()} aNew${Entity.className()}() {
+        return ${Entity.className()}.builder()
+            .resourceId(randomSeries.nextResourceId())
+            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
+            .build();
+    }
+
+
+    private static ${Entity.className()} aNew${Entity.className()}WithText(String text) {
         return ${Entity.className()}.builder()
             .resourceId(randomSeries.nextResourceId())
             .text(text)
+            .build();
+    }
+
+    private static ${Entity.className()} aNew${Entity.className()}WithNoResourceId() {
+        return ${Entity.className()}.builder()
+            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
             .build();
     }
 }

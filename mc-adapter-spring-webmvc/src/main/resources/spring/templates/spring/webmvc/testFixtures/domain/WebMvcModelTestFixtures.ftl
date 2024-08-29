@@ -2,6 +2,7 @@ package ${WebMvcModelTestFixtures.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${SecureRandomSeries.fqcn()};
+import net.datafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
 public class ${WebMvcModelTestFixtures.className()} {
 
     static final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
+
+    static final Faker faker = new Faker();
 
     /*
      * Consider renaming these to something more meaningful to your use cases.
@@ -34,16 +37,16 @@ public class ${WebMvcModelTestFixtures.className()} {
 
 
     static {
-        SAMPLE_ONE = aNew${EntityResource.className()}("Bingo");
-        SAMPLE_TWO = aNew${EntityResource.className()}("Bluey");
-        SAMPLE_THREE = aNew${EntityResource.className()}("Chilli");
-        SAMPLE_FOUR = aNew${EntityResource.className()}("Bandit");
-        SAMPLE_FIVE = aNew${EntityResource.className()}("Muffin");
-        SAMPLE_SIX = aNew${EntityResource.className()}("Jack");
-        SAMPLE_SEVEN = aNew${EntityResource.className()}("Rusty");
+        SAMPLE_ONE = aNew${EntityResource.className()}();
+        SAMPLE_TWO = aNew${EntityResource.className()}();
+        SAMPLE_THREE = aNew${EntityResource.className()}();
+        SAMPLE_FOUR = aNew${EntityResource.className()}();
+        SAMPLE_FIVE = aNew${EntityResource.className()}();
+        SAMPLE_SIX = aNew${EntityResource.className()}();
+        SAMPLE_SEVEN = aNew${EntityResource.className()}();
 
-        ONE_WITH_RESOURCE_ID = aNew${EntityResource.className()}("Socks");
-        ONE_WITH_NO_RESOURCE_ID = ${EntityResource.className()}.builder().text("Uncle Stripe").build();
+        ONE_WITH_RESOURCE_ID = aNew${EntityResource.className()}();
+        ONE_WITH_NO_RESOURCE_ID = aNew${EntityResource.className()}WithNoResourceId();
     }
 
     private static final List<${EntityResource.className()}> ALL_ITEMS = new ArrayList<>();
@@ -86,10 +89,24 @@ public class ${WebMvcModelTestFixtures.className()} {
     /**
      * Create a sample ${EntityResource.className()}
      */
-    private static ${EntityResource.className()} aNew${EntityResource.className()}(String text) {
+    private static ${EntityResource.className()} aNew${EntityResource.className()}() {
+        return ${EntityResource.className()}.builder()
+            .resourceId(randomSeries.nextResourceId())
+            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
+            .build();
+    }
+
+
+    private static ${EntityResource.className()} aNew${EntityResource.className()}WithText(String text) {
         return ${EntityResource.className()}.builder()
             .resourceId(randomSeries.nextResourceId())
             .text(text)
+            .build();
+    }
+
+    private static ${EntityResource.className()} aNew${EntityResource.className()}WithNoResourceId() {
+        return ${EntityResource.className()}.builder()
+            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
             .build();
     }
 }

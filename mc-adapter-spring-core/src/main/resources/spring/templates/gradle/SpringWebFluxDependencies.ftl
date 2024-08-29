@@ -48,8 +48,10 @@ dependencies {
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
     testImplementation libs.reactor.test
+    testImplementation libs.datafaker
 
     testFixturesImplementation libs.reactor.test
     testFixturesImplementation libs.spring.boot.starter.data.r2dbc
     testFixturesImplementation libs.jakarta.persistence.api
+    testFixturesImplementation libs.datafaker
 }

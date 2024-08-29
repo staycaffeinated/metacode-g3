@@ -175,7 +175,9 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         @Test
         void whenSearchStringIsWellFormedQuery_shouldReturnMatchingItems() {
             ${Entity.className()} anyItem = pickOne();
-            String query = ${Entity.className()}.Columns.TEXT + "==" + anyItem.getText();
+            // Notice the value is wrapped in quotes to handle (possible) blank spaces
+            // For example, to search for book titles, the RSQL is: `title=="A Tale of Two Cities"`.
+            String query = ${Entity.className()}.Columns.TEXT + "==\"" + anyItem.getText() + "\"";
 
             Page<${EntityResource.className()}> results = serviceUnderTest.search(query, Pageable.ofSize(10));
             assertThat(results).isNotNull().isNotEmpty();

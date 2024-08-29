@@ -1,5 +1,6 @@
 [versions]
 assertJ = '${project.versions["assertJ"]}'
+datafaker = '${project.versions["datafaker"]}'
 h2 = '${project.versions["h2"]}'
 junitSystemRules =  '${project.versions["junitSystemRules"]}'
 junit = '${project.versions["junit"]}'
@@ -30,6 +31,7 @@ versions = '${project.versions["benManesPlugin"]}'
 
 [libraries]
 assertJ = { module = "org.assertj:assertj-core", version.ref = "assertJ" }
+datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }

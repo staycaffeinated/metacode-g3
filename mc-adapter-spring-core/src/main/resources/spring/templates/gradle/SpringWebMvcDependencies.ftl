@@ -41,6 +41,7 @@ dependencies {
 </#if>
 
     testImplementation libs.assertJ
+    testImplementation libs.datafaker
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
 
@@ -60,4 +61,5 @@ dependencies {
     testRuntimeOnly libs.h2
 </#if>
     testFixturesImplementation libs.jakarta.persistence.api
+    testFixturesImplementation libs.datafaker
 }

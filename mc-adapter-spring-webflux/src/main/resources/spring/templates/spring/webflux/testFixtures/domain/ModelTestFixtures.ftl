@@ -3,6 +3,7 @@ package ${ModelTestFixtures.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
 import ${EntityResource.fqcn()};
+import net.datafaker.Faker;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class ${ModelTestFixtures.className()} {
 
     static final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
+
+    static final Faker faker = new Faker();
 
     /*
      * Consider renaming these to something more meaningful to your use cases.
@@ -38,16 +41,16 @@ public class ${ModelTestFixtures.className()} {
 
 
     static {
-        SAMPLE_ONE = aNew${endpoint.entityName}("Bingo");
-        SAMPLE_TWO = aNew${endpoint.entityName}("Bluey");
-        SAMPLE_THREE = aNew${endpoint.entityName}("Chilli");
-        SAMPLE_FOUR = aNew${endpoint.entityName}("Bandit");
-        SAMPLE_FIVE = aNew${endpoint.entityName}("Muffin");
-        SAMPLE_SIX = aNew${endpoint.entityName}("Jack");
-        SAMPLE_SEVEN = aNew${endpoint.entityName}("Rusty");
+        SAMPLE_ONE = aNew${endpoint.entityName}();
+        SAMPLE_TWO = aNew${endpoint.entityName}();
+        SAMPLE_THREE = aNew${endpoint.entityName}();
+        SAMPLE_FOUR = aNew${endpoint.entityName}();
+        SAMPLE_FIVE = aNew${endpoint.entityName}();
+        SAMPLE_SIX = aNew${endpoint.entityName}();
+        SAMPLE_SEVEN = aNew${endpoint.entityName}();
 
-        ONE_WITH_RESOURCE_ID = aNew${endpoint.entityName}("Socks");
-        ONE_WITH_NO_RESOURCE_ID = ${endpoint.entityName}.builder().text("Uncle Stripe").build();
+        ONE_WITH_RESOURCE_ID = aNew${endpoint.entityName}();
+        ONE_WITH_NO_RESOURCE_ID = aNew${endpoint.entityName}WithNoResourceId();
     }
 
     public static final List<${endpoint.entityName}> ALL_ITEMS = new ArrayList<>();
@@ -64,9 +67,9 @@ public class ${ModelTestFixtures.className()} {
 
     private static final List<${endpoint.entityName}> ALL_ITEMS_WITH_SAME_TEXT = Collections.unmodifiableList(new ArrayList<>() {
         {
-            add( aNew${endpoint.entityName}("Hello world" ));
-            add( aNew${endpoint.entityName}("Hello world"));
-            add( aNew${endpoint.entityName}("Hello world"));
+            add( aNew${endpoint.entityName}WithText("Hello world"));
+            add( aNew${endpoint.entityName}WithText("Hello world"));
+            add( aNew${endpoint.entityName}WithText("Hello world"));
             }
         });
     public static List<${endpoint.entityName}> allItemsWithSameText() { return ALL_ITEMS_WITH_SAME_TEXT; }
@@ -95,10 +98,23 @@ public class ${ModelTestFixtures.className()} {
     /**
      * Create a sample ${endpoint.entityName}
      */
-    private static ${endpoint.entityName} aNew${endpoint.entityName}(String text) {
+    private static ${endpoint.entityName} aNew${endpoint.entityName}WithText(String text) {
         return ${endpoint.entityName}.builder()
             .resourceId(randomSeries.nextResourceId())
             .text(text)
             .build();
+    }
+
+    private static ${endpoint.entityName} aNew${endpoint.entityName}() {
+        return ${endpoint.entityName}.builder()
+                .resourceId(randomSeries.nextResourceId())
+                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
+                .build();
+    }
+
+    private static ${endpoint.entityName} aNew${endpoint.entityName}WithNoResourceId() {
+        return ${endpoint.entityName}.builder()
+                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
+                .build();
     }
 }
