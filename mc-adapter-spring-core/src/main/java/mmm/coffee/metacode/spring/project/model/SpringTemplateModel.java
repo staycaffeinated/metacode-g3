@@ -75,4 +75,16 @@ public abstract class SpringTemplateModel implements MetaTemplateModel {
         return isWebMvc;
     }
 
+    /*
+     * Queried by the templates to check for a spring-batch project.
+     * This method does get called, but only by templates
+     */
+    public final boolean isSpringBatch() { return isSpringBatch; }
+
+    /*
+     * Queried by the templates to check for a spring-boot project.
+     * This method does get called, but only by templates
+     */
+    public final boolean isSpringBoot() { return isSpringBoot; }
+
 }
