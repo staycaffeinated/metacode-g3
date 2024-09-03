@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Jon Caulfield
+ * Copyright 2022-2024 Jon Caulfield
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,14 @@ public class PackageNameValidator implements ValidationTrait {
         this.value = value;
     }
 
+    /**
+     * A factory method to create a `PackageNameValidator` instance.
+     * A Factory is used because the code generators create a series of
+     * different validation objects that get chained together to valid
+     * user input.
+     * @param value the content to be parsed and verified
+     * @return an PackageNameValidator instance
+     */
     public static PackageNameValidator of(String value) {
         return new PackageNameValidator(value);
     }
