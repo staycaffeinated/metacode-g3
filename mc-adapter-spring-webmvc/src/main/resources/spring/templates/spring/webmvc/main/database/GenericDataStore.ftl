@@ -99,45 +99,6 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     protected abstract Optional<B> findItem(D item);
 
     /**
-     * Implements any custom steps that need to be taken. A common step to take
-     * within this method is to copy the fields to update from
-     * {@code copyFieldsFrom} into the EJB; for example:
-     * <code>
-     * personEntity.setFirstName(personDomainObj.getFirstName());
-     * personEntity.setLastName(personDomainObj.getLastName());
-     * </code>
-     *
-     * @param copyFieldsFrom
-     * the Domain object contains the new field values that need to be
-     * persisted
-     * @param copyFieldsTo
-     * this is essentially the database record to which the updates are
-     * applied, followed by the updated record being written to the
-     * database.
-     */
-    protected abstract void applyBeforeUpdateSteps(D copyFieldsFrom, B copyFieldsTo);
-
-    /**
-     * Implements any custom steps that need to be taken when creating a new record
-     * in the database.
-     *
-     * A common step to take within this method is to copy the fields to update from
-     * {@code copyFieldsFrom} into the EJB; for example:
-     * <code>
-     * personEntity.setFirstName(personDomainObj.getFirstName());
-     * personEntity.setLastName(personDomainObj.getLastName());
-     * </code>
-     *
-     * @param copyFieldsFrom
-     * the Domain object contains the field values that need to be
-     * persisted
-     * @param copyFieldsTo
-     * this is essentially the database record which is inserted into the
-     * database.
-     */
-    protected abstract void applyBeforeInsertSteps(D copyFieldsFrom, B copyFieldsTo);
-
-    /**
      * Persist the changes to `item` as an update (not an insert).
      * If `item` is not found in the database, this request is quietly ignored.
      */

@@ -55,24 +55,6 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
     }
 
     /**
-     * Copies the applicable fields of the domain object, {@code from}, into the
-     * database record, {@code to}.
-     */
-    @Override
-    protected void applyBeforeUpdateSteps(${EntityResource.className()} from, ${Entity.className()} to) {
-        to.setText(from.getText());
-    }
-
-    /**
-     * Copies the applicable fields of the domain object, {@code from}, into the
-     * database record, {@code to}.
-     */
-    @Override
-    protected void applyBeforeInsertSteps(${EntityResource.className()} from, ${Entity.className()} to) {
-        this.applyBeforeUpdateSteps(from, to);
-    }
-
-    /**
      * Returns a Page of ${endpoint.entityName} items that have the given {@code text}
      */
     public Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable) {
