@@ -9,6 +9,7 @@ import ${EntityResource.fqcn()};
 import ${GenericDataStore.fqcn()};
 import ${ObjectDataStore.fqcn()};
 import ${Repository.fqcn()};
+import ${UpdateAwareConverter.fqcn()};
 import lombok.NonNull;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.github.perplexhub.rsql.RSQLJPASupport;
@@ -43,7 +44,7 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
     public ${ObjectDataStoreProvider.className()} (
             ${Repository.className()} repository,
             Converter<${Entity.className()},${EntityResource.className()}> ejbToPojoConverter,
-            Converter<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter)
+            ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter)
     {
         super(repository, ejbToPojoConverter, pojoToEntityConverter);
     }
@@ -75,7 +76,6 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
      * Returns a Page of ${endpoint.entityName} items that have the given {@code text}
      */
     public Page<${EntityResource.className()}> findByText(@NonNull Optional<String> text, Pageable pageable) {
-        // TODO: Remove this method
         Page<${Entity.className()}> resultSet = repository().findAll(pageable);
         List<${EntityResource.className()}> list = resultSet.stream().map(converterToPojo()::convert).toList();
         return new PageImpl<>(list, pageable, list.size());
@@ -104,7 +104,3 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
         }
     }
 }
-
-
-
-

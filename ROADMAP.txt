@@ -1,20 +1,26 @@
 
+[X] Add datafaker library and change tests to use datafaker - Done
+
+[ ] Migrate to use hypersistence-utils jars
+[-] Add Codecentric's spring-boot-admin-starter-client to classpath. This is improved UI for actuator info
+    Won't do. The app's register themselves as clients with the admin-server. Has to be an admin server
+    running to be useful.  Its easy to make happen, but should leave to end users to apply as needed.
+    Probably worth adding the libraries to the version catalog, but not to build.gradle.
+[ ] Change actuator URL from '_internal' back to 'actuator'.
+[ ] change MetaPropertiesReader/Writer to use Resource to read metaprops file, and move into hidden folder
+[ ] Can Apache Configurations class be replaced w/ some Spring class that does same thing?
+[-] Fix PackageNameValidator to be static method that returns Either<String,Boolean> or Result<Boolean>.
+    Won't do. The PNV is a kind-of ValidatorTrait along w/ some other classes. The generator's
+    create instances of the different validator's they use and add those to a chain. For the chain
+    to work, we need the Factory methods that wrap each value to be checked. 
+
+----
+
+
 Change internal calls to return CallableFuture<>. 
 
 ----
 
-Remove Optional<String> parameter in controller -> service instances;
-just use optiona.getOrElse(EMPTY_STRING);
-We still want Optional<String> as the query parameter; 
-
-----
-
-Can we introduce a Strategy pattern and feature flag to
-keep g2 behavior and turn on g3 behavior while migrating??
-That would enable maintenance on G2 templates while working
-thru the minutea of G3
-
-----
 
 Add `branding` property and use it in plugin names;
 eg: org.acme.application-conventions.gradle
@@ -24,17 +30,14 @@ or  mycompany.application-conventions.gradle
 so : {{branding}}.application-conventions.gradle
 
 -----
-In build.gradle, 
-1) we don't need to import SpringORM.
-2) we don't need `testImpl(platform(libs.junitBom))`; spring manages it for use
-3) we don't need `testImpl(platform(libs.testContainersBom))`; spring manages it now
-
 
 Add hibernate @SoftDelete annotation so deletes only tombstone records
 
 also:
 
-Add hibernate @DynamicUpdate annotationt to Entity classes.
+Add hibernate @DynamicUpdate annotation to Entity classes.
+
+This annotation tells Hibernate to generate SQL updates only for the changed fields,
 
 ----[java]
 import org.hibernate.annotations.DynamicUpdate;

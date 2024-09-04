@@ -55,6 +55,7 @@ public enum Archetype {
 
     // validation and annotations
     ResourceIdTrait("ResourceIdTrait"),
+    UpdateAwareConverter("UpdateAwareConverter"),
     AlphabeticAnnotation("AlphabeticAnnotation"), 
     AlphabeticValidator("AlphabeticValidator"),
     ResourceIdAnnotation("ResourceIdAnnotation"),

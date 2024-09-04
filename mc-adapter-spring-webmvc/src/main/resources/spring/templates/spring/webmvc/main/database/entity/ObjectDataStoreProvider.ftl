@@ -10,6 +10,7 @@ import ${EntityResource.fqcn()};
 import ${GenericDataStore.fqcn()};
 import ${ObjectDataStore.fqcn()};
 import ${Repository.fqcn()};
+import ${UpdateAwareConverter.fqcn()};
 import lombok.NonNull;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.github.perplexhub.rsql.RSQLJPASupport;
@@ -44,7 +45,7 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
     public ${ObjectDataStoreProvider.className()} (
             ${Repository.className()} repository,
             Converter<${Entity.className()},${EntityResource.className()}> ejbToPojoConverter,
-            Converter<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter)
+            ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter)
     {
         super(repository, ejbToPojoConverter, pojoToEntityConverter);
     }

@@ -41,6 +41,7 @@ public class ProjectArchetypeToMap {
             Archetype.SecureRandomSeries,
             Archetype.SpringProfiles,
             Archetype.ResourceIdentity,
+            Archetype.UpdateAwareConverter,
 
             // exception stuff
             Archetype.GlobalExceptionHandler,

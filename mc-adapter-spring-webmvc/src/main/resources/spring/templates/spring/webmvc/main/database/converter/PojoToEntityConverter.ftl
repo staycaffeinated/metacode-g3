@@ -4,6 +4,7 @@ package ${PojoToEntityConverter.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
+import ${UpdateAwareConverter.fqcn()};
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import java.util.List;
 * Converts Drink entity beans into DrinkResource objects
 */
 @Component
-public class ${PojoToEntityConverter.className()} implements Converter<${EntityResource.className()}, ${Entity.className()}> {
+public class ${PojoToEntityConverter.className()} implements ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> {
     /**
      * Convert the source object of type {@code ${endpoint.pojoName}} to target type {@code ${endpoint.ejbName}}.
      *
@@ -35,5 +36,22 @@ public class ${PojoToEntityConverter.className()} implements Converter<${EntityR
      */
     public List<${Entity.className()}> convert (@NonNull List<${EntityResource.className()}> sourceList) {
         return sourceList.stream().map(this::convert).toList();
+    }
+
+    /**
+     * Modifies `target` by copying the mutable fields from `source` into `target`.
+     * The general idea is to apply updates to an EJB so the EJB can be persisted with the changed values.
+     * An interface is used to provide a consistent style of applying updates.
+     * @param source the DTO containing updated values; if `null` then `target` is returned unchanged.
+     * @param target the EJB being updated
+     * @return the updated EJB
+     */
+    @Override
+    public ${Entity.className()} copyUpdates (@NonNull ${EntityResource.className()} source, ${Entity.className()} target) {
+        if (source != null) {
+            // Fill in this block as the POJO and EJB are fleshed out with more attributes
+            target.setText(source.getText());
+        }
+        return target;
     }
 }

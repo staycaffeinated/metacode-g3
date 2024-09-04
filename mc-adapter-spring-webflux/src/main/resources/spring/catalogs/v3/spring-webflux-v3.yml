@@ -114,6 +114,12 @@ entries:
         sourceTemplate: "/spring/webflux/main/trait/ResourceIdTrait.ftl"
 
   - scope: "project"
+    archetype: "UpdateAwareConverter"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/trait/UpdateAwareConverter.ftl"
+
+  - scope: "project"
     archetype: "AlphabeticAnnotation"
     facets:
       - facet: "main"

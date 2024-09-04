@@ -4,6 +4,7 @@ package ${PojoToDocumentConverter.packageName()};
 
 import ${Document.fqcn()};
 import ${EntityResource.fqcn()};
+import ${UpdateAwareConverter.fqcn()};
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import java.util.List;
  * Converts POJOs into document objects
  */
 @Component
-public class ${PojoToDocumentConverter.className()} implements Converter<${EntityResource.className()}, ${Document.className()}> {
+public class ${PojoToDocumentConverter.className()} implements ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Document.className()}> {
     /**
      * Convert the source object of type {@code ${endpoint.pojoName}} to target type {@code ${endpoint.documentName}}.
      *
@@ -35,5 +36,21 @@ public class ${PojoToDocumentConverter.className()} implements Converter<${Entit
      */
     public List<${Document.className()}> convert (@NonNull List<${EntityResource.className()}> sourceList) {
         return sourceList.stream().map(this::convert).toList();
+    }
+
+    /**
+     * Modifies `target` by copying the mutable fields from `source` into `target`.
+     * The general idea is to apply updates to a Document so the Document can be persisted with the changed values.
+     * An interface is used to provide a consistent style of applying updates.
+     * @param source the DTO containing updated values; if `null` then `target` is returned unchanged.
+     * @param target the Document being updated
+     * @return the updated EJB
+     */
+    @Override
+    public ${Document.className()} copyUpdates (${EntityResource.className()} source, ${Document.className()} target) {
+        if (source != null) {
+            target.setText(source.getText());
+        }
+        return target;
     }
 }

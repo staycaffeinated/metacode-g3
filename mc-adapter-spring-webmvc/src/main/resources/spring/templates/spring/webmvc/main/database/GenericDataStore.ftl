@@ -3,6 +3,7 @@
 package ${GenericDataStore.packageName()};
 
 import ${CustomRepository.fqcn()};
+import ${UpdateAwareConverter.fqcn()};
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 
@@ -28,12 +29,11 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
 
     private final ${CustomRepository.className()}<B,ID> repository;
     private final Converter<B, D> ejbToPojoConverter;
-    private final Converter
-    <D, B> pojoToEjbConverter;
+    private final ${UpdateAwareConverter.className()}<D, B> pojoToEjbConverter;
 
     protected ${GenericDataStore.className()}(${CustomRepository.className()}<B,ID> repository,
                                               Converter<B, D> ejbToPojoConverter,
-                                              Converter<D, B> pojoToEjbConverter)
+                                              ${UpdateAwareConverter.className()}<D, B> pojoToEjbConverter)
     {
         this.repository = repository;
         this.ejbToPojoConverter = ejbToPojoConverter;
@@ -137,11 +137,15 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
      */
     protected abstract void applyBeforeInsertSteps(D copyFieldsFrom, B copyFieldsTo);
 
+    /**
+     * Persist the changes to `item` as an update (not an insert).
+     * If `item` is not found in the database, this request is quietly ignored.
+     */
     public Optional<D> update(D item) {
             Optional<B> optional = findItem(item);
             if (optional.isPresent()) {
                 B ejb = optional.get();
-                applyBeforeUpdateSteps(item, ejb);
+                pojoToEjbConverter.copyUpdates(item, ejb);
                 B managed = repository().save(ejb);
                 D updated = converterToPojo().convert(managed);
                 if (updated != null)
@@ -153,7 +157,6 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     public D save(@NonNull D item) {
         B ejb = converterToEjb().convert(item);
         if (ejb != null) {
-            applyBeforeInsertSteps(item, ejb);
             B managedEntity = repository().save(ejb);
             return converterToPojo().convert(managedEntity);
         }
