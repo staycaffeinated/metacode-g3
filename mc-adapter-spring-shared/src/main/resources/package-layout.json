@@ -59,7 +59,8 @@
       "package": "{{basePackage}}.common.traits",
       "archetypes": [
         "ResourceIdTrait",
-        "ResourceIdentity"
+        "ResourceIdentity",
+        "UpdateAwareConverter"
       ]
     },
     {
