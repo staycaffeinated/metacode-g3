@@ -51,7 +51,7 @@ spring.jpa.properties.id.new_generator_mappings=false
 </#if>
 <#if (project.schema?has_content)>
 <#noparse>
-spring.jpa.properties.hibernate.default_schema="${spring.application.schema-name}"
+spring.jpa.properties.hibernate.default_schema=${spring.application.schema-name}
 </#noparse>
 </#if>
 
@@ -109,7 +109,7 @@ spring.datasource.hikari.maximum-pool-size=20
 spring.datasource.hikari.data-source-properties.cachePrepStmts=true
 <#if (project.schema?has_content)>
 <#noparse>
-spring.datasource.hikari.data-source-properties.currentSchema="${spring.application.schema-name}"
+spring.datasource.hikari.data-source-properties.currentSchema=${spring.application.schema-name}
 </#noparse>
 </#if>
 # size of prepared statement cache
