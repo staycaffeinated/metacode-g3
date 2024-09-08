@@ -8,11 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Entity
-<#if endpoint.schema?has_content>
-    @Table(name="${endpoint.tableName}", schema="${endpoint.schema}")
-<#else>
-    @Table(name="${endpoint.tableName}")
-</#if>
+@Table(name="${endpoint.tableName}")
 @EqualsAndHashCode(of = {"resourceId"})
 @Getter
 @Setter

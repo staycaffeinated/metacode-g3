@@ -3,6 +3,9 @@ spring.application.name=${project.applicationName}
 <#else>
 spring.application.name=example-service
 </#if>
+<#if (project.schema?has_content)>
+spring.application.schema-name=${project.schema}
+</#if>
 server.port=8080
 <#if (project.basePath)??>
 server.servlet.context-path=${project.basePath}
