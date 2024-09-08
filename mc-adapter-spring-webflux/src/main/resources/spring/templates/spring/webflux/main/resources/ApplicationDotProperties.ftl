@@ -11,6 +11,9 @@ spring.webflux.base-path=${project.basePath}
 spring.webflux.base-path=/
 </#if>
 spring.main.web-application-type=reactive
+<#if (project.schema?has_content)>
+spring.application.schema-name=${project.schema}
+</#if>
 
 # Obfuscate the /actuator endpoint
 # Health probes enable a liveness check, and a readiness check.
@@ -76,6 +79,11 @@ spring.datasource.hikari.connection-timeout=2000
 spring.datasource.hikari.maximum-pool-size=20
 # cache prepared statements
 spring.datasource.hikari.data-source-properties.cachePrepStmts=true
+<#if (project.schema?has_content)>
+<#noparse>
+spring.datasource.hikari.data-source-properties.currentSchema="${spring.application.schema-name}"
+</#noparse>
+</#if>
 # size of prepared statement cache
 spring.datasource.hikari.data-source-properties.prepStmtCacheSize=250
 # the maximum length of a statement the driver will cache

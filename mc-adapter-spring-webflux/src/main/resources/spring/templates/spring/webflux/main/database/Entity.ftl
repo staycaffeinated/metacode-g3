@@ -14,11 +14,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
-<#if endpoint.schema?has_content>
-@Table(name="${endpoint.tableName}", schema="${endpoint.schema}")
-<#else>
+
 @Table(name="${endpoint.tableName}")
-</#if>
 @EqualsAndHashCode(of = {"resourceId"})
 @Getter
 @Setter
