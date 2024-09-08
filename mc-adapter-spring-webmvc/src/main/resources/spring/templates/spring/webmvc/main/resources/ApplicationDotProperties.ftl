@@ -49,6 +49,11 @@ spring.jpa.database=POSTGRESQL
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgresPlusDialect
 spring.jpa.properties.id.new_generator_mappings=false
 </#if>
+<#if (project.schema?has_content)>
+<#noparse>
+spring.jpa.properties.hibernate.default_schema="${spring.application.schema-name}"
+</#noparse>
+</#if>
 
 
 <#-- define the jdbc driver -->
@@ -102,6 +107,11 @@ spring.datasource.hikari.connection-timeout=2000
 spring.datasource.hikari.maximum-pool-size=20
 # cache prepared statements
 spring.datasource.hikari.data-source-properties.cachePrepStmts=true
+<#if (project.schema?has_content)>
+<#noparse>
+spring.datasource.hikari.data-source-properties.currentSchema="${spring.application.schema-name}"
+</#noparse>
+</#if>
 # size of prepared statement cache
 spring.datasource.hikari.data-source-properties.prepStmtCacheSize=250
 # the maximum length of a statement the driver will cache
