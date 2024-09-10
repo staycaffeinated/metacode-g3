@@ -173,7 +173,7 @@
       "archetypes": [ "ResourceIdSupplier" ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.provides.domain",
+      "package": "{{basePackage}}.{{endpoint}}.model",
       "archetypes": [
           "Pojo",
           "EntityResource"
