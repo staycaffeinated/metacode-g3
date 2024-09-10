@@ -53,4 +53,30 @@ class ${PojoToEntityConverter.testClass()} {
         assertThat(ejbList.get(0).getResourceId()).isEqualTo(pojoList.get(0).getResourceId());
         assertThat(ejbList.get(0).getText()).isEqualTo(pojoList.get(0).getText());
     }
+
+
+    @Test
+    void shouldCopyUpdatedFields() {
+        /* Give some POJO and EJB that represent the same entity */
+        ${EntityResource.className()} pojo = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+        ${Entity.className()} bean = converter.convert(pojo);
+
+        /* Change some fields of the POJO to mimic changes received from, say, an end user */
+        pojo.setText("Some new value");
+
+        /* To update the corresponding EJB, copy the mutable fields of the POJO to the EJB */
+        /* (Immutable fields, like IDs, do not get updated.) */
+        converter.copyUpdates(pojo, bean);
+
+        /* Verify the mutable fields of the EJB were updated to match the POJO */
+        assertThat(bean.getText()).isEqualTo(pojo.getText());
+    }
+
+
+    @Test
+    void shouldThrowExceptionIfPojoIsNull() {
+            ${Entity.className()} anyEjbWillDo = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId();
+            assertThrows(NullPointerException.class,
+                    () -> { converter.copyUpdates((${EntityResource.className()}) null, anyEjbWillDo); });
+    }
 }
