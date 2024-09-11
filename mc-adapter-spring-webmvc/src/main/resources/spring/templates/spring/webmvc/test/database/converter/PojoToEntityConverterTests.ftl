@@ -79,4 +79,11 @@ class ${PojoToEntityConverter.testClass()} {
             assertThrows(NullPointerException.class,
                     () -> { converter.copyUpdates((${EntityResource.className()}) null, anyEjbWillDo); });
     }
+
+    @Test
+    void shouldThrowExceptionIfEjbIsNull() {
+        ${EntityResource.className()} anyPojoWillDo = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            assertThrows(NullPointerException.class,
+            () -> { converter.copyUpdates(anyPojoWillDo, null); });
+    }
 }

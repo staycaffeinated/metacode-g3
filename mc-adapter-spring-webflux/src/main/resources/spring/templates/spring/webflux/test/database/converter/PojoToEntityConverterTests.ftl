@@ -6,6 +6,8 @@ import ${Entity.fqcn()};
 import ${EntityResource.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${EjbTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -89,9 +91,42 @@ class ${PojoToEntityConverter.testClass()} {
         assertThat(bean.getText()).isEqualTo(resource.getText());
     }
 
-	// ------------------------------------------------------------------
+
+	@Test
+	void shouldCopyUpdatedFields() {
+		/* Give some POJO and EJB that represent the same entity */
+		${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
+		${Entity.className()} bean = converterUnderTest.convert(pojo);
+
+		/* Change some fields of the POJO to mimic changes received from, say, an end user */
+		pojo.setText("Some new value");
+
+		/* To update the corresponding EJB, copy the mutable fields of the POJO to the EJB */
+		/* (Immutable fields, like IDs, do not get updated.) */
+		converterUnderTest.copyUpdates(pojo, bean);
+
+		/* Verify the mutable fields of the EJB were updated to match the POJO */
+		assertThat(bean.getText()).isEqualTo(pojo.getText());
+	}
+
+
+	@Test
+	void shouldThrowExceptionIfPojoIsNull() {
+		${Entity.className()} anyEjb = ${EjbTestFixtures.className()}.oneWithResourceId();
+			assertThrows(NullPointerException.class,
+				() -> { converterUnderTest.copyUpdates((${EntityResource.className()}) null, anyEjb); });
+	}
+
+	@Test
+	void shouldThrowExceptionIfEjbIsNull() {
+		${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
+		assertThrows(NullPointerException.class,
+			() -> { converterUnderTest.copyUpdates(pojo, (${Entity.className()}) null); });
+	}
+
+	// ----------------------------------------------------------------------------------------------
 	// Helper methods
-	// ------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	private boolean fieldsMatch(${endpoint.pojoName} expected, ${endpoint.ejbName} actual) {
 		if (!Objects.equals(expected.getResourceId(), actual.getResourceId()))
 			return false;

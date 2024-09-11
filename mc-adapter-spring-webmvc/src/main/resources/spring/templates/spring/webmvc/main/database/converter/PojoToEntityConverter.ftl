@@ -47,7 +47,7 @@ public class ${PojoToEntityConverter.className()} implements ${UpdateAwareConver
      * @return the updated EJB
      */
     @Override
-    public ${Entity.className()} copyUpdates (@NonNull ${EntityResource.className()} source, ${Entity.className()} target) {
+    public ${Entity.className()} copyUpdates (@NonNull ${EntityResource.className()} source, @NonNull ${Entity.className()} target) {
         // Update this method as the POJO and EJB are filled out with more attributes.
         // You want to copy mutable fields of the POJO to the EJB. The general idea is to
         // update the EJB to match the POJO so the EJB can be persisted with the changes.

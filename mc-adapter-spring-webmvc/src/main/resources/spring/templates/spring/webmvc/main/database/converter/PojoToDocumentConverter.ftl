@@ -40,18 +40,16 @@ public class ${PojoToDocumentConverter.className()} implements ${UpdateAwareConv
 
     /**
      * Modifies `target` by copying the mutable fields from `source` into `target`.
-     * The general idea is to apply updates to an EJB so the EJB can be persisted with the changed values.
+     * The general idea is to apply updates to a Document so the Document can be persisted with the changed values.
      * An interface is used to provide a consistent style of applying updates.
      * @param source the DTO containing updated values; if `null` then `target` is returned unchanged.
      * @param target the EJB being updated
      * @return the updated EJB
      */
     @Override
-    public ${Document.className()} copyUpdates (@NonNull ${EntityResource.className()} source, ${Document.className()} target) {
-        if (source != null) {
-            // Fill in this block as the POJO and EJB are fleshed out with more attributes
-            target.setText(source.getText());
-        }
+    public ${Document.className()} copyUpdates (@NonNull ${EntityResource.className()} source, @NonNull ${Document.className()} target) {
+        // Fill in this block as the POJO and Document are fleshed out with more attributes
+        target.setText(source.getText());
         return target;
     }
 }

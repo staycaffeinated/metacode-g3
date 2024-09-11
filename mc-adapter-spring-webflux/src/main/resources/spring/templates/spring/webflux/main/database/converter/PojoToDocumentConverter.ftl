@@ -47,10 +47,8 @@ public class ${PojoToDocumentConverter.className()} implements ${UpdateAwareConv
      * @return the updated EJB
      */
     @Override
-    public ${Document.className()} copyUpdates (${EntityResource.className()} source, ${Document.className()} target) {
-        if (source != null) {
-            target.setText(source.getText());
-        }
+    public ${Document.className()} copyUpdates (@NonNull ${EntityResource.className()} source, ${Document.className()} target) {
+        target.setText(source.getText());
         return target;
     }
 }
