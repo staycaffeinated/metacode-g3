@@ -5,6 +5,7 @@ package ${PojoToDocumentConverter.packageName()};
 import ${Document.fqcn()};
 import ${EntityResource.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
+import ${WebMvcModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 
