@@ -60,7 +60,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
      * FindById
      */
     @Nested
-    public class FindByResourceId {
+    class FindByResourceId {
         @Test
         @SuppressWarnings("all")
         void shouldFind${endpoint.entityName}ById() throws Exception {
@@ -80,7 +80,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
      * Create method
      */
     @Nested
-    public class Create${endpoint.entityName} {
+    class Create${endpoint.entityName} {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given: a new item to be inserted into the database
@@ -100,7 +100,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
     * Update method
     */
     @Nested
-    public class Update${endpoint.entityName} {
+    class Update${endpoint.entityName} {
 
         @Test
         @SuppressWarnings("all")
@@ -124,7 +124,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
     * Delete method
     */
     @Nested
-    public class Delete${endpoint.entityName} {
+    class Delete${endpoint.entityName} {
         @Test
         void shouldDelete${endpoint.entityName}() {
             // given: the ID of an item known to exist in the database
@@ -140,7 +140,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
     }
 
     @Nested
-    public class FindByText {
+    class FindByText {
         @Test
         void shouldFindResults() {
             // scenario: search for items having a property value known to exist

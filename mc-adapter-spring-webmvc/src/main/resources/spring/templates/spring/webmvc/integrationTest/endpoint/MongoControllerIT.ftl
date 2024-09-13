@@ -67,7 +67,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     }
 
     @Nested
-    public class ValidateFindByText {
+    class ValidateFindByText {
         @Test
         void whenSearchFindsHits_expectOkAndMatchingRecords() throws Exception {
             searchByText("Bluey").andExpect(status().isOk());
@@ -83,7 +83,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
      * FindById
      */
     @Nested
-    public class ValidateFindById {
+    class ValidateFindById {
         @Test
         void shouldFind${endpoint.entityName}ById() throws Exception {
             ${Document.className()} item = documentList.get(0);
@@ -97,7 +97,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     * Create method
     */
     @Nested
-    public class ValidateCreate${endpoint.pojoName} {
+    class ValidateCreate${endpoint.pojoName} {
         @Test
         void shouldCreateNew${endpoint.pojoName}() throws Exception {
             ${EntityResource.className()} resource = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
@@ -128,7 +128,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     * Update method
     */
     @Nested
-    public class ValidateUpdate${endpoint.entityName} {
+    class ValidateUpdate${endpoint.entityName} {
 
         @Test
         @SuppressWarnings("all")
@@ -146,7 +146,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
      * Delete method
      */
     @Nested
-    public class ValidateDelete${endpoint.entityName} {
+    class ValidateDelete${endpoint.entityName} {
         @Test
         void shouldDelete${endpoint.entityName}() throws Exception {
             ${Document.className()} document = documentList.get(0);

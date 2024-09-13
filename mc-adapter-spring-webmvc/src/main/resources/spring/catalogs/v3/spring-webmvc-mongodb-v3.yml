@@ -266,6 +266,10 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDataStoreProvider.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/database/entity/MongoDataStoreProviderTests.ftl"
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/database/endpoint/DocumentStoreImplIntegrationTest.ftl"
 
 #
 # The POJO representing the restful resource

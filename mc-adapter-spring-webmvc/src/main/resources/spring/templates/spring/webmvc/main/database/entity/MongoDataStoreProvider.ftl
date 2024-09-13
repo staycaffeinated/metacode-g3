@@ -1,9 +1,5 @@
 <#include "/common/Copyright.ftl">
 
-/*
- * MongoDataStoreProvider.ftl
- */
-
 package ${DocumentKindStoreProvider.packageName()};
 
 import ${DocumentToPojoConverter.fqcn()};
@@ -55,10 +51,7 @@ public class ${DocumentKindStoreProvider.className()} implements ${DocumentKindS
             return Optional.empty();
         else {
             ${EntityResource.className()} pojo = documentConverter.convert(document);
-            if (pojo == null)
-                return Optional.empty();
-            else
-                return Optional.of(pojo);
+            return Optional.ofNullable(pojo);
         }
     }
 
@@ -92,9 +85,7 @@ public class ${DocumentKindStoreProvider.className()} implements ${DocumentKindS
             List<${Document.className()}> modified = mongoTemplate.find(query, ${Document.className()}.class, ${Document.className()}.collectionName());
             if (!modified.isEmpty()) {
                 List<${EntityResource.className()}> pojoList = documentConverter.convert(modified);
-                if (pojoList != null) {
-                    return pojoList;
-                }
+                return List.copyOf(pojoList);
             }
         }
         // No matches were found, so return an empty list

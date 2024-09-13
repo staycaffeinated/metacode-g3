@@ -52,7 +52,7 @@ class ${ServiceImpl.integrationTestClass()} extends MongoDbContainerSupport {
     }
 
     @Nested
-    public class FindAll {
+    class FindAll {
         @Test
         void shouldFindAll() {
             Set<${endpoint.entityName}> results = serviceUnderTest.findAll${endpoint.entityName}s();
