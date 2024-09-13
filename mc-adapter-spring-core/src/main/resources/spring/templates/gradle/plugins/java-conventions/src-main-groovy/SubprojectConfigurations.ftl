@@ -5,8 +5,8 @@ subprojects {
             property "sonar.tests", [ "src/test", "src/integrationTest" ]
             property "sonar.coverage.jacoco.xmlReportPaths", [
 <#noparse>
-                "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml",
-                "${project.buildDir}/reports/jacoco/integrationTest/jacocoTestReport.xml" ]
+                "${project.buildDir}/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml",
+                "${project.buildDir}/reports/jacoco/integrationTestCodeCoverageReport/integrationTestCodeCoverageReport.xml"    ]
 </#noparse>
         }
     }

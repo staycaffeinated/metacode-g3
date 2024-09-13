@@ -1,5 +1,6 @@
 plugins {
     id 'buildlogic.application-conventions'
+    id 'jacoco-report-aggregation'
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.dependency.management)
     alias(libs.plugins.versions)
@@ -38,4 +39,16 @@ sonar {
         property "sonar.projectKey", "${project.applicationName}"
         property "sonar.gradle.skipCompile", "true"
     }
+}
+
+/*
+ * This task dependency is defined per module (subproject) since it cannot
+ * be guaranteed that all modules of this application will have integration tests.
+ * Thus, for any module that does not contain integration tests
+ * (i.e., there's no `src/integrationTest/` folder), simply
+ * remove the dependency on `integrationTestCodeCoverageReport`.
+ */
+tasks.named('check') {
+    dependsOn tasks.named('integrationTestCodeCoverageReport')
+    dependsOn tasks.named('testCodeCoverageReport')
 }
