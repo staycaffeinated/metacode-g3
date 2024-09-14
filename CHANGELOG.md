@@ -1,5 +1,38 @@
 ## Uncommitted
 
+## [11.2.0] - 2024-09-14
+
+* Changes:
+  * The Jacoco Report Aggregation plugin has been added to the `build.gradle` files,
+    along with the necessary configuration changes. This plugin makes it easier to
+    include code coverage from integration tests (and any other test facets you might 
+    want to use) with the Sonar reports.
+  * The POJO's that represent endpoint resources have a new package home, 
+    `${basepath}.${endpoint}.model` (instead of `${basepath}.${endpoint}.provides.api`).
+    I noticed many projects use explicit Request/Response objects, such as `AddPetRequest`
+    and `AddPetResponse`. Creating a `model` package to hold those kinds of POJOs, as well
+    as including the generated POJO in `model` made sense.
+  * Instead of having an `applyBeforeInsertSteps` and `applyBeforeUpdateSteps` in the `DataStore`
+    API, a new converter interface, `UpdateAwareConverter`, has been added. This interface
+    is implemented by the PojoToEJB/PojoToDocument converters that already exist. As attributes
+    are added to POJOs/EJBs, those converters have to be updated any. Not having to also maintain
+    those `applyBeforeInsertSteps` and `applyBeforeUpdateSteps` simplifies the code maintenance
+    when attributes are added to the POJOs/EJBs/Documents.
+  * The DataFaker library has been added as a test dependency, enabling tests to leverage it
+    to generate test data. This is more flexible and useful than the hard-coded values that
+    the code generate was using. 
+  * An new "Specification" class has been added to enable building Specification instances 
+    for database queries much easier. Each EJB has a corresponding Specification class that
+    has a Builder interface. Examples of this new Specification class being used can be found
+    in the integration tests.
+  * The support of database schema's was simplified. Rather than adding the `schema` attribute
+    within the `@Entity` annotation, the schema information is contained in the `application.properties`
+    file. The schema name is defined with the `spring.application.schema-name` property, along with
+    these entries:
+    * `spring.jpa.properties.hibernate.default_schema=${spring.application.schema-name}`
+    * `spring.datasource.hikari.data-source-properties.currentSchema=${spring.application.schema-name}`
+
+
 ## [11.1.0] - 2024-08-25
 
 * Changes
