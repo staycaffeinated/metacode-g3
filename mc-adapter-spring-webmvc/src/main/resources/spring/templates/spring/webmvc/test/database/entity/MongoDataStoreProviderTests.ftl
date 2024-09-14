@@ -127,7 +127,7 @@ class ${MongoDataStoreProvider.testClass()} {
                .thenReturn(null);
 
            // when: documentStore.findBy
-           Optional<Character> maybe = documentStore.findByResourceId("123");
+           Optional<${EntityResource.className()}> maybe = documentStore.findByResourceId("123");
 
            // expect: an empty Optional is returned, since no matches were found
            assertThat(maybe).isEmpty();
