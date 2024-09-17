@@ -143,7 +143,7 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
         mustacheDecoder.configure(templateModel);
 
         // Render the templates
-        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
+        collector.prepare(descriptor).collect().stream().parallel().filter(keepThese).forEach(catalogEntry -> {
 
             // essentially: forEach: aTemplate -> { writeIt ( renderIt(aTemplate) ) }
             catalogEntry.getFacets().forEach(facet -> {

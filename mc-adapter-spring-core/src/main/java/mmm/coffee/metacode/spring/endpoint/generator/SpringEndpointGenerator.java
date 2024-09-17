@@ -112,7 +112,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         log.info("[generateCode] collector is-a {}", collector.getClass().getName());
 
         // Render the templates
-        collector.prepare(descriptor).collect().stream().filter(keepThese).forEach(catalogEntry -> {
+        collector.prepare(descriptor).collect().stream().parallel().filter(keepThese).forEach(catalogEntry -> {
             catalogEntry.getFacets().forEach(facet -> {
                 String renderedContent = templateRenderer.render(facet.getSourceTemplate(), templateModel);
                 if (catalogEntry.getArchetype() != null) {
