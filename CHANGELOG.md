@@ -4,6 +4,10 @@
   * Added an integration test of the `[Resource]Specification.java` class. This enables
     verifying the behavior of the Specification against a database.
 
+* Fixes:
+  * Column names in the generated Entity class now use camel-case syntax. The H2 database
+    does not like snake_case, while PostgreSQL tolerates camel-case (probably with Hibernate's help).
+
 ## [11.2.0] - 2024-09-14
 
 * Changes:
