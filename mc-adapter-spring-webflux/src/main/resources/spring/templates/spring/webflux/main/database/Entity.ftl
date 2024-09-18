@@ -27,7 +27,8 @@ public class ${Entity.className()} implements Persistable<Long> {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Columns {
         public static final String ID = "id";
-        public static final String RESOURCE_ID = "resource_id";
+        // Be aware some databases want column names in camelCase, some want snake_case.
+        public static final String RESOURCE_ID = "resourceId";
         public static final String TEXT = "text";
     }
 
