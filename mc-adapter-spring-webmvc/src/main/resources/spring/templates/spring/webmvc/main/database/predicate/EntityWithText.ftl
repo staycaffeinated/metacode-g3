@@ -10,6 +10,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import java.io.Serial;
 
 /**
  * Specification for ${Entity.className()} with a given text value
@@ -18,6 +19,7 @@ import jakarta.persistence.criteria.Root;
 public class ${EntityWithText.className()} implements Specification<${Entity.className()}> {
 
     // This is a 'user-defined' UID; feel free to improve it.
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final String text;
@@ -35,7 +37,7 @@ public class ${EntityWithText.className()} implements Specification<${Entity.cla
             // if no conditions were given for the text value, then accept any text column value
             return criteriaBuilder.isTrue(criteriaBuilder.literal(true)); // always; true=no filtering
         }
-        return criteriaBuilder.like(criteriaBuilder.lower(root.get("text")), text);
+        return criteriaBuilder.like(criteriaBuilder.lower(root.get(${Entity.className()}.Columns.TEXT)), text);
     }
 }
 
