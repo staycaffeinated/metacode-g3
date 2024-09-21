@@ -174,6 +174,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     // ---------------------------------------------------------------------------------------------------------------
 
     protected ResultActions searchByText(String text) throws Exception {
-        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("text", text));
+        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search})
+                .param(${EntityResource.className()}.Fields.TEXT, text));
     }
 }
