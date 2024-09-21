@@ -163,7 +163,7 @@ public class ${Controller.className()} {
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByText (
             @RequestParam(name="text", required = true) @SearchText Optional<String> text,
             @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-            @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
+            @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) Pageable pageable,
             PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
         return resourceAssembler.toModel( ${ServiceApi.varName()}.findByText(text.orElse(""), pageable) );
