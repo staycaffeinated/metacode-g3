@@ -105,7 +105,7 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
             String text = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getText();
             ${EntityWithText.className()} spec = new ${EntityWithText.className()}(text);
             List<${Entity.className()}> list = repositoryUnderTest.findAll(spec);
-            assertThat(list).isNotNull().hasSize(1);
+            assertThat(list).isNotNull().hasSizeGreaterThan(0); // expect at least 1 match, but possibly more
         }
 
         @Test

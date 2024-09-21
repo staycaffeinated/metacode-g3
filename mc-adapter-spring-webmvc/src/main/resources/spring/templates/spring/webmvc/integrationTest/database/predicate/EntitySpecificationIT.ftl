@@ -88,7 +88,7 @@ class ${EntitySpecification.integrationTestClass()} implements ${RegisterDatabas
     @Nested
     class TextValueUseCases {
         @Test
-        void shouldFindByGivenId() {
+        void shouldFindByGivenValue() {
             ${Entity.className()} entity = pickOne();
             String expectedValue = entity.getText();
 
@@ -108,6 +108,36 @@ class ${EntitySpecification.integrationTestClass()} implements ${RegisterDatabas
                 .isNotEmpty()
                 .extracting(${Entity.className()}::getText)
                 .allMatch(actualText -> actualText.equals(entity.getText()));
+        }
+
+        @Test
+        void shouldFindAnyNullValues() {
+            Specification<${Entity.className()}> spec = ${EntitySpecification.className()}.builder()
+                .textIsNull(true)
+                .build();
+
+            List<${Entity.className()}> resultSet = repository.findAll(spec);
+
+            // The test data does not add any null values, so this result will be empty.
+            assertThat(resultSet).isEmpty();
+        }
+
+        @Test
+        void shouldFindLikeValue() {
+            PetEntity entity = pickOne();
+            // Select a random string from one of the columns so we can exercise the LIKE condition
+            String expectedText = entity.getText().substring(0,3).trim();
+
+            Specification<${Entity.className()}> spec =${EntitySpecification.className()}.builder()
+                .textIsLike('%' + expectedText + '%')
+                .build();
+
+            List<${Entity.className()}> resultSet = repository.findAll(spec);
+
+            assertThat(resultSet)
+                .isNotEmpty()
+                .extracting(${Entity.className()}::getText)
+                .allMatch(actualText -> actualText.contains(expectedText));
         }
     }
 
