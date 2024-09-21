@@ -46,19 +46,19 @@ public class ${EntitySpecification.className()} implements Specification<${Entit
     @Override
     public Predicate toPredicate(@NonNull Root<${Entity.className()}> root, CriteriaQuery<?> query, @NonNull CriteriaBuilder cb) {
 
-        Predicate resourceIdPred = ofNullable(resourceId)
+        Predicate pResourceId = ofNullable(resourceId)
             .map(bool -> isEqualTo(cb, root.get(${Entity.className()}.Columns.RESOURCE_ID), resourceId))
             .orElse(null);
 
-        Predicate textPred = ofNullable(text)
+        Predicate pText = ofNullable(text)
             .map(bool -> isEqualTo(cb, root.get(${Entity.className()}.Columns.TEXT), text))
             .orElse(null);
 
         List<Predicate> predicates = new ArrayList<>();
 
         // Add the non-null predicates to the list
-        ofNullable(resourceIdPred).ifPresent(predicates::add);
-        ofNullable(textPred).ifPresent(predicates::add);
+        ofNullable(pResourceId).ifPresent(predicates::add);
+        ofNullable(pText).ifPresent(predicates::add);
 
         // Conjure a predicate that is, essentially, p1 and p2 and p3 ...
         // where p1,p2,p3 are predicates from the list
