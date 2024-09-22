@@ -82,7 +82,7 @@ public class ${EntitySpecification.className()} implements Specification<${Entit
             : null;
 
         Predicate pIsTextLike = ofNullable(textIsLike)
-            .map(bool -> isLikeValue(cb, root.get(PetEntity.Columns.TEXT), textIsLike))
+            .map(bool -> isLikeValue(cb, root.get(${Entity.className()}.Columns.TEXT), textIsLike))
             .orElse(null);
 
         List<Predicate> predicates = new ArrayList<>();

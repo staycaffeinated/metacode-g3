@@ -124,7 +124,7 @@ class ${EntitySpecification.integrationTestClass()} implements ${RegisterDatabas
 
         @Test
         void shouldFindLikeValue() {
-            PetEntity entity = pickOne();
+            ${Entity.className()} entity = pickOne();
             // Select a random string from one of the columns so we can exercise the LIKE condition
             String expectedText = entity.getText().substring(0,3).trim();
 
