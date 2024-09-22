@@ -3,10 +3,15 @@
 * Changes
   * Added an integration test of the `[Resource]Specification.java` class. This enables
     verifying the behavior of the Specification against a database.
+  * Added support for `isNull` and `like` comparisons to the `[Resource]Specification.java` class. 
 
 * Fixes:
   * Column names in the generated Entity class now use camel-case syntax. The H2 database
     does not like snake_case, while PostgreSQL tolerates camel-case (probably with Hibernate's help).
+
+* Maintenance:
+  * Bump Spring Boot version from 3.3.3 to 3.3.4
+  * Bump Liquibase version from 4.29.1 to 4.29.2
 
 ## [11.2.0] - 2024-09-14
 
