@@ -4,6 +4,7 @@
   * Added an integration test of the `[Resource]Specification.java` class. This enables
     verifying the behavior of the Specification against a database.
   * Added support for `isNull` and `like` comparisons to the `[Resource]Specification.java` class. 
+  * Removed the `[Resource]TablePopulator` class. 
 
 * Fixes:
   * Column names in the generated Entity class now use camel-case syntax. The H2 database
