@@ -379,10 +379,4 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/EntityRoutes.ftl"
-
-  - scope: "endpoint"
-    archetype: "DatabaseTablePopulator"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/entity/DatabaseTablePopulator.ftl"
-
+        

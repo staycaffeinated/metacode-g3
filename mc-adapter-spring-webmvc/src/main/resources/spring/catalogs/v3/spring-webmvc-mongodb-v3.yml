@@ -364,17 +364,3 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/EntityRoutes.ftl"
-
-# A helper class that loads example data into the DB. This is suitable for demo/dev work but probably not for production
-  - scope: "endpoint"
-    archetype: "DatabaseTablePopulator"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/entity/MongoDatabaseTablePopulator.ftl"
-
-# Hmmm. This may be dead code now.
-#  - scope: "endpoint"
-#    archetype: "ConversionService"
-#    facets:
-#      - facet: "test"
-#        sourceTemplate: "/spring/webmvc/test/FakeConversionService.ftl"

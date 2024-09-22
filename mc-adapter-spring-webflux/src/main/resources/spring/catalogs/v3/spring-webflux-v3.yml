@@ -218,12 +218,6 @@ entries:
         sourceTemplate: "/spring/webflux/integrationTest/configuration/TestTableInitializer.ftl"
 
   - scope: "endpoint"
-    archetype: "DatabaseTablePopulator"
-    facets:
-      - facet: "main"
-        sourceTemplate:  "/spring/webflux/main/database/DatabaseTablePopulator.ftl"
-
-  - scope: "endpoint"
     archetype: "EntityToPojoConverter"
     facets:
       - facet: "main"
