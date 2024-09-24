@@ -1,6 +1,8 @@
 <#include "/common/Copyright.ftl">
 package ${Application.packageName()};
 
+
+
 import ${RegisterDatabaseProperties.fqcn()};
 <#-- ========================= -->
 <#-- Postgres & TestContainers -->
@@ -8,14 +10,18 @@ import ${RegisterDatabaseProperties.fqcn()};
 <#if project.isWithPostgres() && project.isWithTestContainers()>
 import ${ContainerConfiguration.fqcn()};
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static ${SpringProfiles.fqcn()}.INTEGRATION_TEST;
 import static ${SpringProfiles.fqcn()}.TEST;
+
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles({TEST,INTEGRATION_TEST})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -27,13 +33,21 @@ class ${Application.integrationTestClass()} implements RegisterDatabasePropertie
 <#-- Vanilla                   -->
 <#-- ========================= -->
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
 class ${Application.integrationTestClass()} implements RegisterDatabaseProperties {
 </#if>
 
+    @Autowired
+    ApplicationContext context;
+
     @Test
-    @SuppressWarnings("java:S2699") // there's nothing to assert
     void contextLoads() {
-        // If this test runs without throwing an exception, then SpringBoot started successfully
+        assertThat(context).isNotNull();
     }
 }
