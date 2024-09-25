@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${Entity.fqcn()};
-import ${EntityWithText.fqcn()};
 import ${EntitySpecification.fqcn()};
 import ${WebMvcEjbTestFixtures.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
@@ -103,17 +102,16 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
         @Test
         void shouldIgnoreCase() {
             String text = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getText();
-            ${EntityWithText.className()} spec = new ${EntityWithText.className()}(text);
-            List<${Entity.className()}> list = repositoryUnderTest.findAll(spec);
+            Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text.toUpperCase()).build();
+            List<${Entity.className()}> list = repositoryUnderTest.findAll(where);
             assertThat(list).isNotNull().hasSizeGreaterThan(0); // expect at least 1 match, but possibly more
         }
 
         @Test
-        void shouldFindAllWhenValueIsEmpty() {
-            ${EntityWithText.className()} spec = new ${EntityWithText.className()}("");
-            List<${Entity.className()}> list = repositoryUnderTest.findAll(spec);
-            long count = repositoryUnderTest.count();
-            assertThat(list).isNotNull().hasSize((int)count);
+        void shouldFindNoneWithAnEmptyValue() {
+            Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text("").build();
+            List<${Entity.className()}> list = repositoryUnderTest.findAll(where);
+            assertThat(list).isNotNull().isEmpty();
         }
 
         @Test
