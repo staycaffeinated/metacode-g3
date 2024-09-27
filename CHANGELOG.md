@@ -4,7 +4,17 @@
   * Added an integration test of the `[Resource]Specification.java` class. This enables
     verifying the behavior of the Specification against a database.
   * Added support for `isNull` and `like` comparisons to the `[Resource]Specification.java` class. 
-  * Removed the `[Resource]TablePopulator` class. 
+  * Added an `endpoints` package.  When creating endpoints from the command line, the source
+    generated will go into this `endpoints` package. This makes the application's package structure more obvious:
+    the base package contains three subpackages: `common, endpoints,` and `infrastructure`. 
+  * Removed the `[Resource]TablePopulator` class.
+  * Removed the `[Resource]WithText` class. The new `[Resource]Specification` class accomplishes
+    the same thing, but more fluently and with more choices for filtering.
+  * Changed the ApplicationIntegrationTest to verify the presence of the `ApplicationContext` object.
+    This is only a matter of being (slightly) more precise.
+  * Changed some places where the hard-coded column name `"text"` was used to the more maintainable
+    `[Resource].Columns.TEXT`. Essentially, if the colum name `TEXT` is refactored to, say, `FIRST_NAME`, 
+    along with changing `"text"` to `"firstName"`, your IDE will more likely find all the places to refactor. 
 
 * Fixes:
   * Column names in the generated Entity class now use camel-case syntax. The H2 database
