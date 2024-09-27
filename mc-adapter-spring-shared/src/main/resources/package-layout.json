@@ -34,7 +34,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.home.provides.api",
+      "package": "{{basePackage}}.endpoints.home.provides.api",
       "archetypes": [
         "RootController",
         "RootControllerExceptionHandler",
@@ -81,7 +81,7 @@
       "archetypes": [ "SecurityResponseHeadersFilter" ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.requires.persistence.converters",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence.converters",
       "archetypes": [
         "EndpointConfiguration",
         "EntityToPojoConverter",
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.requires.events",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.events",
       "archetypes": [
         "EntityEvent",
         "EntityEventPublisher"
@@ -110,7 +110,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.provides.api",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.provides.api",
       "archetypes": [
         "Controller",
         "ControllerExceptionHandler",
@@ -120,7 +120,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.helper",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.helper",
       "archetypes": [
         "ConversionService"
       ]
@@ -139,7 +139,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.requires.persistence",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence",
       "archetypes": [
         "DatabaseTablePopulator",
         "Document",
@@ -173,14 +173,14 @@
       "archetypes": [ "ResourceIdSupplier" ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.model",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.model",
       "archetypes": [
           "Pojo",
           "EntityResource"
       ]
     },
     {
-      "package": "{{basePackage}}.{{endpoint}}.requires.persistence.predicate",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence.predicate",
       "archetypes": [
         "EntityWithText",
         "EntitySpecification"
