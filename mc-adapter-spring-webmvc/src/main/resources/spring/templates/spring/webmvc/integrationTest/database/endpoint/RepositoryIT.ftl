@@ -100,11 +100,16 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
     @Nested
     class ValidatePredicates {
         @Test
-        void shouldIgnoreCase() {
+        void shouldNotIgnoreCase() {
             String text = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getText();
             Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text.toUpperCase()).build();
             List<${Entity.className()}> list = repositoryUnderTest.findAll(where);
-            assertThat(list).isNotNull().hasSizeGreaterThan(0); // expect at least 1 match, but possibly more
+
+            // Typically, Specifications are case-sensitive. This is usually because the database itself
+            // is case-sensitive when it comes to matching values in queries. You will want to think about
+            // how you want to handle case-sensitivity. It might make sense for lastName of 'smith' to
+            // match 'Smith', but it would probably be problematic for resourceId of 'a123b456cde' to match 'A123b456CDe'.
+            assertThat(list).isNotNull().isEmpty();
         }
 
         @Test
