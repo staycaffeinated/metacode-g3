@@ -6,7 +6,7 @@ package ${ServiceImpl.packageName()};
 import ${PostgresDbContainerTests.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import ${EjbTestFixtures.fqcn()};
 import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
@@ -40,7 +40,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
 </#if>
 
     @Autowired
-    ${ObjectDataStore.className()} dataStore;
+    ${ConcreteDataStoreApi.className()} dataStore;
 
     ${ServiceImpl.className()} serviceUnderTest;
 

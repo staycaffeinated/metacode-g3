@@ -258,13 +258,13 @@ entries:
         sourceTemplate: "/spring/webmvc/testFixtures/database/WebMvcEjbTestFixtures.ftl"
 
   - scope: "endpoint"
-    archetype: "ObjectDataStore"
+    archetype: "ConcreteDataStoreApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/ObjectDataStore.ftl"
 
   - scope: "endpoint"
-    archetype: "ObjectDataStoreProvider"
+    archetype: "ConcreteDataStoreImpl"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/ObjectDataStoreProvider.ftl"

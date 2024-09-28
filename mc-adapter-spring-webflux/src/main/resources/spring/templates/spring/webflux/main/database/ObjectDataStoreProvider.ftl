@@ -1,13 +1,13 @@
 <#include "/common/Copyright.ftl">
 
-package ${ObjectDataStoreProvider.packageName()};
+package ${ConcreteDataStoreImpl.packageName()};
 
 import ${BadRequestException.fqcn()};
 import ${Entity.fqcn()};
 import ${EntityWithText.fqcn()};
 import ${EntityResource.fqcn()};
 import ${GenericDataStore.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import ${Repository.fqcn()};
 import ${UpdateAwareConverter.fqcn()};
 import lombok.NonNull;
@@ -29,7 +29,7 @@ import java.util.Optional;
  * auto-wiring wherever a ${DataStoreApi.className()} is needed.
  */
 @Component
-public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.className()}<${EntityResource.className()}, ${Entity.className()}, Long> implements ${ObjectDataStore.className()} {
+public class ${ConcreteDataStoreImpl.className()} extends ${GenericDataStore.className()}<${EntityResource.className()}, ${Entity.className()}, Long> implements ${ConcreteDataStoreApi.className()} {
 
     /**
      * Constructor
@@ -41,7 +41,7 @@ public class ${ObjectDataStoreProvider.className()} extends ${GenericDataStore.c
      * @param pojoToEntityConverter
      *            to convert POJOs to EJBs
      */
-    public ${ObjectDataStoreProvider.className()} (
+    public ${ConcreteDataStoreImpl.className()} (
             ${Repository.className()} repository,
             Converter<${Entity.className()},${EntityResource.className()}> ejbToPojoConverter,
             ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter)

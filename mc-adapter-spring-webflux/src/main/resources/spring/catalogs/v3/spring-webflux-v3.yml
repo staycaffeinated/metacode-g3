@@ -264,13 +264,13 @@ entries:
         sourceTemplate: "/spring/webflux/integrationTest/database/entity/RepositoryIT.ftl"
 
   - scope: "endpoint"
-    archetype: "ObjectDataStore"
+    archetype: "ConcreteDataStoreApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/database/DataStoreInterface.ftl"
 
   - scope: "endpoint"
-    archetype: "ObjectDataStoreProvider"
+    archetype: "ConcreteDataStoreImpl"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/database/DataStoreProvider.ftl"

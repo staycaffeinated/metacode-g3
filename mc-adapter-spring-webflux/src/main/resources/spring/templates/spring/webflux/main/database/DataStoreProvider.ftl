@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${ObjectDataStoreProvider.packageName()};
+package ${ConcreteDataStoreImpl.packageName()};
 
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
@@ -8,7 +8,7 @@ import ${EntityResource.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
 import ${Repository.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.Optional;
 @Builder
 @RequiredArgsConstructor
 @Slf4j
-public class ${ObjectDataStoreProvider.className()} implements ${ObjectDataStore.className()} {
+public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStoreApi.className()} {
     private final ${Repository.className()} repository;
     private final ${EntityToPojoConverter.className()} ejbToPojoConverter;
     private final ${PojoToEntityConverter.className()} pojoToEjbConverter;

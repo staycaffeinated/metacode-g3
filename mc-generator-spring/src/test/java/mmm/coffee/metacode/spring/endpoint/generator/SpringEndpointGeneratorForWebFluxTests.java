@@ -96,7 +96,7 @@ class SpringEndpointGeneratorForWebFluxTests {
     @ParameterizedTest
     @ValueSource(strings = {
             "PojoToDocumentConverter",
-            "ObjectDataStoreProvider"
+            "ConcreteDataStoreImpl"
     })
     void shouldGenerateRulesForThese(String archetypeName) {
         Archetype archetype = Archetype.fromString(archetypeName);

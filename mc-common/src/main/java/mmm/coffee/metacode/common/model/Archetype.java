@@ -119,9 +119,9 @@ public enum Archetype {
     EntityResource("EntityResource"), // the POJO view of an EJB
     Repository("Repository"),
     PersistenceAdapter("PersistenceAdapter"),
-    ObjectDataStore("ObjectDataStore"), // api for the kind of pojo persisted as ejb's (eg: DataStore<Book>)
+    ConcreteDataStoreApi("ConcreteDataStoreApi"), // api for the kind of pojo persisted as ejb's (eg: DataStore<Book>)
     DocumentKindStore("DocumentKindStore"), // api for the kind of pojo persisted as documents (eg: DocumentStore<Book>)
-    ObjectDataStoreProvider("ObjectDataStoreProvider"), // impl of the data store, eg `BookDataStore extends DataStore<Book>`
+    ConcreteDataStoreImpl("ConcreteDataStoreImpl"), // impl of the data store, eg `BookDataStore extends DataStore<Book>`
     DocumentKindStoreProvider("DocumentKindStoreProvider"), // impl of the document store, eg: BookDocumentStore extends DocumentStore<Book>
     CustomSQLRepository("CustomSQLRepository"),
     WebMvcEjbTestFixtures("WebMvcEjbTestFixtures"),

@@ -1,8 +1,8 @@
 <#include "/common/Copyright.ftl">
 package ${ServiceImpl.packageName()};
 
-import ${ObjectDataStore.fqcn()};
-import ${ObjectDataStoreProvider.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
+import ${ConcreteDataStoreImpl.fqcn()};
 import ${Repository.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings({"java:1201"})
 class ${ServiceImpl.testClass()} {
     @Mock
-    private ${ObjectDataStore.className()} mockDataStore;
+    private ${ConcreteDataStoreApi.className()} mockDataStore;
 
     @InjectMocks
     private ${ServiceImpl.className()} serviceUnderTest;
@@ -207,7 +207,7 @@ class ${ServiceImpl.testClass()} {
         ${PojoToEntityConverter.className()} dodgyConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
         given(dodgyConverter.convert(any(${endpoint.pojoName}.class))).willReturn(null);
 
-        ${ObjectDataStore.className()} dodgyDataStore = ${ObjectDataStoreProvider.className()}.builder()
+        ${ConcreteDataStoreApi.className()} dodgyDataStore = ${ConcreteDataStoreImpl.className()}.builder()
                 .pojoToEjbConverter(dodgyConverter)
                 .ejbToPojoConverter(mockEjbConverter)
                 .repository(mockRepository)

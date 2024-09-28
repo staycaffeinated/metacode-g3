@@ -8,7 +8,7 @@ import ${EntityResource.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ class ${ServiceImpl.testClass()} {
     private ${ServiceImpl.className()} serviceUnderTest;
 
     @Mock
-    private ${ObjectDataStore.className()} ${endpoint.entityVarName}DataStore;
+    private ${ConcreteDataStoreApi.className()} ${endpoint.entityVarName}DataStore;
 
     @Mock
     private ${ResourceIdSupplier.className()} mockResourceIdSupplier;

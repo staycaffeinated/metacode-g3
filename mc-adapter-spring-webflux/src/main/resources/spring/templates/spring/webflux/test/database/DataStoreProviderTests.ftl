@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${ObjectDataStoreProvider.packageName()};
+package ${ConcreteDataStoreImpl.packageName()};
 
 import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
@@ -31,11 +31,11 @@ import static org.mockito.Mockito.when;
  * Unit tests
  */
 @ExtendWith(MockitoExtension.class)
-public class ${ObjectDataStoreProvider.testClass()} {
+public class ${ConcreteDataStoreImpl.testClass()} {
 
 
     @InjectMocks
-    ${ObjectDataStoreProvider.className()} dataStoreUnderTest;
+    ${ConcreteDataStoreImpl.className()} dataStoreUnderTest;
 
     @Mock
     ${Repository.className()} mockRepository;
@@ -70,7 +70,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
         @Test
         void shouldReturnError() {
-            ${ObjectDataStoreProvider.className()} dodgyProvider = oneWithDodgyPojoConverter();
+            ${ConcreteDataStoreImpl.className()} dodgyProvider = oneWithDodgyPojoConverter();
             ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             
             Mono<String> publisher = dodgyProvider.create${endpoint.entityName}(pojo);
@@ -150,7 +150,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
 
         @Test
         void shouldReturnErrorWhenConversionToPojoFails() {
-            ${ObjectDataStoreProvider.className()} dodgyProvider = oneWithDodgyEjbConverter();
+            ${ConcreteDataStoreImpl.className()} dodgyProvider = oneWithDodgyEjbConverter();
 
             Mono<${Entity.className()}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(returnValue);
@@ -254,9 +254,9 @@ public class ${ObjectDataStoreProvider.testClass()} {
     // Helper Methods
     // -----------------------------------------------------------------------------------------------
     
-    private ${ObjectDataStoreProvider.className()} aWellFormedDataStore() {
+    private ${ConcreteDataStoreImpl.className()} aWellFormedDataStore() {
         // @formatter:off
-        return ${ObjectDataStoreProvider.className()}.builder()
+        return ${ConcreteDataStoreImpl.className()}.builder()
                 .ejbToPojoConverter(entityToPojoConverter)
                 .pojoToEjbConverter(pojoToEntityConverter)
                 .repository(mockRepository)
@@ -267,12 +267,12 @@ public class ${ObjectDataStoreProvider.testClass()} {
     /**
      * Creates a DataStore with a converter who's convert method always returns null
      */
-    private ${ObjectDataStoreProvider.className()} oneWithDodgyPojoConverter() {
+    private ${ConcreteDataStoreImpl.className()} oneWithDodgyPojoConverter() {
         ${PojoToEntityConverter.className()} dodgyConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
         when(dodgyConverter.convert(any(${EntityResource.className()}.class))).thenReturn(null);
 
         // @formatter:off
-        return ${ObjectDataStoreProvider.className()}.builder()
+        return ${ConcreteDataStoreImpl.className()}.builder()
                 .ejbToPojoConverter(entityToPojoConverter)
                 .pojoToEjbConverter(dodgyConverter)
                 .repository(mockRepository)
@@ -281,12 +281,12 @@ public class ${ObjectDataStoreProvider.testClass()} {
     }
 
 
-    private ${ObjectDataStoreProvider.className()} oneWithDodgyEjbConverter() {
+    private ${ConcreteDataStoreImpl.className()} oneWithDodgyEjbConverter() {
         ${EntityToPojoConverter.className()} dodgyConverter = Mockito.mock(${EntityToPojoConverter.className()}.class);
         when(dodgyConverter.convert(any(${endpoint.ejbName}.class))).thenReturn(null);
 
         // @formatter:off
-        return ${ObjectDataStoreProvider.className()}.builder()
+        return ${ConcreteDataStoreImpl.className()}.builder()
                 .ejbToPojoConverter(dodgyConverter)
                 .pojoToEjbConverter(pojoToEntityConverter)
                 .repository(mockRepository)

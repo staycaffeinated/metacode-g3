@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ${EntityResource.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 @Validated
 public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
 
-    private final ${ObjectDataStore.className()} dataStore;
+    private final ${ConcreteDataStoreApi.className()} dataStore;
 
     /*
      * findAll

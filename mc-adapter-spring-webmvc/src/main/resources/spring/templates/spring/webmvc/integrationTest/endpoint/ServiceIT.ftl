@@ -10,7 +10,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
 import ${Repository.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
 import ${WebMvcEjbTestFixtures.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
@@ -54,7 +54,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
     private ${Repository.className()} ${Repository.varName()};
 
     @Autowired
-    private ${ObjectDataStore.className()} ${endpoint.entityVarName}DataStore;
+    private ${ConcreteDataStoreApi.className()} ${endpoint.entityVarName}DataStore;
 
     private ${ServiceImpl.className()} serviceUnderTest;
 

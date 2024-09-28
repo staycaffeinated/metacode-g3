@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${ObjectDataStore.packageName()};
+package ${ConcreteDataStoreApi.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${DataStoreApi.fqcn()};
@@ -15,7 +15,7 @@ import java.util.Optional;
  * extends the basic {@code DataStore} interface, adding a
  * ${Entity.className()}-specific search API.
  */
-public interface ${ObjectDataStore.className()} extends ${DataStoreApi.className()}<${EntityResource.className()}> {
+public interface ${ConcreteDataStoreApi.className()} extends ${DataStoreApi.className()}<${EntityResource.className()}> {
     Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable);
 
     /**

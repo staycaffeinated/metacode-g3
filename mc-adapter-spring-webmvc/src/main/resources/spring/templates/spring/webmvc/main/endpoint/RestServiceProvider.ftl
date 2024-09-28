@@ -4,7 +4,7 @@ package ${ServiceImpl.packageName()};
 
 import lombok.NonNull;
 import ${EntityResource.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
 
@@ -21,62 +21,62 @@ import java.util.Optional;
 @Transactional
 public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
 
-    private final ${ObjectDataStore.className()} ${ObjectDataStore.varName()};
+    private final ${ConcreteDataStoreApi.className()} ${ConcreteDataStoreApi.varName()};
 
     /*
      * Constructor
      */
-    public ${ServiceImpl.className()}(${ObjectDataStore.className()} ${ObjectDataStore.varName()})
+    public ${ServiceImpl.className()}(${ConcreteDataStoreApi.className()} ${ConcreteDataStoreApi.varName()})
     {
-      this.${ObjectDataStore.varName()} = ${ObjectDataStore.varName()};
+      this.${ConcreteDataStoreApi.varName()} = ${ConcreteDataStoreApi.varName()};
     }
 
     /*
      * findAll
      */
     public List<${EntityResource.className()}> findAll${endpoint.entityName}s() {
-        return ${ObjectDataStore.varName()}.findAll();
+        return ${ConcreteDataStoreApi.varName()}.findAll();
     }
 
     /**
      * findByResourceId
      */
     public Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id) {
-        return ${ObjectDataStore.varName()}.findByResourceId ( id );
+        return ${ConcreteDataStoreApi.varName()}.findByResourceId ( id );
     }
 
     /*
      * findByText
      */
     public Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable) {
-        return ${ObjectDataStore.varName()}.findByText(text, pageable);
+        return ${ConcreteDataStoreApi.varName()}.findByText(text, pageable);
     }
 
     /*
      * Search
      */
     public Page<${EntityResource.className()}> search(@NonNull String rsqlQuery, Pageable pageable) {
-        return ${ObjectDataStore.varName()}.search(rsqlQuery, pageable);
+        return ${ConcreteDataStoreApi.varName()}.search(rsqlQuery, pageable);
     }
 
     /**
     * Persists a new resource
     */
     public ${EntityResource.className()} create${endpoint.entityName}( @NonNull @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
-        return ${ObjectDataStore.varName()}.save(resource);
+        return ${ConcreteDataStoreApi.varName()}.save(resource);
     }
 
     /**
      * Updates an existing resource
      */
     public Optional<${endpoint.pojoName}> update${endpoint.entityName}(@NonNull @Validated(OnUpdate.class) ${endpoint.pojoName} resource ) {
-        return ${ObjectDataStore.varName()}.update(resource);
+        return ${ConcreteDataStoreApi.varName()}.update(resource);
     }
 
     /**
      * delete
      */
     public void delete${endpoint.entityName}ByResourceId(@NonNull String id) {
-        ${ObjectDataStore.varName()}.deleteByResourceId(id);
+        ${ConcreteDataStoreApi.varName()}.deleteByResourceId(id);
     }
 }

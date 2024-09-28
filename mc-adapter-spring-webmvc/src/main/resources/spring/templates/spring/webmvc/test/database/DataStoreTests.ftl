@@ -1,9 +1,9 @@
 <#include "/common/Copyright.ftl">
 
-package ${ObjectDataStoreProvider.packageName()};
+package ${ConcreteDataStoreImpl.packageName()};
 
 import ${BadRequestException.fqcn()};
-import ${ObjectDataStore.fqcn()};
+import ${ConcreteDataStoreApi.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
@@ -35,22 +35,22 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit test the ${ObjectDataStoreProvider.className()}
+ * Unit test the ${ConcreteDataStoreImpl.className()}
  */
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("all")
-public class ${ObjectDataStoreProvider.testClass()} {
+public class ${ConcreteDataStoreImpl.testClass()} {
 
     @Mock
     ${Repository.className()} mockRepository;
 
     ${EntityToPojoConverter.className()} ejbToPojoConverter = new ${EntityToPojoConverter.className()}();
     ${PojoToEntityConverter.className()} pojoToEjbConverter = new ${PojoToEntityConverter.className()}();
-    ${ObjectDataStoreProvider.className()} dataStoreUnderTest;
+    ${ConcreteDataStoreImpl.className()} dataStoreUnderTest;
 
     @BeforeEach
     void setUp() {
-        dataStoreUnderTest = new ${ObjectDataStoreProvider.className()}(mockRepository, ejbToPojoConverter, pojoToEjbConverter);
+        dataStoreUnderTest = new ${ConcreteDataStoreImpl.className()}(mockRepository, ejbToPojoConverter, pojoToEjbConverter);
     }
 
     @Nested
@@ -97,7 +97,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
             ${EntityToPojoConverter.className()} mockEjbToPojoConverter = Mockito.mock(${EntityToPojoConverter.className()}.class);
 
             // Create a DataStore that uses the mock converter
-            ${ObjectDataStore.className()} storeUnderTest = new ${ObjectDataStoreProvider.className()}(
+            ${ConcreteDataStoreApi.className()} storeUnderTest = new ${ConcreteDataStoreImpl.className()}(
                                 mockRepository, mockEjbToPojoConverter, pojoToEjbConverter);
 
             // given: the repository is able to find a particular entity
@@ -179,7 +179,7 @@ public class ${ObjectDataStoreProvider.testClass()} {
             ${PojoToEntityConverter.className()} mockPojoToEntityConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
 
             // Create a DataStore that uses the mock converter
-            ${ObjectDataStore.className()} edgeCaseDataStore = new ${ObjectDataStoreProvider.className()}(
+            ${ConcreteDataStoreApi.className()} edgeCaseDataStore = new ${ConcreteDataStoreImpl.className()}(
                                 mockRepository, ejbToPojoConverter, mockPojoToEntityConverter);
 
             // given: the converter returns a null value

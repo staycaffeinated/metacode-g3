@@ -129,8 +129,8 @@
       "package": "{{basePackage}}.{{endpoint}}.persistence",
       "archetypes": [
         "Entity",
-        "ObjectDataStore",
-        "ObjectDataStoreProvider",
+        "ConcreteDataStoreApi",
+        "ConcreteDataStoreImpl",
         "WebMvcEjbTestFixtures",
         "Document"
       ]
@@ -141,7 +141,7 @@
       "archetypes": [
         "GenericDataStore",
         "MongoDataStore",
-        "ObjectDataStore",
+        "ConcreteDataStoreApi",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
         "Repository",
