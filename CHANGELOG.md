@@ -1,5 +1,6 @@
 ## Uncommitted
-
+      
+## [11.3.0] - 2024-09-29
 * Changes
   * Added an integration test of the `[Resource]Specification.java` class. This enables
     verifying the behavior of the Specification against a database.
