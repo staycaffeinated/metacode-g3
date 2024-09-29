@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${MongoDataStoreProvider.packageName()};
+package ${MongoDataStoreImpl.packageName()};
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -47,7 +47,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SuppressWarnings("unchecked")
-class ${MongoDataStoreProvider.testClass()} {
+class ${MongoDataStoreImpl.testClass()} {
 
     private final ${DocumentToPojoConverter.className()} documentConverter = new ${DocumentToPojoConverter.className()}();
     private final ${PojoToDocumentConverter.className()} pojoConverter = new ${PojoToDocumentConverter.className()}();
@@ -60,11 +60,11 @@ class ${MongoDataStoreProvider.testClass()} {
     private MongoTemplate mockMongoTemplate;
 
     @InjectMocks
-    ${MongoDataStoreProvider.className()} documentStore;
+    ${MongoDataStoreImpl.className()} documentStore;
 
     @BeforeEach
     public void setUp() {
-        documentStore = ${MongoDataStoreProvider.className()}.builder()
+        documentStore = ${MongoDataStoreImpl.className()}.builder()
             .documentConverter(documentConverter)
             .pojoConverter(pojoConverter)
             .resourceIdGenerator(resourceIdGenerator)

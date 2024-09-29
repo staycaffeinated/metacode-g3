@@ -220,7 +220,7 @@ entries:
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------
 #  - scope: "endpoint"
-#    archetype: "MongoDataStore"
+#    archetype: "MongoDataStoreApi"
 #    facets:
 #      - facet: "main"
 #        sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"

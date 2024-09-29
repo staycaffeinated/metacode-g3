@@ -151,8 +151,8 @@
         "ConcreteDataStoreApi",
         "ConcreteDataStoreImpl",
         "Repository",
-        "MongoDataStore",
-        "MongoDataStoreProvider",
+        "MongoDataStoreApi",
+        "MongoDataStoreImpl",
         "TestTableInitializer",
         "TableInitializer"
       ]

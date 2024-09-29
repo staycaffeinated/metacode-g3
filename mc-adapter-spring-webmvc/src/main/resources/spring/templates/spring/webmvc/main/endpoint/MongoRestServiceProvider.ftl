@@ -27,7 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
 
-    private final ${MongoDataStore.className()} ${endpoint.lowerCaseEntityName}DataStore;
+    private final ${MongoDataStoreApi.className()} ${endpoint.lowerCaseEntityName}DataStore;
 
     /*
      * findAll

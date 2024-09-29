@@ -112,8 +112,8 @@ public enum Archetype {
     Pojo("Pojo"),
     AbstractDataStoreApi("AbstractDataStoreApi"),
     AbstractDataStoreImpl("AbstractDataStoreImpl"),
-    MongoDataStore("MongoDataStore"),
-    MongoDataStoreProvider("MongoDataStoreProvider"),
+    MongoDataStoreApi("MongoDataStoreApi"),
+    MongoDataStoreImpl("MongoDataStoreImpl"),
     MongoCrudAwareApi("MongoCrudAwareApi"),
     Entity("Entity"),   // the EJB view of a POJO
     EntityResource("EntityResource"), // the POJO view of an EJB

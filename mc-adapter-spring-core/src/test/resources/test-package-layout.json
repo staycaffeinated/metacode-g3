@@ -140,7 +140,7 @@
       "package": "{{basePackage}}.infra.persistence",
       "archetypes": [
         "GenericDataStore",
-        "MongoDataStore",
+        "MongoDataStoreApi",
         "ConcreteDataStoreApi",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
