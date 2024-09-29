@@ -5,7 +5,7 @@ package ${PojoToDocumentConverter.packageName()};
 import ${Document.fqcn()};
 import ${EntityResource.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 
@@ -58,7 +58,7 @@ class ${PojoToDocumentConverter.testClass()} {
     @Test
     void shouldCopyUpdatedFields() {
         /* Give some POJO and EJB that represent the same entity */
-        ${EntityResource.className()} pojo = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+        ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
         ${Document.className()} bean = converter.convert(pojo);
 
         /* Change some fields of the POJO to mimic changes received from, say, an end user */
@@ -82,7 +82,7 @@ class ${PojoToDocumentConverter.testClass()} {
 
     @Test
     void shouldThrowExceptionIfDocumemtIsNull() {
-        ${EntityResource.className()} anyPojoWillDo = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+        ${EntityResource.className()} anyPojoWillDo = ${ModelTestFixtures.className()}.oneWithResourceId();
             assertThrows(NullPointerException.class,
             () -> { converter.copyUpdates(anyPojoWillDo, null); });
     }

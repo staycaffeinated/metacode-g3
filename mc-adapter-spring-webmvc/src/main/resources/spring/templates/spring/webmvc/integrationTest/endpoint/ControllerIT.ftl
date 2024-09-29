@@ -14,7 +14,7 @@ import ${EntityToPojoConverter.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 import ${Repository.fqcn()};
 import ${Routes.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
 import org.junit.jupiter.api.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,7 +56,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
 
     @BeforeEach
     void setUp() {
-        ${endpoint.entityVarName}Repository.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
+        ${endpoint.entityVarName}Repository.saveAll(${EjbTestFixtures.className()}.allItems());
         ${endpoint.entityVarName}List = ${endpoint.entityVarName}Repository.findAll();
     }
 

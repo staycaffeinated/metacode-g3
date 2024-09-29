@@ -1,4 +1,4 @@
-package ${WebMvcEjbTestFixtures.packageName()};
+package ${EjbTestFixtures.packageName()};
 
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * Sample ${Entity.className()} objects suitable for test data
 */
-public class ${WebMvcEjbTestFixtures.className()} {
+public class ${EjbTestFixtures.className()} {
 
     static final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 

@@ -11,8 +11,8 @@ import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
 import ${Repository.fqcn()};
 import ${ConcreteDataStoreApi.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 import org.junit.jupiter.api.*;
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
@@ -65,7 +65,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
 
     @BeforeEach
     void insertTestData() {
-        ${Repository.varName()}.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
+        ${Repository.varName()}.saveAll(${EjbTestFixtures.className()}.allItems());
     }
 
     @AfterEach
@@ -101,7 +101,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given: a new item to be inserted into the database
-            ${endpoint.pojoName} expected = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
+            ${endpoint.pojoName} expected = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 
             // when: the service is asked to create the item
             ${endpoint.pojoName} actual = serviceUnderTest.create${endpoint.entityName}(expected);
@@ -123,7 +123,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         @SuppressWarnings("all")
         void shouldUpdate${endpoint.entityName}() throws Exception {
             String resourceId = pickOne().getResourceId();
-            ${endpoint.pojoName} modified = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
+            ${endpoint.pojoName} modified = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             final String newValue = "modified";
             modified.setText(newValue);
             modified.setResourceId(resourceId); // use and ID known to exit
@@ -144,7 +144,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         @Test
         void shouldDelete${endpoint.entityName}() throws Exception {
             // given: the ID of an item known to exist in the database
-            String knownId = ${WebMvcEjbTestFixtures.className()}.allItems().get(2).getResourceId();
+            String knownId = ${EjbTestFixtures.className()}.allItems().get(2).getResourceId();
 
             // given: the service is asked to delete the item
             serviceUnderTest.delete${endpoint.entityName}ByResourceId(knownId);
@@ -190,7 +190,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
      * Returns one of the records persisted in the test database
      */
     ${Entity.className()} pickOne() {
-        ${Entity.className()} sample = ${WebMvcEjbTestFixtures.className()}.sampleOne();
+        ${Entity.className()} sample = ${EjbTestFixtures.className()}.sampleOne();
         ${Entity.className()} probe = ${Entity.className()}.builder().text(sample.getText()).build();
         ExampleMatcher matcher = ExampleMatcher.matchingAny().withIgnoreNullValues();
         Example<${Entity.className()}> example = Example.of(probe, matcher);

@@ -8,8 +8,8 @@ import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityResource.fqcn()};
 import ${Repository.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
 import cz.jirutka.rsql.parser.RSQLParserException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -58,8 +58,8 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @Test
         void shouldFindOne() {
             // scenario: an item is know to exist in the database
-            Optional<${Entity.className()}> optional = Optional.of(${WebMvcEjbTestFixtures.className()}.oneWithResourceId());
-            String expectedResourceId = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId().getResourceId();
+            Optional<${Entity.className()}> optional = Optional.of(${EjbTestFixtures.className()}.oneWithResourceId());
+            String expectedResourceId = ${EjbTestFixtures.className()}.oneWithResourceId().getResourceId();
             when(mockRepository.findByResourceId(any(String.class))).thenReturn(optional);
 
             // when: the dataStore is asked to find the known-to-exist item by its publicId...
@@ -102,7 +102,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
 
             // given: the repository is able to find a particular entity
             // but when the entity is converted to a POJO, a NULL value is returned
-            ${Entity.className()} targetEntity = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId();
+            ${Entity.className()} targetEntity = ${EjbTestFixtures.className()}.oneWithResourceId();
             given(mockRepository.findByResourceId(any(String.class))).willReturn(Optional.of(targetEntity));
             given(mockEjbToPojoConverter.convert(any(${Entity.className()}.class))).willReturn(null);
 
@@ -119,14 +119,14 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @Test
         void shouldFindMultipleItems() {
             // scenario: the repository contains multiple ${EntityResource.className()} entities
-            given(mockRepository.findAll()).willReturn(${WebMvcEjbTestFixtures.className()}.allItems());
+            given(mockRepository.findAll()).willReturn(${EjbTestFixtures.className()}.allItems());
 
             // when:
             List<${EntityResource.className()}> items = dataStoreUnderTest.findAll();
 
             // expect: the resultSet contains the same number of items as were found in the
             // repository
-            assertThat(items).isNotNull().isNotEmpty().hasSize(${WebMvcEjbTestFixtures.className()}.allItems().size());
+            assertThat(items).isNotNull().isNotEmpty().hasSize(${EjbTestFixtures.className()}.allItems().size());
         }
 
         @Test
@@ -155,9 +155,9 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             // Under the covers, the EJB is assigned a resourceId, then saved, so the record
             // returned by the repository should also have a resourceId. When the EJB is
             // transformed into a POJO, the POJO should retain the resourceId
-            ${Entity.className()} savedEntity = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId();
+            ${Entity.className()} savedEntity = ${EjbTestFixtures.className()}.oneWithResourceId();
             given(mockRepository.save(any(${Entity.className()}.class))).willReturn(savedEntity);
-            ${EntityResource.className()} pojoToSave = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} pojoToSave = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 
             // when: the item is saved
             ${EntityResource.className()} actualPojo = dataStoreUnderTest.save(pojoToSave);
@@ -186,7 +186,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             given(mockPojoToEntityConverter.convert(any(${EntityResource.className()}.class))).willReturn(null);
 
             // when:
-            ${EntityResource.className()} result = edgeCaseDataStore.save(${WebMvcModelTestFixtures.className()}.oneWithoutResourceId());
+            ${EntityResource.className()} result = edgeCaseDataStore.save(${ModelTestFixtures.className()}.oneWithoutResourceId());
 
             // expect: when the conversion goes side-ways, save() returns a null
             assertThat(result).isNull();
@@ -199,7 +199,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         void shouldReturnUpdatedVersionWhenItemExists() {
             // scenario: the repository contains the item being updated,
             // so the repository can find it and save it
-            ${EntityResource.className()} testSubject = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            ${EntityResource.className()} testSubject = ${ModelTestFixtures.className()}.oneWithResourceId();
             ${Entity.className()} persistedSubject = pojoToEjbConverter.convert(testSubject);
             assert persistedSubject != null;
             given(mockRepository.findByResourceId(any(String.class))).willReturn(Optional.of(persistedSubject));
@@ -221,7 +221,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             given(mockRepository.findByResourceId(any(String.class))).willReturn(Optional.empty());
 
             // given:
-            Optional<${EntityResource.className()}> option = dataStoreUnderTest.update(${WebMvcModelTestFixtures.className()}.oneWithResourceId());
+            Optional<${EntityResource.className()}> option = dataStoreUnderTest.update(${ModelTestFixtures.className()}.oneWithResourceId());
 
             // expect: a non-null, but empty, result
             assertThat(option).isNotNull().isEmpty();
@@ -244,7 +244,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
 
             // given: the repository finds the requested record, but the conversion to a
             // POJO yields a null value
-            ${EntityResource.className()} targetPojo = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            ${EntityResource.className()} targetPojo = ${ModelTestFixtures.className()}.oneWithResourceId();
             ${Entity.className()} targetEjb = pojoToEjbConverter.convert(targetPojo);
             assert targetEjb != null;
             given(mockRepository.findByResourceId(any(String.class))).willReturn(Optional.of(targetEjb));
@@ -262,7 +262,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
     class DeleteByResourceId {
         @Test
         void shouldQuietlyRemoveExistingItem() {
-            ${Entity.className()} targetEntity = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId();
+            ${Entity.className()} targetEntity = ${EjbTestFixtures.className()}.oneWithResourceId();
             // scenario: the repository contains the record being deleted.
             // the first call to findBy is successful; the second call to findBy
             // comes up empty (the second call occurs after the delete operation;
@@ -315,7 +315,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @SuppressWarnings("unchecked")
         void shouldReturnPageOfResults() {
             // given: the repository retrieves a page of entities that meet some criteria
-            List<${Entity.className()}> content = ${WebMvcEjbTestFixtures.className()}.allItems();
+            List<${Entity.className()}> content = ${EjbTestFixtures.className()}.allItems();
             Page<${Entity.className()}> pageResult = new PageImpl<>(content, Pageable.unpaged(), content.size());
             given(mockRepository.findAll(any(Specification.class), any(Pageable.class))).willReturn(pageResult);
 
@@ -337,7 +337,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
 
         @Test
         void shouldReturnAnyItemsWhenQueryIsEmpty() {
-            List<${Entity.className()}> content = ${WebMvcEjbTestFixtures.className()}.allItems();
+            List<${Entity.className()}> content = ${EjbTestFixtures.className()}.allItems();
             Page<${Entity.className()}> pageResult = new PageImpl<>(content, Pageable.unpaged(), content.size());
             when(mockRepository.findAll(any(Pageable.class))).thenReturn(pageResult);
 
@@ -348,7 +348,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @Test
         void shouldReturnMatchingItemsWhenQueryIsGiven() {
             // given: an RSQL query against a known column
-            List<${Entity.className()}> content = ${WebMvcEjbTestFixtures.className()}.allItemsWithSameText();
+            List<${Entity.className()}> content = ${EjbTestFixtures.className()}.allItemsWithSameText();
             Page<${Entity.className()}> pageResult = new PageImpl<>(content, Pageable.unpaged(), content.size());
             when(mockRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(pageResult);
 

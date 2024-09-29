@@ -258,7 +258,7 @@ entries:
         sourceTemplate: "/spring/webmvc/test/database/EntityTests.ftl"
 
   - scope: "endpoint"
-    archetype: "WebMvcEjbTestFixtures"
+    archetype: "EjbTestFixtures"
     facets:
       - facet: "testFixtures"
         sourceTemplate: "/spring/webmvc/testFixtures/database/WebMvcEjbTestFixtures.ftl"
@@ -302,7 +302,7 @@ entries:
         sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
 
   - scope: "endpoint"
-    archetype: "WebMvcModelTestFixtures"
+    archetype: "ModelTestFixtures"
     facets:
       - facet: "testFixtures"
         sourceTemplate: "/spring/webmvc/testFixtures/domain/WebMvcModelTestFixtures.ftl"

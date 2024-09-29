@@ -1,4 +1,4 @@
-package ${WebMvcModelTestFixtures.packageName()};
+package ${ModelTestFixtures.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${SecureRandomSeries.fqcn()};
@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * Sample ${EntityResource.className()} objects suitable for test data
 */
-public class ${WebMvcModelTestFixtures.className()} {
+public class ${ModelTestFixtures.className()} {
 
     static final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
 

@@ -9,7 +9,7 @@ import ${RegisterDatabaseProperties.fqcn()};
 import ${Document.fqcn()};
 import ${ConcreteDocumentStoreApi.fqcn()};
 import ${EntityResource.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -46,13 +46,13 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
     @BeforeEach
     void init${endpoint.entityName}Service() {
         serviceUnderTest = new ${ServiceImpl.className()}(dataStore);
-        ${WebMvcModelTestFixtures.className()}.allItems().forEach(dataStore::create);
+        ${ModelTestFixtures.className()}.allItems().forEach(dataStore::create);
         knownPersistedItem = dataStore.findAll().get(0);
     }
 
     @AfterEach
     void deleteTestData() {
-        ${WebMvcModelTestFixtures.className()}.allItems().forEach(item ->
+        ${ModelTestFixtures.className()}.allItems().forEach(item ->
             dataStore.deleteByResourceId(item.getResourceId()));
     }
 
@@ -84,7 +84,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given: a new item to be inserted into the database
-            ${endpoint.pojoName} expected = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
+            ${endpoint.pojoName} expected = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 
             // when: the service is asked to create the item
             ${endpoint.pojoName} actual = serviceUnderTest.create${endpoint.entityName}(expected);
@@ -128,7 +128,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
         @Test
         void shouldDelete${endpoint.entityName}() {
             // given: the ID of an item known to exist in the database
-            String knownId = ${WebMvcModelTestFixtures.className()}.sampleTwo().getResourceId();
+            String knownId = ${ModelTestFixtures.className()}.sampleTwo().getResourceId();
 
             // given: the service is asked to delete the item
             serviceUnderTest.delete${endpoint.entityName}ByResourceId(knownId);

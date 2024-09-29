@@ -56,7 +56,7 @@ class ${ServiceImpl.testClass()} {
     @BeforeEach
     void setUpEachTime() {
         pojoList = new ArrayList<>();
-        pojoList.addAll(${WebMvcModelTestFixtures.className()}.allItems());
+        pojoList.addAll(${ModelTestFixtures.className()}.allItems());
     }
 
     /**
@@ -140,7 +140,7 @@ class ${ServiceImpl.testClass()} {
         @Test
         void shouldReturnOneWhenRepositoryContainsMatch() {
             // given
-            ${endpoint.pojoName} item = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
+            ${endpoint.pojoName} item = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             String expectedId = item.getResourceId();
             Optional<${endpoint.pojoName}> expected = Optional.of(item);
             given(mockDataStore.findByResourceId(expectedId)).willReturn(expected);
@@ -174,8 +174,8 @@ class ${ServiceImpl.testClass()} {
         @Test
         void shouldCreateOneWhen${endpoint.entityName}IsWellFormed() {
             // given: when the datastore inserts an item, the persisted version is returned
-            final ${EntityResource.className()} incoming = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
-            final ${EntityResource.className()} expected = ${WebMvcModelTestFixtures.className()}.copyOf(incoming);
+            final ${EntityResource.className()} incoming = ${ModelTestFixtures.className()}.oneWithResourceId();
+            final ${EntityResource.className()} expected = ${ModelTestFixtures.className()}.copyOf(incoming);
             expected.setResourceId(incoming.getResourceId()); // because inserted records are assigned a unique
             // resourceId
             given(mockDataStore.create(any())).willReturn(expected);
@@ -206,7 +206,7 @@ class ${ServiceImpl.testClass()} {
         void shouldUpdateWhenEntityIsFound() {
             // given: the datastore successfully updates the record (a matching record is
             // found in the database)
-            ${endpoint.pojoName} changedVersion = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            ${endpoint.pojoName} changedVersion = ${ModelTestFixtures.className()}.oneWithResourceId();
             String resourceId = changedVersion.getResourceId();
             given(mockDataStore.update(any(${endpoint.pojoName}.class))).willReturn(List.of(changedVersion));
 
@@ -231,7 +231,7 @@ class ${ServiceImpl.testClass()} {
 
             // when: the service is asked to update an item that cannot be found in the
             // database
-            ${endpoint.pojoName} changedVersion = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            ${endpoint.pojoName} changedVersion = ${ModelTestFixtures.className()}.oneWithResourceId();
             List<${endpoint.pojoName}> result = serviceUnderTest.update${endpoint.entityName}(changedVersion);
 
             // expect: an empty list is returned
@@ -252,7 +252,7 @@ class ${ServiceImpl.testClass()} {
          */
         @Test
         void shouldDeleteWhenEntityExists() {
-            String knownId = ${WebMvcModelTestFixtures.className()}.oneWithResourceId().getResourceId();
+            String knownId = ${ModelTestFixtures.className()}.oneWithResourceId().getResourceId();
             serviceUnderTest.delete${endpoint.entityName}ByResourceId(knownId);
 
             // Verify the deleteByResourceId method was invoked

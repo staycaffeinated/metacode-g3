@@ -124,8 +124,8 @@ public enum Archetype {
     ConcreteDataStoreImpl("ConcreteDataStoreImpl"), // impl of the data store, eg `BookDataStore extends DataStore<Book>`
     ConcreteDocumentStoreImpl("ConcreteDocumentStoreImpl"), // impl of the document store, eg: BookDocumentStore extends DocumentStore<Book>
     CustomSQLRepository("CustomSQLRepository"),
-    WebMvcEjbTestFixtures("WebMvcEjbTestFixtures"),
-    WebMvcModelTestFixtures("WebMvcModelTestFixtures"),
+    // WebMvcEjbTestFixtures("WebMvcEjbTestFixtures"),
+    // WebMvcModelTestFixtures("WebMvcModelTestFixtures"),
     DocumentTestFixtures("DocumentTestFixtures"),
     PojoTestFixtures("PojoTestFixtures"), // used when using MongoDB to represent POJOs
 

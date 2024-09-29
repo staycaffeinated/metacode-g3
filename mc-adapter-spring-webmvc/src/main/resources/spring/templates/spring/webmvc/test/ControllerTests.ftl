@@ -4,7 +4,7 @@ package ${Controller.packageName()};
 
 import ${Entity.fqcn()};
 import ${EntityResource.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +62,7 @@ class ${Controller.testClass()} {
 
     @BeforeEach
     void setUp() {
-        ${endpoint.entityVarName}List = ${WebMvcModelTestFixtures.className()}.allItems();
+        ${endpoint.entityVarName}List = ${ModelTestFixtures.className()}.allItems();
 
         objectMapper.registerModule(new ProblemModule());
         objectMapper.registerModule(new ConstraintViolationProblemModule());
@@ -82,8 +82,8 @@ class ${Controller.testClass()} {
          */
         @Test
         void shouldFetchAll${endpoint.entityName}s() throws Exception {
-            int expectedSize = ${WebMvcModelTestFixtures.className()}.allItems().size();
-            given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${WebMvcModelTestFixtures.className()}.allItems());
+            int expectedSize = ${ModelTestFixtures.className()}.allItems().size();
+            given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${ModelTestFixtures.className()}.allItems());
 
             findAllEntities()
                 .andExpect(status().isOk())
@@ -99,7 +99,7 @@ class ${Controller.testClass()} {
         @Test
         void shouldFind${endpoint.entityName}ById() throws Exception {
             // given
-            ${endpoint.pojoName} ${endpoint.entityVarName} = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            ${endpoint.pojoName} ${endpoint.entityVarName} = ${ModelTestFixtures.className()}.oneWithResourceId();
             String resourceId = ${endpoint.entityVarName}.getResourceId();
 
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
@@ -128,8 +128,8 @@ class ${Controller.testClass()} {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given
-            ${endpoint.pojoName} resourceBeforeSave = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
-            ${endpoint.pojoName} resourceAfterSave = ${WebMvcModelTestFixtures.className()}.copyOf(resourceBeforeSave);
+            ${endpoint.pojoName} resourceBeforeSave = ${ModelTestFixtures.className()}.oneWithoutResourceId();
+            ${endpoint.pojoName} resourceAfterSave = ${ModelTestFixtures.className()}.copyOf(resourceBeforeSave);
             resourceAfterSave.setResourceId(randomSeries.nextResourceId());
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
 
@@ -202,7 +202,7 @@ class ${Controller.testClass()} {
         @Test
         void shouldDelete${endpoint.entityName}() throws Exception {
             // given
-            ${endpoint.pojoName} ${endpoint.entityVarName} = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            ${endpoint.pojoName} ${endpoint.entityVarName} = ${ModelTestFixtures.className()}.oneWithResourceId();
             String resourceId = ${endpoint.entityVarName}.getResourceId();
 
             // Mock the service layer finding the resource being deleted

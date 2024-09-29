@@ -131,7 +131,7 @@
         "Entity",
         "ConcreteDataStoreApi",
         "ConcreteDataStoreImpl",
-        "WebMvcEjbTestFixtures",
+        "EjbTestFixtures",
         "Document"
       ]
     },
@@ -155,7 +155,7 @@
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.domain",
-      "archetypes": [ "Pojo", "EntityResource", "WebMvcModelTestFixtures", "PojoTestFixtures" ]
+      "archetypes": [ "Pojo", "EntityResource", "ModelTestFixtures", "PojoTestFixtures" ]
     },
     {
       "package": "{{basePackage}}.{{endpoint}}.persistence.predicate",

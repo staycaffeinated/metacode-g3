@@ -6,8 +6,8 @@ import ${Entity.fqcn()};
 import ${EntityResource.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class ${PojoToEntityConverter.testClass()} {
 
     @Test
     void shouldPopulateAllFields() {
-        ${EntityResource.className()} resource = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+        ${EntityResource.className()} resource = ${ModelTestFixtures.className()}.oneWithResourceId();
 
         ${Entity.className()} bean = converter.convert(resource);
         assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
@@ -45,7 +45,7 @@ class ${PojoToEntityConverter.testClass()} {
 
     @Test
     void shouldCopyList() {
-        var pojoList = ${WebMvcModelTestFixtures.className()}.allItems();
+        var pojoList = ${ModelTestFixtures.className()}.allItems();
 
         List<${Entity.className()}> ejbList = converter.convert(pojoList);
         assertThat(ejbList.size()).isSameAs(pojoList.size());
@@ -58,7 +58,7 @@ class ${PojoToEntityConverter.testClass()} {
     @Test
     void shouldCopyUpdatedFields() {
         /* Give some POJO and EJB that represent the same entity */
-        ${EntityResource.className()} pojo = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+        ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
         ${Entity.className()} bean = converter.convert(pojo);
 
         /* Change some fields of the POJO to mimic changes received from, say, an end user */
@@ -75,14 +75,14 @@ class ${PojoToEntityConverter.testClass()} {
 
     @Test
     void shouldThrowExceptionIfPojoIsNull() {
-            ${Entity.className()} anyEjbWillDo = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId();
+            ${Entity.className()} anyEjbWillDo = ${EjbTestFixtures.className()}.oneWithResourceId();
             assertThrows(NullPointerException.class,
                     () -> { converter.copyUpdates((${EntityResource.className()}) null, anyEjbWillDo); });
     }
 
     @Test
     void shouldThrowExceptionIfEjbIsNull() {
-        ${EntityResource.className()} anyPojoWillDo = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+        ${EntityResource.className()} anyPojoWillDo = ${ModelTestFixtures.className()}.oneWithResourceId();
             assertThrows(NullPointerException.class,
             () -> { converter.copyUpdates(anyPojoWillDo, null); });
     }

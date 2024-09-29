@@ -8,7 +8,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import ${EntityResource.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ServiceApi.fqcn()};
 import org.junit.jupiter.api.Nested;

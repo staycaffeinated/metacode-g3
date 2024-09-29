@@ -5,7 +5,7 @@ package ${ServiceImpl.packageName()};
 
 import ${Entity.fqcn()};
 import ${EntityResource.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${ConcreteDataStoreApi.fqcn()};
@@ -141,7 +141,7 @@ class ${ServiceImpl.testClass()} {
         @Test
         void shouldReturnOneWhenRepositoryContainsMatch() {
             // given
-            ${EntityResource.className()} item = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} item = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             String expectedId = item.getResourceId();
             Optional<${EntityResource.className()}> expected = Optional.of(item);
             given(${endpoint.entityVarName}DataStore.findByResourceId(expectedId)).willReturn(expected);
@@ -176,8 +176,8 @@ class ${ServiceImpl.testClass()} {
         @Test
         void shouldCreateOneWhen${endpoint.entityName}IsWellFormed() {
             // given: when the datastore inserts an item, the persisted version is returned
-            final ${EntityResource.className()} incoming = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
-            final ${EntityResource.className()} expected = ${WebMvcModelTestFixtures.className()}.copyOf(incoming);
+            final ${EntityResource.className()} incoming = ${ModelTestFixtures.className()}.oneWithResourceId();
+            final ${EntityResource.className()} expected = ${ModelTestFixtures.className()}.copyOf(incoming);
             expected.setResourceId(resourceIdSupplier.nextResourceId());  // because inserted records are assigned a unique resourceId
             given(${endpoint.entityVarName}DataStore.save(any())).willReturn(expected);
 
@@ -205,7 +205,7 @@ class ${ServiceImpl.testClass()} {
         @Test
         void shouldUpdateWhenEntityIsFound() {
             // given: the datastore successfully updates the record (a matching record is found in the database)
-            ${EntityResource.className()} changedVersion = ${WebMvcModelTestFixtures.className()}.oneWithResourceId();
+            ${EntityResource.className()} changedVersion = ${ModelTestFixtures.className()}.oneWithResourceId();
             String resourceId = changedVersion.getResourceId();
             given(${endpoint.entityVarName}DataStore.update(any(${EntityResource.className()}.class))).willReturn(Optional.of(changedVersion));
 

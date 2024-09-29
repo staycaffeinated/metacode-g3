@@ -7,7 +7,7 @@ import ${ContainerConfiguration.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import ${EntityResource.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
 import ${Document.fqcn()};
 import ${PojoToDocumentConverter.fqcn()};
@@ -100,7 +100,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     class ValidateCreate${endpoint.pojoName} {
         @Test
         void shouldCreateNew${endpoint.pojoName}() throws Exception {
-            ${EntityResource.className()} resource = ${WebMvcModelTestFixtures.className()}.oneWithoutResourceId();
+            ${EntityResource.className()} resource = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 
             createOne(resource).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.text", is(resource.getText())));

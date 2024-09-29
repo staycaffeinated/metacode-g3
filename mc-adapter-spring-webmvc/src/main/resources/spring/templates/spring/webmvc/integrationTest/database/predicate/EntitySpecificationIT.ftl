@@ -1,7 +1,7 @@
 package ${EntitySpecification.packageName()};
 
 import ${RegisterDatabaseProperties.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
 import ${EntitySpecification.fqcn()};
 import ${Repository.fqcn()};
 import ${Entity.fqcn()};

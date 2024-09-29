@@ -4,8 +4,8 @@ package ${ConversionService.packageName()};
 
 import ${EntityToPojoConverter.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;

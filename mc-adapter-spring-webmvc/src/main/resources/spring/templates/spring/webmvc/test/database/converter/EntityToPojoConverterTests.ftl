@@ -4,8 +4,8 @@ package ${EntityToPojoConverter.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -38,7 +38,7 @@ class ${EntityToPojoConverter.testClass()} {
      */
     @Test
     void shouldCopyOnlyExposedProperties() {
-        ${Entity.className()} ejb = ${WebMvcEjbTestFixtures.className()}.oneWithResourceId();
+        ${Entity.className()} ejb = ${EjbTestFixtures.className()}.oneWithResourceId();
 
         ${EntityResource.className()} resource = converter.convert(ejb);
         assertThat(resource.getResourceId()).isEqualTo(ejb.getResourceId());
@@ -47,10 +47,10 @@ class ${EntityToPojoConverter.testClass()} {
 
     @Test
     void shouldCopyList() {
-        var ejbList = ${WebMvcEjbTestFixtures.className()}.allItems();
+        var ejbList = ${EjbTestFixtures.className()}.allItems();
 
         List<${EntityResource.className()}> pojoList = converter.convert(ejbList);
-        assertThat(pojoList.size()).isEqualTo(${WebMvcEjbTestFixtures.className()}.allItems().size());
+        assertThat(pojoList.size()).isEqualTo(${EjbTestFixtures.className()}.allItems().size());
     }
 
 }

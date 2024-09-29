@@ -2,7 +2,7 @@ package ${ConcreteDocumentStoreImpl.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import ${ContainerConfiguration.fqcn()};
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +95,7 @@ class ${ConcreteDocumentStoreImpl.integrationTestClass()} {
     class CommandUseCases {
         @Test
         void shouldCreateOne() {
-            ${EntityResource.className()} sample = ${WebMvcModelTestFixtures.className()}.sampleOne();
+            ${EntityResource.className()} sample = ${ModelTestFixtures.className()}.sampleOne();
 
             ${EntityResource.className()} persistedItem = documentStoreUnderTest.create(sample);
             assertThat(persistedItem).isNotNull();
@@ -104,7 +104,7 @@ class ${ConcreteDocumentStoreImpl.integrationTestClass()} {
         @Test
         void shouldUpdateOne() {
             // Given: Some document that already exists in the database
-            ${EntityResource.className()} sample = ${WebMvcModelTestFixtures.className()}.sampleTwo();
+            ${EntityResource.className()} sample = ${ModelTestFixtures.className()}.sampleTwo();
             ${EntityResource.className()} persistedItem = documentStoreUnderTest.create(sample);
             assertThat(persistedItem).isNotNull();
 

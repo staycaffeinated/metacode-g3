@@ -3,7 +3,7 @@ package ${Document.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
-import ${WebMvcModelTestFixtures.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ public class ${Document.testClass()} {
 
         @Test
         void shouldNotEqualOtherClasses() {
-            ${EntityResource.className()} pojo = ${WebMvcModelTestFixtures.className()}.sampleOne();
+            ${EntityResource.className()} pojo = ${ModelTestFixtures.className()}.sampleOne();
             assertThat(objectUnderTest.equals(pojo)).isFalse();
         }
 

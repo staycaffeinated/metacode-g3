@@ -9,7 +9,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${Entity.fqcn()};
 import ${EntitySpecification.fqcn()};
-import ${WebMvcEjbTestFixtures.fqcn()};
+import ${EjbTestFixtures.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 
 import org.junit.jupiter.api.AfterEach;
@@ -59,7 +59,7 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
 
     @BeforeEach
     void insertTestData() {
-        repositoryUnderTest.saveAll(${WebMvcEjbTestFixtures.className()}.allItems());
+        repositoryUnderTest.saveAll(${EjbTestFixtures.className()}.allItems());
     }
 
     @AfterEach
@@ -101,7 +101,7 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
     class ValidatePredicates {
         @Test
         void shouldNotIgnoreCase() {
-            String text = ${WebMvcEjbTestFixtures.className()}.allItems().get(0).getText();
+            String text = ${EjbTestFixtures.className()}.allItems().get(0).getText();
             Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text.toUpperCase()).build();
             List<${Entity.className()}> list = repositoryUnderTest.findAll(where);
 
@@ -122,7 +122,7 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
         @Test
         void shouldFindMatchingRecords() {
             // Pick a value known to be present in the database
-            String text = ${WebMvcEjbTestFixtures.className()}.allItems().get(1).getText();
+            String text = ${EjbTestFixtures.className()}.allItems().get(1).getText();
             // Construct a Specification to search for that value
             Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(text).build();
 

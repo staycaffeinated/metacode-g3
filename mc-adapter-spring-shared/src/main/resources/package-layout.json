@@ -160,10 +160,10 @@
     {
       "package": "{{basePackage}}.fixtures",
       "archetypes": [
-        "WebMvcEjbTestFixtures",
+        "EjbTestFixtures",
         "DocumentTestFixtures",
         "EjbTestFixtures",
-        "WebMvcModelTestFixtures",
+        "ModelTestFixtures",
         "PojoTestFixtures",
         "ModelTestFixtures"
       ]
