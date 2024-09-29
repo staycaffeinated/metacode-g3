@@ -240,7 +240,7 @@ entries:
         sourceTemplate:  "/spring/webmvc/integrationTest/common/AbstractIntegrationTest.ftl"
 
   - scope: "project"
-    archetype: "DataStoreApi"
+    archetype: "AbstractDataStoreApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/spi/DataStore.ftl"

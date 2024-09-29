@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${DataStoreApi.packageName()};
+package ${AbstractDataStoreApi.packageName()};
 
 import lombok.NonNull;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
  *
  * {@code T} is the Domain object type; for instance, {@code DataStore<Pet>}
 */
-public interface DataStore<T> {
+public interface ${AbstractDataStoreApi.className()}<T> {
     /**
      * Find the Domain object having the given {@code resourceId}
      */

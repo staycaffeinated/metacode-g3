@@ -217,7 +217,7 @@ entries:
         destination: "{{appModule}}/src/integrationTest/resources/create-schema.sql"
 
   - scope: "project"
-    archetype: "DataStoreApi"
+    archetype: "AbstractDataStoreApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/spi/MongoDataStore.ftl"

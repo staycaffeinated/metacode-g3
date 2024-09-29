@@ -3,7 +3,7 @@
 package ${ConcreteDataStoreApi.packageName()};
 
 import ${EntityResource.fqcn()};
-import ${DataStoreApi.fqcn()};
+import ${AbstractDataStoreApi.fqcn()};
 import reactor.core.publisher.Mono;
 
 /**
@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
  * The difference between this and repository interfaces is this interface interacts with POJOs
  * while repository interfaces interact with entity beans.
  */
-public interface ${ConcreteDataStoreApi.className()} extends ${DataStoreApi.className()}<${EntityResource.className()}> {
+public interface ${ConcreteDataStoreApi.className()} extends ${AbstractDataStoreApi.className()}<${EntityResource.className()}> {
     Mono<String> create${endpoint.entityName}(${EntityResource.className()} pojo);
     Mono<${EntityResource.className()}> update${endpoint.entityName}(${EntityResource.className()} pojo);
 }

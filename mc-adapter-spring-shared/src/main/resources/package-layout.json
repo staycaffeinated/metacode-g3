@@ -130,7 +130,7 @@
       "archetypes": [
         "CustomRepository",
         "CustomSQLRepository",
-        "DataStoreApi",
+        "AbstractDataStoreApi",
         "GenericDataStore",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
@@ -145,7 +145,7 @@
         "Document",
         "ConcreteDocumentStoreApi",
         "ConcreteDocumentStoreImpl",
-        "DataStoreImpl",
+        "AbstractDataStoreImpl",
         "Entity",
         "EntityCallback",
         "ConcreteDataStoreApi",

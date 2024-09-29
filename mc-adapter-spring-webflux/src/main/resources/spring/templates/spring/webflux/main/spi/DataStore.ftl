@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${DataStoreApi.packageName()};
+package ${AbstractDataStoreApi.packageName()};
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 /**
  * This is the SPI for database interactions
  */
-public interface ${DataStoreApi.className()}<T> {
+public interface ${AbstractDataStoreApi.className()}<T> {
 
     // Find by the resource ID
     Mono<T> findByResourceId(String id);

@@ -29,7 +29,7 @@ archetypes = ["ResourcePojo"]
 ResourcePojo = "_RESOURCE_View"
 
 [_RESOURCE_.spi.database]
-archetypes = ["DataStoreApi", "DataStoreImpl", "Entity", "Repository"]
+archetypes = ["AbstractDataStoreApi", "AbstractDataStoreImpl", "Entity", "Repository"]
 
 [_RESOURCE_.spi.database.converter]
 archetypes = ["EntityToPojoConverter", "PojoToEntityConverter"]

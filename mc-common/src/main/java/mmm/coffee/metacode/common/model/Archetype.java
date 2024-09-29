@@ -110,8 +110,8 @@ public enum Archetype {
     Document("Document"), // nosql Document objects
     Routes("Routes"),
     Pojo("Pojo"),
-    DataStoreApi("DataStoreApi"),
-    DataStoreImpl("DataStoreImpl"),
+    AbstractDataStoreApi("AbstractDataStoreApi"),
+    AbstractDataStoreImpl("AbstractDataStoreImpl"),
     MongoDataStore("MongoDataStore"),
     MongoDataStoreProvider("MongoDataStoreProvider"),
     MongoCrudAwareApi("MongoCrudAwareApi"),
@@ -127,7 +127,7 @@ public enum Archetype {
     WebMvcEjbTestFixtures("WebMvcEjbTestFixtures"),
     WebMvcModelTestFixtures("WebMvcModelTestFixtures"),
     DocumentTestFixtures("DocumentTestFixtures"),
-    PojoTestFixtures("PojoTestFixtures"),
+    PojoTestFixtures("PojoTestFixtures"), // used when using MongoDB to represent POJOs
 
     // webflux stuff
     TestTableInitializer("TestTableInitializer"), // to init a table during testing. NB: use test-fixtures to init tables instead.

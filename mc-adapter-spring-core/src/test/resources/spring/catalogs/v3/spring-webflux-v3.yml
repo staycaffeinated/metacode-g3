@@ -182,7 +182,7 @@ entries:
         sourceTemplate: "/spring/webflux/test/endpoint/root/RootControllerTest.ftl"
 
   - scope: "project"
-    archetype: "DataStoreApi"
+    archetype: "AbstractDataStoreApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/spi/DataStore.ftl"

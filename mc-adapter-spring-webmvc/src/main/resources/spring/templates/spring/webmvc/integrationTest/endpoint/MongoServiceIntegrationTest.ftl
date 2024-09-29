@@ -26,7 +26,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class ${ServiceImpl.integrationTestClass()} extends MongoDbContainerSupport {
 
     @Autowired
-    ${DataStoreApi.className()} ${endpoint.lowerCaseEntityName}DataStore;
+    ${AbstractDataStoreApi.className()} ${endpoint.lowerCaseEntityName}DataStore;
 
     // The repository is directly accessed to enable removing all test data
     @Autowired

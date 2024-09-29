@@ -26,8 +26,8 @@ import java.util.Optional;
 
 /**
  * ${EntityResource.className()} DataStore provider. This extends the CrudDataStore to inherit the
- * implementations of the CRUD operations, and implements ${DataStoreApi.className()} to enable
- * auto-wiring wherever a ${DataStoreApi.className()} is needed.
+ * implementations of the CRUD operations, and implements ${AbstractDataStoreApi.className()} to enable
+ * auto-wiring wherever a ${AbstractDataStoreApi.className()} is needed.
  */
 @Component
 public class ${ConcreteDataStoreImpl.className()} extends ${GenericDataStore.className()}<${EntityResource.className()}, ${Entity.className()}, Long> implements ${ConcreteDataStoreApi.className()} {

@@ -1,5 +1,5 @@
 <#include "/common/Copyright.ftl">
-package ${DataStoreApi.packageName()};
+package ${AbstractDataStoreApi.packageName()};
 
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
 * A generalized NoSQL data store
 */
-public interface ${DataStoreApi.className()}<T> {
+public interface ${AbstractDataStoreApi.className()}<T> {
     /**
      * Find the document having a given resourceId
      */
