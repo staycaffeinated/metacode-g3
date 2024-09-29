@@ -2,7 +2,7 @@
 
 package ${ServiceImpl.packageName()};
 
-import ${DocumentKindStore.fqcn()};
+import ${ConcreteDocumentStoreApi.fqcn()};
 import ${EntityResource.fqcn()};
 import ${PojoTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
@@ -45,7 +45,7 @@ class ${ServiceImpl.testClass()} {
     private ${ServiceImpl.className()} serviceUnderTest;
 
     @Mock
-    private ${DocumentKindStore.className()} mockDataStore;
+    private ${ConcreteDocumentStoreApi.className()} mockDataStore;
 
     @Mock
     private ${ResourceIdSupplier.className()} mockIdSupplier;

@@ -143,8 +143,8 @@
       "archetypes": [
         "DatabaseTablePopulator",
         "Document",
-        "DocumentKindStore",
-        "DocumentKindStoreProvider",
+        "ConcreteDocumentStoreApi",
+        "ConcreteDocumentStoreImpl",
         "DataStoreImpl",
         "Entity",
         "EntityCallback",

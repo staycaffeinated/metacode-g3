@@ -7,7 +7,7 @@ import ${ContainerConfiguration.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import ${Document.fqcn()};
-import ${DocumentKindStore.fqcn()};
+import ${ConcreteDocumentStoreApi.fqcn()};
 import ${EntityResource.fqcn()};
 import ${WebMvcModelTestFixtures.fqcn()};
 import org.junit.jupiter.api.AfterEach;
@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 </#if>
 class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
-    private ${DocumentKindStore.className()} dataStore;
+    private ${ConcreteDocumentStoreApi.className()} dataStore;
 
     private ${ServiceApi.className()} serviceUnderTest;
 

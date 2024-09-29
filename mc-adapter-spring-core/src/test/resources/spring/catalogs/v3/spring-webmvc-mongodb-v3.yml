@@ -249,14 +249,14 @@ entries:
 
 # the API for the persistence layer. A better name for this class might be, for example, PetPersistenceAdapter.
   - scope: "endpoint"
-    archetype: "DocumentKindStore"
+    archetype: "ConcreteDocumentStoreApi"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDocumentDataStoreApi.ftl"
 
 # The implementation of the DataStore Api
   - scope: "endpoint"
-    archetype: "DocumentKindStoreProvider"
+    archetype: "ConcreteDocumentStoreImpl"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/entity/MongoDataStoreProvider.ftl"

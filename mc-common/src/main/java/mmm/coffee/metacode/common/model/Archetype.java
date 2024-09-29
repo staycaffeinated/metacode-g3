@@ -120,9 +120,9 @@ public enum Archetype {
     Repository("Repository"),
     PersistenceAdapter("PersistenceAdapter"),
     ConcreteDataStoreApi("ConcreteDataStoreApi"), // api for the kind of pojo persisted as ejb's (eg: DataStore<Book>)
-    DocumentKindStore("DocumentKindStore"), // api for the kind of pojo persisted as documents (eg: DocumentStore<Book>)
+    ConcreteDocumentStoreApi("ConcreteDocumentStoreApi"), // api for the kind of pojo persisted as documents (eg: DocumentStore<Book>)
     ConcreteDataStoreImpl("ConcreteDataStoreImpl"), // impl of the data store, eg `BookDataStore extends DataStore<Book>`
-    DocumentKindStoreProvider("DocumentKindStoreProvider"), // impl of the document store, eg: BookDocumentStore extends DocumentStore<Book>
+    ConcreteDocumentStoreImpl("ConcreteDocumentStoreImpl"), // impl of the document store, eg: BookDocumentStore extends DocumentStore<Book>
     CustomSQLRepository("CustomSQLRepository"),
     WebMvcEjbTestFixtures("WebMvcEjbTestFixtures"),
     WebMvcModelTestFixtures("WebMvcModelTestFixtures"),

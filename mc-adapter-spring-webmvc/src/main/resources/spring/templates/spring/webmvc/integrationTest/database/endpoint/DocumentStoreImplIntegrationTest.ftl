@@ -1,4 +1,4 @@
-package ${DocumentKindStoreProvider.packageName()};
+package ${ConcreteDocumentStoreImpl.packageName()};
 
 import ${EntityResource.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
@@ -27,10 +27,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Import(${ContainerConfiguration.className()}.class)
 @Testcontainers
 @SuppressWarnings("unchecked")
-class ${DocumentKindStoreProvider.integrationTestClass()} {
+class ${ConcreteDocumentStoreImpl.integrationTestClass()} {
 
     @Autowired
-    ${DocumentKindStoreProvider.className()} documentStoreUnderTest;
+    ${ConcreteDocumentStoreImpl.className()} documentStoreUnderTest;
 
     @Autowired
     ${Repository.className()} repository;

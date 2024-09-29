@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${DocumentKindStoreProvider.packageName()};
+package ${ConcreteDocumentStoreImpl.packageName()};
 
 import ${DocumentToPojoConverter.fqcn()};
 import ${PojoToDocumentConverter.fqcn()};
@@ -8,7 +8,7 @@ import ${Document.fqcn()};
 import ${EntityResource.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
-import ${DocumentKindStore.fqcn()};
+import ${ConcreteDocumentStoreApi.fqcn()};
 import com.mongodb.client.result.UpdateResult;
 import lombok.Builder;
 import lombok.NonNull;
@@ -33,7 +33,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Builder
-public class ${DocumentKindStoreProvider.className()} implements ${DocumentKindStore.className()} {
+public class ${ConcreteDocumentStoreImpl.className()} implements ${ConcreteDocumentStoreApi.className()} {
 
     private final ${DocumentToPojoConverter.className()} documentConverter;
     private final ${PojoToDocumentConverter.className()} pojoConverter;
