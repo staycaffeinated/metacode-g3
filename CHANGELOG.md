@@ -1,5 +1,15 @@
 ## Uncommitted
 
+* Fix:
+  * Added `@PageableAsQueryParam` to the controller classes (when OpenAPI is applied) to enable
+    the OpenAPI-generated `swagger-ui.html` page to correctly render `Pageable` parameters. Without this annotation,
+    REST calls rendered in the `swagger-ui.html` define a hard-coded sort-order on column `String` instead
+    of the actual column name (such as, say, `lastName` or `purchaseDate`). The default sort-order is
+    still on column `String` (the OpenAPI library doesn't offer a way yet to define the desired value),
+    but the end-user can now edit the sort order field on the `swagger-ui.html` page and enter the correct column name.
+    This issue only impacted the `swagger-ui.html` page; REST calls from the browser, `curl`, `httpie` and such
+    worked correctly. 
+
 * Maintenance:
   * Bump Spring Boot version from 3.3.4 to 3.3.5
   * Bump DataFaker version from 2.3.1 to 2.4.1
