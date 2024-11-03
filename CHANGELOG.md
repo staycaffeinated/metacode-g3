@@ -1,4 +1,9 @@
 ## Uncommitted
+
+* Maintenance:
+  * Bump Spring Boot version from 3.3.4 to 3.3.5
+  * Bump DataFaker version from 2.3.1 to 2.4.1
+
       
 ## [11.3.0] - 2024-09-29
 * Changes
