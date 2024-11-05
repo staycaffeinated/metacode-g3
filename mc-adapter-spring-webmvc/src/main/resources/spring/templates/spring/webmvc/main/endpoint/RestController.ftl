@@ -181,7 +181,7 @@ public class ${Controller.className()} {
     </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.query}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
-    @RequestParam(name="q", required = true) @SearchText Optional<String> rsqlQuery,
+    @RequestParam(name="q", required = true) Optional<String> rsqlQuery,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
         @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
         PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)

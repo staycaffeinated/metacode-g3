@@ -16,6 +16,7 @@
     but the end-user can now edit the sort order field on the `swagger-ui.html` page and enter the correct column name.
     This issue only impacted the `swagger-ui.html` page; REST calls from the browser, `curl`, `httpie` and such
     worked correctly. 
+  * Remove the `@SearchText` validation annotation from the controller's `searchByQuery` API to enable RSQL queries to go through.
 
 * Maintenance:
   * Bump Spring Boot version from 3.3.4 to 3.3.5
