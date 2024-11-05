@@ -1,4 +1,11 @@
 ## Uncommitted
+    
+* Refactor:
+  * Added a row limit to the `findAll()` method in the `Repository-type` classes.  Executing `findAll()`
+    against a database with thousands of rows of data is usually detrimental to performance. The
+    default row limit is added to `application.properties` with the name `application.default-page-limit`
+    which, of course, can be changed to your preferred name. The concrete repository interfaces also
+    contain the query hint `HINT_FETCH_SIZE` to enable the database's query planner use the limit.
 
 * Fix:
   * Added `@PageableAsQueryParam` to the controller classes (when OpenAPI is applied) to enable

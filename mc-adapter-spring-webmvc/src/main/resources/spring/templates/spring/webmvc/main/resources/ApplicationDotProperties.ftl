@@ -1,3 +1,12 @@
+# -------------------------------------------------------------------------------------------------------
+# Custom properties (not part of Spring)
+# These property names (and values, of course) can be changed to your liking.
+# -------------------------------------------------------------------------------------------------------
+application.default-page-limit=10
+
+# -------------------------------------------------------------------------------------------------------
+# Spring properties
+# -------------------------------------------------------------------------------------------------------
 <#if (project.applicationName)??>
 spring.application.name=${project.applicationName}
 <#else>

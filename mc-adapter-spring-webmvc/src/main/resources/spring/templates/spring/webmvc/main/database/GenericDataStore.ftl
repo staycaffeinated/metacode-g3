@@ -5,27 +5,36 @@ package ${GenericDataStore.packageName()};
 import ${CustomRepository.fqcn()};
 import ${UpdateAwareConverter.fqcn()};
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
-* This class provides default implementation of CRUD operations for a
-* DataStore. A DataStore is, basically, a wrapper around a Repository. The
-* DataStore implements any business rules that need to happen when
-* reading/writing from a Repository. The DataStore mainly exposes Domain
-* objects, and encapsulates the EntityBeans and Repository.
-* <p>
-* {@code D} is the Domain object type</p>
-* <p>{@code B} is the EntityBean type</p>
-* <p>{@code ID} is the primary key data type (e.g., Long or String)</p>
-*
-* For example {@code GenericDataStore<Pet,PetEntity,Long>}.
-*/
+ * This class provides default implementation of CRUD operations for a
+ * DataStore. A DataStore is, basically, a wrapper around a Repository. The
+ * DataStore implements any business rules that need to happen when
+ * reading/writing from a Repository. The DataStore mainly exposes Domain
+ * objects, and encapsulates the EntityBeans and Repository.
+ * <p>
+ * {@code D} is the Domain object type</p>
+ * <p>{@code B} is the EntityBean type</p>
+ * <p>{@code ID} is the primary key data type (e.g., Long or String)</p>
+ *
+ * For example {@code GenericDataStore<Pet,PetEntity,Long>}.
+ */
 @SuppressWarnings("java:S119") // 'ID' mimics Spring convention
 public abstract class ${GenericDataStore.className()}<D,B,ID> {
+<#noparse>
+    @Value("${application.default-page-limit:25}")
+</#noparse>
+    private int defaultPageLimit;
+
+    private static final int DEFAULT_ROW_LIMIT = 20;
 
     private final ${CustomRepository.className()}<B,ID> repository;
     private final Converter<B, D> ejbToPojoConverter;
@@ -74,9 +83,17 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     }
 
     public List<D> findAll() {
-        return repository.findAll().stream().map(ejbToPojoConverter::convert).toList();
+        if (defaultPageLimit <= 0)
+            defaultPageLimit = DEFAULT_ROW_LIMIT;
+        return repository.findAll().stream().limit(defaultPageLimit).map(ejbToPojoConverter::convert).toList();
     }
 
+    public List<D> findAll(int limit) {
+        if (limit <= 0)
+            limit = DEFAULT_ROW_LIMIT;
+        return repository.findAll().stream().limit(limit).map(ejbToPojoConverter::convert).toList();
+    }
+                
     public void deleteByResourceId(@NonNull String resourceId) {
         Optional<B> optional = repository.findByResourceId(resourceId);
             if (optional.isPresent()) {
@@ -88,9 +105,9 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     /**
      * Fetch the EJB corresponding to {@code item}. A basic implementation will look
      * similar to: <code>
-     * Optional findItem(Some item) {
-     * return repository().findByResourceId(item.getResourceId());
-     * }
+     *     Optional findItem(Some item) {
+     *         return repository().findByResourceId(item.getResourceId());
+     *     }
      * </code>
      *
      * @param item the Domain object being sought in the database
