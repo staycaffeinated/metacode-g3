@@ -163,7 +163,7 @@ public class ${Controller.className()} {
 </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByText (
-            @RequestParam(name="text", required = true) @SearchText Optional<String> text,
+            @RequestParam(name=${endpoint.pojoName}.Fields.TEXT, required = true) @SearchText Optional<String> text,
             @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
             @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) Pageable pageable,
             PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
@@ -183,7 +183,7 @@ public class ${Controller.className()} {
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
     @RequestParam(name="q", required = true) Optional<String> rsqlQuery,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-        @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
+        @SortDefault(sort = ${endpoint.pojoName}.Fields.TEXT, direction = Sort.Direction.ASC) Pageable pageable,
         PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
         return resourceAssembler.toModel( ${ServiceApi.varName()}.search(rsqlQuery.orElse(""), pageable) );
