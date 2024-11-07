@@ -1,18 +1,21 @@
 ## Uncommitted
     
-* Refactor:
+* Changes:
   * Added a row limit to the `findAll()` method in the `Repository-type` classes.  Executing `findAll()`
     against a database with thousands of rows of data is usually detrimental to performance. The
     default row limit is added to `application.properties` with the name `application.default-page-limit`
     which, of course, can be changed to your preferred name. The concrete repository interfaces also
     contain the query hint `HINT_FETCH_SIZE` to enable the database's query planner use the limit.
+  * Added `metacode.properties` to `.gitignore`. Once the code has been generated and the project
+    is up-and-running, there's marginal-to-no value in preserving this file. Ignoring this file
+    makes sense as a default setting.
 
-* Fix:
-  * Added `@PageableAsQueryParam` to the controller classes (when OpenAPI is applied) to enable
+* Fixes:
+  * Added `@PageableAsQueryParam` to the controller class methods (when OpenAPI is applied) to enable
     the OpenAPI-generated `swagger-ui.html` page to correctly render `Pageable` parameters. Without this annotation,
-    REST calls rendered in the `swagger-ui.html` define a hard-coded sort-order on column `String` instead
-    of the actual column name (such as, say, `lastName` or `purchaseDate`). The default sort-order is
-    still on column `String` (the OpenAPI library doesn't offer a way yet to define the desired value),
+    REST calls rendered in the `swagger-ui.html` define a hard-coded sort order on the column `string` instead
+    of the actual column name (such as, say, `lastName` or `purchaseDate`). The default sort order is
+    still on column `string` (the OpenAPI library doesn't offer a way yet to define the desired value),
     but the end-user can now edit the sort order field on the `swagger-ui.html` page and enter the correct column name.
     This issue only impacted the `swagger-ui.html` page; REST calls from the browser, `curl`, `httpie` and such
     worked correctly. 
