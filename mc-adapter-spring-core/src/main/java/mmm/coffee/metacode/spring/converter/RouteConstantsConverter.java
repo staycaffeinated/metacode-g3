@@ -39,11 +39,11 @@ public class RouteConstantsConverter {
         return "FIND_ALL_" + resourceNameUpperCase;
     }
 
-    public String search() {
-        return "SEARCH_" + resourceNameUpperCase;
+    public String findByProperty() {
+        return "FIND_" + resourceNameUpperCase + "_BY_PROPERTY";
     }
 
-    public String query() { return "QUERY_" + resourceNameUpperCase; }
+    public String search() { return "SEARCH" + resourceNameUpperCase; }
 
     public String idParameter() {
         return resourceNameUpperCase + "_ID";

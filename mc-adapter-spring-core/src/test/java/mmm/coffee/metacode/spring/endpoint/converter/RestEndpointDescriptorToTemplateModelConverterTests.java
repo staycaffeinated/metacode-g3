@@ -185,8 +185,10 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
         assertThat(routeConstants.getSearch()).isNotEmpty();
         assertThat(routeConstants.getSearch()).contains("SEARCH");
 
-        assertThat(routeConstants.getQuery()).isNotEmpty();
-        assertThat(routeConstants.getQuery()).contains("QUERY");
+        assertThat(routeConstants.getFindByProperty()).isNotEmpty();
+        assertThat(routeConstants.getFindByProperty()).startsWith("FIND_");
+        assertThat(routeConstants.getFindByProperty()).endsWith("_BY_PROPERTY");
+
 
         assertThat(routeConstants.getStream()).isNotEmpty();
         assertThat(routeConstants.getStream()).contains("STREAM");

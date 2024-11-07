@@ -43,15 +43,15 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 @Data
 @ExcludeFromJacocoGeneratedReport  // code coverage not needed for a lombok-generated POJO
 public class RouteConstants {
-    String basePath;    // BASE_PATH_entityNameUpperCase
-    String create;      // CREATE_entityNameUpperCase
-    String findOne;     // FIND_ONE_entityNameUpperCase
-    String findAll;     // FIND_ALL_entityNameUpperCase
-    String search;      // SEARCH_entityNameUpperCase
-    String query;       // QUERY_entityNameUpperCase
-    String idParameter; // entityNameUpperCase_ID
-    String stream;      // STREAM_entityNameUpperCase
-    String update;      // UPDATE_entityNameUpperCase
-    String delete;      // DELETE_entityNameUpperCase
-    String events;      // GET_entityNameUpperCase_EVENTS
+    String basePath;        // BASE_PATH_entityNameUpperCase
+    String create;          // CREATE_entityNameUpperCase
+    String findOne;         // FIND_ONE_entityNameUpperCase
+    String findAll;         // FIND_ALL_entityNameUpperCase
+    String search;          // SEARCH_entityNameUpperCase
+    String findByProperty;  // FIND_entityNameUpperCase_BY_PROPERTY
+    String idParameter;     // entityNameUpperCase_ID
+    String stream;          // STREAM_entityNameUpperCase
+    String update;          // UPDATE_entityNameUpperCase
+    String delete;          // DELETE_entityNameUpperCase
+    String events;          // GET_entityNameUpperCase_EVENTS
 }

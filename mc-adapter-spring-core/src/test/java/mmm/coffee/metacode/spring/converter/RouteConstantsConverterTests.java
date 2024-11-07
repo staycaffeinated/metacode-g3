@@ -32,7 +32,7 @@ class RouteConstantsConverterTests {
         checkValue(converterUnderTest.findAll());
         checkValue(converterUnderTest.findOne());
         checkValue(converterUnderTest.idParameter());
-        checkValue(converterUnderTest.search());
+        checkValue(converterUnderTest.findByProperty());
         checkValue(converterUnderTest.stream());
         checkValue(converterUnderTest.update());
     }

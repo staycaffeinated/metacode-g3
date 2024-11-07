@@ -279,30 +279,30 @@ class ${Controller.testClass()} {
 
     
     /**
-     * Submits a search request
+     * Submits a findByProperty request
      */
     protected ResultActions searchByText(String text) throws Exception {
-        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("text", text));
+        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.findByProperty}).param("text", text));
     }
 
     /**
-     * Submits a search request
+     * Submits an RSQL search request
      */
     protected ResultActions search(String rsqlQuery) throws Exception {
-        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.query}).param("q", rsqlQuery));
+        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("q", rsqlQuery));
     }
 
 
     /**
-    * Submits a Delete request
-    */
+     * Submits a Delete request
+     */
     protected ResultActions deleteEntity(String resourceId) throws Exception {
         return mockMvc.perform(delete(${Routes.className()}.${endpoint.routeConstants.delete},resourceId));
     }
 
     /**
-    * To support the use case of a well-formed update request
-    */
+     * To support the use case of a well-formed update request
+     */
     protected ResultActions updateEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
         return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
         .contentType(MediaType.APPLICATION_JSON)

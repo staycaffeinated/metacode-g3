@@ -161,8 +161,8 @@ public class ${Controller.className()} {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
     @PageableAsQueryParam
 </#if>
-    @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PagedModel<EntityModel<${endpoint.pojoName}>> searchByText (
+    @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findByProperty}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public PagedModel<EntityModel<${endpoint.pojoName}>> findByProperty (
             @RequestParam(name=${endpoint.pojoName}.Fields.TEXT, required = true) @SearchText Optional<String> text,
             @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
             @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) Pageable pageable,
@@ -179,7 +179,7 @@ public class ${Controller.className()} {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
     @PageableAsQueryParam
     </#if>
-    @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.query}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
     @RequestParam(name="q", required = true) Optional<String> rsqlQuery,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)

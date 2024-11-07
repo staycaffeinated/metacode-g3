@@ -9,6 +9,11 @@
   * Added `metacode.properties` to `.gitignore`. Once the code has been generated and the project
     is up-and-running, there's marginal-to-no value in preserving this file. Ignoring this file
     makes sense as a default setting.
+  * Two routes of Spring-WebMvc controllers have been renamed. The `search` route is renamed to `findByProperty`
+    and the `query` route has been renamed to `search`.  The original names were not intuitive for
+    predicting what those routes fetched.  The new names follow the convention of using `findBy` to
+    search on specific fields (for instance, `findByLastName` or `findByPastDueDate`), while `search`
+    allows a search expression (RSQL, in our case) to be submitted to find data.
 
 * Fixes:
   * Added `@PageableAsQueryParam` to the controller class methods (when OpenAPI is applied) to enable
