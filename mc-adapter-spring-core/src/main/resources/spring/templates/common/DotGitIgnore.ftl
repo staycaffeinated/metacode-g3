@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,gradle,java,kotlin
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,gradle,java,kotlin
 
+# Metacode stuff
+metacode.properties
+
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
