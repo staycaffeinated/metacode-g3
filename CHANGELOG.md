@@ -2,7 +2,7 @@
 
 ## [11.4.0] - 2024-11-09
     
-* Changes:
+### Changes:
   * Added a row limit to the `findAll()` method in the `Repository-type` classes.  Executing `findAll()`
     against a database with thousands of rows of data is usually detrimental to performance. The
     default row limit is added to `application.properties` with the name `application.default-page-limit`
@@ -17,7 +17,7 @@
     search on specific fields (for instance, `findByLastName` or `findByPastDueDate`), while `search`
     allows a search expression (RSQL, in our case) to be submitted to find data.
 
-* Fixes:
+### Fixes:
   * Added `@PageableAsQueryParam` to the controller class methods (when OpenAPI is applied) to enable
     the OpenAPI-generated `swagger-ui.html` page to correctly render `Pageable` parameters. Without this annotation,
     REST calls rendered in the `swagger-ui.html` define a hard-coded sort order on the column `string` instead
@@ -28,14 +28,14 @@
     worked correctly. 
   * Remove the `@SearchText` validation annotation from the controller's `searchByQuery` API to enable RSQL queries to go through.
 
-* Maintenance:
+### Maintenance:
   * Bump Spring Boot version from 3.3.4 to 3.3.5
   * Bump DataFaker version from 2.3.1 to 2.4.1
   * Bump Reactor-Test from 3.6.9 to 3.6.11
 
       
 ## [11.3.0] - 2024-09-29
-* Changes
+### Changes
   * Added an integration test of the `[Resource]Specification.java` class. This enables
     verifying the behavior of the Specification against a database.
   * Added support for `isNull` and `like` comparisons to the `[Resource]Specification.java` class. 
@@ -51,17 +51,17 @@
     `[Resource].Columns.TEXT`. Essentially, if the colum name `TEXT` is refactored to, say, `FIRST_NAME`, 
     along with changing `"text"` to `"firstName"`, your IDE will more likely find all the places to refactor. 
 
-* Fixes:
+### Fixes:
   * Column names in the generated Entity class now use camel-case syntax. The H2 database
     does not like snake_case, while PostgreSQL tolerates camel-case (probably with Hibernate's help).
 
-* Maintenance:
+### Maintenance:
   * Bump Spring Boot version from 3.3.3 to 3.3.4
   * Bump Liquibase version from 4.29.1 to 4.29.2
 
 ## [11.2.0] - 2024-09-14
 
-* Changes:
+### Changes:
   * The Jacoco Report Aggregation plugin has been added to the `build.gradle` files,
     along with the necessary configuration changes. This plugin makes it easier to
     include code coverage from integration tests (and any other test facets you might 
@@ -94,13 +94,13 @@
 
 ## [11.1.0] - 2024-08-25
 
-* Changes
+### Changes
   * Changed the Java package layout a bit. First, a `common`
     package has been added to the base package, and `common` is now
     the parent package of `exceptions, persistence`,  and `traits`. 
     Second, the package `infra` has been renamed to `infrastructure`.
 
-* Maintenance:
+### Maintenance:
   * Updated H2 from 2.3.230 to 2.3.232
   * Updated Reactor Test from 3.6.2 to 3.6.9
   * Updated Spring Boot from 3.3.2 to 3.3.3
@@ -112,7 +112,7 @@
 
 ## [11.0.0-11.0.2] - 2024-08-11
 
-* Changes:
+### Changes:
   * The package layout of the generated code was reworked to
     better support a hexagon-style architecture. 
   * Internally, the code generator itself moved to Spring framework
@@ -121,10 +121,10 @@
 
 
 ## [10.0.3] - 2024-05-20
-* Changes
+### Changes
     * Removed deprecated spring property, `spring.mvc.throw-exception-if-no-handler-found`
 
-* Maintenance
+### Maintenance
   * Update Spring Dependency Management plugin from 1.1.4 to 1.1.5
   * Updated OpenAPI libraries from 2.3.0 to 2.5.0
   * Updated Spring ORM from 6.1.4 to 6.1.6
@@ -133,7 +133,7 @@
 
 ## [10.0.2] - 2024-02-24 
                 
-* Maintenance
+### Maintenance
   * Updated Spring Boot plugin from 3.2.1 to 3.2.3
   * Updated Ben Manes' Version plugin from 0.51.0 to 0.52.0
   * Updated TestContainers from 1.19.3 to 1.19.6
@@ -144,13 +144,13 @@
 
 ## [10.0.1] - 2023-01-13
 
-* Fixed
+### Fixed
   * A Spring WebMvc controller that returned ```Page<T>``` has a unit
     test that was failing. That controller method was refactored to
     use a PagedResourceAssembler to assemble the pages. This ties back
     to <link href="https://github.com/spring-projects/spring-data-commons/issues/2919">Spring Data Commons:Issues:2919<link>
 
-* Maintenance
+### Maintenance
   * Updated junit-jupiter-bom from 5.10.0 to 5.10.1
   * Updated assertj-core from 3.24.2 to 3.25.1
   * Updated SpringCloud from 4.0.1 to 4.1.0
@@ -161,14 +161,14 @@
 
 ## [10.0.0] - 2023-12-02
 
-* Maintenance
+### Maintenance
   * Dependency management plugin from 1.1.3 to 1.1.4
   * Ben Manes Versions plugin from 0.49.0 to 0.50.0
   * TestContainers from 1.19.0 to 1.19.3         
   * Spring ORM from 6.0.13 to 6.1.1
   * PostgreSQL driver from 42.6.0 to 42.7.0
           
-* Added
+### Added
   * The project structure is closer to Gradle's idiomatic structure. Specifically,
     the project root directory now contains a subproject, ```the-app```,
     that contains the ```src``` directory. This makes it easier to add other
@@ -181,24 +181,24 @@
       
 ## [9.2.4] - 2023-10-11
 
-* Fixed
+### Fixed
     * Removed incorrect import statements from controller integration tests
 
-* Bumped Versions
+### Bumped Versions
     * Spring Boot plugin from 3.1.4 to 3.1.5
     * Lombok plugin from 8.3 to 8.4
     * Ben Manes Versions from 0.48.0 to 0.49.0
     * Spring ORM library from 6.0.12 to 6.0.13
      
-* Added
+### Added
   * SpringBoot Properties Migrator library to version catalog
 
 ## [9.2.3] - 2023-09-30
 
-* Fixed
+### Fixed
   * Corrected a spelling error in the name of the <i>springCloudStarterStreamKafka</i> library
 
-* Bumped Versions
+### Bumped Versions
   * Sonarqube from 4.3.0.3225 to 4.3.1.3277
   * Ben Manes Versions from 0.47.0 to 0.48.0
   * H2 database driver from 2.2.220 to 2.2.224
@@ -211,7 +211,7 @@
 
 ## [9.2.2] - 2023-09-02
 
-* Bumped Versions
+### Bumped Versions
   * SpringBoot from 3.1.2 to 3.1.3
   * JUnit Jupiter from 5.9.3 to 5.10.0
   * OpenAPI Starter from  2.1.0 to 2.2.0
@@ -253,7 +253,7 @@
 
 ### Maintenance
 
-* Bumped Versions
+#### Bumped Versions
   * SpringBoot from 3.1.1 to 3.1.2
   * Spring ORM from 6.0.10 to 6.0.11
   * Spring Dependency Management plugin from 1.1.0 to 1.1.2
@@ -282,7 +282,7 @@
 
 ### Maintenance
 
-* Bumped versions:
+#### Bumped versions:
   * SpringBoot Gradle plugin from 3.1.0 to 3.1.1
   * Ben Manes Version plugin from 0.46.0 to 0.47.0
   * Reactor Test library from 3.5.5 to 3.5.7
