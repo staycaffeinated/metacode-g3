@@ -29,6 +29,7 @@
 * Maintenance:
   * Bump Spring Boot version from 3.3.4 to 3.3.5
   * Bump DataFaker version from 2.3.1 to 2.4.1
+  * Bump Reactor-Test from 3.6.9 to 3.6.11
 
       
 ## [11.3.0] - 2024-09-29
