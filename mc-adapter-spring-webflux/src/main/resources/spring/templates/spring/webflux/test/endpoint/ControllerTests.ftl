@@ -36,8 +36,8 @@ import static org.mockito.Mockito.when;
 @WebFluxTest(controllers = ${endpoint.entityName}Controller.class)
 class ${Controller.testClass()} {
 
-    private static final String JSON_PATH__TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
-    private static final String JSON_PATH__RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
+    private static final String PATH_TO_TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
+    private static final String PATH_TO_RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
 
     @MockBean
     private ${ServiceApi.className()} mock${endpoint.entityName}Service;
@@ -73,8 +73,8 @@ class ${Controller.testClass()} {
         sendFindOne${endpoint.entityName}Request(pojo.getResourceId())
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath(JSON_PATH__RESOURCE_ID).isNotEmpty()
-                .jsonPath(JSON_PATH__TEXT).isNotEmpty();
+                .jsonPath(PATH_TO_RESOURCE_ID).isNotEmpty()
+                .jsonPath(PATH_TO_TEXT).isNotEmpty();
         // @formatter:on         
 
         Mockito.verify(mock${endpoint.entityName}Service, times(1)).findByResourceId(pojo.getResourceId());
@@ -144,6 +144,7 @@ class ${Controller.testClass()} {
 	}
 
     @Test
+    @SuppressWarnings("java:S125") // false positive
     void shouldDelete${endpoint.entityName}() {
         /*
          * Mock the service finding the ${endpoint.pojoName} to be deleted,
@@ -154,7 +155,7 @@ class ${Controller.testClass()} {
 
         /*
          * When deleting a Pet, expect the response code to be OK. Nothing else is expected;
-         * the endpoint does not reveal whether the deleted item was found, or if the delete was successful.
+         * the endpoint does not reveal whether the deleted item was found, or if `delete` was successful.
          */
         // @formatter:off
         sendDelete${endpoint.entityName}Request(pojo.getResourceId()).expectStatus().isNoContent(); 
@@ -162,7 +163,7 @@ class ${Controller.testClass()} {
     }
 
  	@Test
-	void shouldGet${endpoint.entityName}sAsStream() throws Exception {
+	void shouldGet${endpoint.entityName}sAsStream() {
 		// Given
 		Flux<${endpoint.pojoName}> fluxOfResources = ${ModelTestFixtures.className()}.FLUX_ITEMS;
 		given(mock${endpoint.entityName}Service.findAll${endpoint.entityName}s()).willReturn(fluxOfResources);

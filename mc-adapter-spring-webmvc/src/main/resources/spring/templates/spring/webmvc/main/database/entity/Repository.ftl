@@ -8,6 +8,9 @@ import java.util.List;
 import org.hibernate.jpa.AvailableHints;
 import org.springframework.data.jpa.repository.QueryHints;
 
+@SuppressWarnings({
+    "java:S3252"    // allow static access to HINT_FETCH_SIZE
+})
 public interface ${Repository.className()} extends ${CustomRepository.className()}<${Entity.className()}, Long> {
 
     /*

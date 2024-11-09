@@ -45,8 +45,8 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     @Autowired
     ObjectMapper objectMapper;
 
-    public static final String JSON_PATH__TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
-    public static final String JSON_PATH__RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
+    public static final String PATH_TO_TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
+    public static final String PATH_TO_RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
 
     @Autowired
     private ${Repository.className()} ${endpoint.entityVarName}Repository;
@@ -91,7 +91,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
 
             mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.findOne}, ${endpoint.entityVarName}Id))
             .andExpect(status().isOk())
-            .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
+            .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
         }
     }
 
@@ -108,7 +108,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(resource)))
                     .andExpect(status().isCreated())
-                    .andExpect(jsonPath(JSON_PATH__TEXT, is(resource.getText())))
+                    .andExpect(jsonPath(PATH_TO_TEXT, is(resource.getText())))
                     ;
         }
 
@@ -147,7 +147,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(resource)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
+                .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
         }
     }
 
@@ -163,7 +163,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
             mockMvc.perform(
                 delete(${Routes.className()}.${endpoint.routeConstants.delete}, ${endpoint.entityVarName}.getResourceId()))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
+                    .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
         }
     }
 

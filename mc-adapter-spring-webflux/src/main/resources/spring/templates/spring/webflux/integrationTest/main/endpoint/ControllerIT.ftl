@@ -44,8 +44,8 @@ class ${Controller.integrationTestClass()} extends ${PostgresDbContainerTests.cl
 <#else>
 class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>
-   private static final String JSON_PATH__TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
-   private static final String JSON_PATH__RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
+   private static final String PATH_TO_TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
+   private static final String PATH_TO_RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
 
    @LocalServerPort
    int port;
@@ -111,8 +111,8 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
         sendFindOne${endpoint.entityName}Request(knownResourceId).expectStatus().isOk()
             .expectHeader().contentType(MediaType.APPLICATION_JSON)
             .expectBody()
-            .jsonPath(JSON_PATH__RESOURCE_ID).isNotEmpty()
-            .jsonPath(JSON_PATH__TEXT).isNotEmpty();
+            .jsonPath(PATH_TO_RESOURCE_ID).isNotEmpty()
+            .jsonPath(PATH_TO_TEXT).isNotEmpty();
         // formatter:on
     }
 
@@ -175,7 +175,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     }    
 
     @Test
-    void shouldGet${endpoint.entityName}AsStream() throws Exception {
+    void shouldGet${endpoint.entityName}AsStream() {
         FluxExchangeResult<${endpoint.pojoName}> result
                 = this.client.get()
                       .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.stream})

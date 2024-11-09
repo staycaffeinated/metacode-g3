@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Configuration
+@SuppressWarnings({
+    "java:S6857" // false positive; property names may contain dashes
+})
 public class ${WebMvcConfiguration.className()} implements WebMvcConfigurer {
 
     /**

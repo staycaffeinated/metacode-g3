@@ -9,6 +9,9 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 
 @Configuration
 @EnableWebFlux
+@SuppressWarnings({
+    "java:S6857"    // false positive; property names may contain dashes
+})
 public class ${WebFluxConfiguration.className()} implements WebFluxConfigurer {
 
     /**

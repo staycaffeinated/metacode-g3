@@ -140,6 +140,32 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             // expect: the resultSet is empty
             assertThat(items).isNotNull().isEmpty();
         }
+
+        @Test
+        void shouldLimitRowCount() {
+            // scenario: the repository contains multiple ${EntityResource.className()} entities
+            given(mockRepository.findAll()).willReturn(${EjbTestFixtures.className()}.allItems());
+
+            // when:
+            final int rowCount = 3;
+            List<${EntityResource.className()}> items = dataStoreUnderTest.findAll(rowCount);
+
+            // expect: the resultSet only contains `rowCount` items
+            assertThat(items).isNotNull().isNotEmpty().hasSize(rowCount);
+        }
+
+        @Test
+        void shouldDefaultIfRowLimitIsZeroOrNegative() {
+            // scenario: the repository contains multiple ${EntityResource.className()} entities
+            given(mockRepository.findAll()).willReturn(${EjbTestFixtures.className()}.allItems());
+
+            // when:
+            final int rowCount = 0;
+            List<${EntityResource.className()}> items = dataStoreUnderTest.findAll(rowCount);
+
+            // expect:  negative/zero `rowCount` is ignored and default page limit is used
+            assertThat(items).isNotNull().isNotEmpty().hasSizeGreaterThan(0);
+        }
     }
 
     @Nested

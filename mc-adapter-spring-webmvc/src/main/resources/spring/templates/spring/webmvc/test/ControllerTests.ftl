@@ -43,8 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class ${Controller.testClass()} {
 
-    public static final String JSON_PATH__TEXT = "$." + ${EntityResource.className()}.Fields.TEXT;
-    public static final String JSON_PATH__RESOURCE_ID = "$." + ${EntityResource.className()}.Fields.RESOURCE_ID;
+    public static final String PATH_TO_TEXT = "$." + ${EntityResource.className()}.Fields.TEXT;
+    public static final String PATH_TO_RESOURCE_ID = "$." + ${EntityResource.className()}.Fields.RESOURCE_ID;
 
     @Autowired
     private MockMvc mockMvc;
@@ -108,7 +108,7 @@ class ${Controller.testClass()} {
             // when/then
             findSpecificEntity(resourceId)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())))
+                .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())))
                 ;
         }
 
@@ -135,8 +135,8 @@ class ${Controller.testClass()} {
 
             // when/then
             createEntity(resourceBeforeSave).andExpect(status().isCreated())
-                .andExpect(jsonPath(JSON_PATH__RESOURCE_ID, notNullValue()))
-                .andExpect(jsonPath(JSON_PATH__TEXT, is(resourceAfterSave.getText())));
+                .andExpect(jsonPath(PATH_TO_RESOURCE_ID, notNullValue()))
+                .andExpect(jsonPath(PATH_TO_TEXT, is(resourceAfterSave.getText())));
         }
 
         @Test
@@ -161,7 +161,7 @@ class ${Controller.testClass()} {
 
             // when/then
             updateEntity(${endpoint.entityVarName}).andExpect(status().isOk())
-                .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
+                .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
         }
 
         @Test
@@ -211,7 +211,7 @@ class ${Controller.testClass()} {
 
             // when/then
             deleteEntity(resourceId).andExpect(status().isOk())
-            .andExpect(jsonPath(JSON_PATH__TEXT, is(${endpoint.entityVarName}.getText())));
+            .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
         }
 
         @Test
