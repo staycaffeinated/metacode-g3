@@ -7,10 +7,14 @@ import ${ContainerConfiguration.fqcn()};
 import ${PostgresDbContainerTests.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
+import ${EjbTestFixtures.fqcn()};
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,6 +35,27 @@ class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperti
 
     @Autowired
     ${Repository.className()} repositoryUnderTest;
+
+    @Autowired
+    R2dbcEntityTemplate template;
+
+    @BeforeEach
+    void insertTestRecordsIntoDatabase() {
+        repositoryUnderTest.deleteAll().block();
+        /*
+         * repository.saveAll() turns out not be reliable in so much as the persisted resourceIds
+         * sometimes end up null, despite being set in the Entity's `beforeInsert` method.
+         * Explicitly inserting records doesn't suffer this problem.
+         *
+         */
+        ${EjbTestFixtures.className()}.allItems().forEach(item -> {
+            template.insert(${Entity.className()}.class)
+                    .using(item)
+                    .as(StepVerifier::create)
+                    .expectNextCount(1)
+                    .verifyComplete();
+            });
+    }
 
     @Test
     void shouldFindFirstRecord() {

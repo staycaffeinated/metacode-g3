@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.http.MediaType;
 <#if (endpoint.isWithTestContainers())>
 </#if>
@@ -57,6 +58,9 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
    @Autowired
    private ${Repository.className()} repository;
 
+    @Autowired
+    R2dbcEntityTemplate template;
+
    /*
     * Use this to fetch a record known to exist. The underlying database record
     * is created in the @BeforeEach method.
@@ -70,8 +74,24 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
 
     @BeforeEach
     void insertTestRecordsIntoDatabase() {
-        repository.saveAll(${EjbTestFixtures.className()}.allItems()).blockLast(Duration.ofSeconds(10));
-        knownResourceId = ${EjbTestFixtures.className()}.allItems().get(1).getResourceId();
+        repository.deleteAll().block();
+        /*
+         * repository.saveAll() turns out not be reliable in so much as the persisted resourceIds
+         * sometimes end up null, despite being set in the Entity's `beforeInsert` method.
+         * Explicitly inserting records doesn't suffer this problem.
+         *
+         */
+        ${EjbTestFixtures.className()}.allItems().forEach(item -> {
+            template.insert(${Entity.className()}.class)
+                    .using(item)
+                    .as(StepVerifier::create)
+                    .expectNextCount(1)
+                    .verifyComplete();
+        });
+        ${Entity.className()} item = repository.findAll().blockFirst();
+        if (item != null) {
+            knownResourceId = item.getResourceId();
+        }
     }
 
     @Test
