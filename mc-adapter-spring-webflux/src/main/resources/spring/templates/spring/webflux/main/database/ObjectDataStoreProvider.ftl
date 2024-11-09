@@ -4,7 +4,6 @@ package ${ConcreteDataStoreImpl.packageName()};
 
 import ${BadRequestException.fqcn()};
 import ${Entity.fqcn()};
-import ${EntityWithText.fqcn()};
 import ${EntityResource.fqcn()};
 import ${GenericDataStore.fqcn()};
 import ${ConcreteDataStoreApi.fqcn()};
