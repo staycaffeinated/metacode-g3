@@ -1,4 +1,6 @@
 ## Uncommitted
+
+## [11.4.0] - 2024-11-09
     
 * Changes:
   * Added a row limit to the `findAll()` method in the `Repository-type` classes.  Executing `findAll()`
