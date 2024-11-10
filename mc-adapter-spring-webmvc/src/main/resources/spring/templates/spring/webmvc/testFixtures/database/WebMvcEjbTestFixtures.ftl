@@ -72,14 +72,14 @@ public class ${EjbTestFixtures.className()} {
         ALL_ITEMS.add(SAMPLE_SEVEN);
     }
 
-    public static final List<${Entity.className()}> allItems() { return ALL_ITEMS; }
+    public static List<${Entity.className()}> allItems() { return ALL_ITEMS; }
 
     private static final List<${Entity.className()}> ALL_WITH_SAME_TEXT = new ArrayList<>() {{
         add(SAME_TEXT_ONE);
         add(SAME_TEXT_TWO);
         add(SAME_TEXT_THREE);
         }};
-    public static final List<${Entity.className()}> allItemsWithSameText() { return ALL_WITH_SAME_TEXT; }
+    public static List<${Entity.className()}> allItemsWithSameText() { return ALL_WITH_SAME_TEXT; }
 
     public static ${Entity.className()} sampleOne() { return SAMPLE_ONE; }
     public static ${Entity.className()} sampleTwo() { return SAMPLE_TWO; }

@@ -74,10 +74,10 @@ public class ${EjbTestFixtures.className()} {
         ALL_ITEMS.add(SAMPLE_SEVEN);
     }
 
-    public static final List<${endpoint.ejbName}> allItems() { return ALL_ITEMS; }
+    public static List<${endpoint.ejbName}> allItems() { return ALL_ITEMS; }
 
     public static final Flux<${endpoint.ejbName}> FLUX_ITEMS = Flux.fromIterable(ALL_ITEMS);
-    public static final Flux<${endpoint.ejbName}> allItemsAsFlux() { return FLUX_ITEMS; }
+    public static Flux<${endpoint.ejbName}> allItemsAsFlux() { return FLUX_ITEMS; }
 
 
     public static final List<${endpoint.ejbName}> ALL_WITH_SAME_TEXT = new ArrayList<>() {{
@@ -85,7 +85,7 @@ public class ${EjbTestFixtures.className()} {
         add(SAME_TEXT_TWO);
         add(SAME_TEXT_THREE);
     }};
-    public static final List<${endpoint.ejbName}> allItemsWithSameText() { return ALL_WITH_SAME_TEXT; }
+    public static List<${endpoint.ejbName}> allItemsWithSameText() { return ALL_WITH_SAME_TEXT; }
 
 
     public static ${endpoint.ejbName} sampleOne() { return SAMPLE_ONE; }

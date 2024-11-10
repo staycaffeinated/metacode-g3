@@ -74,7 +74,7 @@ public class ${ModelTestFixtures.className()} {
         });
     public static List<${endpoint.entityName}> allItemsWithSameText() { return ALL_ITEMS_WITH_SAME_TEXT; }
 
-    public static final List<${endpoint.entityName}> allItems() { return ALL_ITEMS; }
+    public static List<${endpoint.entityName}> allItems() { return ALL_ITEMS; }
 
     public static final Flux<${endpoint.entityName}> FLUX_ITEMS = Flux.fromIterable(ALL_ITEMS);
 

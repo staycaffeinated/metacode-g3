@@ -1,5 +1,11 @@
 ## Uncommitted
 
+### Fixes:
+    * Some of the test fixture classes declared `static final` methods; those methods are 
+      now only `static`; the `final` keyword has been removed. Having `final` in the signature
+      is legal syntax but not necessary.
+
+
 ## [11.4.0] - 2024-11-09
     
 ### Changes:

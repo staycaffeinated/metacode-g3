@@ -61,7 +61,7 @@ public class ${ModelTestFixtures.className()} {
         ALL_ITEMS.add(SAMPLE_SEVEN);
     }
 
-    public static final List<${EntityResource.className()}> allItems() { return ALL_ITEMS; }
+    public static List<${EntityResource.className()}> allItems() { return ALL_ITEMS; }
 
     public static ${EntityResource.className()} sampleOne() { return SAMPLE_ONE; }
     public static ${EntityResource.className()} sampleTwo() { return SAMPLE_TWO; }
