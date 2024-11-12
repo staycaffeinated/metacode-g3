@@ -31,8 +31,8 @@ public class ${Entity.className()} {
     */
     @Id
     <#if (endpoint.isWithPostgres())>
-    @SequenceGenerator(name = "${Entity.varName()}_sequence", sequenceName = "${Entity.varName()}_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "${endpoint.lowerCaseEntityName}_sequence")
+    @SequenceGenerator(name = "${endpoint.lowerCaseEntityName}_generator", sequenceName = "${endpoint.lowerCaseEntityName}_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "${endpoint.lowerCaseEntityName}_generator")
     <#else>
     @GeneratedValue
     </#if>

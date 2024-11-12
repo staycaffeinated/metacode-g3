@@ -4,6 +4,23 @@
     * Some of the test fixture classes declared `static final` methods; those methods are 
       now only `static`; the `final` keyword has been removed. Having `final` in the signature
       is legal syntax but not necessary.
+    * For PostgreSQL database entities, the sequence generator and sequence name are changed. 
+      Previously, they'd look like this:
+```java
+      @SequenceGenerator(name = "petEntity_sequence", sequenceName = "petEntity_id_seq", allocationSize = 1)
+      @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_sequence")
+```
+
+      Now, they look like this:
+
+```java
+      @SequenceGenerator(name = "pet_generator", sequenceName = "pet_seq", allocationSize = 1)
+      @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_generator")
+```
+      While the former style compiled, problems arise when the application is 
+      connected to a live PostgreSQL database, since the `@SequenceGenerator.name` and
+      `@GeneratorValue.generator` values don't match. The new names are also easier to read. 
+
 
 
 ## [11.4.0] - 2024-11-09
