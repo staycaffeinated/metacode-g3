@@ -5,12 +5,9 @@ import ${CustomRepository.fqcn()};
 import ${Entity.fqcn()};
 import jakarta.persistence.QueryHint;
 import java.util.List;
-import org.hibernate.jpa.AvailableHints;
+import org.hibernate.jpa.HibernateHints;
 import org.springframework.data.jpa.repository.QueryHints;
 
-@SuppressWarnings({
-    "java:S3252"    // allow static access to HINT_FETCH_SIZE
-})
 public interface ${Repository.className()} extends ${CustomRepository.className()}<${Entity.className()}, Long> {
 
     /*
@@ -24,7 +21,7 @@ public interface ${Repository.className()} extends ${CustomRepository.className(
      *  https://vladmihalcea.com/whats-new-in-jpa-2-2-stream-the-result-of-a-query-execution/
      *  https://vladmihalcea.com/jpa-hibernate-query-hints/
      */
-    @QueryHints(@QueryHint(name = AvailableHints.HINT_FETCH_SIZE, value = "25"))
+    @QueryHints(@QueryHint(name = HibernateHints.HINT_FETCH_SIZE, value = "25"))
     @Override
     List<${Entity.className()}> findAll();
 

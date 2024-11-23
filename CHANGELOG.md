@@ -1,5 +1,9 @@
 ## Uncommitted
 
+### Changes: 
+    * In the `Repository` class, the `HINT_FETCH_SIZE` is now `HibernateHints.HINT_FETCH_SIZE`
+      instead of `AvailableHints.HINT_FETCH_SIZE`.
+
 ### Fixes:
     * Some of the test fixture classes declared `static final` methods; those methods are 
       now only `static`; the `final` keyword has been removed. Having `final` in the signature
