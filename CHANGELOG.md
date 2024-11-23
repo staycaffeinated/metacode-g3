@@ -25,7 +25,8 @@
       connected to a live PostgreSQL database, since the `@SequenceGenerator.name` and
       `@GeneratorValue.generator` values don't match. The new names are also easier to read. 
 
-
+### Maintenance:
+    * Bump DataFaker from 2.4.1 to 2.4.2
 
 ## [11.4.0] - 2024-11-09
     
