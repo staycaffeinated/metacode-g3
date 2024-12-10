@@ -1,5 +1,18 @@
 ## Uncommitted
 
+### Maintenance:
+    * Bump Google Jib plugin from 3.4.3 to 3.4.4
+    * Bump Lombok plugin from 8.10 to 8.11
+    * Bump Nebula Lint plugin from 19.0.3 to 20.3.0
+    * Bump Sonar plugin from 5.1.0.4882 to 6.0.1.5171
+    * Bump Spring Boot from 3.3.5 to 3.3.6
+    * Bump Spring Cloud from 4.1.4 to 4.2.0
+    * Bump Spring ORM from 6.1.2 to 6.2.0
+    * Bump Reactor Test from 3.6.11 to 3.7.1
+    * Bump SpringDoc OpenAPI Starters from 2.6.0 to 2.7.0
+
+
+
 ## [11.4.1] - 2024-11-23
 
 ### Changes: 
