@@ -4,6 +4,6 @@ plugins {
 
 jib {
     from {
-        image = 'amazoncorretto:17-alpine3.17-jdk'
+        image = 'amazoncorretto:17-al2023-jdk'
     }
 }

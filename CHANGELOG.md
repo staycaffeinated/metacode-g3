@@ -1,5 +1,12 @@
 ## Uncommitted
 
+### Changes:
+    * The default Docker base image was changed from  `amazoncorretto:17-alpine3.17-jdk`
+      to `amazoncorretto:17-al2023-jdk`. This change is found in the 
+      `gradle/plugins/java-conventions/src/main/groovy/buildlogic.docker.gradle` file. 
+      There's no hard dependency on this particular image, so it can be changed it to your 
+      preferred base image.
+
 ### Maintenance:
     * Bump Google Jib plugin from 3.4.3 to 3.4.4
     * Bump Lombok plugin from 8.10 to 8.11
