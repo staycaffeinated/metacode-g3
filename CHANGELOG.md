@@ -16,7 +16,6 @@
     * Bump Spring Cloud from 4.1.4 to 4.2.0
     * Bump Spring ORM from 6.1.2 to 6.2.0
     * Bump Reactor Test from 3.6.11 to 3.7.1
-    * Bump SpringDoc OpenAPI Starters from 2.6.0 to 2.7.0
 
 
 
