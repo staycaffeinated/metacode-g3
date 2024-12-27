@@ -1,7 +1,6 @@
 package mmm.coffee.metacode.common.catalog;
 
 import mmm.coffee.metacode.common.model.Archetype;
-import org.apache.commons.lang3.arch.Processor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

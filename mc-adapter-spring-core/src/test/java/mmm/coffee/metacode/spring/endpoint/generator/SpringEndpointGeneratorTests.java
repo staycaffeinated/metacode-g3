@@ -5,17 +5,11 @@ package mmm.coffee.metacode.spring.endpoint.generator;
 
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.*;
-import mmm.coffee.metacode.common.descriptor.Descriptor;
 import mmm.coffee.metacode.common.descriptor.Framework;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
-import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
-import mmm.coffee.metacode.common.dictionary.PackageLayout;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
-import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutToHashMapMapper;
-import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
-import mmm.coffee.metacode.common.dictionary.io.PackageLayoutReader;
 import mmm.coffee.metacode.common.exception.CreateEndpointUnsupportedException;
 import mmm.coffee.metacode.common.freemarker.ConfigurationFactory;
 import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
@@ -32,7 +26,6 @@ import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
 import mmm.coffee.metacode.spring.MetaPropertiesHandlerFixture;
 import mmm.coffee.metacode.spring.PackageLayoutRulesetFixture;
 import mmm.coffee.metacode.spring.catalog.SpringTemplateCatalog;
-import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 import mmm.coffee.metacode.spring.converter.NameConverter;
 import mmm.coffee.metacode.spring.converter.RouteConstantsConverter;
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToPredicateConverter;
@@ -40,15 +33,12 @@ import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointDescriptorToTem
 import mmm.coffee.metacode.spring.endpoint.converter.RestEndpointTemplateModelToMapConverter;
 import mmm.coffee.metacode.spring.endpoint.io.SpringEndpointMetaPropertiesHandler;
 import mmm.coffee.metacode.spring.endpoint.mustache.MustacheEndpointDecoder;
-import mmm.coffee.metacode.spring.project.model.WebMvcTemplateModel;
 import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -64,11 +54,11 @@ import static org.mockito.Mockito.when;
 class SpringEndpointGeneratorTests {
 
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";
-    
-    final static String BASE_PATH = "/petstore";
-    final static String BASE_PACKAGE = "org.acme.petstore";
-    final static String WEBFLUX_FRAMEWORK = Framework.SPRING_WEBFLUX.frameworkName();
-    final static String WEBMVC_FRAMEWORK = Framework.SPRING_WEBMVC.frameworkName();
+
+    static final String BASE_PATH = "/petstore";
+    static final String BASE_PACKAGE = "org.acme.petstore";
+    static final String WEBFLUX_FRAMEWORK = Framework.SPRING_WEBFLUX.frameworkName();
+    static final String WEBMVC_FRAMEWORK = Framework.SPRING_WEBMVC.frameworkName();
 
     SpringEndpointGenerator generatorUnderTest;
 

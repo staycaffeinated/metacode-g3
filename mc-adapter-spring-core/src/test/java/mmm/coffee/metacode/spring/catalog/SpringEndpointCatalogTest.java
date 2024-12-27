@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.IOException;
-
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -62,7 +60,7 @@ class SpringEndpointCatalogTest {
     }
 
     @Test
-    void shouldWrapAnyExceptionAsRuntimeApplicationError()  {
+    void shouldWrapAnyExceptionAsRuntimeApplicationError() {
         // given: a CatalogFileReader that eagerly throws IOExceptions
         var mockReader = Mockito.mock(CatalogFileReader.class);
         when(mockReader.readCatalog(anyString())).thenThrow(RuntimeApplicationError.class);
@@ -123,7 +121,6 @@ class SpringEndpointCatalogTest {
             assertThat(catalogUnderTest.collect()).isNotEmpty();
         }
     }
-
 
 
 }

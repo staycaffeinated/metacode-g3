@@ -71,12 +71,11 @@ class GuiceProviderTest {
     private void verifyBindingOf(Class<?> klass) {
         Map<Key<?>, Binding<?>> map = injector.getBindings();
         map.keySet().forEach(key -> {
-            if (key.getAnnotationType() != null) {
-                if (key.getAnnotationType().equals(klass)) {
+            if (key.getAnnotationType() != null && key.getAnnotationType().equals(klass)) {
                     Binding<?> binding = injector.getExistingBinding(key);
                     assertThat(binding).isNotNull();
                 }
-            }
+
         });
     }
 }

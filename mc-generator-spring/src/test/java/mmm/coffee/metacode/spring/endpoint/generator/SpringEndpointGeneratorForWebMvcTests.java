@@ -19,7 +19,6 @@ import mmm.coffee.metacode.common.freemarker.FreemarkerTemplateResolver;
 import mmm.coffee.metacode.common.io.MetaProperties;
 import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
 import mmm.coffee.metacode.common.io.MetaPropertiesReader;
-import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
@@ -98,7 +97,6 @@ class SpringEndpointGeneratorForWebMvcTests {
             "ConcreteDataStoreImpl"
     })
     void shouldGenerateRulesForThese(String archetypeName) {
-        Archetype archetype = Archetype.fromString(archetypeName);
         String klassName = classNameRuleSet.resolveClassName(archetypeName, "Pet");
         assertThat(klassName).isNotNull();
     }

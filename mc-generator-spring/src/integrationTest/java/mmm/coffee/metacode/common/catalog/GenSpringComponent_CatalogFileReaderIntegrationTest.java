@@ -3,7 +3,6 @@ package mmm.coffee.metacode.common.catalog;
 import mmm.coffee.metacode.spring.catalog.SpringTemplateCatalog;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +11,7 @@ import static com.google.common.truth.Truth.assertThat;
 class GenSpringComponent_CatalogFileReaderIntegrationTest {
 
     @Test
+    @SuppressWarnings("java:S3655") // false positive; isPresent() _is_ called before calling get()
     void shouldReadCatalogFile() {
         CatalogFileReader catalogFileReader = new CatalogFileReader();
         Optional<TemplateCatalog> catalog = catalogFileReader.readCatalog(SpringTemplateCatalog.WEBMVC_CATALOG);

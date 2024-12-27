@@ -11,12 +11,10 @@ import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -73,7 +71,7 @@ class SpringEndpointCatalogTests {
     }
 
     @Test
-    void shouldWrapAnyExceptionAsRuntimeApplicationError() throws Exception {
+    void shouldWrapAnyExceptionAsRuntimeApplicationError() {
         // given: a CatalogFileReader that eagerly throws IOExceptions
         var mockReader = Mockito.mock(CatalogFileReader.class);
         when(mockReader.readCatalog(anyString())).thenThrow(RuntimeApplicationError.class);
@@ -106,17 +104,6 @@ class SpringEndpointCatalogTests {
     class MongoIntegrationTests {
         @Test
         void whenWebMvcWithMongoIntegration() {
-            RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);
-            when(mockDescriptor.isWebFlux()).thenReturn(false);
-            when(mockDescriptor.isWithMongoDb()).thenReturn(false);
-
-            catalogUnderTest.prepare(mockDescriptor);
-
-            assertThat(catalogUnderTest.collect()).isNotEmpty();
-        }
-
-        @Disabled("Need to migrate webflux-mongodb support first")
-        void whenNotWebFluxAndNotMongoDbIntegration() {
             RestEndpointDescriptor mockDescriptor = Mockito.mock(RestEndpointDescriptor.class);
             when(mockDescriptor.isWebFlux()).thenReturn(false);
             when(mockDescriptor.isWithMongoDb()).thenReturn(false);
@@ -168,6 +155,7 @@ class SpringEndpointCatalogTests {
                 .framework(Framework.SPRING_WEBFLUX.frameworkName())
                 .build();
     }
+
     RestEndpointDescriptor webMvcEndpointDescriptor() {
         return endpointBuilder()
                 .framework(Framework.SPRING_WEBMVC.frameworkName())

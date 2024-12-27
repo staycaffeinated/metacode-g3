@@ -2,12 +2,14 @@ package mmm.coffee.metacode.common.components;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,19 +29,22 @@ class ResourceLoaderServiceTest {
         assertThat(is).isNotNull();
     }
 
-    @Test
-    void shouldThrowExceptionWhenAttemptingToSetNullResourceLoader() {
-        assertThrows(NullPointerException.class, () -> resourceLoaderService.setResourceLoader(null));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionWhenAttemptingToSetNullResourceLoader(ResourceLoader source) {
+        assertThrows(NullPointerException.class, () -> resourceLoaderService.setResourceLoader(source));
     }
 
-    @Test
-    void shouldThrowExceptionWhenAttemptingToConstructWithNullResource() {
-        assertThrows(NullPointerException.class, () -> new ResourceLoaderService(null));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionWhenAttemptingToConstructWithNullResource(ResourceLoader source) {
+        assertThrows(NullPointerException.class, () -> new ResourceLoaderService(source));
     }
 
-    @Test
-    void shouldThrowExceptionWhenAttemptingToLoadNullResource() {
-        assertThrows(NullPointerException.class, () -> resourceLoaderService.loadResourceAsInputStream(null));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionWhenAttemptingToLoadNullResource(String resourcePath) {
+        assertThrows(NullPointerException.class, () -> resourceLoaderService.loadResourceAsInputStream(resourcePath));
     }
 
     @Test
@@ -63,6 +68,7 @@ class ResourceLoaderServiceTest {
     }
 
     @Test
+    @SuppressWarnings("java:S125") // false positive; the one comment is not commented-out code
     void shouldAssumeClassPathResourceAsDefaultProtocol() throws Exception {
         // Declare the path without `classpath:` in front; 
         String resourcePath = "catalogs/example-catalog.yml";

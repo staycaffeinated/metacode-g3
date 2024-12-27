@@ -20,7 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -68,8 +67,8 @@ class FreemarkerTemplateResolverIntegrationTest {
                 .basePath(BASE_PATH)
                 .isWebMvc(true)
                 .build();
-        
-        Map<String,Object> customProps = CustomPropertyAssembler.assembleCustomProperties(new FakeArchetypeDescriptorFactory(), BASE_PKG);
+
+        Map<String, Object> customProps = CustomPropertyAssembler.assembleCustomProperties(new FakeArchetypeDescriptorFactory(), BASE_PKG);
         webMvcProject.setCustomProperties(customProps);
 
         webFluxProject = RestProjectTemplateModel.builder()
@@ -115,7 +114,7 @@ class FreemarkerTemplateResolverIntegrationTest {
         });
     }
 
-    
+
     /**
      * This test takes a RestTemplateModel and uses it to render every WebMvc-based template.
      */

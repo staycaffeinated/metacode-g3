@@ -1,11 +1,9 @@
 package mmm.coffee.metacode.common.dictionary.functions;
 
 import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
-import mmm.coffee.metacode.common.model.Archetype;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ClassNameRuleSetTestFixture {

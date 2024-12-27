@@ -1,15 +1,12 @@
 package mmm.coffee.metacode.common.catalog;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,8 +48,8 @@ class CatalogFileReaderTest {
     }
 
     private String catalogFileName() {
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource resource = resourceLoader.getResource("classpath:/catalogs/example-catalog.yml");
+        ResourceLoader ourResourceLoader = new DefaultResourceLoader();
+        Resource resource = ourResourceLoader.getResource("classpath:/catalogs/example-catalog.yml");
         assertThat(resource.exists()).isTrue();
         return resource.getFilename();
     }

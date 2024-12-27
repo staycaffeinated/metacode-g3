@@ -19,8 +19,6 @@ import mmm.coffee.metacode.common.dependency.Dependency;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -61,7 +59,7 @@ class RestProjectTemplateModelTests {
         when(mockDependencyCatalog.collect()).thenReturn(fakeDependencies);
     }
 
-    
+
     @Test
     void whenIsWebMvc_shouldReturnWebMvcFramework() {
         RestProjectTemplateModel model = RestProjectTemplateModel.builder()

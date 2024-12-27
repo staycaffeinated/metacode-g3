@@ -7,18 +7,14 @@ import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.catalog.ICatalogReader;
 import mmm.coffee.metacode.common.catalog.TemplateCatalog;
-import mmm.coffee.metacode.common.components.ResourceLoaderService;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -43,16 +39,16 @@ class SpringTemplateCatalogTests {
 
     @ParameterizedTest
     @ValueSource(strings = {COMMON_STUFF, SPRING_GRADLE})
-    void shouldReadCatalog(String catalogName) throws IOException {
+    void shouldReadCatalog(String catalogName) {
         CatalogFileReader reader = new CatalogFileReader(resourceLoader);
-        Optional<TemplateCatalog> maybeCatalog= reader.readCatalog(catalogName);
+        Optional<TemplateCatalog> maybeCatalog = reader.readCatalog(catalogName);
 
         assertThat(maybeCatalog).isPresent();
         assertThat(maybeCatalog.get().getEntries()).isNotEmpty();
     }
 
     @Test
-    void shouldThrowException() throws Exception {
+    void shouldThrowException() {
         var mockReader = Mockito.mock(ICatalogReader.class);
         when(mockReader.readCatalog(anyString())).thenThrow(RuntimeApplicationError.class);
 

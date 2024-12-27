@@ -2,15 +2,16 @@ package mmm.coffee.metacode.common.dictionary;
 
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
-import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class EndpointArchetypeToMapTest {
@@ -45,18 +46,19 @@ class EndpointArchetypeToMapTest {
         Map<String, ArchetypeDescriptor> mapping = EndpointArchetypeToMap.map(descriptorFactory, "Pet");
         assertThat(mapping).isNotEmpty();
 
-        ArchetypeDescriptor descriptor = mapping.get(archetypeName);
         assertThat(mapping.get(archetypeName)).isNotNull();
     }
 
-    @Test
-    void shouldThrowExceptionWhenFactoryIsNull() {
-        assertThrows(NullPointerException.class, () -> EndpointArchetypeToMap.map(null, "Book"));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionWhenFactoryIsNull(IArchetypeDescriptorFactory factory) {
+        assertThrows(NullPointerException.class, () -> EndpointArchetypeToMap.map(factory, "Book"));
     }
 
-    @Test
-    void shouldThrowExceptionWhenResourceIsNull() {
-        assertThrows(NullPointerException.class, () -> EndpointArchetypeToMap.map(descriptorFactory, null));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionWhenResourceIsNull(String resource) {
+        assertThrows(NullPointerException.class, () -> EndpointArchetypeToMap.map(descriptorFactory, resource));
     }
 
     @Test
@@ -66,6 +68,6 @@ class EndpointArchetypeToMapTest {
                 return;
             }
         }
-        fail("The EndpointArchetypeToMap is missing the PojoToDocumentConverter archetype");
+        Assertions.fail("The EndpointArchetypeToMap is missing the PojoToDocumentConverter archetype");
     }
 }

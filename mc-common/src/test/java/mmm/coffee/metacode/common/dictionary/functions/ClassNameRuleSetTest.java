@@ -1,11 +1,10 @@
 package mmm.coffee.metacode.common.dictionary.functions;
 
-import mmm.coffee.metacode.common.dictionary.ArchetypeDescriptorFactory;
-import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,9 +38,10 @@ class ClassNameRuleSetTest {
         assertThat(svcImpl).isEqualTo("PetServiceImpl");
     }
 
-    @Test
-    void shouldThrowExceptionWhenRulesetIsNull() {
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionWhenRulesetIsNull(Map<String,String> startingRules) {
         assertThrows(NullPointerException.class,
-                () -> new ClassNameRuleSet(null));
+                () -> new ClassNameRuleSet(startingRules));
     }
 }

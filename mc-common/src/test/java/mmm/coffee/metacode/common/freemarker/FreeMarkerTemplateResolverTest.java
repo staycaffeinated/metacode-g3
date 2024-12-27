@@ -1,34 +1,20 @@
 package mmm.coffee.metacode.common.freemarker;
 
 import freemarker.template.Configuration;
-import freemarker.template.TemplateMethodModelEx;
-import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.dependency.DependencyCatalog;
-import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
-import mmm.coffee.metacode.common.dictionary.FakeArchetypeDescriptorFactory;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
-import mmm.coffee.metacode.common.trait.ConvertTrait;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Predicate;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
@@ -37,9 +23,10 @@ class FreeMarkerTemplateResolverTest {
 
     ResourceLoader resourceLoader = new DefaultResourceLoader();
 
-    @Test
-    void shouldThrowExceptionWhenConfigurationIsNull() {
-        assertThrows(NullPointerException.class, () -> new FreemarkerTemplateResolver(null));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionWhenConfigurationIsNull(Configuration config) {
+        assertThrows(NullPointerException.class, () -> new FreemarkerTemplateResolver(config));
     }
 
     @ParameterizedTest
@@ -53,7 +40,6 @@ class FreeMarkerTemplateResolverTest {
         assertThat(r1.getFilename()).isNotNull();
         assertThat(r1.exists()).isTrue();
     }
-
 
 
     //@ParameterizedTest
@@ -82,7 +68,7 @@ class FreeMarkerTemplateResolverTest {
 
 
     Configuration freemarkerConfiguration() {
-        Configuration config = new Configuration();
+        Configuration config = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         config.setEncoding(Locale.US, "UTF-8");
         return config;
     }
@@ -93,7 +79,7 @@ class FreeMarkerTemplateResolverTest {
 
     static class FakeTemplateModel implements MetaTemplateModel {
 
-        Map<String,Object> customProps = new HashMap<>();
+        Map<String, Object> customProps = new HashMap<>();
 
         @Override
         public String getTopLevelVariable() {

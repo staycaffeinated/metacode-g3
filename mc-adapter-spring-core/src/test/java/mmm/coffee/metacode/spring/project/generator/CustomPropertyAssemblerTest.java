@@ -1,13 +1,11 @@
 package mmm.coffee.metacode.spring.project.generator;
 
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
-import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
 import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import mmm.coffee.metacode.spring.FakeArchetypeDescriptorFactory;
-import org.apache.commons.lang3.arch.Processor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -77,7 +75,7 @@ class CustomPropertyAssemblerTest {
 
         assertThat(descriptor.fqcnIntegrationTest()).isNotBlank();
         assertThat(descriptor.fqcnIntegrationTest()).doesNotEndWith("Test");
-        
+
         assertThat(descriptor.fqcnUnitTest()).isNotBlank();
         assertThat(descriptor.fqcnUnitTest()).doesNotEndWith("Test");
 
@@ -89,11 +87,11 @@ class CustomPropertyAssemblerTest {
     static class FakeCustomPropertyAssembler extends CustomPropertyAssembler {
 
         public ArchetypeDescriptor resolveBasePackage(ArchetypeDescriptor descriptor, String basePackage, String restObj) {
-            return super.resolveBasePackageOf(descriptor, basePackage, restObj);
+            return resolveBasePackageOf(descriptor, basePackage, restObj);
         }
 
         public ArchetypeDescriptor resolveBasePackage(ArchetypeDescriptor descriptor, String basePackage) {
-            return super.resolveBasePackageOf(descriptor, basePackage);
+            return resolveBasePackageOf(descriptor, basePackage);
         }
 
     }

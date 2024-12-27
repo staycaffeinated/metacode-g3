@@ -2,10 +2,12 @@ package mmm.coffee.metacode.common.dictionary.functions;
 
 import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,9 +50,10 @@ class PackageLayoutRuleSetTest {
         assertThat(storePkg).isEqualTo("{{basePackage}}.store.api");
     }
 
-    @Test
-    void shouldThrowExceptionIfRulesAreNull() {
-        assertThrows(NullPointerException.class, () -> new PackageLayoutRuleSet(null));
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionIfRulesAreNull(Map<String,String> rules) {
+        assertThrows(NullPointerException.class, () -> new PackageLayoutRuleSet(rules));
     }
 
     @Test

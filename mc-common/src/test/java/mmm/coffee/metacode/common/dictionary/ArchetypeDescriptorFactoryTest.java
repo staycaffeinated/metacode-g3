@@ -8,9 +8,9 @@ import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.mockito.Mockito;
-
-import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -69,26 +69,29 @@ class ArchetypeDescriptorFactoryTest {
 
     }
 
-    @Test
-    void shouldThrowExceptionIfPackageLayoutRuleSetIsNull() {
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionIfPackageLayoutRuleSetIsNull(PackageLayoutRuleSet ruleSet) {
         // Because the fixture's method could throw IOException which gets in the way of this NPE test
         ClassNameRuleSet mockClassRules = Mockito.mock(ClassNameRuleSet.class);
         assertThrows(NullPointerException.class,
-                () -> new ArchetypeDescriptorFactory(null, mockClassRules));
+                () -> new ArchetypeDescriptorFactory(ruleSet, mockClassRules));
     }
 
-    @Test
-    void shouldThrowExceptionIfClassNameRuleSetIsEmpty()  {
+    @ParameterizedTest
+    @NullSource
+    void shouldThrowExceptionIfClassNameRuleSetIsEmpty(ClassNameRuleSet ruleSet) {
         // Because the fixture's method could throw IOException which gets in the way of this NPE test
         PackageLayoutRuleSet mockRuleSet = Mockito.mock(PackageLayoutRuleSet.class);
         assertThrows(NullPointerException.class,
-                () -> new ArchetypeDescriptorFactory(mockRuleSet, null));
+                () -> new ArchetypeDescriptorFactory(mockRuleSet, ruleSet));
     }
 
     @Test
     void verifyToString() {
         assertThat(factoryUnderTest.toString()).isNotBlank();
     }
+
     @Test
     void verifyToStringOnJavaArchetypeDescriptor() {
         assertThat(factoryUnderTest.createArchetypeDescriptor(Archetype.Application).toString()).isNotBlank();
