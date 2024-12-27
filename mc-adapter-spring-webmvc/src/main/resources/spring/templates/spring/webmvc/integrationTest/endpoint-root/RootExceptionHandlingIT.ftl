@@ -10,7 +10,7 @@ package ${RootControllerExceptionHandler.packageName()};
 <#-- Tech Debt: refactor maybe into 2 distinct tempates                             -->
 <#-- ============================================================================== -->
 <#if project.isWithTestContainers()>
-import ${ContainerConfiguration.fqcn()};
+import ${AbstractPostgresIntegrationTest.fqcn()};
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.context.annotation.Import;
 </#if>
@@ -45,12 +45,12 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 <#if project.isWithTestContainers()>
-@Import(ContainerConfiguration.class)
 @Testcontainers
+class ${RootControllerExceptionHandler.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
 <#else>
 @ExtendWith(SpringExtension.class)
-</#if>
 class ${RootControllerExceptionHandler.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+</#if>
     @Autowired
     MockMvc mockMvc;
 

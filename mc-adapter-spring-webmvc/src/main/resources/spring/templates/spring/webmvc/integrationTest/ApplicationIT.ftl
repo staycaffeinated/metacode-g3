@@ -8,7 +8,7 @@ import ${RegisterDatabaseProperties.fqcn()};
 <#-- Postgres & TestContainers -->
 <#-- ========================= -->
 <#if project.isWithPostgres() && project.isWithTestContainers()>
-import ${ContainerConfiguration.fqcn()};
+import ${AbstractPostgresIntegrationTest.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,9 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles({TEST,INTEGRATION_TEST})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@Import(ContainerConfiguration.class)
 @Testcontainers
-class ${Application.integrationTestClass()} implements RegisterDatabaseProperties {
+class ${Application.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
 <#else>
 <#-- ========================= -->
 <#-- Vanilla                   -->

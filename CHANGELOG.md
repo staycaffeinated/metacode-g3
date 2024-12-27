@@ -6,6 +6,10 @@
       `gradle/plugins/java-conventions/src/main/groovy/buildlogic.docker.gradle` file. 
       There's no hard dependency on this particular image, so it can be changed it to your 
       preferred base image.
+    * Changed the `docker-compose.yml` file. If a schema is defined, the schema name is now
+      included in the JDBC URL. The service name of the database changed from `dbms` to `postgres`,
+      and the service name of the application changed from `[applicationName]-app` to
+      `[applicationName]_api`. The service name changes are only stylistic and not essential.   
 
 ### Maintenance:
     * Bump Google Jib plugin from 3.4.3 to 3.4.4

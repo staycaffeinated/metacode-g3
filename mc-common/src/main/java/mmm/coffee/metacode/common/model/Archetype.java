@@ -97,6 +97,7 @@ public enum Archetype {
     Application("Application"), // the main class
     AbstractIntegrationTest("AbstractIntegrationTest"),
     AbstractDataJpaTest("AbstractDataJpaTest"),
+    AbstractPostgresIntegrationTest("AbstractPostgresIntegrationTest"),
 
     /*
      * Endpoint-scope archetypes

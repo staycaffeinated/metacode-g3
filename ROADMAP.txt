@@ -1,7 +1,24 @@
+[X] Update Docker base image to latest coretto alpine
+[ ] Fix dbms url in docker-compose. Add note that host name and service name must match
+[ ] If schema is specified, then add Schema to the dbms url in docker-compose
+[ ] Add spring property for the dbms url in docker-compose. 
+[ ] Add note in app.props re: username/pwd with example of how to set them via env vars.
+[ ] Change Actuator's URL from `_internal` back to `actuator`
+[ ] Migrate to use hypersistence-utils jars
+[ ] Add sub-command and feature to save package-layout and classname-rules in a $HOME/.metacode
+    directory so user's can define their own preferred package layout. For example, 
+    `metacode init` creates the $HOME/.metacode directory and writes the default meta files. 
+[ ] Move our own metacode.props into $PWD/.metacode directory so its out of the way. 
+[ ] Consider: adding a 2nd docker-compose file that contains infrastructure w/o the app?? 
+    The thinking is, the dependencies spin up and are configured to accept connections from 
+    the app running w/in Gradle (eg. gw bootRun). 
+[ ] Add documentation on how to attach to and debug the app running w/in the Docker image. 
+    Seems like that'd be handy to know.
+
+------
 
 [X] Add datafaker library and change tests to use datafaker - Done
 
-[ ] Migrate to use hypersistence-utils jars
 [-] Add Codecentric's spring-boot-admin-starter-client to classpath. This is improved UI for actuator info
     Won't do. The app's register themselves as clients with the admin-server. Has to be an admin server
     running to be useful.  Its easy to make happen, but should leave to end users to apply as needed.

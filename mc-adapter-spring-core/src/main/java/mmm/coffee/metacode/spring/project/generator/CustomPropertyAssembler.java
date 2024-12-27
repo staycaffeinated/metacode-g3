@@ -73,7 +73,7 @@ public class CustomPropertyAssembler {
             String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
 
             return switch (descriptor.archetype()) {
-                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties, PostgresDbContainerTests -> {
+                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties, PostgresDbContainerTests, AbstractPostgresIntegrationTest -> {
                     log.info("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
                     yield EdgeCaseResolvedArchetypeDescriptor.builder()
                             .archetype(descriptor.archetype())
@@ -106,7 +106,7 @@ public class CustomPropertyAssembler {
             String resolvedPkgName = MustacheExpressionResolver.resolve(that.packageName(), map);
 
             return switch (descriptor.archetype()) {
-                case AbstractIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties,
+                case AbstractIntegrationTest, AbstractPostgresIntegrationTest, ContainerConfiguration, RegisterDatabaseProperties,
                      TestTableInitializer: {
                     log.debug("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
                     yield EdgeCaseResolvedArchetypeDescriptor.builder()

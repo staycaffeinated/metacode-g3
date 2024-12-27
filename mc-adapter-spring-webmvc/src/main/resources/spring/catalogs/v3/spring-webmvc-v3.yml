@@ -25,6 +25,7 @@ entries:
   - scope: "project"
     archetype: "Text"
     feature: "liquibase"
+    tags: "liquibase"
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/resources/db/liquibase/db.changelog-master.ftl"
@@ -32,6 +33,7 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/resources/db/liquibase/db.changelog-001-create-schema.ftl"
         destination: "{{appModule}}/src/main/resources/db/changelog/db.changelog-001-create-schema.sql"
+
 
 
   - scope: "project"
@@ -204,6 +206,13 @@ entries:
         sourceTemplate: "/spring/webmvc/integrationTest/config/ContainerConfiguration.ftl"
 
   - scope: "project"
+    archetype: "AbstractPostgresIntegrationTest"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/common/AbstractPostgresIntegrationTest.ftl"
+    tags: "postgres"
+
+  - scope: "project"
     archetype: "RegisterDatabaseProperties"
     facets:
       - facet: "integrationTest"
@@ -214,7 +223,7 @@ entries:
     facets:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/resources/CreateSchemaDotSql.ftl"
-        destination: "{{appModule}}/src/integrationTest/resources/create-schema.sql"
+        destination: "{{appModule}}/src/integrationTest/resources/db/scripts/01-create-schema.sql"
 
   - scope: "project"
     archetype: "RootController"
@@ -371,4 +380,12 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/endpoint/EntityRoutes.ftl"
+
+  - scope: "endpoint"
+    archetype: "Text"
+    facets:
+      - facet: "integrationTest"
+        sourceTemplate: "/spring/webmvc/integrationTest/resources/CreateTableDotSql.ftl"
+        # TODO: Need dynamic script name here
+        destination: "{{appModule}}/src/integrationTest/resources/db/scripts/02-create-table.sql"
         

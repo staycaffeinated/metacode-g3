@@ -1,6 +1,10 @@
 package ${EntitySpecification.packageName()};
 
+<#if (endpoint.isWithPostgres())>
+import ${AbstractPostgresIntegrationTest.fqcn()};
+<#else>
 import ${RegisterDatabaseProperties.fqcn()};
+</#if>
 import ${EjbTestFixtures.fqcn()};
 import ${EntitySpecification.fqcn()};
 import ${Repository.fqcn()};
@@ -13,24 +17,34 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.from;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
+class ${EntitySpecification.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
+<#else>
 class ${EntitySpecification.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+</#if>
 
     @Autowired
     ${Repository.className()} repository;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
+<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
+        /* create schemas, sequences, and other artifacts that hibernate does not auto-create */
+        AbstractPostgresIntegrationTest.initTestContainerDatabase();
+</#if>
         repository.saveAll(${EjbTestFixtures.className()}.allItems());
     }
 

@@ -134,6 +134,7 @@
         "GenericDataStore",
         "PersistenceAdapter",
         "RegisterDatabaseProperties",
+        "AbstractPostgresIntegrationTest",
         "MongoDbContainerTests",
         "PostgresDbContainerTests"
       ]

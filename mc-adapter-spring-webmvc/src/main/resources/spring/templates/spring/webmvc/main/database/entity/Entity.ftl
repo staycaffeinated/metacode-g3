@@ -26,17 +26,20 @@ public class ${Entity.className()} {
     }
 
     /*
-    * This identifier is never exposed to the outside world because
-    * database-generated Ids are commonly sequential values that a hacker can easily guess.
-    */
+     * This identifier is never exposed to the outside world because
+     * database-generated Ids are commonly sequential values that a hacker can easily guess.
+     *
+     * In the DDL, the ID is declared as "id SERIAL PRIMARY KEY".
+     * Postgres automatically handles assigning sequential values to Serial columns.
+     */
     @Id
     <#if (endpoint.isWithPostgres())>
-    @SequenceGenerator(name = "${endpoint.lowerCaseEntityName}_generator", sequenceName = "${endpoint.lowerCaseEntityName}_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "${endpoint.lowerCaseEntityName}_generator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = Columns.ID, columnDefinition = "serial")
     <#else>
     @GeneratedValue
-    </#if>
     @Column(name=Columns.ID)
+    </#if>
     private Long id;
 
     /**

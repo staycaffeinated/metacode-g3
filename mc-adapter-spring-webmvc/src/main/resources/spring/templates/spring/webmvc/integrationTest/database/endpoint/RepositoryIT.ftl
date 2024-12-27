@@ -3,35 +3,29 @@
 package ${Repository.packageName()};
 
 <#if endpoint.isWithTestContainers()>
-import ${ContainerConfiguration.fqcn()};
-import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${Entity.fqcn()};
 import ${EntitySpecification.fqcn()};
 import ${EjbTestFixtures.fqcn()};
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
+import ${AbstractPostgresIntegrationTest.fqcn()};
+<#else>
 import ${RegisterDatabaseProperties.fqcn()};
+</#if>
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import org.springframework.boot.test.context.SpringBootTest;
-</#if>
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-<#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.DynamicPropertyRegistry;
-</#if>
 import org.springframework.data.jpa.domain.Specification;
-
 
 import java.util.List;
 
@@ -45,10 +39,10 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 * Repository class, these tests may be deleted.
 */
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-@SpringBootTest(webEnvironment = RANDOM_PORT)
-@Import(ContainerConfiguration.class)
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
-class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+class ${Repository.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
 <#else>
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

@@ -64,6 +64,7 @@ public class ProjectArchetypeToMap {
 
             // persistence stuff
             Archetype.AbstractDataJpaTest,
+            Archetype.AbstractPostgresIntegrationTest,
             Archetype.CustomRepository,     // the base interface extended by specific repos; eg: PetRepository extends CustomRepository
             Archetype.CustomSQLRepository,
             Archetype.AbstractDataStoreApi,
@@ -75,6 +76,7 @@ public class ProjectArchetypeToMap {
             Archetype.MongoDatabaseConfiguration,
             Archetype.TestDatabaseConfiguration,
             Archetype.PostgresDbContainerTests,
+            Archetype.AbstractPostgresIntegrationTest,
 
             // miscellaneous
             Archetype.Text,

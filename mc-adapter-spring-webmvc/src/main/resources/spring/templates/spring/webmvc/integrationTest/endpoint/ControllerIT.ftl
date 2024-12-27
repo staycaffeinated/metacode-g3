@@ -3,7 +3,7 @@
 package ${Controller.packageName()};
 
 <#if endpoint.isWithTestContainers()>
-import ${ContainerConfiguration.fqcn()};
+import ${AbstractPostgresIntegrationTest.fqcn()};
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
@@ -35,10 +35,11 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-@Import(ContainerConfiguration.class)
 @Testcontainers
-</#if>
+class ${Controller.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
+<#else>
 class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+</#if>
     @Autowired
     MockMvc mockMvc;
 
