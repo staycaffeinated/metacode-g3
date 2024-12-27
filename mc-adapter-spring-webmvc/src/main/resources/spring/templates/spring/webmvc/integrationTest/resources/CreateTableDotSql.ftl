@@ -5,7 +5,7 @@ create table if not exists ${endpoint.schema}.${endpoint.lowerCaseEntityName} (
     resource_id    varchar(60) NOT NULL UNIQUE,
     text            varchar(255)
 );
-    <#elseif !(endpoint.isWithMongoDb())>  <#-- i.e., is H2 database -->
+    <#elseif !(endpoint.isWithMongoDB())>  <#-- in other words, is using H2 database -->
 create table if not exists ${endpoint.schema}.${endpoint.lowerCaseEntityName} (
     id int primary key,
     resourceId varchar(60) not null unique,

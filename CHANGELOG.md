@@ -1,5 +1,12 @@
 ## Uncommitted
 
+## Fixes:
+    * When a database schema is used (via the command-line option `--schema [schemaName]`), 
+      the integration tests failed because, while Hibernate auto-creates tables for `@Entity`
+      objects, Hibernate does not create those tables within the chosen schema. For the scope
+      of integration tests, SQL scripts are now created to create the tables within the chosen
+      schema. 
+
 ### Changes:
     * The default Docker base image was changed from  `amazoncorretto:17-alpine3.17-jdk`
       to `amazoncorretto:17-al2023-jdk`. This change is found in the 
