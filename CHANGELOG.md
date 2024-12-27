@@ -1,5 +1,7 @@
 ## Uncommitted
 
+## [11.4.1] - 2024-12-27
+
 ## Fixes:
     * When a database schema is used (via the command-line option `--schema [schemaName]`), 
       the integration tests failed because, while Hibernate auto-creates tables for `@Entity`
