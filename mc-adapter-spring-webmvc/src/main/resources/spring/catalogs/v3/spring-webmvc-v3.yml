@@ -386,6 +386,5 @@ entries:
     facets:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webmvc/integrationTest/resources/CreateTableDotSql.ftl"
-        # TODO: Need dynamic script name here
-        destination: "{{appModule}}/src/integrationTest/resources/db/scripts/02-create-table.sql"
+        destination: "{{appModule}}/src/integrationTest/resources/db/scripts/{{createTableScriptName}}"
         

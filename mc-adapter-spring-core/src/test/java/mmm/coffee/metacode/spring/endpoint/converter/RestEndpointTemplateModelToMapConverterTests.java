@@ -47,5 +47,6 @@ class RestEndpointTemplateModelToMapConverterTests {
         assertThat(mapping.get(MustacheConstants.ENTITY_NAME)).isEqualTo(ENTITY_NAME);
         assertThat(mapping.get(MustacheConstants.ENTITY_NAME_LOWERCASE)).isEqualTo(LOWER_CASE_ENTITY_NAME);
         assertThat(mapping.get(MustacheConstants.ENTITY_VAR_NAME)).isEqualTo(ENTITY_VAR_NAME);
+        assertThat(mapping.get(MustacheConstants.CREATE_TABLE_SCRIPT_NAME)).isNotEmpty();
     }
 }
