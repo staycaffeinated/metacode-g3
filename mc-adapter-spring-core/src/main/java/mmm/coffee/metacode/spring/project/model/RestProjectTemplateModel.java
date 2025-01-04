@@ -69,6 +69,8 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
     private boolean withMongoDb;
     @Setter
     private boolean withOpenApi;
+    @Setter
+    private boolean withKafka;
 
     /*
      * Key: the library name, such as 'assertJ'

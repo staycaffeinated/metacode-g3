@@ -42,6 +42,9 @@ public class DescriptorToMetaProperties implements ConvertTrait<RestProjectDescr
         if (descriptor.getIntegrations().contains(SpringIntegrations.OPENAPI.name())) {
             map.put(MetaProperties.ADD_OPENAPI, Boolean.TRUE);
         }
+        if (descriptor.getIntegrations().contains(SpringIntegrations.KAFKA.name())) {
+            map.put(MetaProperties.ADD_KAFKA, Boolean.TRUE);
+        }
         return map;
     }
 }

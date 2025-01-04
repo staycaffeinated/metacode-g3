@@ -38,6 +38,9 @@ public enum Archetype {
     SpringProfiles("SpringProfiles"),
     BatchConfiguration("BatchConfiguration"),
     JobCompletionNotificationListener("JobCompletionNotificationListener"),
+    KafkaProducerConfiguration("KafkaProducerConfiguration"),
+    KafkaConsumerConfiguration("KafkaConsumerConfiguration"),
+    KafkaTopicsConfiguration("KafkaTopicsConfiguration"),
 
     // converters
     EntityToPojoConverter("EntityToPojoConverter"),

@@ -76,6 +76,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         spec.setWithTestContainers(config.getBoolean(MetaProperties.ADD_TESTCONTAINERS, false));
         spec.setWithMongoDb(config.getBoolean(MetaProperties.ADD_MONGODB, false));
         spec.setWithOpenApi(config.getBoolean(MetaProperties.ADD_OPENAPI, false));
+        spec.setWithKafka(config.getBoolean(MetaProperties.ADD_KAFKA, false));
 
         return this;
     }

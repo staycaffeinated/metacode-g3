@@ -48,3 +48,29 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/${project.applicationName
 spring.datasource.url=jdbc:postgresql://localhost:5432/testdb
     </#if>
 </#if>
+
+<#if (project.isWithKafka())>
+# -------------------------------------------------------------------------------------------
+# Kafka
+# -------------------------------------------------------------------------------------------
+spring.kafka.bootstrap-servers=localhost:9092
+
+spring.kafka.consumer.auto-commit-interval=1s
+spring.kafka.consumer.enable-auto-commit=true
+<#noparse>spring.kafka.consumer.group-id=${spring.application.name}</#noparse>
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.client-id=default-client-id
+<#noparse>spring.kafka.consumer.bootstrap-servers=${spring.kafka.bootstrap-servers}</#noparse>
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+<#noparse>spring.kafka.producer.bootstrap-servers=${spring.kafka.bootstrap-servers}</#noparse>
+spring.kafka.producer.properties.acks=all
+spring.kafka.producer.properties.retries=10
+spring.kafka.producer.properties.retry.backoff.ms=1000
+
+spring.kafka.listener.concurrency=2
+spring.kafka.listener.missing-topics-fatal=false
+<#noparse>spring.kafka.listener.client-id=${spring.application.name}</#noparse>
+spring.kafka.listener.ack-count=3
+</#if>

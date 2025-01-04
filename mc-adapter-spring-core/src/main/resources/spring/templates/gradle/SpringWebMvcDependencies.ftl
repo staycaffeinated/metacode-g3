@@ -28,6 +28,9 @@ dependencies {
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
 </#if>
+<#if (project.isWithKafka())>
+    implementation libs.spring.kafka
+</#if>
 
     // Optional: This reports out-of-date property names
     runtimeOnly libs.spring.boot.properties.migrator
@@ -44,6 +47,9 @@ dependencies {
     testImplementation libs.datafaker
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
+<#if (project.isWithKafka())>
+    implementation libs.spring.kafka.test
+</#if>
 
 <#if (project.isWithTestContainers())>
     testImplementation libs.spring.boot.testcontainers

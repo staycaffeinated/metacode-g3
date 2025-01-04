@@ -14,7 +14,10 @@
         "SecurityResponseHeadersFilter",
         "MongoContainerConfiguration",
         "BatchConfiguration",
-        "JobCompletionNotificationListener"
+        "JobCompletionNotificationListener",
+        "KafkaTopicsConfiguration",
+        "KafkaConsumerConfiguration",
+        "KafkaProducerConfiguration"
       ]
     },
     {

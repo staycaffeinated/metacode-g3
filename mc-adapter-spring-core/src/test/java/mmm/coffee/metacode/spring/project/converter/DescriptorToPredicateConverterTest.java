@@ -46,6 +46,7 @@ class DescriptorToPredicateConverterTest {
     CatalogEntry postgresEntry;
     CatalogEntry testContainerEntry;
     CatalogEntry liquibaseEntry;
+    CatalogEntry kafkaEntry;
 
     /*
      * The easiest way to verify a Predicate yields the correct verdict is to
@@ -66,6 +67,11 @@ class DescriptorToPredicateConverterTest {
 
         // A template specific to liquibase support should contain the liquibase tag
         liquibaseEntry = buildCatalogEntry("liquibaseTemplate.ftl", "liquibase.yml", SpringIntegrations.LIQUIBASE.toString());
+
+        // A template specific to liquibase support should contain the liquibase tag
+        kafkaEntry = buildCatalogEntry("KafkaTopicConfiguration.ftl", "KafkaTopicConfig.java", SpringIntegrations.KAFKA.toString());
+
+
     }
 
 
@@ -88,6 +94,7 @@ class DescriptorToPredicateConverterTest {
         assertThat(predicate.apply(postgresEntry)).isFalse();
         assertThat(predicate.apply(testContainerEntry)).isFalse();
         assertThat(predicate.apply(liquibaseEntry)).isFalse();
+        assertThat(predicate.apply(kafkaEntry)).isFalse();
     }
 
     /*
@@ -153,6 +160,32 @@ class DescriptorToPredicateConverterTest {
         assertThat(predicate).isNotNull();
         assertThat(predicate.apply(commonEntry)).isTrue();
         assertThat(predicate.apply(liquibaseEntry)).isTrue();
+
+        // Verify we don't get any false positives
+        assertThat(predicate.apply(testContainerEntry)).isFalse();
+        assertThat(predicate.apply(postgresEntry)).isFalse();
+    }
+
+    /*
+     * When building a project that has Kafka integration enabled,
+     * the uber-predicate should include common templates and kafka templates,
+     * but not other integration-specific templates like postgres templates.
+     */
+    @Test
+    void whenKafkaSupport_shouldHaveKafkaPredicate() {
+        restProject = RestProjectDescriptor.builder()
+                .basePath(BASE_PATH)
+                .basePackage(BASE_PKG)
+                .applicationName(APP_NAME)
+                .build();
+        restProject.getIntegrations().add(SpringIntegrations.KAFKA.name());
+
+        Predicate<CatalogEntry> predicate = converterUnderTest.convert(restProject);
+
+        // Verify the predicate returns the correct verdict for a different CatalogEntries
+        assertThat(predicate).isNotNull();
+        assertThat(predicate.apply(commonEntry)).isTrue();
+        assertThat(predicate.apply(kafkaEntry)).isTrue();
 
         // Verify we don't get any false positives
         assertThat(predicate.apply(testContainerEntry)).isFalse();

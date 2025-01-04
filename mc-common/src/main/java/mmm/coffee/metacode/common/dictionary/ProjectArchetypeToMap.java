@@ -61,6 +61,9 @@ public class ProjectArchetypeToMap {
             Archetype.DateTimeFormatConfiguration,
             Archetype.BatchConfiguration,
             Archetype.JobCompletionNotificationListener,
+            Archetype.KafkaProducerConfiguration,
+            Archetype.KafkaTopicsConfiguration,
+            Archetype.KafkaConsumerConfiguration,
 
             // persistence stuff
             Archetype.AbstractDataJpaTest,

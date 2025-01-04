@@ -81,6 +81,12 @@ public class CatalogEntryPredicates {
         return p -> containsTag(p, "liquibase");
     }
 
+    /**
+     * Returns {@code true} if the CatalogEntry's tag includes {@code kafka}
+     */
+    public static Predicate<CatalogEntry> hasKafkaTag() {
+        return p -> containsTag(p, "kafka");
+    }
 
     private static boolean containsTag(CatalogEntry entry, String text) {
         return entry.getTags() != null && entry.getTags().contains(text);

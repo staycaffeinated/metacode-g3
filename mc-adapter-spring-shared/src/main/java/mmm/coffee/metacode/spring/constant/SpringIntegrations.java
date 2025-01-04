@@ -26,7 +26,8 @@ public enum SpringIntegrations {
     LIQUIBASE("liquibase"),
     TESTCONTAINERS("testcontainers"),
     MONGODB("mongodb"),
-    OPENAPI("openapi");
+    OPENAPI("openapi"),
+    KAFKA("kafka");
 
     // This is the value an end-user enters on the command line.
     private final String value;

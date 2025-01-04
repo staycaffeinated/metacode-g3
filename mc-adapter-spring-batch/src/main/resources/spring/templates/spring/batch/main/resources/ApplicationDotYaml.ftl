@@ -54,3 +54,30 @@ logging:
     endpoints:
       web:
         base-path: /_internal
+
+<#if (project.isWithKafka())>
+  # -------------------------------------------------------------------------------------------
+  # Kafka
+  # -------------------------------------------------------------------------------------------
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer.auto-commit-interval: 1s
+    consumer.enable-auto-commit: true
+    <#noparse>consumer.group-id: ${spring.application.name}</#noparse>
+    consumer.key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    consumer.value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    consumer.client-id: default-client-id
+    <#noparse>consumer.bootstrap-servers: ${spring.kafka.bootstrap-servers}</#noparse>
+
+    producer.key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    producer.value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    <#noparse>producer.bootstrap-servers: ${spring.kafka.bootstrap-servers}</#noparse>
+    producer.properties.acks: all
+    producer.properties.retries: 10
+    producer.properties.retry.backoff.ms: 1000
+
+    listener.concurrency: 2
+    listener.missing-topics-fatal: false
+    <#noparse>listener.client-id: ${spring.application.name}</#noparse>
+    listener.ack-count: 3
+</#if>

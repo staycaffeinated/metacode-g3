@@ -32,6 +32,7 @@ public class DescriptorToTemplateModelConverter implements ConvertTrait<RestProj
                 .withLiquibase(descriptor.getIntegrations().contains(SpringIntegrations.LIQUIBASE.name()))
                 .withMongoDb(descriptor.getIntegrations().contains(SpringIntegrations.MONGODB.name()))
                 .withOpenApi(descriptor.getIntegrations().contains(SpringIntegrations.OPENAPI.name()))
+                .withKafka(descriptor.getIntegrations().contains(SpringIntegrations.KAFKA.name()))
                 .build();
     }
 }

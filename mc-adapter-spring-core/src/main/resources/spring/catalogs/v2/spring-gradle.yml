@@ -31,6 +31,35 @@ entries:
       - facet: "main"
         sourceTemplate: "/gradle/SettingsDotGradle.ftl"
         destination: "settings.gradle"
+
+  # ------------------------------------------------
+  # -- Application Config Classes
+  # ------------------------------------------------
+  - scope: "project"
+    archetype: "KafkaTopicsConfiguration"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/config/KafkaTopicsConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "KafkaConsumerConfiguration"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/config/KafkaConsumerConfiguration.ftl"
+
+  - scope: "project"
+    archetype: "KafkaProducerConfiguration"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/config/KafkaProducerConfiguration.ftl"
+
+
   # ------------------------------------------------
   # -- Version Catalog
   # ------------------------------------------------

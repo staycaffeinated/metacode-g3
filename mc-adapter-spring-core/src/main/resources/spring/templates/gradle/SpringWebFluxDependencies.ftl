@@ -19,6 +19,9 @@ dependencies {
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
 </#if>
+<#if (project.isWithKafka())>
+    implementation libs.spring.kafka
+</#if>
 <#if (project.isWithPostgres())>
     implementation libs.r2dbc.postgres
     runtimeOnly libs.postgresql
@@ -49,6 +52,9 @@ dependencies {
     testImplementation libs.junit.jupiter
     testImplementation libs.reactor.test
     testImplementation libs.datafaker
+<#if (project.isWithKafka())>
+    testImplementation libs.spring.kafka.test
+</#if>
 
     testFixturesImplementation libs.reactor.test
     testFixturesImplementation libs.spring.boot.starter.data.r2dbc

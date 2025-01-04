@@ -141,6 +141,24 @@ class DescriptorToTemplateModelConverterTest {
     }
 
     @Test
+    void shouldSetKafkaIntegrationFlag() {
+        // Given: a project with Postgres & TestContainers integration enabled
+        webMvcRestProject.getIntegrations().add(SpringIntegrations.KAFKA.name());
+
+        // When: converting to a template model...
+        RestProjectTemplateModel templateModel = converterUnderTest.convert(webMvcRestProject);
+
+        // expect: withKafka is true, and other integrations are false
+        assertThat(templateModel.isWithKafka()).isTrue();
+
+        assertThat(templateModel.isWithTestContainers()).isFalse();
+        assertThat(templateModel.isWithPostgres()).isFalse();
+        assertThat(templateModel.isWithLiquibase()).isFalse();
+        assertThat(templateModel.isWithMongoDb()).isFalse();
+    }
+
+
+    @Test
     void shouldSetMongoDbAndTestContainersIntegrationFlags() {
         // Given: a project with Postgres & TestContainers integration enabled
         webMvcRestProject.getIntegrations().add(SpringIntegrations.MONGODB.name());
