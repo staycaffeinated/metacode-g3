@@ -204,13 +204,7 @@ entries:
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------
-
-  - scope: "endpoint"
-    archetype: "TableInitializer"
-    facets:
-      - facet: "main"
-        sourceTemplate:  "/spring/webflux/main/database/DatabaseTableInitializer.ftl"
-
+  # NB: R2DBC does not auto-create the database tables so this class does that for integration tests
   - scope: "endpoint"
     archetype: "TestTableInitializer"
     facets:

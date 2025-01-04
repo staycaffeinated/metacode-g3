@@ -29,8 +29,7 @@ import java.time.Duration;
 /**
  * Integration test of the service component
  */
-@ComponentScan(basePackageClasses={
-    ${ContainerConfiguration.className()}.class})
+
 @SpringBootTest
 @Slf4j
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>
