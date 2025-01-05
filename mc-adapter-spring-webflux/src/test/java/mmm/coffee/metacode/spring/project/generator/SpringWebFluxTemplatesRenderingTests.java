@@ -164,9 +164,9 @@ class SpringWebFluxTemplatesRenderingTests {
             assertThat(content).isNotNull();
             assertThat(content).contains("libs.spring.boot.starter.data.r2dbc");
             assertThat(content).contains("libs.spring.boot.starter.webflux");
-            // check for presence of webmvc libs
-            assertThat(content).contains("libs.problem.spring.webflux");
-            assertThat(content).contains("libs.problem.jackson.datatype");
+            // check for absence of retired problem libs
+            assertThat(content).doesNotContain("libs.problem.spring.webflux");
+            assertThat(content).doesNotContain("libs.problem.jackson.datatype");
         }
 
     }

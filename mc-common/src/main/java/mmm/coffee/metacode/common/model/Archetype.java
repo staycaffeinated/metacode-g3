@@ -54,7 +54,7 @@ public enum Archetype {
     ResourceNotFoundException("ResourceNotFoundException"),
     UnprocessableEntityException("UnprocessableEntityException"),
     Exception("Exception"), // can this replace specific exceptions?
-    ProblemSummary("ProblemSummary"),
+    ProblemSummary("ProblemSummary"), // this entity is retired
 
     // validation and annotations
     ResourceIdTrait("ResourceIdTrait"),

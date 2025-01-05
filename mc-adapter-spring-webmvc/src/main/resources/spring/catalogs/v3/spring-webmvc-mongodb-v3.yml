@@ -67,12 +67,6 @@ entries:
         sourceTemplate: "/spring/webmvc/main/config/DateTimeFormatConfiguration.ftl"
 
   - scope: "project"
-    archetype: "ProblemConfiguration"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/config/ProblemConfiguration.ftl"
-
-  - scope: "project"
     archetype: "WebMvcConfiguration"
     facets:
       - facet: "main"

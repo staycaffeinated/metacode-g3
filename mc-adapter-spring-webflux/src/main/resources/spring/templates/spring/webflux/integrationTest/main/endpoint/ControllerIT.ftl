@@ -31,14 +31,12 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.time.Duration;
-
 /**
  * Integration tests of ${endpoint.entityName}Controller
  */
 @ComponentScan(basePackageClasses = { ${TestTableInitializer.className()}.class })
-@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Slf4j
 <#if (endpoint.isWithPostgres() && endpoint.isWithTestContainers())>
 class ${Controller.integrationTestClass()} extends ${PostgresDbContainerTests.className()} {
 <#else>
@@ -155,7 +153,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
         // @formatter:off
         String validId = ${ModelTestFixtures.className()}.oneWithResourceId().getResourceId();
         sendFindOne${endpoint.entityName}Request(validId).expectStatus().isNotFound()
-            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON)
             .expectBody()
                 // I've seen stack traces come back both ways
                 .jsonPath("$.stackTrace").doesNotExist()

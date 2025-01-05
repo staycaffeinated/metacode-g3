@@ -42,7 +42,7 @@ private static final String IMAGE = "mongo:6.0.4";
     <#if ((project.isWithMongoDb()) && project.isWithTestContainers())>
         return mongoDBContainer.getReplicaSetUrl();
     <#else>
-        return "mongodb://localhost:27017/testdb");
+        return "mongodb://localhost:27017/testdb";
     </#if>
     }
 

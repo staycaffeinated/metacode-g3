@@ -10,8 +10,6 @@ dependencies {
     implementation libs.spring.boot.starter.actuator
     implementation libs.spring.boot.starter.webflux
     implementation libs.spring.boot.starter.validation
-    implementation libs.problem.spring.webflux
-    implementation libs.problem.jackson.datatype
     implementation libs.jakarta.persistence.api
 <#if project.isWithOpenApi()>
     implementation libs.openapi.starter.webflux.ui

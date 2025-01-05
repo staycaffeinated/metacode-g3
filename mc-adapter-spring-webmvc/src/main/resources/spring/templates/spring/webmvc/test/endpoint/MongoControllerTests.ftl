@@ -59,10 +59,6 @@ class ${Controller.testClass()} {
     @BeforeEach
     void setUp() {
         ${endpoint.entityVarName}List = ${PojoTestFixtures.className()}.allItems();
-
-        objectMapper.registerModule(new ProblemModule());
-        objectMapper.registerModule(new ConstraintViolationProblemModule());
-
         pageOfData = new PageImpl<>(${endpoint.entityVarName}List);
     }
 
