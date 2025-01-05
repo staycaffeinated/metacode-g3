@@ -3,42 +3,80 @@ package ${GlobalExceptionHandler.packageName()};
 
 import ${Exception.packageName()}.UnprocessableEntityException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.validation.ConstraintViolation;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
-import org.zalando.problem.spring.web.advice.ProblemHandling;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 
 import java.sql.SQLException;
+import java.util.Optional;
+import java.util.Set;
 
 /**
-* Handles turning exceptions into RFC-7807 problem/json responses,
-* so instead of an exception and its stack trace leaking back
-* to the client, an RFC-7807 problem description is returned.
-*/
+ * Handles turning exceptions into RFC-7807 problem/json responses,
+ * so instead of an exception and its stack trace leaking back
+ * to the client, an RFC-7807 problem description is returned.
+ */
 @SuppressWarnings("java:1102")
 @ControllerAdvice
-public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
+public class ${GlobalExceptionHandler.className()} extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UnprocessableEntityException.class)
-    public ResponseEntity<Problem> handleUnprocessableRequestException(UnprocessableEntityException exception) {
+    public ResponseEntity<ProblemDetail> handleUnprocessableRequestException(UnprocessableEntityException exception) {
         return problemDescription("The request cannot be processed", exception);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Problem> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+    public ResponseEntity<ProblemDetail> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         return problemDescription("The request contains invalid data", exception);
     }
 
-    <#--    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)-->
-    <#--    public ResponseEntity<Problem> handleConstraintViolationException(jakarta.validation.ConstraintViolationException ex) {-->
-    <#--        return problemDescription("Constraint violation", ex);-->
-    <#--    }-->
+
+    @ExceptionHandler({jakarta.validation.ConstraintViolationException.class})
+    public ResponseEntity<ProblemDetail> handleConstraintViolationException(jakarta.validation.ConstraintViolationException exception) {
+        Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode jsonArray = objectMapper.createArrayNode();
+
+        for (final var constraint : constraintViolations) {
+            ObjectNode objectNode = objectMapper.createObjectNode();
+
+            String className = constraint.getLeafBean().toString().split("@")[0];
+            String message = constraint.getMessage();
+            String propertyPath = constraint.getPropertyPath().toString().split("\\.")[0];
+            Object invalidValue = constraint.getInvalidValue();
+
+            objectNode.put("reason", message);
+            // Since its common for REST parameters to be Optional, we unwrap the Optional for a cleaner message
+            if (invalidValue instanceof Optional<?> theValue) {
+                theValue.ifPresent(o -> objectNode.put("invalid value", o.toString()));
+            }
+            else {
+                objectNode.put("invalid value", invalidValue.toString());
+            }
+            // You may not want to reveal the classname or method name since doing so leaks implementation details.
+            // For troubleshooting internal applications, this may be useful.
+            objectNode.put("class", className);
+            objectNode.put("method", propertyPath);
+
+            jsonArray.add(objectNode);
+        }
+        problemDetail.setProperty("errors", jsonArray);
+        return ResponseEntity.of(problemDetail).build();
+    }
 
     /**
      * Handles EntityNotFoundException. Created to encapsulate errors with more detail than
@@ -48,7 +86,7 @@ public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
      * @return the ApiError object
      */
     @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
-    public ResponseEntity<Problem> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex) {
+    public ResponseEntity<ProblemDetail> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex) {
         return problemDescription("The requested entity was not found", ex);
     }
 
@@ -60,9 +98,9 @@ public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
      * @return ResponseEntity
      */
     @ExceptionHandler(SQLException.class)
-    public ResponseEntity<Problem> handleSQLException(SQLException ex, WebRequest request) {
+    public ResponseEntity<ProblemDetail> handleSQLException(SQLException ex, WebRequest request) {
         String message = String.format("Database Error: %s : %s ", ex.getErrorCode(), ex.getLocalizedMessage());
-        return problemDescription(message, ex, Status.SERVICE_UNAVAILABLE);
+        return problemDescription(message, ex, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
 
@@ -73,7 +111,7 @@ public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
      * @return a ResponseEntity with a body containing the problem description
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Problem> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
+    public ResponseEntity<ProblemDetail> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
         String message = "Invalid parameter in the request";
 
         // If the value and class are provided, write a detailed message
@@ -90,8 +128,8 @@ public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
      * Catch anything that falls through
      */
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Problem> handleUncaughtException(RuntimeException ex) {
-        return problemDescription(ex.getMessage(), ex, Status.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ProblemDetail> handleUncaughtException(RuntimeException ex) {
+        return problemDescription(ex.getMessage(), ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -100,9 +138,9 @@ public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
      * @param ex MissingServletRequestParameterException
      * @return the ApiError object
      */
-    protected ResponseEntity<Problem> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
+    protected ResponseEntity<ProblemDetail> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
         String error = String.format("The parameter '%s' is missing", ex.getParameterName());
-        return problemDescription (error, ex, Status.UNPROCESSABLE_ENTITY);
+        return problemDescription (error, ex, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 
@@ -112,8 +150,8 @@ public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
      * @param throwable the exception received by the handler
      * @return a ResponseEntity with a body containing the problem description
      */
-    private ResponseEntity<Problem> problemDescription(String title, Throwable throwable) {
-        return problemDescription(title, throwable, Status.UNPROCESSABLE_ENTITY);
+    private ResponseEntity<ProblemDetail> problemDescription(String title, Throwable throwable) {
+        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -122,15 +160,11 @@ public class ${GlobalExceptionHandler.className()} implements ProblemHandling {
      * @param throwable the exception received by the handler
      * @return a ResponseEntity with a body containing the problem descriptionn
      */
-    private ResponseEntity<Problem> problemDescription(String title, Throwable throwable, Status status) {
-        // @formatter:off
-        Problem problem = Problem.builder()
-            .withStatus(status)
-            .withDetail(throwable.getMessage())
-            .withTitle(title)
-            .build();
-        // @formatter:on
-        return ResponseEntity.status(status.getStatusCode()).body(problem);
+    private ResponseEntity<ProblemDetail> problemDescription(String title, Throwable throwable, HttpStatus status) {
+        ProblemDetail pd = ProblemDetail.forStatus(status);
+        pd.setDetail(throwable.getMessage());
+        pd.setTitle(title);
+        return ResponseEntity.status(status).body(pd);
     }
 }
 

@@ -8,12 +8,11 @@ import org.mockito.Mockito;
 import org.springframework.core.MethodParameter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -43,12 +42,12 @@ class GlobalExceptionHandlerTests {
     @Test
     void onEntityNotFoundException_shouldReturnBadRequest() {
         EntityNotFoundException ex = new EntityNotFoundException("some entity");
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleEntityNotFound(ex);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleEntityNotFound(ex);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
 
         // Check the problem body for a status field matching the http status code
-        assertThat(response.getBody().getStatus()).isEqualTo(Status.UNPROCESSABLE_ENTITY);
+        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
 
 
@@ -61,11 +60,11 @@ class GlobalExceptionHandlerTests {
         ConstraintViolationException cause = new ConstraintViolationException(violations);
         DataIntegrityViolationException ex = new DataIntegrityViolationException("my data integrity violation", cause);
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleDataIntegrityViolationException(ex);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleDataIntegrityViolationException(ex);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
-        assertThat(response.getBody().getStatus()).isEqualTo(Status.UNPROCESSABLE_ENTITY);
+        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
         assertThat(response.getBody().getTitle()).isNotEmpty();
     }
 
@@ -92,7 +91,7 @@ class GlobalExceptionHandlerTests {
         when(ex.getValue()).thenReturn("-badValue-");
         when(ex.getParameter()).thenReturn(parameter);
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -108,10 +107,10 @@ class GlobalExceptionHandlerTests {
         when(ex.getSQLState()).thenReturn("sql state");
         when(ex.getErrorCode()).thenReturn(1234);
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleSQLException(ex, mockWebRequest);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleSQLException(ex, mockWebRequest);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
-        assertThat(response.getBody().getStatus()).isEqualTo(Status.SERVICE_UNAVAILABLE);
+        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE.value());
         assertThat(response.getBody().getTitle()).isNotEmpty();
     }
 
@@ -122,7 +121,7 @@ class GlobalExceptionHandlerTests {
     void onRuntimeException_shouldReturnServerError() {
         RuntimeException exception = new RuntimeException("I am a fake exception");
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleUncaughtException(exception);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleUncaughtException(exception);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -134,7 +133,7 @@ class GlobalExceptionHandlerTests {
         when(ex.getMessage()).thenReturn("A mock message");
         when(ex.getReason()).thenReturn("A mock reason");
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleUnprocessableRequestException(ex);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleUnprocessableRequestException(ex);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
         assertThat(response.getBody().getTitle()).isNotBlank();
@@ -145,7 +144,7 @@ class GlobalExceptionHandlerTests {
         var ex = Mockito.mock(MissingServletRequestParameterException.class);
         when(ex.getMessage()).thenReturn("Mock message");
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleMissingServletRequestParameter(ex);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMissingServletRequestParameter(ex);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
         assertThat(response.getBody().getTitle()).isNotBlank();
@@ -160,7 +159,7 @@ class GlobalExceptionHandlerTests {
 
         var webRequest = Mockito.mock(WebRequest.class);
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -174,7 +173,7 @@ class GlobalExceptionHandlerTests {
 
         var webRequest = Mockito.mock(WebRequest.class);
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex,
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex,
         webRequest);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -189,7 +188,7 @@ class GlobalExceptionHandlerTests {
 
         var webRequest = Mockito.mock(WebRequest.class);
 
-        ResponseEntity<Problem> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
     }

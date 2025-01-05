@@ -23,8 +23,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.TransactionSystemException;
-import org.zalando.problem.jackson.ProblemModule;
-import org.zalando.problem.violations.ConstraintViolationProblemModule;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,9 +61,6 @@ class ${Controller.testClass()} {
     @BeforeEach
     void setUp() {
         ${endpoint.entityVarName}List = ${ModelTestFixtures.className()}.allItems();
-
-        objectMapper.registerModule(new ProblemModule());
-        objectMapper.registerModule(new ConstraintViolationProblemModule());
 
         pageOfData = new PageImpl<>(${endpoint.entityVarName}List);
     }
