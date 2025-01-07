@@ -1,5 +1,18 @@
 ## Uncommitted
 
+### Changes:
+
+    * Add Kafka support. When creating a project, use the `add` option to include
+      Kafka as a dependency.  The "--add kafka" option will trigger the 
+      code generation of several Kafka configuration classes and the addition of
+      Kafka entries in the `application.properties` file. The configuration
+      files can be found in the `[basePackage].infrastructure.config` package.
+
+    * The Zalando Problem library has been dropped since Spring now provides
+      its own implementation of `RFC 7807`. Mainly, the generated `GlobalExceptionHandler`
+      class now returns Spring `ProblemDetail` instances instead of Zalando `Problem` instances.
+
+
 ## [11.4.1] - 2024-12-27
 
 ## Fixes:
