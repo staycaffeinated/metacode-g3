@@ -11,6 +11,10 @@ server.servlet.context-path=${project.basePath}
 server.servlet.context-path=/
 </#if>
 
+<#if (project.isWithOpenApi())>
+springdoc.api-docs.enabled=true
+springdoc.swagger-ui.enabled=true
+</#if>
 
 # Obfuscate the /actuator endpoint, which is the default health probe.
 # Health probes enable a liveness check and a readiness check.

@@ -15,6 +15,11 @@ spring.main.web-application-type=reactive
 spring.application.schema-name=${project.schema}
 </#if>
 
+<#if (project.isWithOpenApi())>
+springdoc.api-docs.enabled=true
+springdoc.swagger-ui.enabled=true
+</#if>
+
 # Obfuscate the /actuator endpoint
 # Health probes enable a liveness check, and a readiness check.
 # Docker containers are commonly deployed via Kubernetes.

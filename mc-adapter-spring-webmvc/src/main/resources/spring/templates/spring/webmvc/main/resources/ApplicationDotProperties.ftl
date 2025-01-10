@@ -22,6 +22,11 @@ server.servlet.context-path=${project.basePath}
 server.servlet.context-path=/
 </#if>
 
+<#if (project.isWithOpenApi())>
+springdoc.api-docs.enabled=true
+springdoc.swagger-ui.enabled=true
+</#if>
+
 # -------------------------------------------------------------------------------------------------------
 # These properties are present to handle NoHandlerFoundException
 # which occurs, for instance, if an invalid path is encountered.
