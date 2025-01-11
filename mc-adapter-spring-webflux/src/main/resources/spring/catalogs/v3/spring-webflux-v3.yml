@@ -25,6 +25,18 @@ entries:
         sourceTemplate: "/spring/webflux/test/advice/GlobalExceptionHandlerTests.ftl"
 
   - scope: "project"
+    archetype: "GlobalErrorWebExceptionHandler"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/advice/GlobalErrorWebExceptionHandler.ftl"
+
+  - scope: "project"
+    archetype: "GlobalErrorAttributes"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/advice/GlobalErrorAttributes.ftl"
+
+  - scope: "project"
     archetype: "UnprocessableEntityException"
     facets:
       - facet: "main"

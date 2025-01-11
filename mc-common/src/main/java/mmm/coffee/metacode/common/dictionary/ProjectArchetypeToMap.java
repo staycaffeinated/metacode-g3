@@ -45,6 +45,8 @@ public class ProjectArchetypeToMap {
 
             // exception stuff
             Archetype.GlobalExceptionHandler,
+            Archetype.GlobalErrorWebExceptionHandler,
+            Archetype.GlobalErrorAttributes,
             Archetype.Exception,
             Archetype.ResourceNotFoundException,
             Archetype.UnprocessableEntityException,

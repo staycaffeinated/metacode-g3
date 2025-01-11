@@ -24,6 +24,8 @@
       "package": "{{basePackage}}.infrastructure.advice",
       "archetypes": [
         "GlobalExceptionHandler",
+        "GlobalErrorAttributes",
+        "GlobalErrorWebExceptionHandler",
         "ProblemSummary"
       ]
     },

@@ -30,6 +30,11 @@ class ProjectArchetypeToMapTest {
 
         // when the package-layout does not declare a package namespace, a default should be assigned
         assertThat(map.get(Archetype.GlobalExceptionHandler.toString())).isNotNull();
+        // the following classes are webflux-specific
+        assertThat(map.get(Archetype.GlobalErrorWebExceptionHandler.toString())).isNotNull();
+        assertThat(map.get(Archetype.GlobalErrorAttributes.toString())).isNotNull();
+
+
     }
 
     @Test

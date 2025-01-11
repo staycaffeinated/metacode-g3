@@ -50,6 +50,8 @@ public enum Archetype {
 
     // exceptions and error handling
     GlobalExceptionHandler("GlobalExceptionHandler"),
+    GlobalErrorWebExceptionHandler("GlobalErrorWebExceptionHandler"),
+    GlobalErrorAttributes("GlobalErrorAttributes"),
     BadRequestException("BadRequestException"),
     ResourceNotFoundException("ResourceNotFoundException"),
     UnprocessableEntityException("UnprocessableEntityException"),

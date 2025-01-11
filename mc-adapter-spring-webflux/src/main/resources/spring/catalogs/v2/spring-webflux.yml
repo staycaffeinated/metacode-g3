@@ -30,6 +30,10 @@ catalog:
       destination: "{{appModule}}/src/main/java/{{basePackagePath}}/advice/GlobalExceptionHandler.java"
       context: "project"
   - entry:
+      template: "/spring/webflux/main/advice/GlobalErrorWebExceptionHandler.ftl"
+      destination: "{{appModule}}/src/main/java/{{basePackagePath}}/advice/GlobalErrorWebExceptionHandler.java"
+      context: "project"
+  - entry:
       template: "/spring/webflux/main/spi/DataStore.ftl"
       destination: "{{appModule}}/src/main/java/{{basePackagePath}}/spi/DataStore.java"
       context: "project"
