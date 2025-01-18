@@ -1,6 +1,14 @@
 ## Uncommitted
 
+## [11.5.0] - 2025-01-18
+
 ### Changes:
+    * In WebFlux projects, a GlobalErrorWebExceptionHandler class has been added. 
+      This class handles errors that are not handled by the GlobalExceptionHandler.
+      The class extends Spring's `AbstractErrorWebExceptionHandler`.  Essentially,
+      errors not handled by the `GlobalExceptionHandler` will be handled by this
+      `GlobalErrorWebExceptionHandler`. Typically, these are errors that occur
+      before a Controller is reached, such as a `404` due to an invalid route.  
 
     * Add Kafka support. When creating a project, use the `add` option to include
       Kafka as a dependency.  The "--add kafka" option will trigger the 
@@ -9,9 +17,17 @@
       files can be found in the `[basePackage].infrastructure.config` package.
 
     * The Zalando Problem library has been dropped since Spring now provides
-      its own implementation of `RFC 7807`. Mainly, the generated `GlobalExceptionHandler`
+      its own implementation of `ProblemDetail: RFC 7807`. Mainly, the generated `GlobalExceptionHandler`
       class now returns Spring `ProblemDetail` instances instead of Zalando `Problem` instances.
 
+    * Test Container classes that reference Postgres have been updated to reference the
+      `postgres:17-alpine3.20` Docker version of Postgres.  
+
+### Maintenance:
+    * Bump SpringBoot from 3.3.6 to 3.3.7
+    * Bump the SpringBoot dependency management plugin from 1.1.6 to 1.1.7
+    * Bump Reactor Test from 3.7.1 to 3.7.2
+    * PostgreSQL library from 42.7.4 to 42.7.5
 
 ## [11.4.1] - 2024-12-27
 
