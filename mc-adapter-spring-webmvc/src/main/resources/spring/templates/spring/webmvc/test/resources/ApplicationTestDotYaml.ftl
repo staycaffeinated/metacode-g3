@@ -7,7 +7,7 @@ spring:
     datasource:
         driver-class-name: "org.testcontainers.jdbc.ContainerDatabaseDriver"
     <#noparse>
-        url: "jdbc:tc:postgresql:9.6.8:///testdb?currentSchema=public"
+        url: "jdbc:tc:postgresql:17.2-alpine3.20:///testdb?currentSchema=public"
         username: "postgres"
         password: "postgres"
     </#noparse>

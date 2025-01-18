@@ -10,7 +10,7 @@ public class ${DatabaseInitFunction.className()} {
     public static void registerDatabaseProperties(DynamicPropertyRegistry registry) {
 <#if ((project.isWithPostgres()) && (project.isWithTestContainers()))>
         // If the tables need to be part of a schema, see the comments   
-        registry.add("spring.r2dbc.url", () -> "r2dbc:tc:postgresql:15.1-alpine:///public");
+        registry.add("spring.r2dbc.url", () -> "r2dbc:tc:postgresql:17.2-alpine3.20:///public");
         registry.add("spring.datasource.driver-class-name", () -> "org.testcontainers.jdbc.ContainerDatabaseDriver");
         registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.PostgreSQLDialect");
         registry.add("spring.r2dbc.username", () -> "postgres");

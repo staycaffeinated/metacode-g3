@@ -35,7 +35,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
     "spring.batch.job.enabled=false",
     "spring.batch.jdbc.initialize-schema=always",
     "spring.jpa.generate-ddl=true",
-    "spring.datasource.url=jdbc:tc:postgresql:13.2-alpine:///public",
+    "spring.datasource.url=jdbc:tc:postgresql:17.2-alpine3.20:///public",
     "spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver",
     "spring.jpa.hibernate.ddl-auto=create-drop"})
 class ${Application.integrationTestClass()} extends ${AbstractIntegrationTest.className()} {

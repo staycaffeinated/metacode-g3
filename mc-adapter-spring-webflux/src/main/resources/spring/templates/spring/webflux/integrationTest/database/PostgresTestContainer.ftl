@@ -7,7 +7,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 public abstract class ${PostgresDbContainerTests.className()} {
     private static final PostgreSQLContainer<?> postgresContainer =
-            new PostgreSQLContainer<>("postgres:13.3-alpine")
+            new PostgreSQLContainer<>("postgres:17.2-alpine3.20")
                     .withDatabaseName("foo")
                     .withUsername("foo")
                     .withPassword("secret");
