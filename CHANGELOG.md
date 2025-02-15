@@ -1,10 +1,16 @@
 ## Uncommitted
+                
+### Changes:
+    * The Spotless plugin deprecated `identWithSpaces` in favor of `leadingTabsToSpaces`.  
+      The affected build scripts have been updated.
+    * The `implementation` dependency on the Zalando Problem library has been removed
+      from the generated `build.gradle`. Since Spring's built-in Problem implementation is
+      now used, there's no compile-time or runtime dependency on the Zalando libraries. 
 
 ### Maintenance:
     * Update spotless-gradle-plugin to 7.0.2
     * Update gradle-lint-plugin to 20.5.6
     * Update lombok-plugin to 8.12.1
-    * The Spotless plugin deprecated `identWithSpaces` in favor of `leadingTabsToSpaces`.  The affected build scripts have been updated.
 
 
 

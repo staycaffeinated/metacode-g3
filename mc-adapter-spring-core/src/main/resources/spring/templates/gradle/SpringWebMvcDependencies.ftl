@@ -14,8 +14,6 @@ dependencies {
     implementation libs.spring.boot.starter.web
     implementation libs.spring.boot.starter.data.jpa
     implementation libs.spring.boot.starter.validation
-    implementation libs.problem.spring.web.starter
-    implementation libs.problem.jackson.datatype
     implementation libs.jakarta.persistence.api
     implementation libs.spring.boot.starter.hateoas
     implementation libs.rsql.jpa.spring.boot.starter
