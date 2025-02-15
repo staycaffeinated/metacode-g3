@@ -8,11 +8,12 @@
       now used, there's no compile-time or runtime dependency on the Zalando libraries. 
 
 ### Maintenance:
-    * Update spotless-gradle-plugin to 7.0.2
-    * Update gradle-lint-plugin to 20.5.6
-    * Update lombok-plugin to 8.12.1
-
-
+    * Upgrade spotless-gradle-plugin to 7.0.2
+    * Upgrade gradle-lint-plugin to 20.5.6
+    * Upgrade Lombok plugin to 8.12.1
+    * Upgrade Ben Manes Version plugin to 0.52.0
+    * Upgrade SpringBoot to 3.3.8
+    * Upgrade AssertJ to 3.27.3
 
 ## [11.5.0] - 2025-01-18
 
