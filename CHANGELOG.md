@@ -1,5 +1,12 @@
 ## Uncommitted
 
+### Maintenance:
+    * Update spotless-gradle-plugin to 7.0.2
+    * Update gradle-lint-plugin to 20.5.6
+    * Update lombok-plugin to 8.12.1
+
+
+
 ## [11.5.0] - 2025-01-18
 
 ### Changes:
