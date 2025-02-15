@@ -4,6 +4,7 @@
     * Update spotless-gradle-plugin to 7.0.2
     * Update gradle-lint-plugin to 20.5.6
     * Update lombok-plugin to 8.12.1
+    * The Spotless plugin deprecated `identWithSpaces` in favor of `leadingTabsToSpaces`.  The affected build scripts have been updated.
 
 
 

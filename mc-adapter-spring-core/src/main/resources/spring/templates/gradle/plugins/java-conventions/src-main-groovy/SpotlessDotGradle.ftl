@@ -13,7 +13,7 @@ spotless {
         palantirJavaFormat()
         removeUnusedImports()
         importOrder()           // imports are ordered
-        indentWithSpaces(4)
+        leadingTabsToSpaces(4)
         trimTrailingWhitespace()
         toggleOffOn()           // enable toggling code formatting with @formatter
     }
@@ -23,7 +23,7 @@ spotless {
 
         // define the steps to apply to those files
         trimTrailingWhitespace()
-        indentWithSpaces(4)
+        leadingTabsToSpaces(4)
         endWithNewline()
     }
 }
