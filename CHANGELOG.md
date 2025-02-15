@@ -1,4 +1,6 @@
 ## Uncommitted
+
+## [11.5.1] - 2025-02-15
                 
 ### Changes:
     * The Spotless plugin deprecated `identWithSpaces` in favor of `leadingTabsToSpaces`.  
