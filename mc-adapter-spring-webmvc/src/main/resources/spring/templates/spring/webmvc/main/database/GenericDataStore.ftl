@@ -96,10 +96,7 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
                 
     public void deleteByResourceId(@NonNull String resourceId) {
         Optional<B> optional = repository.findByResourceId(resourceId);
-            if (optional.isPresent()) {
-                B ejb = optional.get();
-                repository.delete(ejb);
-        }
+        optional.ifPresent(repository::delete);
     }
 
     /**
