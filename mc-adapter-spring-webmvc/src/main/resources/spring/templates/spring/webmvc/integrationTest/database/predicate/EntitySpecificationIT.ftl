@@ -40,7 +40,7 @@ class ${EntitySpecification.integrationTestClass()} implements ${RegisterDatabas
     ${Repository.className()} repository;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
         /* create schemas, sequences, and other artifacts that hibernate does not auto-create */
         AbstractPostgresIntegrationTest.initTestContainerDatabase();
