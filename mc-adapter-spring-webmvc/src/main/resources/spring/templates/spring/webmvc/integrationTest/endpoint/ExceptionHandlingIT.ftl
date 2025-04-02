@@ -14,13 +14,13 @@ import ${ServiceApi.fqcn()};
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -49,7 +49,8 @@ class ${ControllerExceptionHandler.integrationTestClass()} implements ${Register
 
     @Autowired
     ObjectMapper objectMapper;
-    @MockBean
+
+    @MockitoBean
     private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
     final ${SecureRandomSeries.className()} randomSeries = new ${SecureRandomSeries.className()}();
