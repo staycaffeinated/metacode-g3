@@ -60,37 +60,33 @@ public class ${EjbTestFixtures.className()} {
         SAME_TEXT_THREE = aNew${Entity.className()}WithText(matchingValue);
     }
 
-    private static final List<${Entity.className()}> ALL_ITEMS = new ArrayList<>();
-
-    static {
-        ALL_ITEMS.add(SAMPLE_ONE);
-        ALL_ITEMS.add(SAMPLE_TWO);
-        ALL_ITEMS.add(SAMPLE_THREE);
-        ALL_ITEMS.add(SAMPLE_FOUR);
-        ALL_ITEMS.add(SAMPLE_FIVE);
-        ALL_ITEMS.add(SAMPLE_SIX);
-        ALL_ITEMS.add(SAMPLE_SEVEN);
+    public static List<${Entity.className()}> allItems() {
+        return List.of(copyOf(SAMPLE_ONE),
+                       copyOf(SAMPLE_TWO),
+                       copyOf(SAMPLE_THREE),
+                       copyOf(SAMPLE_FOUR),
+                       copyOf(SAMPLE_FIVE),
+                       copyOf(SAMPLE_SIX),
+                       copyOf(SAMPLE_SEVEN));
     }
 
-    public static List<${Entity.className()}> allItems() { return ALL_ITEMS; }
 
-    private static final List<${Entity.className()}> ALL_WITH_SAME_TEXT = new ArrayList<>() {{
-        add(SAME_TEXT_ONE);
-        add(SAME_TEXT_TWO);
-        add(SAME_TEXT_THREE);
-        }};
-    public static List<${Entity.className()}> allItemsWithSameText() { return ALL_WITH_SAME_TEXT; }
+    public static List<${Entity.className()}> allItemsWithSameText() {
+        return List.of(copyOf(SAME_TEXT_ONE),
+                    copyOf(SAME_TEXT_TWO),
+                    copyOf(SAME_TEXT_THREE));
+    }
 
-    public static ${Entity.className()} sampleOne() { return SAMPLE_ONE; }
-    public static ${Entity.className()} sampleTwo() { return SAMPLE_TWO; }
-    public static ${Entity.className()} sampleThree() { return SAMPLE_THREE; }
+    public static ${Entity.className()} sampleOne() { return copyOf(SAMPLE_ONE); }
+    public static ${Entity.className()} sampleTwo() { return copyOf(SAMPLE_TWO); }
+    public static ${Entity.className()} sampleThree() { return copyOf(SAMPLE_THREE); }
 
     /**
      * For those instances when you want to verify behavior against a
      * ${Entity.className()} that has a resourceId.
      */
     public static ${Entity.className()} oneWithResourceId() {
-        return ONE_WITH_RESOURCE_ID;
+        return copyOf(ONE_WITH_RESOURCE_ID);
     }
 
     /**
@@ -98,7 +94,7 @@ public class ${EjbTestFixtures.className()} {
      * ${Entity.className()} that has no resourceId assigned.
      */
     public static ${Entity.className()} oneWithoutResourceId() {
-        return ONE_WITHOUT_RESOURCE_ID;
+        return copyOf(ONE_WITHOUT_RESOURCE_ID);
     }
 
     /**
@@ -114,7 +110,6 @@ public class ${EjbTestFixtures.className()} {
 
     private static ${Entity.className()} aNew${Entity.className()}WithText(String text) {
         return ${Entity.className()}.builder()
-            .resourceId(randomSeries.nextResourceId())
             .text(text)
             .build();
     }
@@ -124,4 +119,19 @@ public class ${EjbTestFixtures.className()} {
             .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
             .build();
     }
+
+    /**
+     * Instances of test fixture entities have a risk of being modified by a test.
+     * For instance, if `repository.save(someEntity)` is called, the entity
+     * instance will be assigned a database ID. To avoid propagating these
+     * mutations across various test cases, a new, clean copy of entities can
+     * be made via this method.
+     */
+    private static ${Entity.className()} copyOf(${Entity.className()} entity) {
+        return ${Entity.className()}.builder()
+            .text(entity.getText())
+            .resourceId(entity.getResourceId())
+            .build();
+    }
+
 }
