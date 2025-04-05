@@ -15,22 +15,32 @@ import ${RegisterDatabaseProperties.fqcn()};
 import ${Repository.fqcn()};
 import ${Routes.fqcn()};
 import ${EjbTestFixtures.fqcn()};
-import org.junit.jupiter.api.*;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.assertj.MvcTestResult;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Stream;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -40,23 +50,21 @@ class ${Controller.integrationTestClass()} extends ${AbstractPostgresIntegration
 <#else>
 class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>
-    @Autowired
-    MockMvc mockMvc;
+    private final MockMvcTester mockMvcTester;
+    private final ObjectMapper objectMapper;
+    private final ${Repository.className()} ${endpoint.entityVarName}Repository;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
-    public static final String PATH_TO_TEXT = "$." + ${endpoint.entityName}.Fields.TEXT;
-    public static final String PATH_TO_RESOURCE_ID = "$." + ${endpoint.entityName}.Fields.RESOURCE_ID;
-
-    @Autowired
-    private ${Repository.className()} ${endpoint.entityVarName}Repository;
-
-    // This holds sample ${endpoint.ejbName}s that will be saved to the database
     private List<${Entity.className()}> ${endpoint.entityVarName}List = null;
 
+    @Autowired
+    public ${Controller.integrationTestClass()}(MockMvcTester mockMvcTester, ObjectMapper objMapper, ${Repository.className()} repository) {
+        this.mockMvcTester = mockMvcTester;
+        this.objectMapper = objMapper;
+        this.${endpoint.entityVarName}Repository = repository;
+    }
+
     @BeforeEach
-    void setUp() {
+    void configureSystemUnderTest() {
         ${endpoint.entityVarName}Repository.saveAll(${EjbTestFixtures.className()}.allItems());
         ${endpoint.entityVarName}List = ${endpoint.entityVarName}Repository.findAll();
     }
@@ -68,14 +76,43 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
 
     @Nested
     class ValidateFindByText {
-        @Test
-        void whenSearchFindsHits_expectOkAndMatchingRecords() throws Exception {
-            searchByText("First").andExpect(status().isOk());
+        @ParameterizedTest
+        @MethodSource("supplierOfAttributeValue")
+        void whenSearchFindsHits_expectOkAndMatchingRecords(String attributeValue) {
+            searchByTextAttribute(attributeValue)
+                    .assertThat()
+                    .hasStatus(HttpStatus.OK)
+                    .bodyJson()
+                    .extractingPath("$.page")
+                    .hasFieldOrProperty("size");
         }
 
-        @Test
-        void whenSearchComesUpEmpty_expectOkButNoRecords() throws Exception {
-            searchByText("xyzzy").andExpect(status().isOk());
+        private static Stream<Arguments> supplierOfAttributeValue() {
+            return Stream.of(
+                        Arguments.of(${EjbTestFixtures.className()}.sampleOne().getText()),
+                        Arguments.of(${EjbTestFixtures.className()}.sampleTwo().getText()),
+                        Arguments.of(${EjbTestFixtures.className()}.sampleThree().getText())
+            );
+    }
+
+        @ParameterizedTest
+        @ValueSource(strings = {
+            "lorem ipsum dolor emit",
+            "fe fi fo fum"
+        })
+        void whenSearchComesUpEmpty_expectOkButNoRecords(String noSuchValue) {
+            searchByTextAttribute(noSuchValue)
+                    .assertThat()
+                    .hasStatus(HttpStatus.OK)
+                    .bodyJson()
+                    .extractingPath("$.page") // drill down to the page stanza
+                    .hasFieldOrPropertyWithValue("number", 0); // the number of elements is zero
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = { "123.456.789", "=$!&()" })
+        void whenValidationOfAttributeValueRaisesError_expectBadRequest(String badValue) {
+            searchByTextAttribute(badValue).assertThat().hasStatus(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -87,37 +124,42 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     class ValidateFindById {
         @Test
         void shouldFind${endpoint.entityName}ById() throws Exception {
-            ${Entity.className()} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
-            String ${endpoint.entityVarName}Id = ${endpoint.entityVarName}.getResourceId();
+            ${Entity.className()} ejb = ${endpoint.entityVarName}List.get(0);
+            String publicId = ejb.getResourceId();
 
-            mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.findOne}, ${endpoint.entityVarName}Id))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
+            findSpecificEntity(publicId).assertThat().hasStatus(HttpStatus.OK)
+                .bodyJson()
+                .extractingPath("$")
+                .convertTo(${EntityResource.className()}.class)
+                .satisfies(e -> assertThat(e.getResourceId()).isEqualTo(publicId));
         }
     }
 
     /*
-    * Create method
-    */
+     * Create method
+     */
     @Nested
     class ValidateCreate${endpoint.entityName} {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
-            ${EntityResource.className()} resource = ${EntityResource.className()}.builder().text("I am a new resource").build();
+            String attributeValue = "I am a new resource";
+            ${EntityResource.className()} resource = ${EntityResource.className()}.builder().text(attributeValue).build();
 
-            mockMvc.perform(post(${Routes.className()}.${endpoint.routeConstants.create})
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(resource)))
-                    .andExpect(status().isCreated())
-                    .andExpect(jsonPath(PATH_TO_TEXT, is(resource.getText())))
-                    ;
+            createEntity(resource).assertThat()
+                    .hasStatus(HttpStatus.CREATED)
+                    .hasContentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                    .bodyJson()
+                    .extractingPath("$")
+                    .convertTo(${EntityResource.className()}.class)
+                    .satisfies(e -> assertThat(e.getResourceId()).isNotEmpty())
+                    .satisfies(e -> assertThat(e.getText()).isEqualTo(attributeValue));
         }
 
         /**
-        * Verify the controller's data validation catches malformed inputs,
-        * such as missing required fields, and returns either 'unprocessable entity'
-        * or 'bad request'.
-        */
+         * Verify the controller's data validation catches malformed inputs,
+         * such as missing required fields, and returns either 'unprocessable entity'
+         * or 'bad request'.
+         */
         @Test
         void shouldReturn4xxWhenCreateNew${endpoint.entityName}WithoutText() throws Exception {
             ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
@@ -126,9 +168,8 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
             // different outcomes. With H2, the controller's @Validated annotation is
             // applied and a 400 status code is returned. With Postgres, the @Validated
             // is ignored and a 422 error occurs when the database catches the invalid data.
-            mockMvc.perform(post(${Routes.className()}.${endpoint.routeConstants.create})
-                    .content(objectMapper.writeValueAsString(resource)))
-                    .andExpect(status().is4xxClientError());
+            // Given that, we only check for a 4xx error.
+            createEntity(resource).assertThat().hasStatus4xxClientError();
         }
     }
 
@@ -141,14 +182,16 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
 
         @Test
         void shouldUpdate${endpoint.entityName}() throws Exception {
-            ${Entity.className()} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
-            ${EntityResource.className()} resource = new ${EntityToPojoConverter.className()}().convert(${endpoint.entityVarName});
+            ${Entity.className()} ejb = ${endpoint.entityVarName}List.get(0);
+            ${EntityResource.className()} pojo = new ${EntityToPojoConverter.className()}().convert(ejb);
 
-            mockMvc.perform(put(${Routes.className()}.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(resource)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
+            updateEntity(ejb.getResourceId(), pojo)
+                    .assertThat()
+                    .hasStatus(HttpStatus.OK)
+                    .hasContentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                    .bodyJson().extractingPath("$").convertTo(${EntityResource.className()}.class)
+                    .satisfies(e -> assertThat(e.getResourceId()).isEqualTo(ejb.getResourceId()))
+                    .satisfies(e -> assertThat(e.getText()).isEqualTo(pojo.getText()));
         }
     }
 
@@ -158,13 +201,10 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     @Nested
     class ValidateDelete${endpoint.entityName} {
         @Test
-        void shouldDelete${endpoint.entityName}() throws Exception {
-            ${Entity.className()} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
+        void shouldDelete${endpoint.entityName}() {
+            ${Entity.className()} pojo = ${endpoint.entityVarName}List.get(0);
 
-            mockMvc.perform(
-                delete(${Routes.className()}.${endpoint.routeConstants.delete}, ${endpoint.entityVarName}.getResourceId()))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
+            deleteEntity(pojo.getResourceId()).assertThat().hasStatus(HttpStatus.OK);
         }
     }
 
@@ -173,9 +213,94 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     // Helper methods
     //
     // ---------------------------------------------------------------------------------------------------------------
+    
+    /**
+     * Submits a findAll request
+     */
+    protected MvcTestResult findAllEntities() {
+        return mockMvcTester.get()
+                    .uri( ${Routes.className()}.${endpoint.routeConstants.findAll}  )
+                    .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .exchange();
+    }
 
-    protected ResultActions searchByText(String text) throws Exception {
-        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search})
-                .param(${EntityResource.className()}.Fields.TEXT, text));
+
+    /**
+     * Submits a findOne request
+     */
+    protected MvcTestResult findSpecificEntity(String resourceId) {
+        return mockMvcTester.get()
+                .uri( ${Routes.className()}.${endpoint.routeConstants.findOne}, resourceId )
+                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .exchange();
+    }
+
+    /**
+     * Submits a findByTextAttribute request
+     */
+    protected MvcTestResult searchByTextAttribute(String attributeValue) {
+        return mockMvcTester.get()
+                .uri(${Routes.className()}.${endpoint.routeConstants.findByProperty})
+                .param(${endpoint.entityName}.Fields.TEXT, URLEncoder.encode(attributeValue, StandardCharsets.UTF_8))
+                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .exchange();
+    }
+
+    /**
+     * Submits an RSQL search request
+     */
+    protected MvcTestResult search(String rsqlQuery) {
+        return mockMvcTester.get()
+                .uri(${Routes.className()}.${endpoint.routeConstants.search})
+                .param("q", rsqlQuery)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .exchange();
+    }
+
+    /**
+     * Submits a Delete request
+     */
+    protected MvcTestResult deleteEntity(String resourceId) {
+        return mockMvcTester.delete()
+                .uri(${Routes.className()}.${endpoint.routeConstants.delete},resourceId)
+                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                .exchange();
+    }
+
+    /**
+     * Submits a well-formed update request
+     */
+    protected MvcTestResult updateEntity(${endpoint.pojoName} pojo) throws Exception {
+        return updateEntity(pojo.getResourceId(), pojo);
+    }
+
+    /**
+     * Submits an update request, with support for a badly formed request
+     * where the ID in the query string and the ID in the payload do not match.
+     */
+    protected MvcTestResult updateEntity(String resourceId, ${endpoint.pojoName} pojo) throws Exception {
+        return mockMvcTester.put()
+                    .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
+                    .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(pojo))
+                    .exchange();
+    }
+
+    /**
+     * Create an entity
+     */
+    protected MvcTestResult createEntity(${endpoint.pojoName} pojo) throws Exception {
+        return mockMvcTester
+                    .post()
+                    .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
+                    .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(pojo))
+                    .exchange();
     }
 }

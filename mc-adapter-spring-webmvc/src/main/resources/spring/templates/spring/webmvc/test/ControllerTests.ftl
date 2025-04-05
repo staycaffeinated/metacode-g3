@@ -92,7 +92,7 @@ class ${Controller.testClass()} {
          *  shouldFind${endpoint.entityName}ById
          */
         @Test
-        void shouldFind${endpoint.entityName}ById() throws Exception {
+        void shouldFind${endpoint.entityName}ById() {
             // given
             ${endpoint.pojoName} ${endpoint.entityVarName} = ${ModelTestFixtures.className()}.oneWithResourceId();
             String resourceId = ${endpoint.entityVarName}.getResourceId();
@@ -113,7 +113,7 @@ class ${Controller.testClass()} {
         }
 
         @Test
-        void shouldReturn404WhenFetchingNonExisting${endpoint.entityName}() throws Exception {
+        void shouldReturn404WhenFetchingNonExisting${endpoint.entityName}() {
             // given
             String resourceId = randomSeries.nextResourceId();
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId )).willReturn(Optional.empty());
@@ -204,7 +204,7 @@ class ${Controller.testClass()} {
     @Nested
     class Delete${endpoint.entityName}Tests {
         @Test
-        void shouldDelete${endpoint.entityName}() throws Exception {
+        void shouldDelete${endpoint.entityName}() {
             // given
             ${endpoint.pojoName} ${endpoint.entityVarName} = ${ModelTestFixtures.className()}.oneWithResourceId();
             String resourceId = ${endpoint.entityVarName}.getResourceId();
@@ -224,7 +224,7 @@ class ${Controller.testClass()} {
         }
 
         @Test
-        void shouldReturn404WhenDeletingNonExisting${endpoint.entityName}() throws Exception {
+        void shouldReturn404WhenDeletingNonExisting${endpoint.entityName}() {
             String resourceId = randomSeries.nextResourceId();
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
@@ -236,7 +236,7 @@ class ${Controller.testClass()} {
     class SearchByTextAttributeTests {
         @Test
         @SuppressWarnings("unchecked")
-        void shouldReturnListWhenMatchesAreFound() throws Exception {
+        void shouldReturnListWhenMatchesAreFound() {
             given (${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class))).willReturn(pageOfData);
 
             // when/then (the default Pageable in the controller is sufficient for testing)
@@ -252,7 +252,7 @@ class ${Controller.testClass()} {
          * which limits our options.
          */
         @Test
-        void whenTextIsTooLong_expectError() throws Exception {
+        void whenTextIsTooLong_expectError() {
             given(${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class)))
                 .willThrow(ConstraintViolationException.class);
 
@@ -260,7 +260,7 @@ class ${Controller.testClass()} {
         }
 
         @Test
-        void whenTextContainsInvalidCharacters_expectError() throws Exception {
+        void whenTextContainsInvalidCharacters_expectError() {
             given(${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class)))
                 .willThrow(ConstraintViolationException.class);
 
@@ -271,8 +271,11 @@ class ${Controller.testClass()} {
     @Nested
     class SearchUseCases {
         @ParameterizedTest
-        @ValueSource(strings = {"text!='Foo Bar'", "text*='Foo'", "resourceId>0"})
-        void shouldReturnSomethingFromQuery(String rsqlQuery) throws Exception {
+        @ValueSource(strings = {
+            "text!='Foo Bar'",
+            "text*='Foo'",
+            "resourceId>0"})
+        void shouldReturnSomethingFromQuery(String rsqlQuery) {
             given (${endpoint.entityVarName}Service.search(any(String.class), any(Pageable.class))).willReturn(pageOfData);
             search(rsqlQuery).assertThat().hasStatus(HttpStatus.OK);
         }
@@ -287,7 +290,7 @@ class ${Controller.testClass()} {
     /**
      * Submits a findAll request
      */
-    protected MvcTestResult findAllEntities() throws Exception {
+    protected MvcTestResult findAllEntities() {
         return mockMvcTester.get()
                             .uri( ${Routes.className()}.${endpoint.routeConstants.findAll}  )
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
@@ -299,7 +302,7 @@ class ${Controller.testClass()} {
     /**
      * Submits a findOne request
      */
-    protected MvcTestResult findSpecificEntity(String resourceId) throws Exception {
+    protected MvcTestResult findSpecificEntity(String resourceId) {
         return mockMvcTester.get()
                             .uri( ${Routes.className()}.${endpoint.routeConstants.findOne}, resourceId )
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
@@ -310,7 +313,7 @@ class ${Controller.testClass()} {
     /**
      * Submits a findByTextAttribute request
      */
-    protected MvcTestResult searchByTextAttribute(String attributeValue) throws Exception {
+    protected MvcTestResult searchByTextAttribute(String attributeValue) {
         return mockMvcTester.get()
                             .uri(${Routes.className()}.${endpoint.routeConstants.findByProperty})
                             .param(${endpoint.entityName}.Fields.TEXT, attributeValue)
@@ -322,7 +325,7 @@ class ${Controller.testClass()} {
     /**
      * Submits an RSQL search request
      */
-    protected MvcTestResult search(String rsqlQuery) throws Exception {
+    protected MvcTestResult search(String rsqlQuery) {
         return mockMvcTester.get()
                             .uri(${Routes.className()}.${endpoint.routeConstants.search})
                             .param("q", rsqlQuery)
@@ -334,7 +337,7 @@ class ${Controller.testClass()} {
     /**
      * Submits a Delete request
      */
-    protected MvcTestResult deleteEntity(String resourceId) throws Exception {
+    protected MvcTestResult deleteEntity(String resourceId) {
         return mockMvcTester.delete()
                             .uri(${Routes.className()}.${endpoint.routeConstants.delete},resourceId)
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
