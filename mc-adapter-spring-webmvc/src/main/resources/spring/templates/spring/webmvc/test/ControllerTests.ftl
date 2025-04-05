@@ -8,60 +8,56 @@ import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.assertj.MvcTestResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.TransactionSystemException;
 
-import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.mockito.ArgumentMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(${Controller.className()}.class)
-@ActiveProfiles("test")
 class ${Controller.testClass()} {
-
-    public static final String PATH_TO_TEXT = "$." + ${EntityResource.className()}.Fields.TEXT;
-    public static final String PATH_TO_RESOURCE_ID = "$." + ${EntityResource.className()}.Fields.RESOURCE_ID;
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @MockitoBean
     private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private MockMvcTester mockMvcTester;
 
-    private List<${endpoint.pojoName}> ${endpoint.entityVarName}List;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     private Page<${endpoint.pojoName}> pageOfData;
 
     private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     @BeforeEach
-    void setUp() {
-        ${endpoint.entityVarName}List = ${ModelTestFixtures.className()}.allItems();
+    void configureSystemUnderTest() {
+        ${endpoint.entityVarName}Service = Mockito.mock(${ServiceApi.className()}.class);
+        var mockMvc = MockMvcBuilders.standaloneSetup(new ${Controller.className()}(${endpoint.entityVarName}Service))
+                                       .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                                       .build();
+        mockMvcTester = MockMvcTester.create(mockMvc);
 
+        var ${endpoint.entityVarName}List = ${ModelTestFixtures.className()}.allItems();
         pageOfData = new PageImpl<>(${endpoint.entityVarName}List);
     }
 
@@ -77,12 +73,16 @@ class ${Controller.testClass()} {
          */
         @Test
         void shouldFetchAll${endpoint.entityName}s() throws Exception {
-            int expectedSize = ${ModelTestFixtures.className()}.allItems().size();
             given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${ModelTestFixtures.className()}.allItems());
 
+            var jsonPathToId = "$.[0]." + ${endpoint.entityName}.Fields.RESOURCE_ID;
+
             findAllEntities()
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(expectedSize)));
+                .assertThat()
+                .hasStatus(HttpStatus.OK)
+                .hasContentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                .bodyJson()
+                .hasPathSatisfying(jsonPathToId, path -> assertThat(path).isNotEmpty());
         }
     }
 
@@ -102,9 +102,14 @@ class ${Controller.testClass()} {
 
             // when/then
             findSpecificEntity(resourceId)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())))
-                ;
+                .assertThat()
+                .hasStatus(HttpStatus.OK)
+                .hasContentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                .bodyJson()
+                .extractingPath("$")
+                .asMap()
+                .containsEntry(${endpoint.entityName}.Fields.RESOURCE_ID, resourceId)
+                .containsEntry(${endpoint.entityName}.Fields.TEXT, ${endpoint.entityVarName}.getText());
         }
 
         @Test
@@ -114,7 +119,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId )).willReturn(Optional.empty());
 
             // when/then
-            findSpecificEntity(resourceId).andExpect(status().isNotFound());
+            findSpecificEntity(resourceId).assertThat().hasStatus(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -129,9 +134,14 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
 
             // when/then
-            createEntity(resourceBeforeSave).andExpect(status().isCreated())
-                .andExpect(jsonPath(PATH_TO_RESOURCE_ID, notNullValue()))
-                .andExpect(jsonPath(PATH_TO_TEXT, is(resourceAfterSave.getText())));
+            createEntity(resourceBeforeSave)
+                .assertThat()
+                .hasStatus(HttpStatus.CREATED)
+                .bodyJson()
+                .extractingPath("$")
+                .asMap()
+                .containsEntry(${endpoint.entityName}.Fields.TEXT, resourceAfterSave.getText())
+                .containsKey(${endpoint.entityName}.Fields.RESOURCE_ID);
         }
 
         @Test
@@ -140,7 +150,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
             ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
 
-            createEntity(resource).andExpect(status().isUnprocessableEntity());
+            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -155,8 +165,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
-            updateEntity(${endpoint.entityVarName}).andExpect(status().isOk())
-                .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
+            updateEntity(resourceId, book).assertThat().hasStatus(HttpStatus.OK);
         }
 
         @Test
@@ -169,7 +178,7 @@ class ${Controller.testClass()} {
             ${endpoint.pojoName} resource = ${EntityResource.className()}.builder().resourceId(resourceId).text("updated text").build();
 
             // Attempt to update an entity that does not exist
-            updateEntity(resource).andExpect(status().isNotFound());
+            updateEntity(resource).assertThat().hasStatus(HttpStatus.NOT_FOUND);
         }
 
         /**
@@ -188,7 +197,7 @@ class ${Controller.testClass()} {
 
             // Submit an update request, with the ID in the URL not matching the ID in the body.
             // Expect back an UnprocessableEntity status code
-            updateEntity(resourceId, resource).andExpect(status().isUnprocessableEntity());
+            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -205,8 +214,13 @@ class ${Controller.testClass()} {
             doNothing().when(${endpoint.entityVarName}Service).delete${endpoint.entityName}ByResourceId(${endpoint.entityVarName}.getResourceId());
 
             // when/then
-            deleteEntity(resourceId).andExpect(status().isOk())
-            .andExpect(jsonPath(PATH_TO_TEXT, is(${endpoint.entityVarName}.getText())));
+            deleteEntity(resourceId)
+                .assertThat()
+                .hasStatus(HttpStatus.OK)
+                .bodyJson()
+                .extractingPath("$")
+                .asMap()
+                .containsKey(${endpoint.entityName}.Fields.RESOURCE_ID);
         }
 
         @Test
@@ -214,41 +228,53 @@ class ${Controller.testClass()} {
             String resourceId = randomSeries.nextResourceId();
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
-            deleteEntity(resourceId).andExpect(status().isNotFound());
+            deleteEntity(resourceId).assertThat().hasStatus(HttpStatus.NOT_FOUND);
         }
     }
 
     @Nested
-    class SearchByTextTests {
+    class SearchByTextAttributeTests {
         @Test
         @SuppressWarnings("unchecked")
         void shouldReturnListWhenMatchesAreFound() throws Exception {
             given (${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class))).willReturn(pageOfData);
 
             // when/then (the default Pageable in the controller is sufficient for testing)
-            searchByText("text").andExpect(status().isOk());
+            searchByTextAttribute("text").assertThat().hasStatus(HttpStatus.OK);
         }
     }
 
     @Nested
-    class SearchTextValidationTests {
+    class SearchTextAttributeValidationTests {
+        /*
+         * Unit tests do not have the validation filters wired in
+         * (the full web application context is needed to achieve that),
+         * which limits our options.
+         */
         @Test
         void whenTextIsTooLong_expectError() throws Exception {
-            searchByText("supercalifragilisticexpialidocious").andExpect(status().is4xxClientError());
+            given(${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class)))
+                .willThrow(ConstraintViolationException.class);
+
+            searchByTextAttribute("supercalifragilisticexpialidocious").assertThat().hasFailed();
         }
 
         @Test
         void whenTextContainsInvalidCharacters_expectError() throws Exception {
-            searchByText("192.168.0.0<555").andExpect(status().is4xxClientError());
+            given(${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class)))
+                .willThrow(ConstraintViolationException.class);
+
+            searchByTextAttribute("192.168.0.0<555").assertThat().hasFailed();
         }
     }
 
     @Nested
     class SearchUseCases {
-        @Test
-        void shouldReturnSomethingFromQuery() throws Exception {
+        @ParameterizedTest
+        @ValueSource(strings = {"text!='Foo Bar'", "text*='Foo'", "resourceId>0"})
+        void shouldReturnSomethingFromQuery(String rsqlQuery) throws Exception {
             given (${endpoint.entityVarName}Service.search(any(String.class), any(Pageable.class))).willReturn(pageOfData);
-            search("text!=Bluey").andExpect(status().isOk());
+            search(rsqlQuery).assertThat().hasStatus(HttpStatus.OK);
         }
     }
 
@@ -259,66 +285,93 @@ class ${Controller.testClass()} {
     // ---------------------------------------------------------------------------------------------------------------
 
     /**
-     * Sends a findAll request
+     * Submits a findAll request
      */
-    protected ResultActions findAllEntities() throws Exception {
-        return mockMvc.perform(get( ${Routes.className()}.${endpoint.routeConstants.findAll} ));
+    protected MvcTestResult findAllEntities() throws Exception {
+        return mockMvcTester.get()
+                            .uri( ${Routes.className()}.${endpoint.routeConstants.findAll}  )
+                            .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .exchange();
+    }
+
+
+    /**
+     * Submits a findOne request
+     */
+    protected MvcTestResult findSpecificEntity(String resourceId) throws Exception {
+        return mockMvcTester.get()
+                            .uri( ${Routes.className()}.${endpoint.routeConstants.findOne}, resourceId )
+                            .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .exchange();
     }
 
     /**
-     * Sends a findOne request
+     * Submits a findByTextAttribute request
      */
-    protected ResultActions findSpecificEntity(String resourceId) throws Exception {
-        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.findOne}, resourceId ));
-    }
-
-    
-    /**
-     * Submits a findByProperty request
-     */
-    protected ResultActions searchByText(String text) throws Exception {
-        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.findByProperty}).param("text", text));
+    protected MvcTestResult searchByTextAttribute(String attributeValue) throws Exception {
+        return mockMvcTester.get()
+                            .uri(${Routes.className()}.${endpoint.routeConstants.findByProperty})
+                            .param(${endpoint.entityName}.Fields.TEXT, attributeValue)
+                            .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .exchange();
     }
 
     /**
      * Submits an RSQL search request
      */
-    protected ResultActions search(String rsqlQuery) throws Exception {
-        return mockMvc.perform(get(${Routes.className()}.${endpoint.routeConstants.search}).param("q", rsqlQuery));
+    protected MvcTestResult search(String rsqlQuery) throws Exception {
+        return mockMvcTester.get()
+                            .uri(${Routes.className()}.${endpoint.routeConstants.search})
+                            .param("q", rsqlQuery)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .exchange();
     }
-
 
     /**
      * Submits a Delete request
      */
-    protected ResultActions deleteEntity(String resourceId) throws Exception {
-        return mockMvc.perform(delete(${Routes.className()}.${endpoint.routeConstants.delete},resourceId));
+    protected MvcTestResult deleteEntity(String resourceId) throws Exception {
+        return mockMvcTester.delete()
+                            .uri(${Routes.className()}.${endpoint.routeConstants.delete},resourceId)
+                            .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                            .exchange();
     }
 
     /**
-     * To support the use case of a well-formed update request
+     * Submits a well-formed update request
      */
-    protected ResultActions updateEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
-        return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(objectMapper.writeValueAsString(${endpoint.entityVarName})));
+    protected MvcTestResult updateEntity(${endpoint.pojoName} pojo) throws Exception {
+        return updateEntity(pojo.getResourceId(), pojo);
     }
 
     /**
-    * To support the use case of the ID in the query string not matching the ID in the payload
-    */
-    protected ResultActions updateEntity(String resourceId, ${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
-        return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(objectMapper.writeValueAsString(${endpoint.entityVarName})));
+     * Submits an update request, with support for a badly formed request
+     * where the ID in the query string and the ID in the payload do not match.
+     */
+    protected MvcTestResult updateEntity(String resourceId, ${endpoint.pojoName} pojo) throws Exception {
+        return mockMvcTester
+                    .put()
+                    .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
+                    .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(pojo))
+                    .exchange();
     }
 
     /**
-    * Submits a Post request
-    */
-    protected ResultActions createEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
-        return mockMvc.perform(post(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(objectMapper.writeValueAsString(${endpoint.entityVarName})));
+     * Create an entity
+     */
+    protected MvcTestResult createEntity(${endpoint.pojoName} pojo) throws Exception {
+        return mockMvcTester
+                    .post()
+                    .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
+                    .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(pojo))
+                    .exchange();
     }
 }
