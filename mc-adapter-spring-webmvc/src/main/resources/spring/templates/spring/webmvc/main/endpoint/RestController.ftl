@@ -34,6 +34,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.net.URI;
@@ -168,7 +170,8 @@ public class ${Controller.className()} {
             @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) Pageable pageable,
             PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
-        return resourceAssembler.toModel( ${ServiceApi.varName()}.findByText(text.orElse(""), pageable) );
+        String attributeValue = URLDecoder.decode(text.orElse(""), StandardCharsets.UTF_8);
+        return resourceAssembler.toModel( ${ServiceApi.varName()}.findByText(attributeValue, pageable) );
     }
 
     /*

@@ -28,7 +28,7 @@ class SearchTextValidatorTests {
     @Nested
     class PositiveTestCases {
         @ParameterizedTest
-        @ValueSource(strings = {"something", "SOMETHING"})
+        @ValueSource(strings = {"something", "Something", "SOMETHING", "A", "Abc", "abc" })
         @EmptySource
         void shouldAllowAlphabetic(String candidateText) {
             assertThat(validationUnderTest.isValid(Optional.of(candidateText), mockContext)).isTrue();

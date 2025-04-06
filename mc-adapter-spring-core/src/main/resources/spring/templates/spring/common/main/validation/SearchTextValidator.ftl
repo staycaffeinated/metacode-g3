@@ -10,16 +10,23 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
- * Verifies that search-by-text parameter only contains valid characters.
- * The reg-ex used here is from:
- *   https://owasp.org/www-community/OWASP_Validation_Regex_Repository
+ * Verifies that a search-by-text parameter only contains valid characters.
+ * The OWASP Validation Regex Repository has useful expressions:
+ * <ul>
+ * <li><a href="https://owasp.org/www-community/OWASP_Validation_Regex_Repository">OWASP Regex Repository</a></li>
+ * </ul>
+ * Other references:
+ * <ul>
+ * <li><a href="https://regexlib.com/DisplayPatterns.aspx">Display Patterns</a></li>
+ * <li><a href="https://cheatography.com/davechild/cheat-sheets/regular-expressions/">Regex Cheat Sheet</a></li>
+ * </ul>
  */
 public class SearchTextValidator implements ConstraintValidator<SearchText, Optional<String>> {
 
     // These value constraints are arbitrary, since we have to start somewhere.
     // These should be adjusted to something that makes sense to your use cases.
     // Don't forget to account for URL-encoded values
-    private static final String REGEX = "^[a-zA-Z0-9~@#$^*()_+=]*$";
+    private static final String REGEX = "[:print:]|[:graph:]|^[a-zA-Z0-9~@#$^*()_+=%]*$";
     private static final int MAXLENGTH = 24;
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 

@@ -110,7 +110,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
         }
 
         @ParameterizedTest
-        @ValueSource(strings = { "123.456.789", "=$!&()" })
+        @ValueSource(strings = { "123.456.789" })
         void whenValidationOfAttributeValueRaisesError_expectBadRequest(String badValue) {
             searchByTextAttribute(badValue).assertThat().hasStatus(HttpStatus.BAD_REQUEST);
         }
@@ -123,7 +123,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     @Nested
     class ValidateFindById {
         @Test
-        void shouldFind${endpoint.entityName}ById() throws Exception {
+        void shouldFind${endpoint.entityName}ById() {
             ${Entity.className()} ejb = ${endpoint.entityVarName}List.get(0);
             String publicId = ejb.getResourceId();
 

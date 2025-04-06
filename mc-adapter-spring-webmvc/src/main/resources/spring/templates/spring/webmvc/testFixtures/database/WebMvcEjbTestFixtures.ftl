@@ -54,7 +54,7 @@ public class ${EjbTestFixtures.className()} {
         ONE_WITH_RESOURCE_ID = aNew${Entity.className()}();
         ONE_WITHOUT_RESOURCE_ID = aNew${Entity.className()}WithNoResourceId();
 
-        String matchingValue = faker.book().title(); // TODO: replace with something meaningful to your business objects
+        String matchingValue = faker.book().author(); // TODO: replace with something meaningful to your business objects
         SAME_TEXT_ONE = aNew${Entity.className()}WithText(matchingValue);
         SAME_TEXT_TWO = aNew${Entity.className()}WithText(matchingValue);
         SAME_TEXT_THREE = aNew${Entity.className()}WithText(matchingValue);
@@ -103,7 +103,7 @@ public class ${EjbTestFixtures.className()} {
     private static ${Entity.className()} aNew${Entity.className()}() {
         return ${Entity.className()}.builder()
             .resourceId(randomSeries.nextResourceId())
-            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
+            .text(faker.book().author()) // TODO: replace with a value meaningful to your business object
             .build();
     }
 
@@ -116,7 +116,7 @@ public class ${EjbTestFixtures.className()} {
 
     private static ${Entity.className()} aNew${Entity.className()}WithNoResourceId() {
         return ${Entity.className()}.builder()
-            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
+            .text(faker.book().author()) // TODO: replace with a value meaningful to your business object
             .build();
     }
 

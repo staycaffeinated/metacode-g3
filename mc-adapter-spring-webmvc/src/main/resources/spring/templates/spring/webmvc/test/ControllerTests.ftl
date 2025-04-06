@@ -72,7 +72,7 @@ class ${Controller.testClass()} {
          * shouldFetchAll${endpoint.entityName}s
          */
         @Test
-        void shouldFetchAll${endpoint.entityName}s() throws Exception {
+        void shouldFetchAll${endpoint.entityName}s() {
             given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${ModelTestFixtures.className()}.allItems());
 
             var jsonPathToId = "$.[0]." + ${endpoint.entityName}.Fields.RESOURCE_ID;
