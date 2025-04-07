@@ -165,7 +165,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
-            updateEntity(resourceId, book).assertThat().hasStatus(HttpStatus.OK);
+            updateEntity(resourceId, ${endpoint.entityVarName}).assertThat().hasStatus(HttpStatus.OK);
         }
 
         @Test
