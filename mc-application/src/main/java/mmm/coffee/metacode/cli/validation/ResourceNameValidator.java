@@ -50,10 +50,16 @@ public class ResourceNameValidator implements ValidationTrait {
         if (isValid())
             return "";
         else {
-            return String.format("%nERROR: %n\tThe resource name '%s' cannot be used. " +
-                    "Resource names that lead to compile-time errors or " +
-                    "obscure runtime errors are not supported.\n" +
-                    "\tSuggestion: try something like '%sInfo' or '%sDetail', for example.", value, value, value);
+            var fmt = """
+                    %nError:
+                    \tThe resource name '%s' cannot be used.
+                    \tResource names known to lead to compile-time errors or obscure runtime errors are not supported.
+                    \tFor instance, this includes resource names that match SQL reserved words or Java reserved words.
+                    
+                    Suggestion:
+                    \tTry something like '%sInfo' or '%sDetail', for example.
+                    """;
+            return String.format(fmt, value, value, value);
         }
     }
 
