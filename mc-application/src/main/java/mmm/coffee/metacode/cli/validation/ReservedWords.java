@@ -24,8 +24,10 @@ public class ReservedWords {
 
     private static final String[] reserved;
 
+    private static boolean isSorted =  false;
+
     /*
-     * The reserved words, plus 'null'
+     * The Java reserved words, plus 'null', plus SQL reserved words
      */
     static {
         reserved = new String[]{"abstract", "assert", "boolean", "break", "byte",
@@ -35,7 +37,24 @@ public class ReservedWords {
                 "int", "interface", "long", "native", "new", "null", "package",
                 "private", "protected", "public", "return", "short", "static",
                 "strictfp", "super", "switch", "synchronized", "this", "throw",
-                "throws", "transient", "true", "try", "void", "volatile", "while"
+                "throws", "transient", "true", "try", "void", "volatile", "while",
+                // Postgres-specific
+                "all", "analyse", "analyze", "and", "any", "array", "as", "asc",
+                "asymmetric", "authorization", "binary", "both", "case", "cast",
+                "check", "collate", "collation", "column", "concurrently", "constraint",
+                "create", "cross", "current_catalog", "current_date", "current_role",
+                "current_schema", "current_time", "current_timestamp", "current_user",
+                "default", "deferrable", "desc", "distinct", "do", "else", "end", "except",
+                "fallback", "fetch", "for", "foreign","freeze", "from", "full", "grant",
+                "group", "having", "ilike", "in", "initially", "inner", "intersect",
+                "into", "is", "isnull", "join", "lateral", "leading", "left", "like",
+                "limit", "localtime", "localtimestamp", "natural", "normalize",
+                "notnull", "offset", "on", "only", "or", "order", "outer", "overlaps",
+                "placing", "primary", "references", "returning", "right", "select",
+                "session_user", "similar", "some", "symmetric", "system_user", "table",
+                "tablesample", "then", "to", "trailing", "true", "unknown", "unique",
+                "user", "using", "variable", "variadic", "verbose", "when", "where",
+                "window", "with"
         };
     }
 
@@ -51,6 +70,10 @@ public class ReservedWords {
      * @return if {@code word} is a reserved word, or is the String "null".
      */
     public static boolean isReservedWord(String word) {
+        if (!isSorted) {
+            Arrays.sort(reserved);
+            isSorted = true;
+        }
         return Arrays.binarySearch(reserved, word.toLowerCase()) >= 0;
     }
 }
