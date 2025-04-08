@@ -1,6 +1,6 @@
 12.0 ROADMAP:
 
-[ ] Migrate to MockMvcTester
+[x] Migrate to MockMvcTester
 [ ] Update deprecated gradle stuff
 [ ] Rethink package structure
 
