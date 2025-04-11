@@ -25,8 +25,8 @@ public class SearchTextValidator implements ConstraintValidator<SearchText, Opti
 
     // These value constraints are arbitrary, since we have to start somewhere.
     // These should be adjusted to something that makes sense to your use cases.
-    // Don't forget to account for URL-encoded values
-    private static final String REGEX = "[:print:]|[:graph:]|^[a-zA-Z0-9~@#$^*()_+=%]*$";
+    // Don't forget to account for URL-encoded values.
+    private static final String REGEX = "(?s).*";   // allow anything.
     private static final int MAXLENGTH = 24;
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
