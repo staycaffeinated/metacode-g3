@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;                                  :x
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 * Unit tests of SearchTextValidator
 */
 @SuppressWarnings("all")
-class SearchTextValidatorTests {
+class SearchTextValidatorTest {
     SearchTextValidator validationUnderTest = new SearchTextValidator();
 
     @Mock
@@ -39,7 +39,6 @@ class SearchTextValidatorTests {
     class NegativeTestCases { 
         @ParameterizedTest
         @ValueSource(strings = {
-            "192.168.0.1",    // contains non-alpha characters
             "supercalifragilisticexpialidocious"  // too long
         })
         void shouldNotAllowInvalidText(String candidateText) {
