@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 *  https://github.com/spring-projects/spring-framework/blob/master/spring-webmvc/src/test/java/org/springframework/web/servlet/mvc/method/annotation/ResponseEntityExceptionHandlerTests.java
 *
 */
-class GlobalExceptionHandlerTests {
+class GlobalExceptionHandlerTest {
 
     private final GlobalExceptionHandler exceptionHandlerUnderTest = new GlobalExceptionHandler();
 

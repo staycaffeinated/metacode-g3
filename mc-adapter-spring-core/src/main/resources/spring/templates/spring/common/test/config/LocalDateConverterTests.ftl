@@ -12,9 +12,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
-* LocalDateConverterTests
+* LocalDateConverterTest
 */
-class LocalDateConverterTests {
+class LocalDateConverterTest {
 
 LocalDateConverter converterUnderTest = new LocalDateConverter();
 
