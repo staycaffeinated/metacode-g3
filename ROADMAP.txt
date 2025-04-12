@@ -2,7 +2,7 @@
 
 [x] Migrate to MockMvcTester
 [ ] Update deprecated gradle stuff
-[ ] Rethink package structure
+[x] Rethink package structure
 
 [ ] Add 'init' command 
 
