@@ -39,7 +39,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.home.provides.api",
+      "package": "{{basePackage}}.endpoints.home.api",
       "archetypes": [
         "RootController",
         "RootControllerExceptionHandler",
@@ -86,7 +86,7 @@
       "archetypes": [ "SecurityResponseHeadersFilter" ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence.converters",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence.converters",
       "archetypes": [
         "EndpointConfiguration",
         "EntityToPojoConverter",
@@ -96,7 +96,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.events",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.events",
       "archetypes": [
         "EntityEvent",
         "EntityEventPublisher"
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.provides.api",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.api",
       "archetypes": [
         "Controller",
         "ControllerExceptionHandler",
@@ -145,7 +145,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence",
       "archetypes": [
         "DatabaseTablePopulator",
         "Document",
@@ -186,7 +186,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence.predicate",
+      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence.predicate",
       "archetypes": [
         "EntityWithText",
         "EntitySpecification"
