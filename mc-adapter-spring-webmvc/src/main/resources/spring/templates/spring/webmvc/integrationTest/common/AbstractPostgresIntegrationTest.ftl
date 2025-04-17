@@ -66,17 +66,9 @@ public class AbstractPostgresIntegrationTest {
         @Override
         public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
             startContainers();
-            try {
-                initTestContainerDatabase();
-            }
-            catch (IOException e) {
-                log.error("Unable to initialize the test container database. {}", e.getLocalizedMessage(), e);
-            }
-
+            initTestContainerDatabase();
             ConfigurableEnvironment environment = applicationContext.getEnvironment();
-
             MapPropertySource testcontainers = new MapPropertySource("testcontainers", createConnectionConfiguration());
-
             environment.getPropertySources().addFirst(testcontainers);
         }
 
@@ -93,22 +85,31 @@ public class AbstractPostgresIntegrationTest {
      *
      * See: https://stackoverflow.com/questions/53078306/populate-a-database-with-testcontainers-in-a-springboot-integration-test
      */
-    public static void initTestContainerDatabase() throws IOException {
+    public static void initTestContainerDatabase() {
         ResourceLoader resourceLoader = new DefaultResourceLoader();
         final String pattern = "classpath:" + SCHEMA_FOLDER + "*.sql";
-        Resource[] scripts = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(pattern);
 
-        var containerDelegate = new JdbcDatabaseDelegate(postgreSQLContainer(), "");
-        Arrays.stream(scripts).forEach(script -> {
-            try {
-                ScriptUtils.executeDatabaseScript(containerDelegate,
+        try {
+            Resource[] scripts = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(pattern);
+
+            var containerDelegate = new JdbcDatabaseDelegate(postgreSQLContainer(), "");
+            Arrays.stream(scripts).forEach(script -> {
+                try {
+                    ScriptUtils.executeDatabaseScript(containerDelegate,
                                 script.getFile().getParentFile().getAbsolutePath(),
                                 loadScript(script));
-            }
-            catch (ScriptException | IOException e) {
-                log.error("An error occurred while either loading or executing this database script: {}", SCHEMA_FOLDER + script.getFilename(), e);
-            }
-        });
+                }
+                catch (ScriptException | IOException e) {
+                    log.error("An error occurred while either loading or executing this database script: {}", SCHEMA_FOLDER + script.getFilename(), e);
+                }
+            });
+        }
+        catch (IOException e) {
+            log.info("No database scripts were executed from the {} folder because: {}", SCHEMA_FOLDER, e.getMessage());
+            log.info("This is only problematic when the database requires a schema AND neither Liquibase nor Flyway are used.");
+            log.info("Hibernate does not auto-create schemas so a database script that creates the schema is expected in the {} folder.", SCHEMA_FOLDER);
+            log.info("If the database does not require a schema, these messages can be ignored.");
+        }
     }
 
     private static String loadScript(Resource script) throws IOException {
