@@ -6,7 +6,7 @@ commonsIo = '2.16.0'
 commonsLang3 = '3.14.0'
 commonsText = '1.11.0'              # apache commons-text
 freemarker = '2.3.33'
-guava = '33.3.1-jre'
+guava = '33.4.7-jre'
 guice = '7.0.0'
 jacksonYaml = '2.17.1'
 jakartaAnnotations = '3.0.0'
@@ -16,16 +16,16 @@ junit = '5.10.2'
 junitPlatform = '1.11.3'
 log4j = '2.18.0'
 logback = '1.4.7'
-lombok = '1.18.34'
-lombokPlugin = '8.10.2'
-mockito = '5.14.2'
+lombok = '1.18.38'
+lombokPlugin = '8.13.1'
+mockito = '5.17.0'
 picocli = '4.7.6'
 slf4j = '2.0.7'
 systemRules = '1.19.0'
 systemLambda = '1.2.1'
-spring = '6.1.14'
-springBoot = '3.3.7'
-springDependencyManagement = '1.1.6'
+spring = '6.2.5'
+springBoot = '3.4.4'
+springDependencyManagement = '1.1.7'
 toml = '1.1.1'               # tomlj
 truth = '1.4.2'
 vavr = '1.0.0-alpha-4'
@@ -80,7 +80,7 @@ vavr = { module = "io.vavr:vavr", version.ref = "vavr" }
 
 [plugins]
 dependency-management = { id = "io.spring.dependency-management", version.ref="springDependencyManagement" }
-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
 spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
 kordamp-jacoco = { id = "org.kordamp.gradle.jacoco", version = "0.54.0" }
 kordamp-testing = { id = "org.kordamp.gradle.testing", version = "0.54.0" }
