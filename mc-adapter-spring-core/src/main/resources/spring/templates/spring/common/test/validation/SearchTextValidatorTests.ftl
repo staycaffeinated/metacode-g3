@@ -11,13 +11,13 @@ import org.mockito.Mock;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;                                  :x
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 /**
-* Unit tests of SearchTextValidator
-*/
+ * Unit tests of SearchTextValidator
+ */
 @SuppressWarnings("all")
 class SearchTextValidatorTest {
     SearchTextValidator validationUnderTest = new SearchTextValidator();
