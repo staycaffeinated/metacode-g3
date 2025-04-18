@@ -7,7 +7,4 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
     }
-
-    // Platform for dependency versions shared by main build and build-logic
-    includeBuild("./gradle/platform")
 }

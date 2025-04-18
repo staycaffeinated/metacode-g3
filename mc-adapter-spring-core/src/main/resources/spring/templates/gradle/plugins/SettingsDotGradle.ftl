@@ -1,7 +1,6 @@
 dependencyResolutionManagement {
     repositories.mavenCentral()
     repositories.gradlePluginPortal()
-    includeBuild("../platform")
 
     versionCatalogs {
         libs {

@@ -8,5 +8,4 @@ dependencies {
     implementation("com.netflix.nebula:gradle-lint-plugin:${project.versions["nebulaLint"]}")
     implementation("com.google.cloud.tools:jib-gradle-plugin:${project.versions["jibPlugin"]}")
     implementation("io.freefair.gradle:lombok-plugin:${project.versions["lombokPlugin"]}")
-    implementation(platform("buildlogic.platform:platform"))
 }

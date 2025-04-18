@@ -71,23 +71,6 @@ entries:
         destination: "gradle/libs.versions.toml"
 
   # ------------------------------------------------
-  # -- PLATFORM
-  # ------------------------------------------------
-  - scope: "project"
-    archetype: "Text"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/gradle/platform/BuildDotGradle.ftl"
-        destination: "gradle/platform/build.gradle"
-
-  - scope: "project"
-    archetype: "Text"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/gradle/platform/SettingsDotGradle.ftl"
-        destination: "gradle/platform/settings.gradle"
-
-  # ------------------------------------------------
   # -- PLUGINS
   # ------------------------------------------------
   - scope: "project"

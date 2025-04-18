@@ -3,7 +3,6 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    includeBuild("../platform")
 }
 
 include("java-conventions")
