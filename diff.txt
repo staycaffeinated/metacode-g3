@@ -1,0 +1,412 @@
+diff --git a/ROADMAP.txt b/ROADMAP.txt
+index 60161c0..7e26571 100644
+--- a/ROADMAP.txt
++++ b/ROADMAP.txt
+@@ -1,8 +1,8 @@
+ 12.0 ROADMAP:
+ 
+-[x] Migrate to MockMvcTester
++[ ] Migrate to MockMvcTester
+ [ ] Update deprecated gradle stuff
+-[x] Rethink package structure
++[ ] Rethink package structure
+ 
+ [ ] Add 'init' command 
+ 
+diff --git a/gradle/libs.versions.toml b/gradle/libs.versions.toml
+index 74c1fff..6b36c1b 100644
+--- a/gradle/libs.versions.toml
++++ b/gradle/libs.versions.toml
+@@ -6,7 +6,7 @@ commonsIo = '2.16.0'
+ commonsLang3 = '3.14.0'
+ commonsText = '1.11.0'              # apache commons-text
+ freemarker = '2.3.33'
+-guava = '33.4.7-jre'
++guava = '33.3.1-jre'
+ guice = '7.0.0'
+ jacksonYaml = '2.17.1'
+ jakartaAnnotations = '3.0.0'
+@@ -16,16 +16,16 @@ junit = '5.10.2'
+ junitPlatform = '1.11.3'
+ log4j = '2.18.0'
+ logback = '1.4.7'
+-lombok = '1.18.38'
+-lombokPlugin = '8.13.1'
+-mockito = '5.17.0'
++lombok = '1.18.34'
++lombokPlugin = '8.10.2'
++mockito = '5.14.2'
+ picocli = '4.7.6'
+ slf4j = '2.0.7'
+ systemRules = '1.19.0'
+ systemLambda = '1.2.1'
+-spring = '6.2.5'
+-springBoot = '3.4.4'
+-springDependencyManagement = '1.1.7'
++spring = '6.1.14'
++springBoot = '3.3.7'
++springDependencyManagement = '1.1.6'
+ toml = '1.1.1'               # tomlj
+ truth = '1.4.2'
+ vavr = '1.0.0-alpha-4'
+@@ -80,7 +80,7 @@ vavr = { module = "io.vavr:vavr", version.ref = "vavr" }
+ 
+ [plugins]
+ dependency-management = { id = "io.spring.dependency-management", version.ref="springDependencyManagement" }
+-versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
++versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+ spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
+ kordamp-jacoco = { id = "org.kordamp.gradle.jacoco", version = "0.54.0" }
+ kordamp-testing = { id = "org.kordamp.gradle.testing", version = "0.54.0" }
+diff --git a/mc-adapter-spring-core/src/main/resources/spring/dependencies/dependencies.properties b/mc-adapter-spring-core/src/main/resources/spring/dependencies/dependencies.properties
+index b068e13..eb2da2d 100644
+--- a/mc-adapter-spring-core/src/main/resources/spring/dependencies/dependencies.properties
++++ b/mc-adapter-spring-core/src/main/resources/spring/dependencies/dependencies.properties
+@@ -16,7 +16,7 @@ benManesPlugin=0.52.0
+ datafaker=2.4.2
+ truth=1.1.3
+ h2=2.3.232
+-jibPlugin=3.4.5
++jibPlugin=3.4.4
+ junitSystemRules=1.19.0
+ junit=5.11.0
+ liquibase=4.29.2
+@@ -36,9 +36,9 @@ r2dbc_h2=1.0.0.RELEASE
+ r2dbc_postgres=0.8.13.RELEASE
+ r2dbc_spi=1.0.0.RELEASE
+ # Sonar's gradle plugin
+-sonarqube=6.1.0.5360
++sonarqube=6.0.1.5171
+ # Spotless code formatter gradle plugin
+-spotless=7.0.3
++spotless=7.0.2
+ springBoot=3.4.4
+ springCloud=4.2.0
+ springOrm=6.2.0
+diff --git a/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/main/validation/SearchTextValidator.ftl b/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/main/validation/SearchTextValidator.ftl
+index 8fb82bc..51c0aa6 100644
+--- a/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/main/validation/SearchTextValidator.ftl
++++ b/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/main/validation/SearchTextValidator.ftl
+@@ -25,8 +25,8 @@ public class SearchTextValidator implements ConstraintValidator<SearchText, Opti
+ 
+     // These value constraints are arbitrary, since we have to start somewhere.
+     // These should be adjusted to something that makes sense to your use cases.
+-    // Don't forget to account for URL-encoded values.
+-    private static final String REGEX = "(?s).*";   // allow anything.
++    // Don't forget to account for URL-encoded values
++    private static final String REGEX = "[:print:]|[:graph:]|^[a-zA-Z0-9~@#$^*()_+=%]*$";
+     private static final int MAXLENGTH = 24;
+     private static final Pattern PATTERN = Pattern.compile(REGEX);
+ 
+diff --git a/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/config/LocalDateConverterTests.ftl b/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/config/LocalDateConverterTests.ftl
+index 661e8c0..9a0010a 100644
+--- a/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/config/LocalDateConverterTests.ftl
++++ b/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/config/LocalDateConverterTests.ftl
+@@ -12,9 +12,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+ import static org.junit.jupiter.api.Assertions.assertThrows;
+ 
+ /**
+-* LocalDateConverterTest
++* LocalDateConverterTests
+ */
+-class LocalDateConverterTest {
++class LocalDateConverterTests {
+ 
+ LocalDateConverter converterUnderTest = new LocalDateConverter();
+ 
+diff --git a/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/validation/SearchTextValidatorTests.ftl b/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/validation/SearchTextValidatorTests.ftl
+index 05c5431..097d7df 100644
+--- a/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/validation/SearchTextValidatorTests.ftl
++++ b/mc-adapter-spring-core/src/main/resources/spring/templates/spring/common/test/validation/SearchTextValidatorTests.ftl
+@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
+ 
+ 
+ /**
+- * Unit tests of SearchTextValidator
+- */
++* Unit tests of SearchTextValidator
++*/
+ @SuppressWarnings("all")
+-class SearchTextValidatorTest {
++class SearchTextValidatorTests {
+     SearchTextValidator validationUnderTest = new SearchTextValidator();
+ 
+     @Mock
+@@ -39,6 +39,7 @@ class SearchTextValidatorTest {
+     class NegativeTestCases { 
+         @ParameterizedTest
+         @ValueSource(strings = {
++            "192.168.0.1",    // contains non-alpha characters
+             "supercalifragilisticexpialidocious"  // too long
+         })
+         void shouldNotAllowInvalidText(String candidateText) {
+diff --git a/mc-adapter-spring-shared/src/main/resources/package-layout.json b/mc-adapter-spring-shared/src/main/resources/package-layout.json
+index fb47f50..bca95a1 100644
+--- a/mc-adapter-spring-shared/src/main/resources/package-layout.json
++++ b/mc-adapter-spring-shared/src/main/resources/package-layout.json
+@@ -39,7 +39,7 @@
+       ]
+     },
+     {
+-      "package": "{{basePackage}}.endpoints.home.api",
++      "package": "{{basePackage}}.endpoints.home.provides.api",
+       "archetypes": [
+         "RootController",
+         "RootControllerExceptionHandler",
+@@ -86,7 +86,7 @@
+       "archetypes": [ "SecurityResponseHeadersFilter" ]
+     },
+     {
+-      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence.converters",
++      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence.converters",
+       "archetypes": [
+         "EndpointConfiguration",
+         "EntityToPojoConverter",
+@@ -96,7 +96,7 @@
+       ]
+     },
+     {
+-      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.events",
++      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.events",
+       "archetypes": [
+         "EntityEvent",
+         "EntityEventPublisher"
+@@ -115,7 +115,7 @@
+       ]
+     },
+     {
+-      "package": "{{basePackage}}.endpoints.{{endpoint}}.api",
++      "package": "{{basePackage}}.endpoints.{{endpoint}}.provides.api",
+       "archetypes": [
+         "Controller",
+         "ControllerExceptionHandler",
+@@ -145,7 +145,7 @@
+       ]
+     },
+     {
+-      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence",
++      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence",
+       "archetypes": [
+         "DatabaseTablePopulator",
+         "Document",
+@@ -186,7 +186,7 @@
+       ]
+     },
+     {
+-      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence.predicate",
++      "package": "{{basePackage}}.endpoints.{{endpoint}}.requires.persistence.predicate",
+       "archetypes": [
+         "EntityWithText",
+         "EntitySpecification"
+diff --git a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/common/AbstractPostgresIntegrationTest.ftl b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/common/AbstractPostgresIntegrationTest.ftl
+index e3f9f6c..9429c0e 100644
+--- a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/common/AbstractPostgresIntegrationTest.ftl
++++ b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/common/AbstractPostgresIntegrationTest.ftl
+@@ -66,9 +66,17 @@ public class AbstractPostgresIntegrationTest {
+         @Override
+         public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
+             startContainers();
+-            initTestContainerDatabase();
++            try {
++                initTestContainerDatabase();
++            }
++            catch (IOException e) {
++                log.error("Unable to initialize the test container database. {}", e.getLocalizedMessage(), e);
++            }
++
+             ConfigurableEnvironment environment = applicationContext.getEnvironment();
++
+             MapPropertySource testcontainers = new MapPropertySource("testcontainers", createConnectionConfiguration());
++
+             environment.getPropertySources().addFirst(testcontainers);
+         }
+ 
+@@ -85,31 +93,22 @@ public class AbstractPostgresIntegrationTest {
+      *
+      * See: https://stackoverflow.com/questions/53078306/populate-a-database-with-testcontainers-in-a-springboot-integration-test
+      */
+-    public static void initTestContainerDatabase() {
++    public static void initTestContainerDatabase() throws IOException {
+         ResourceLoader resourceLoader = new DefaultResourceLoader();
+         final String pattern = "classpath:" + SCHEMA_FOLDER + "*.sql";
++        Resource[] scripts = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(pattern);
+ 
+-        try {
+-            Resource[] scripts = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(pattern);
+-
+-            var containerDelegate = new JdbcDatabaseDelegate(postgreSQLContainer(), "");
+-            Arrays.stream(scripts).forEach(script -> {
+-                try {
+-                    ScriptUtils.executeDatabaseScript(containerDelegate,
++        var containerDelegate = new JdbcDatabaseDelegate(postgreSQLContainer(), "");
++        Arrays.stream(scripts).forEach(script -> {
++            try {
++                ScriptUtils.executeDatabaseScript(containerDelegate,
+                                 script.getFile().getParentFile().getAbsolutePath(),
+                                 loadScript(script));
+-                }
+-                catch (ScriptException | IOException e) {
+-                    log.error("An error occurred while either loading or executing this database script: {}", SCHEMA_FOLDER + script.getFilename(), e);
+-                }
+-            });
+-        }
+-        catch (IOException e) {
+-            log.info("No database scripts were executed from the {} folder because: {}", SCHEMA_FOLDER, e.getMessage());
+-            log.info("This is only problematic when the database requires a schema AND neither Liquibase nor Flyway are used.");
+-            log.info("Hibernate does not auto-create schemas so a database script that creates the schema is expected in the {} folder.", SCHEMA_FOLDER);
+-            log.info("If the database does not require a schema, these messages can be ignored.");
+-        }
++            }
++            catch (ScriptException | IOException e) {
++                log.error("An error occurred while either loading or executing this database script: {}", SCHEMA_FOLDER + script.getFilename(), e);
++            }
++        });
+     }
+ 
+     private static String loadScript(Resource script) throws IOException {
+diff --git a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/endpoint/ControllerIT.ftl b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/endpoint/ControllerIT.ftl
+index 54022dc..3daa71f 100644
+--- a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/endpoint/ControllerIT.ftl
++++ b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/integrationTest/endpoint/ControllerIT.ftl
+@@ -110,7 +110,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
+         }
+ 
+         @ParameterizedTest
+-        @ValueSource(strings = { "123.456.789.abc.def.ghi/abc/def/ghi/jkl/mno/pqr/stu/vwx/yz/000-111-4443" })
++        @ValueSource(strings = { "123.456.789" })
+         void whenValidationOfAttributeValueRaisesError_expectBadRequest(String badValue) {
+             searchByTextAttribute(badValue).assertThat().hasStatus(HttpStatus.BAD_REQUEST);
+         }
+diff --git a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/main/advice/GlobalExceptionHandler.ftl b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/main/advice/GlobalExceptionHandler.ftl
+index eec40a7..30cb3b1 100644
+--- a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/main/advice/GlobalExceptionHandler.ftl
++++ b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/main/advice/GlobalExceptionHandler.ftl
+@@ -60,7 +60,13 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
+             Object invalidValue = constraint.getInvalidValue();
+ 
+             objectNode.put("reason", message);
+-            objectNode.put("invalid value", invalidValue.toString());
++            // Since its common for REST parameters to be Optional, we unwrap the Optional for a cleaner message
++            if (invalidValue instanceof Optional<?> theValue) {
++                theValue.ifPresent(o -> objectNode.put("invalid value", o.toString()));
++            }
++            else {
++                objectNode.put("invalid value", invalidValue.toString());
++            }
+             // You may not want to reveal the classname or method name since doing so leaks implementation details.
+             // For troubleshooting internal applications, this may be useful.
+             objectNode.put("class", className);
+diff --git a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/ControllerTests.ftl b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/ControllerTests.ftl
+index 2ebf8b5..154926d 100644
+--- a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/ControllerTests.ftl
++++ b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/ControllerTests.ftl
+@@ -165,7 +165,7 @@ class ${Controller.testClass()} {
+             given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(Optional.of(${endpoint.entityVarName}));
+ 
+             // when/then
+-            updateEntity(resourceId, ${endpoint.entityVarName}).assertThat().hasStatus(HttpStatus.OK);
++            updateEntity(resourceId, book).assertThat().hasStatus(HttpStatus.OK);
+         }
+ 
+         @Test
+diff --git a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/advice/GlobalExceptionHandlerTests.ftl b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/advice/GlobalExceptionHandlerTests.ftl
+index fc4de42..f6b45ba 100644
+--- a/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/advice/GlobalExceptionHandlerTests.ftl
++++ b/mc-adapter-spring-webmvc/src/main/resources/spring/templates/spring/webmvc/test/advice/GlobalExceptionHandlerTests.ftl
+@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
+ *  https://github.com/spring-projects/spring-framework/blob/master/spring-webmvc/src/test/java/org/springframework/web/servlet/mvc/method/annotation/ResponseEntityExceptionHandlerTests.java
+ *
+ */
+-class GlobalExceptionHandlerTest {
++class GlobalExceptionHandlerTests {
+ 
+     private final GlobalExceptionHandler exceptionHandlerUnderTest = new GlobalExceptionHandler();
+ 
+diff --git a/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ReservedWords.java b/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ReservedWords.java
+index c5663bd..683bda5 100644
+--- a/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ReservedWords.java
++++ b/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ReservedWords.java
+@@ -24,10 +24,8 @@ public class ReservedWords {
+ 
+     private static final String[] reserved;
+ 
+-    private static boolean isSorted =  false;
+-
+     /*
+-     * The Java reserved words, plus 'null', plus SQL reserved words
++     * The reserved words, plus 'null'
+      */
+     static {
+         reserved = new String[]{"abstract", "assert", "boolean", "break", "byte",
+@@ -37,24 +35,7 @@ public class ReservedWords {
+                 "int", "interface", "long", "native", "new", "null", "package",
+                 "private", "protected", "public", "return", "short", "static",
+                 "strictfp", "super", "switch", "synchronized", "this", "throw",
+-                "throws", "transient", "true", "try", "void", "volatile", "while",
+-                // Postgres-specific
+-                "all", "analyse", "analyze", "and", "any", "array", "as", "asc",
+-                "asymmetric", "authorization", "binary", "both", "case", "cast",
+-                "check", "collate", "collation", "column", "concurrently", "constraint",
+-                "create", "cross", "current_catalog", "current_date", "current_role",
+-                "current_schema", "current_time", "current_timestamp", "current_user",
+-                "default", "deferrable", "desc", "distinct", "do", "else", "end", "except",
+-                "fallback", "fetch", "for", "foreign","freeze", "from", "full", "grant",
+-                "group", "having", "ilike", "in", "initially", "inner", "intersect",
+-                "into", "is", "isnull", "join", "lateral", "leading", "left", "like",
+-                "limit", "localtime", "localtimestamp", "natural", "normalize",
+-                "notnull", "offset", "on", "only", "or", "order", "outer", "overlaps",
+-                "placing", "primary", "references", "returning", "right", "select",
+-                "session_user", "similar", "some", "symmetric", "system_user", "table",
+-                "tablesample", "then", "to", "trailing", "true", "unknown", "unique",
+-                "user", "using", "variable", "variadic", "verbose", "when", "where",
+-                "window", "with"
++                "throws", "transient", "true", "try", "void", "volatile", "while"
+         };
+     }
+ 
+@@ -70,10 +51,6 @@ public class ReservedWords {
+      * @return if {@code word} is a reserved word, or is the String "null".
+      */
+     public static boolean isReservedWord(String word) {
+-        if (!isSorted) {
+-            Arrays.sort(reserved);
+-            isSorted = true;
+-        }
+         return Arrays.binarySearch(reserved, word.toLowerCase()) >= 0;
+     }
+ }
+diff --git a/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ResourceNameValidator.java b/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ResourceNameValidator.java
+index 2532e07..c55e13d 100644
+--- a/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ResourceNameValidator.java
++++ b/mc-application/src/main/java/mmm/coffee/metacode/cli/validation/ResourceNameValidator.java
+@@ -50,16 +50,10 @@ public class ResourceNameValidator implements ValidationTrait {
+         if (isValid())
+             return "";
+         else {
+-            var fmt = """
+-                    %nError:
+-                    \tThe resource name '%s' cannot be used.
+-                    \tResource names known to lead to compile-time errors or obscure runtime errors are not supported.
+-                    \tFor instance, this includes resource names that match SQL reserved words or Java reserved words.
+-                    
+-                    Suggestion:
+-                    \tTry something like '%sInfo' or '%sDetail', for example.
+-                    """;
+-            return String.format(fmt, value, value, value);
++            return String.format("%nERROR: %n\tThe resource name '%s' cannot be used. " +
++                    "Resource names that lead to compile-time errors or " +
++                    "obscure runtime errors are not supported.\n" +
++                    "\tSuggestion: try something like '%sInfo' or '%sDetail', for example.", value, value, value);
+         }
+     }
+ 
+diff --git a/mc-common/src/main/java/mmm/coffee/metacode/common/rule/TableNameConversion.java b/mc-common/src/main/java/mmm/coffee/metacode/common/rule/TableNameConversion.java
+new file mode 100644
+index 0000000..0a8b21c
+--- /dev/null
++++ b/mc-common/src/main/java/mmm/coffee/metacode/common/rule/TableNameConversion.java
+@@ -0,0 +1,4 @@
++package mmm.coffee.metacode.common.rule;
++
++public class TableNameConverter {
++}

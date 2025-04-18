@@ -28,9 +28,38 @@ public class ${Entity.className()} {
     /*
      * This identifier is never exposed to the outside world because
      * database-generated Ids are commonly sequential values that a hacker can easily guess.
+<#if (endpoint.isWithPostgres())>
      *
-     * In the DDL, the ID is declared as "id SERIAL PRIMARY KEY".
-     * Postgres automatically handles assigning sequential values to Serial columns.
+     * When using Postgres, the data type of the 'id' column needs to align with
+     * the `GenerationType`.  Specifically, for GenerationType.IDENTITY, the 'id'
+     * needs to be 'serial' (or a compatible type) while for GenerationType.SEQUENCE,
+     * the `id` needs to be `int8` (or a compatible type).
+     *
+     * For GenerationType.IDENTITY, the JPA should follow this pattern:
+     * ```
+     * @Id
+     * @GeneratedValue(strategy = GenerationType.IDENTITY)
+     * @Column(name = Columns.ID, nullable = false, updatable = false, columnDefinition = "serial")
+     * private Long id;
+     * ```
+     * with the DDL something like:
+     * ```create table if not exists ${endpoint.tableName} (id serial primary key, ...)```
+     *
+     * For GenerationType.SEQUENCE, the JPA should follow this pattern:
+     * ```
+     * @Id
+     * @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "${endpoint.tableName}_generator")
+     * @SequenceGenerator(name="${endpoint.tableName}_generator", sequenceName = "${endpoint.tableName}_sequence", allocationSize=50)
+     * @Column(name = Columns.ID, updatable = false, nullable = false)
+     * private Long id;
+     * ```
+     * with DDL something like this:
+     * ```create sequence if not exists ${endpoint.tableName}_sequence start 1 increment 50;```
+     * where the `allocationSize` attribute of the `@SequenceGenerator` matches the `increment` in the DDL.
+     *
+     * See: https://vladmihalcea.com/hibernate-identity-sequence-and-table-sequence-generator/
+</#if>
+     *
      */
     @Id
     <#if (endpoint.isWithPostgres())>

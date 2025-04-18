@@ -111,6 +111,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         mustacheDecoder.configure(templateModel);
 
         log.info("[generateCode] collector is-a {}", collector.getClass().getName());
+        log.info("[generateCode] outputHandler is-a {}", outputHandler.getClass().getName());
 
         // Render the templates
         collector.prepare(descriptor).collect().stream().parallel().filter(keepThese).forEach(catalogEntry -> {

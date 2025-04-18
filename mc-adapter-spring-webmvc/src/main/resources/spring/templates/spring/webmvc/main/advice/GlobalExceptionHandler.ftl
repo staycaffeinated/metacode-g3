@@ -60,7 +60,10 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
             Object invalidValue = constraint.getInvalidValue();
 
             objectNode.put("reason", message);
-            objectNode.put("invalid value", invalidValue.toString());
+            // Since its common for REST parameters to be Optional, we unwrap the Optional for a cleaner message
+            if (invalidValue != null) {
+                objectNode.put("invalid value", invalidValue.toString());
+            }
             // You may not want to reveal the classname or method name since doing so leaks implementation details.
             // For troubleshooting internal applications, this may be useful.
             objectNode.put("class", className);

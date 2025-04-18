@@ -16,6 +16,7 @@
 package mmm.coffee.metacode.common.writer;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.exception.RuntimeApplicationError;
 import mmm.coffee.metacode.common.io.FileSystem;
 import mmm.coffee.metacode.common.trait.WriteOutputTrait;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
  * Typically, the destination is a File but, for testing,
  * writing can be a no-op.
  */
+@Slf4j
 public class ContentToFileWriter implements WriteOutputTrait {
 
     private final FileSystem fileSystem;
@@ -61,17 +63,28 @@ public class ContentToFileWriter implements WriteOutputTrait {
      */
     @Override
     public void writeOutput(@NonNull String destination, String content) {
-        if (isEmpty(content)) return;
+        if (isEmpty(content)) {
+            log.info("[writeOutput] content is empty");
+            return;
+        }
         try {
+            log.info("[writeOutput] destination is {}", destination);
             File fOutput = new File(destination);
+            if (destination.contains("script")) {
+                log.info("[writeOutput] writing db scripts to {}", fOutput.getParentFile().getCanonicalPath());
+            }
             fileSystem.forceMkdir(fOutput.getParentFile());
+            if (destination.contains("script")) {
+                log.info("[writeOutput] successfully created folder {}", fOutput.getParentFile().getCanonicalPath());
+            }
             fileSystem.writeStringToFile(fOutput, content, StandardCharsets.UTF_8);
         } catch (IOException e) {
+            log.error("[writeOutput] Error: {}", e.getMessage(), e);
             throw new RuntimeApplicationError(e.getMessage(), e);
         }
     }
 
     private boolean isEmpty(String str) {
-        return str == null || str.trim().length() == 0;
+        return str == null || str.isEmpty();
     }
 }

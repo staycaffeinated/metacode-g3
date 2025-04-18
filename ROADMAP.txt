@@ -1,9 +1,12 @@
 12.0 ROADMAP:
 
 [x] Migrate to MockMvcTester
-[ ] Update deprecated gradle stuff
 [x] Rethink package structure
+[x] Fix bug with postgres-based tests
+[x] Change Actuator's URL from `_internal` back to `actuator`
 
+[ ] Update deprecated gradle stuff
+[ ] Remove `platform` plugin structure
 [ ] Add 'init' command 
 
 
@@ -12,7 +15,6 @@
 [ ] If schema is specified, then add Schema to the dbms url in docker-compose
 [ ] Add spring property for the dbms url in docker-compose. 
 [ ] Add note in app.props re: username/pwd with example of how to set them via env vars.
-[ ] Change Actuator's URL from `_internal` back to `actuator`
 [ ] Migrate to use hypersistence-utils jars
 [ ] Add sub-command and feature to save package-layout and classname-rules in a $HOME/.metacode
     directory so user's can define their own preferred package layout. For example, 
