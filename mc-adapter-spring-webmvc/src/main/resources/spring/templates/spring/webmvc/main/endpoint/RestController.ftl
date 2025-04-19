@@ -18,7 +18,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 </#if>
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -161,7 +160,6 @@ public class ${Controller.className()} {
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Search for ${endpoint.entityName}")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
-    @PageableAsQueryParam
 </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findByProperty}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PagedModel<EntityModel<${endpoint.pojoName}>> findByProperty (
@@ -180,7 +178,6 @@ public class ${Controller.className()} {
     <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Search for ${endpoint.entityName} using an RSQL query")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
-    @PageableAsQueryParam
     </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
