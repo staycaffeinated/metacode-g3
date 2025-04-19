@@ -6,7 +6,7 @@
 [x] Change Actuator's URL from `_internal` back to `actuator`
 
 [ ] Update deprecated gradle stuff
-[ ] Remove `platform` plugin structure
+[x] Remove `platform` plugin structure
 [ ] Add 'init' command 
 
 

@@ -111,8 +111,9 @@ public class NameConverter {
      * @param resourceName the resource handled by the endpoint, such as 'pet', 'owner', 'shoppingCart', 'invoice'
      * @return the name to use for the EJB class
      */
-    public String toTableName(@NonNull String resourceName) {
-        return resourceName;
+    public String toTableName(@NonNull String resourceName, boolean capitalize) {
+        if (capitalize) return StringUtils.capitalize(resourceName);
+        return StringUtils.uncapitalize(resourceName);
     }
 
     /**

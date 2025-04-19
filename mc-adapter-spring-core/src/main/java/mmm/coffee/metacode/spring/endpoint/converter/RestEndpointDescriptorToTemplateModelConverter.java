@@ -69,7 +69,7 @@ public class RestEndpointDescriptorToTemplateModelConverter implements ConvertTr
                 // ensure route begins with forward slash
                 .route(nameConverter.toBasePathUrl(fromType.getRoute()))
                 .schema(schema)
-                .tableName(nameConverter.toTableName(resourceName))
+                .tableName(nameConverter.toTableName(resourceName, !fromType.isWithPostgres()))
                 .isWebFlux(fromType.isWebFlux())
                 .isWebMvc(fromType.isWebMvc())
                 .withPostgres(fromType.isWithPostgres())

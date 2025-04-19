@@ -7,14 +7,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-@Entity
-@Table(name="${endpoint.tableName}")
+@Entity(name="${endpoint.tableName}")
 @EqualsAndHashCode(of = {"resourceId"})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@SuppressWarnings({
+    "java:S125" // comments do contain example code
+})
 public class ${Entity.className()} {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

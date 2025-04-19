@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullSource;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -209,19 +210,21 @@ class NameConverterTests {
     class ToTableNameTests {
         @ParameterizedTest
         @CsvSource({
-                // resourceName,   tableName
-                "Pet,               Pet",
-                "PET,               PET",
-                "pet,               pet",
-                "PetStore,          PetStore"
+                // resourceName, capitalize, tableName
+                "Pet, true, Pet",
+                "PET, true, PET",
+                "pet, false, pet",
+                "Pet, false, pet",
+                "PetStore, true, PetStore"
         })
-        void shouldConvertSuccessfully(String resourceName, String expectedValue) {
-            assertThat(converterUnderTest.toTableName(resourceName)).isEqualTo(expectedValue);
+        void shouldConvertSuccessfully(String resourceName, boolean capitalize, String expectedValue) {
+            assertThat(converterUnderTest.toTableName(resourceName, capitalize)).isEqualTo(expectedValue);
         }
 
-        @Test
-        void shouldThrowNpeWhenArgIsNull() {
-            assertThrows(NullPointerException.class, () -> converterUnderTest.toTableName(null));
+        @ParameterizedTest
+        @NullSource
+        void shouldThrowNpeWhenArgIsNull(String resourceName) {
+            assertThrows(NullPointerException.class, () -> converterUnderTest.toTableName(resourceName, false));
         }
     }
 
