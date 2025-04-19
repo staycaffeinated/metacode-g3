@@ -57,9 +57,9 @@ public class ResourceNameValidator implements ValidationTrait {
                     \tFor instance, this includes resource names that match SQL reserved words or Java reserved words.
                     
                     Suggestion:
-                    \tTry something like '%sInfo' or '%sDetail', for example.
+                    \tTry something like '%ss', '%sInfo' or '%sDetail', for example.
                     """;
-            return String.format(fmt, value, value, value);
+            return String.format(fmt, value, value, value, value);
         }
     }
 
