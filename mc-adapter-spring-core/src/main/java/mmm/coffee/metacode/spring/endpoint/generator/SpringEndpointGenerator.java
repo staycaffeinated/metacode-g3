@@ -66,6 +66,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
      */
     @Override
     public ICodeGenerator<RestEndpointDescriptor> doPreprocessing(RestEndpointDescriptor spec) {
+        log.info("[doPreprocessing] on entry, spec.tableName ={}", spec.getTableName());
         Configuration config = metaPropertiesHandler.readMetaProperties();
         spec.setBasePackage(config.getString(MetaProperties.BASE_PACKAGE));
         spec.setBasePath(config.getString(MetaProperties.BASE_PATH));
@@ -77,6 +78,9 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         spec.setWithMongoDb(config.getBoolean(MetaProperties.ADD_MONGODB, false));
         spec.setWithOpenApi(config.getBoolean(MetaProperties.ADD_OPENAPI, false));
         spec.setWithKafka(config.getBoolean(MetaProperties.ADD_KAFKA, false));
+
+        log.info("[doPreprocessing] on exit, spec.tableName ={}", spec.getTableName());
+
 
         return this;
     }
@@ -99,6 +103,8 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = descriptor2templateModel.convert(descriptor);
 
+        log.info("[generateCode] tableName at entry is {}", templateModel.getTableName());
+
         templateModel.setCustomProperties(CustomPropertyAssembler.assembleCustomProperties(
                 archetypeDescriptorFactory,
                 descriptor.getBasePackage(),
@@ -112,6 +118,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
 
         log.info("[generateCode] collector is-a {}", collector.getClass().getName());
         log.info("[generateCode] outputHandler is-a {}", outputHandler.getClass().getName());
+        log.info("[generateCode] tableName before rendering is {}", templateModel.getTableName());
 
         // Render the templates
         collector.prepare(descriptor).collect().stream().parallel().filter(keepThese).forEach(catalogEntry -> {

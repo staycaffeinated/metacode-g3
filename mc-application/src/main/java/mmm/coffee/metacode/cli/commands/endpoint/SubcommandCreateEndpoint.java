@@ -15,6 +15,7 @@
  */
 package mmm.coffee.metacode.cli.commands.endpoint;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.cli.mixin.DryRunOption;
 import mmm.coffee.metacode.cli.validation.ResourceNameValidator;
@@ -62,6 +63,12 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
             paramLabel = "ROUTE")
     String resourceRoute; // visible for testing
 
+    @CommandLine.Option(
+            names = {"-t", "--table-name"},
+            description = "The table name assigned to the EJB class. Defaults to the resource name",
+            paramLabel = "TABLE_NAME")
+    String tableName; // visible for testing
+
     /**
      * Constructor
      *
@@ -76,13 +83,25 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
     @Override
     public Integer call() {
         log.info("[call] Generating endpoint code for resource: {}", resourceName);
+        log.info("[call] the cli tableName: {}", tableName);
+
         validateInputs();
         var spec = buildRestEndpointDescriptor();
+        log.info("[call] tableName from CLI is: {}", spec.getTableName());
         return codeGenerator.doPreprocessing(spec).generateCode(spec);
     }
 
     private void validateInputs() {
-        ValidationTrait validator = ResourceNameValidator.of(resourceName);
+        if (StringUtils.isNotEmpty(tableName)) {
+            checkForValidTableName(tableName);
+        }
+        else {
+            checkForValidTableName(resourceName);
+        }
+    }
+
+    private void checkForValidTableName(String candidate) {
+        ValidationTrait validator = ResourceNameValidator.of(candidate);
         if (validator.isInvalid()) {
             throw new CommandLine.ParameterException(commandSpec.commandLine(), validator.errorMessage());
         }
@@ -92,6 +111,7 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
         return RestEndpointDescriptor.builder()
                 .resource(this.resourceName)
                 .route(this.resourceRoute)
+                .tableName(this.tableName)
                 .build();
     }
 }

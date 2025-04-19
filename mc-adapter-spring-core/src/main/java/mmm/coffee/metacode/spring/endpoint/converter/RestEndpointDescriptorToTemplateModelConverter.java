@@ -11,6 +11,9 @@ import mmm.coffee.metacode.spring.converter.NameConverter;
 import mmm.coffee.metacode.spring.converter.RouteConstantsConverter;
 import mmm.coffee.metacode.spring.endpoint.model.RestEndpointTemplateModel;
 import mmm.coffee.metacode.spring.endpoint.model.RouteConstants;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.function.Supplier;
 
 /**
  * RestEndpointDescriptorToTemplateModelConverter
@@ -69,7 +72,7 @@ public class RestEndpointDescriptorToTemplateModelConverter implements ConvertTr
                 // ensure route begins with forward slash
                 .route(nameConverter.toBasePathUrl(fromType.getRoute()))
                 .schema(schema)
-                .tableName(nameConverter.toTableName(resourceName, !fromType.isWithPostgres()))
+                .tableName(determineTableName(fromType))
                 .isWebFlux(fromType.isWebFlux())
                 .isWebMvc(fromType.isWebMvc())
                 .withPostgres(fromType.isWithPostgres())
@@ -78,6 +81,13 @@ public class RestEndpointDescriptorToTemplateModelConverter implements ConvertTr
                 .withOpenApi(fromType.isWithOpenApi())
                 .routeConstants(constants)
                 .build();
+    }
+
+    private String determineTableName(RestEndpointDescriptor fromType) {
+        if (StringUtils.isNotEmpty(fromType.getTableName())) {
+            return nameConverter.toTableName(fromType.getTableName(), !fromType.isWithPostgres());
+        }
+        else return nameConverter.toTableName(fromType.getResource(), !fromType.isWithPostgres());
     }
 
     /**
@@ -93,8 +103,6 @@ public class RestEndpointDescriptorToTemplateModelConverter implements ConvertTr
         final String resourceName = descriptor.getResource();
         final String lowerCaseName = nameConverter.toLowerCaseEntityName(resourceName);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(descriptor.getBasePackage()).append(".endpoint.").append(lowerCaseName);
-        return sb.toString();
+        return descriptor.getBasePackage() + ".endpoint." + lowerCaseName;
     }
 }

@@ -39,6 +39,16 @@ public class RestEndpointDescriptor implements Descriptor {
     private String route;
 
     /**
+     * The table name to use when building the Entity class.
+     * This is for those situations when the resource name conflicts
+     * with a SQL reserved word. For instance, if the resource name is Order,
+     * the table name 'Order' won't work because of the conflict with the
+     * SQL reserved word. This option allows 'Order' to be used for the POJO
+     * class, with this tableName for the EJB.
+     */
+    private String tableName;
+
+    /**
      * The base package of the project; for example, 'acme.petstore'
      */
     private String basePackage;

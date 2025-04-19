@@ -10,6 +10,8 @@
 [ ] Add 'init' command 
 
 
+[ ] org.springdoc.core.converters.models.PageableAsQueryParam has been removed, but a replacement is not available.
+
 [X] Update Docker base image to latest coretto alpine
 [ ] Fix dbms url in docker-compose. Add note that host name and service name must match
 [ ] If schema is specified, then add Schema to the dbms url in docker-compose
