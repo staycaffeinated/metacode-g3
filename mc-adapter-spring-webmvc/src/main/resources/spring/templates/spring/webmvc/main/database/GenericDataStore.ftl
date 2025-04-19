@@ -83,15 +83,11 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     }
 
     public List<D> findAll() {
-        if (defaultPageLimit <= 0)
-            defaultPageLimit = DEFAULT_ROW_LIMIT;
-        return repository.findAll().stream().limit(defaultPageLimit).map(ejbToPojoConverter::convert).toList();
+        return repository.findAll().stream().limit(pageLimit(defaultPageLimit)).map(ejbToPojoConverter::convert).toList();
     }
 
     public List<D> findAll(int limit) {
-        if (limit <= 0)
-            limit = DEFAULT_ROW_LIMIT;
-        return repository.findAll().stream().limit(limit).map(ejbToPojoConverter::convert).toList();
+        return repository.findAll().stream().limit(pageLimit(limit)).map(ejbToPojoConverter::convert).toList();
     }
                 
     public void deleteByResourceId(@NonNull String resourceId) {
@@ -136,5 +132,9 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
             return converterToPojo().convert(managedEntity);
         }
         return null;
+    }
+
+    protected int pageLimit(int preferredLimit) {
+        return preferredLimit > 0 ? preferredLimit : DEFAULT_ROW_LIMIT;
     }
 }
