@@ -5,13 +5,16 @@
 [x] Fix bug with postgres-based tests
 [x] Change Actuator's URL from `_internal` back to `actuator`
 
-[ ] Update deprecated gradle stuff
+[x] Update deprecated gradle stuff -- nothing identified
 [x] Remove `platform` plugin structure
+
+[ ] Change actuator URL from '_internal' back to 'actuator'.
+
+[X] org.springdoc.core.converters.models.PageableAsQueryParam has been removed, but a replacement is not available.
+
+--[ later ]--
+
 [ ] Add 'init' command 
-
-
-[ ] org.springdoc.core.converters.models.PageableAsQueryParam has been removed, but a replacement is not available.
-
 [X] Update Docker base image to latest coretto alpine
 [ ] Fix dbms url in docker-compose. Add note that host name and service name must match
 [ ] If schema is specified, then add Schema to the dbms url in docker-compose
@@ -36,7 +39,6 @@
     Won't do. The app's register themselves as clients with the admin-server. Has to be an admin server
     running to be useful.  Its easy to make happen, but should leave to end users to apply as needed.
     Probably worth adding the libraries to the version catalog, but not to build.gradle.
-[ ] Change actuator URL from '_internal' back to 'actuator'.
 [ ] change MetaPropertiesReader/Writer to use Resource to read metaprops file, and move into hidden folder
 [ ] Can Apache Configurations class be replaced w/ some Spring class that does same thing?
 [-] Fix PackageNameValidator to be static method that returns Either<String,Boolean> or Result<Boolean>.
@@ -62,6 +64,7 @@ so : {{branding}}.application-conventions.gradle
 -----
 
 Add hibernate @SoftDelete annotation so deletes only tombstone records
+-- won't due. led to too many errors when i tried it. 
 
 also:
 
