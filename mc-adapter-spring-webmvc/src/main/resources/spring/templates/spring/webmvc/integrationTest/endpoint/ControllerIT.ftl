@@ -108,12 +108,6 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                     .extractingPath("$.page") // drill down to the page stanza
                     .hasFieldOrPropertyWithValue("number", 0); // the number of elements is zero
         }
-
-        @ParameterizedTest
-        @ValueSource(strings = { "123.456.789.abc.def.ghi/abc/def/ghi/jkl/mno/pqr/stu/vwx/yz/000-111-4443" })
-        void whenValidationOfAttributeValueRaisesError_expectBadRequest(String badValue) {
-            searchByTextAttribute(badValue).assertThat().hasStatus(HttpStatus.BAD_REQUEST);
-        }
     }
 
 

@@ -163,10 +163,10 @@ public class ${Controller.className()} {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
 </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findByProperty}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PagedModel<EntityModel<${endpoint.pojoName}>> findByProperty (
-            @RequestParam(name=${endpoint.pojoName}.Fields.TEXT, required = true) @SearchText Optional<String> text,
+    public PagedModel<EntityModel<${endpoint.pojoName}>> findByAttribute (
+            @RequestParam(name=${endpoint.pojoName}.Fields.TEXT, required = true) Optional<String> text,
             @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-            @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) @ParameterObject Pageable pageable,
+            @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) <#if endpoint.isWithOpenApi()>@ParameterObject</#if> Pageable pageable,
             PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
         String attributeValue = URLDecoder.decode(text.orElse(""), StandardCharsets.UTF_8);
@@ -182,12 +182,12 @@ public class ${Controller.className()} {
     </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
-    @RequestParam(name="q", required = true) Optional<String> rsqlQuery,
+    @RequestParam(name="q", required = true) Optional<<#noparse>@SearchText</#noparse> String> rsqlQuery,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-        @SortDefault(sort = ${endpoint.pojoName}.Fields.TEXT, direction = Sort.Direction.ASC) @ParameterObject Pageable pageable,
+        @SortDefault(sort = ${endpoint.pojoName}.Fields.TEXT, direction = Sort.Direction.ASC)
+            <#if endpoint.isWithOpenApi()>@ParameterObject</#if> Pageable pageable,
         PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
         return resourceAssembler.toModel( ${ServiceApi.varName()}.search(rsqlQuery.orElse(""), pageable) );
     }
-
 }
