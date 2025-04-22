@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springdoc.core.annotations.ParameterObject;
 </#if>
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -165,7 +166,7 @@ public class ${Controller.className()} {
     public PagedModel<EntityModel<${endpoint.pojoName}>> findByProperty (
             @RequestParam(name=${endpoint.pojoName}.Fields.TEXT, required = true) @SearchText Optional<String> text,
             @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-            @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) Pageable pageable,
+            @SortDefault(sort = ${EntityResource.className()}.Fields.TEXT, direction = Sort.Direction.ASC) @ParameterObject Pageable pageable,
             PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
         String attributeValue = URLDecoder.decode(text.orElse(""), StandardCharsets.UTF_8);
@@ -183,7 +184,7 @@ public class ${Controller.className()} {
     public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
     @RequestParam(name="q", required = true) Optional<String> rsqlQuery,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
-        @SortDefault(sort = ${endpoint.pojoName}.Fields.TEXT, direction = Sort.Direction.ASC) Pageable pageable,
+        @SortDefault(sort = ${endpoint.pojoName}.Fields.TEXT, direction = Sort.Direction.ASC) @ParameterObject Pageable pageable,
         PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
     {
         return resourceAssembler.toModel( ${ServiceApi.varName()}.search(rsqlQuery.orElse(""), pageable) );
