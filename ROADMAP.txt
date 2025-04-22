@@ -1,11 +1,15 @@
 12.0 ROADMAP:
 
+[x] Replace PageableAsQueryParam with ParameterObject
+[ ] Add ElementType.TYPE_USE to SearchText interface and Alpha interface
+[ ] Change signature of findByProperty to findByAttribute(Optional<@Alpha String> attributeValue)
+[ ] Change signature of search to search(Optional<@SearchText String> criteria) 
 [x] Migrate to MockMvcTester
 [x] Rethink package structure
 [x] Fix bug with postgres-based tests
 [x] Change Actuator's URL from `_internal` back to `actuator`
 
-[x] Update deprecated gradle stuff -- nothing identified
+[x] Update deprecated gradle stuff 
 [x] Remove `platform` plugin structure
 
 [ ] Change actuator URL from '_internal' back to 'actuator'.
