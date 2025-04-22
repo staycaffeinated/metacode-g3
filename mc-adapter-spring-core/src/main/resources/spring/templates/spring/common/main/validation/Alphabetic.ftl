@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -18,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 * The interface is chosen simply to illustrate how to
 * implement a constraint with an interface.
 */
-@Target({ METHOD, FIELD })
+@Target({ METHOD, FIELD, TYPE_USE })
 @Retention(RUNTIME)
 @Constraint(validatedBy = AlphabeticValidator.class)
 @Documented
