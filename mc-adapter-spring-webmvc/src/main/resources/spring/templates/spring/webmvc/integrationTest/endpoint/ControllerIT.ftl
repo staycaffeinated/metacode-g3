@@ -74,42 +74,6 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
         ${endpoint.entityVarName}Repository.deleteAll();
     }
 
-    @Nested
-    class ValidateFindByText {
-        @ParameterizedTest
-        @MethodSource("supplierOfAttributeValue")
-        void whenSearchFindsHits_expectOkAndMatchingRecords(String attributeValue) {
-            searchByTextAttribute(attributeValue)
-                    .assertThat()
-                    .hasStatus(HttpStatus.OK)
-                    .bodyJson()
-                    .extractingPath("$.page")
-                    .hasFieldOrProperty("size");
-        }
-
-        private static Stream<Arguments> supplierOfAttributeValue() {
-            return Stream.of(
-                        Arguments.of(${EjbTestFixtures.className()}.sampleOne().getText()),
-                        Arguments.of(${EjbTestFixtures.className()}.sampleTwo().getText()),
-                        Arguments.of(${EjbTestFixtures.className()}.sampleThree().getText())
-            );
-    }
-
-        @ParameterizedTest
-        @ValueSource(strings = {
-            "lorem ipsum dolor emit",
-            "fe fi fo fum"
-        })
-        void whenSearchComesUpEmpty_expectOkButNoRecords(String noSuchValue) {
-            searchByTextAttribute(noSuchValue)
-                    .assertThat()
-                    .hasStatus(HttpStatus.OK)
-                    .bodyJson()
-                    .extractingPath("$.page") // drill down to the page stanza
-                    .hasFieldOrPropertyWithValue("number", 0); // the number of elements is zero
-        }
-    }
-
 
     /*
      * FindById

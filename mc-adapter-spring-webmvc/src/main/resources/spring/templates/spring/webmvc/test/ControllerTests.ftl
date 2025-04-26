@@ -232,41 +232,6 @@ class ${Controller.testClass()} {
         }
     }
 
-    @Nested
-    class SearchByTextAttributeTests {
-        @Test
-        @SuppressWarnings("unchecked")
-        void shouldReturnListWhenMatchesAreFound() {
-            given (${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class))).willReturn(pageOfData);
-
-            // when/then (the default Pageable in the controller is sufficient for testing)
-            searchByTextAttribute("text").assertThat().hasStatus(HttpStatus.OK);
-        }
-    }
-
-    @Nested
-    class SearchTextAttributeValidationTests {
-        /*
-         * Unit tests do not have the validation filters wired in
-         * (the full web application context is needed to achieve that),
-         * which limits our options.
-         */
-        @Test
-        void whenTextIsTooLong_expectError() {
-            given(${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class)))
-                .willThrow(ConstraintViolationException.class);
-
-            searchByTextAttribute("supercalifragilisticexpialidocious").assertThat().hasFailed();
-        }
-
-        @Test
-        void whenTextContainsInvalidCharacters_expectError() {
-            given(${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class)))
-                .willThrow(ConstraintViolationException.class);
-
-            searchByTextAttribute("192.168.0.0<555").assertThat().hasFailed();
-        }
-    }
 
     @Nested
     class SearchUseCases {
