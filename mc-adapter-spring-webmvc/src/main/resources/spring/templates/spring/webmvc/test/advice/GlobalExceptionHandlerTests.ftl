@@ -1,9 +1,26 @@
 <#include "/common/Copyright.ftl">
 package ${GlobalExceptionHandler.packageName()};
 
-import ${Exception.packageName()}.UnprocessableEntityException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import ${Exception.packageName()}.UnprocessableEntityException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.*;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.core.MethodParameter;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,24 +31,13 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
-* Unit tests of GlobalExceptionHandler
-*
-* Borrowed ideas from:
-*  https://github.com/spring-projects/spring-framework/blob/master/spring-webmvc/src/test/java/org/springframework/web/servlet/mvc/method/annotation/ResponseEntityExceptionHandlerTests.java
-*
-*/
+ * Unit tests of GlobalExceptionHandler
+ *
+ * Borrowed ideas from:
+ *  https://github.com/spring-projects/spring-framework/blob/master/spring-webmvc/src/test/java/org/springframework/web/servlet/mvc/method/annotation/ResponseEntityExceptionHandlerTests.java
+ *
+ */
 class GlobalExceptionHandlerTest {
 
     private final GlobalExceptionHandler exceptionHandlerUnderTest = new GlobalExceptionHandler();
@@ -192,4 +198,81 @@ class GlobalExceptionHandlerTest {
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+    @ParameterizedTest
+    @MethodSource("provideSampleObject")
+    void whenConstraintViolationException_expectProblemDetail(SampleObject sampleObject) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        ConstraintViolationException exception = getConstraintViolationException(factory, sampleObject);
+
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleConstraintViolationException(exception);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        ProblemDetail problemDetail = response.getBody();
+        assertThat(problemDetail).isNotNull();
+    }
+
+    /* =======================================================================================
+     * HELPER METHODS
+     * ======================================================================================= */
+
+     static Stream<Arguments> provideSampleObject() {
+         // example of bad data
+         SampleObject sample1 = new SampleObject("abc123", 12, false, "1234568", -1);
+         // example of null data
+         SampleObject sample2 = new SampleObject(null, 12, false, null, -1);
+
+         return Stream.of(Arguments.of(sample1), Arguments.of(sample2));
+     }
+
+     private static ConstraintViolationException getConstraintViolationException(ValidatorFactory factory, SampleObject ts)
+     {
+         jakarta.validation.Validator validator = factory.getValidator();
+         // Invoke validate() to trigger the validation
+         <#noparse>Set<ConstraintViolation<SampleObject>> </#noparse>violations = validator.validate(ts);
+         // Create an exception that wraps the constraint violations
+         return new ConstraintViolationException(violations);
+     }
+
+     /**
+      * A sample class that contains validation annotations.
+      * Instances of this class can be used to verify how validation errors are handled
+      * and how the ProblemDetail is populated.
+      * <p>
+      * This is borrowed from:
+      * https://www.geeksforgeeks.org/spring-boot-data-and-field-validation-using-jakarta-validation-constraints/
+      */
+      private static class SampleObject {
+          public interface AllLevels {}
+          public interface Junior {}
+          public interface MidSenior {}
+          public interface Senior {}
+
+          @Size(min = 5, max = 20, message = "Name must be between 5 and 20 characters long")
+          @Pattern(regexp = "[0-9]", message = "Name must not contain numbers")
+          @NotBlank(message = "Name is a mandatory field")
+          final String name;
+
+          @Min(value = 5, groups = Junior.class, message = "Junior level requires at least 5 years of experience")
+          @Min(value = 10,groups = MidSenior.class, message = "Mid-Senior level requires at least 10 years of experience")
+          @Min(value = 15, groups = Senior.class, message = "Senior level requires at least 15 years of experience")
+          final int exp;
+
+          @AssertTrue(message = "You are not an admin")
+          final boolean isAdmin;
+
+          @Pattern(regexp = "\\d{10}", message = "Mobile number must have exactly 10 digits")
+          final String mobilNumber;
+
+          <#noparse>final Optional<@Min(value = 0, message = "Weight must be at least 0") Long> weight;</#noparse>
+
+          public SampleObject(String name, int exp, boolean isAdmin, String mobilNumber, long weight) {
+              this.name = name;
+              this.exp = exp;
+              this.isAdmin = isAdmin;
+              this.mobilNumber = mobilNumber;
+              this.weight = Optional.of(weight);
+          }
+     }
 }
