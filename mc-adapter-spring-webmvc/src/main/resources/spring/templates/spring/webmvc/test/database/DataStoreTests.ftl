@@ -330,11 +330,11 @@ public class ${ConcreteDataStoreImpl.testClass()} {
     }
 
     @Nested
-    class FindByText {
+    class FindByAttribute {
         @Test
         void shouldThrowExceptionWhenSearchTextIsNull() {
             Pageable page = PageRequest.of(0, 10);
-            assertThrows(NullPointerException.class, () -> dataStoreUnderTest.findByText(null, page));
+            assertThrows(NullPointerException.class, () -> dataStoreUnderTest.findByAttribute(null, page));
         }
 
         @Test
@@ -345,8 +345,8 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             Page<${Entity.className()}> pageResult = new PageImpl<>(content, Pageable.unpaged(), content.size());
             given(mockRepository.findAll(any(Specification.class), any(Pageable.class))).willReturn(pageResult);
 
-            // when: attempting a findByText
-            Page<${EntityResource.className()}> actual = dataStoreUnderTest.findByText("anything", PageRequest.of(1, 10));
+            // when: attempting a findByAttribute
+            Page<${EntityResource.className()}> actual = dataStoreUnderTest.findByAttribute("anything", PageRequest.of(1, 10));
 
             // expect: the result to contain as many items as were found in the repository.
             assertThat(actual).isNotNull().hasSize(content.size());

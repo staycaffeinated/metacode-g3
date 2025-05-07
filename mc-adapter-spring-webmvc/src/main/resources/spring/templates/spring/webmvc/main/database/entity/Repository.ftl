@@ -5,10 +5,22 @@ import ${CustomRepository.fqcn()};
 import ${Entity.fqcn()};
 import jakarta.persistence.QueryHint;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.jpa.HibernateHints;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.QueryHints;
 
-public interface ${Repository.className()} extends ${CustomRepository.className()}<${Entity.className()}, Long> {
+public interface ${Repository.className()} extends JpaRepository<${Entity.className()}, Long>,
+                                                   JpaSpecificationExecutor<${Entity.className()}>
+{
+    /**
+     * Find ${Entity.className()} by its resourceId
+     *
+     * @param resourceId the identifier
+     * @return an Optional containing either ${Entity.className()} or empty.
+     */
+    Optional<${Entity.className()}> findByResourceId(String resourceId);
 
     /*
      * If the underlying table has, say, hundreds of thousands of rows (or more), then fetching all

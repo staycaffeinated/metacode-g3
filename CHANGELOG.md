@@ -1,7 +1,23 @@
 ## Uncommitted
 
-## [11.5.1] - 2025-02-15
-                
+### Changes:
+    * Removed the `findByText` method from the Controller and Service objects. The
+      `search` method that accepts an RSQL query is more effective. 
+    * Updated OpenAPI support, which includes updating the OpenAPI annotations 
+      found in the generated Controller class.
+    * Added a `--table-name` option for endpoints. This is helpful when the chosen
+      resource name has a conflict with an SQL reserved word.  The `--table-name`
+      allows the user to cherry-pick the name of the database table to avoid any
+      detected SQL reserved word conflict. For example, you might want a resource
+      named `Order`, which happens to be an SQL reserved word.  If you attempt to 
+      have a table named 'Order', SQL syntax errors will result. To help get around
+      that, you can do something like `create endpoint --resource Order --table-name orders`, 
+      which leads to an EJB object with the annotation `@Entity("orders")`, which
+      enables `Order` to still be used for the resource/POJO name, while using `orders`
+      as the name of the table that contains `Order` database records.
+
+
+
 ### Changes:
     * The Spotless plugin deprecated `identWithSpaces` in favor of `leadingTabsToSpaces`.  
       The affected build scripts have been updated.

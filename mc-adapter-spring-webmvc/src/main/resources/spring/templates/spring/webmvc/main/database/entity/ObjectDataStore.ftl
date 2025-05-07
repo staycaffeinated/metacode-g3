@@ -16,7 +16,8 @@ import java.util.Optional;
  * ${Entity.className()}-specific search API.
  */
 public interface ${ConcreteDataStoreApi.className()} extends ${AbstractDataStoreApi.className()}<${EntityResource.className()}> {
-    Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable);
+
+    Page<${EntityResource.className()}> findByAttribute(@NonNull String attributeValue, Pageable pageable);
 
     /**
      * Returns a Page of ${endpoint.entityName} items that satisfy the {@code searchQuery}

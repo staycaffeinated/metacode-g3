@@ -88,7 +88,7 @@ class ${ServiceImpl.testClass()} {
     }
 
     @Nested
-    class FindByTextTests {
+    class FindByAttributeTests {
         /*
         * Happy path - some rows match the given text
         */
@@ -98,10 +98,10 @@ class ${ServiceImpl.testClass()} {
             // given: the datastore contains records that satisfy the search criteria
             Pageable pageable = PageRequest.of(0,25);
             Page<${EntityResource.className()}> page = new PageImpl<>(${endpoint.entityVarName}List, pageable, ${endpoint.entityVarName}List.size());
-            given(${endpoint.entityVarName}DataStore.findByText(any(String.class), any(Pageable.class))).willReturn(page);
+            given(${endpoint.entityVarName}DataStore.findByAttribute(any(String.class), any(Pageable.class))).willReturn(page);
 
-            // when: findByText searches for records having a known-to-exist text value...
-            Page<${EntityResource.className()}> result = serviceUnderTest.findByText("text", pageable);
+            // when: findByAttribute searches for records having a known-to-exist text value...
+            Page<${EntityResource.className()}> result = serviceUnderTest.findByAttribute("text", pageable);
 
             // then: a non-empty page of results is returned
             then(result).isNotNull();       // must never return null
@@ -114,11 +114,11 @@ class ${ServiceImpl.testClass()} {
         @SuppressWarnings("unchecked")
         void shouldReturnEmptyListWhenNoDataFound() {
             // given: the data store contains no records matching the search criteria
-            given( ${endpoint.entityVarName}DataStore.findByText(any(String.class), any(Pageable.class))).willReturn( Page.empty() );
+            given( ${endpoint.entityVarName}DataStore.findByAttribute(any(String.class), any(Pageable.class))).willReturn( Page.empty() );
 
             // when: a search is made
             Pageable pageable = PageRequest.of(1,10);
-            Page<${EntityResource.className()}> result = serviceUnderTest.findByText("foo", pageable);
+            Page<${EntityResource.className()}> result = serviceUnderTest.findByAttribute("foo", pageable);
 
             // expect: an empty, non-null result is returned
             then(result).isNotNull();       // must never get null back
@@ -129,7 +129,7 @@ class ${ServiceImpl.testClass()} {
         @SuppressWarnings("all")
         void shouldThrowNullPointerExceptionWhen${endpoint.entityName}IsNull() {
             Pageable pageable = PageRequest.of(0,20);
-            assertThrows (NullPointerException.class, () ->  serviceUnderTest.findByText(null, pageable));
+            assertThrows (NullPointerException.class, () ->  serviceUnderTest.findByAttribute(null, pageable));
         }
     }
 

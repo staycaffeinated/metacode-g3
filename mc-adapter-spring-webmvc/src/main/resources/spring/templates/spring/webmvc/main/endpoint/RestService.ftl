@@ -21,9 +21,9 @@ public interface ${ServiceApi.className()} {
     Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id);
 
     /*
-     * findByText
+     * findByAttribute
      */
-    Page<${EntityResource.className()}> findByText(String text, Pageable pageable);
+    Page<${EntityResource.className()}> findByAttribute(String attributeValue, Pageable pageable);
 
     /**
      * Search for elements with an RSQL query

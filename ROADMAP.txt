@@ -1,9 +1,9 @@
 12.0 ROADMAP:
 
 [x] Replace PageableAsQueryParam with ParameterObject
-[ ] Add ElementType.TYPE_USE to SearchText interface and Alpha interface
-[ ] Change signature of findByProperty to findByAttribute(Optional<@Alpha String> attributeValue)
-[ ] Change signature of search to search(Optional<@SearchText String> criteria) 
+[X] Add ElementType.TYPE_USE to SearchText interface and Alpha interface
+[X] Change signature of findByProperty to findByAttribute(Optional<@Alpha String> attributeValue)
+[X] Change signature of search to search(Optional<@SearchText String> criteria) 
 [x] Migrate to MockMvcTester
 [x] Rethink package structure
 [x] Fix bug with postgres-based tests
@@ -11,6 +11,14 @@
 
 [x] Update deprecated gradle stuff 
 [x] Remove `platform` plugin structure
+
+[ ] Refactor AbstractPostgresContainerTest to TestContainerConfiguration
+[ ] Refactor integration tests to @Import(TestContainerConfiguration.class)
+
+[ ] Add flyway support ??
+[ ] Add explicit builder APIs to Pojo's and EJBs for easier refactoring
+[ ] Maybe rename `text` column to `comments` for something more intuitive 
+
 
 [ ] Change actuator URL from '_internal' back to 'actuator'.
 

@@ -46,10 +46,10 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     }
 
     /*
-     * findByText
+     * findByAttribute
      */
-    public Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable) {
-        return ${ConcreteDataStoreApi.varName()}.findByText(text, pageable);
+    public Page<${EntityResource.className()}> findByAttribute(@NonNull String attributeValue, Pageable pageable) {
+        return ${ConcreteDataStoreApi.varName()}.findByAttribute(attributeValue, pageable);
     }
 
     /*
