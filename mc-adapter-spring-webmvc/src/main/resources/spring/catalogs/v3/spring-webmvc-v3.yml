@@ -101,11 +101,11 @@ entries:
       - facet: "test"
         sourceTemplate: "/spring/common/test/config/LocalDateConverterTests.ftl"
 
-  - scope: "project"
-    archetype: "CustomSQLRepository"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/CustomSQLRepository.ftl"
+#  - scope: "project"
+#    archetype: "CustomSQLRepository"
+#    facets:
+#      - facet: "main"
+#        sourceTemplate: "/spring/webmvc/main/database/CustomSQLRepository.ftl"
 
 #  - scope: "project"
 #    archetype: "GenericDataStore"
