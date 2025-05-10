@@ -107,11 +107,11 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/database/CustomSQLRepository.ftl"
 
-  - scope: "project"
-    archetype: "GenericDataStore"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/database/GenericDataStore.ftl"
+#  - scope: "project"
+#    archetype: "GenericDataStore"
+#    facets:
+#      - facet: "main"
+#        sourceTemplate: "/spring/webmvc/main/database/GenericDataStore.ftl"
 
   - scope: "project"
     archetype: "SecurityResponseHeadersFilter"
