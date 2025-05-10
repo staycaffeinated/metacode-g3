@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 
 import jakarta.validation.ConstraintValidatorContext;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -31,7 +30,7 @@ class SearchTextValidatorTest {
         @ValueSource(strings = {"something", "Something", "SOMETHING", "A", "Abc", "abc" })
         @EmptySource
         void shouldAllowAlphabetic(String candidateText) {
-            assertThat(validationUnderTest.isValid(Optional.of(candidateText), mockContext)).isTrue();
+            assertThat(validationUnderTest.isValid(candidateText, mockContext)).isTrue();
         }
     }
 
@@ -42,7 +41,7 @@ class SearchTextValidatorTest {
             "supercalifragilisticexpialidocious"  // too long
         })
         void shouldNotAllowInvalidText(String candidateText) {
-            assertThat(validationUnderTest.isValid(Optional.of(candidateText), mockContext)).isFalse();
+            assertThat(validationUnderTest.isValid(candidateText, mockContext)).isFalse();
         }
 
         @Test
