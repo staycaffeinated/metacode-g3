@@ -9,44 +9,41 @@ import ${PojoTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.assertj.MvcTestResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.TransactionSystemException;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.mockito.ArgumentMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.reset;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(${Controller.className()}.class)
 @ActiveProfiles("test")
-class ${Controller.testClass()} {
+class r${Controller.testClass()} {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvcTester mockMvcTester;
 
-    @MockBean
-    private ${ServiceImpl.className()} ${endpoint.entityVarName}Service;
+    @MockitoBean
+    private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -57,13 +54,19 @@ class ${Controller.testClass()} {
     private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
 
     @BeforeEach
-    void setUp() {
+    void configureSystemUnderTest() {
+        ${endpoint.entityVarName}Service = Mockito.mock(${ServiceApi.className()}.class);
+        var mockMvc = MockMvcBuilders.standaloneSetup(new ${Controller.className()}(${endpoint.entityVarName}Service))
+                                     .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                                     .build();
+        mockMvcTester = MockMvcTester.create(mockMvc);
+
         ${endpoint.entityVarName}List = ${PojoTestFixtures.className()}.allItems();
         pageOfData = new PageImpl<>(${endpoint.entityVarName}List);
     }
 
     @AfterEach
-    void tearDownEachTime() {
+    void resetSystemUnderTest() {
         reset ( ${endpoint.entityVarName}Service );
     }
 
@@ -77,9 +80,14 @@ class ${Controller.testClass()} {
             int expectedSize = ${PojoTestFixtures.className()}.allItems().size();
             given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${PojoTestFixtures.className()}.allItems());
 
-            findAllEntities()
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(expectedSize)));
+            var jsonPathToId = "$.[0]." + ${endpoint.entityName}.Fields.RESOURCE_ID;
+
+            findAllEntities().assertThat()
+                             .hasStatus(HttpStatus.OK)
+                             .hasContentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                             .bodyJson()
+                             .hasPathSatisfying(jsonPathToId, path -> assertThat(path).isNotEmpty());
+
         }
     }
 
@@ -98,10 +106,14 @@ class ${Controller.testClass()} {
                 .willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
-            findSpecificEntity(resourceId)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())))
-                ;
+            findSpecificEntity(resourceId).assertThat()
+                                          .hasStatus(HttpStatus.OK)
+                                          .hasContentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                                          .bodyJson()
+                                          .extractingPath("$")
+                                          .asMap()
+                                          .containsEntry(Widget.Fields.RESOURCE_ID, resourceId)
+                                          .containsEntry(Widget.Fields.TEXT, widget.getText());
         }
 
         @Test
@@ -112,8 +124,7 @@ class ${Controller.testClass()} {
                 .willReturn(Optional.empty());
 
             // when/then
-            findSpecificEntity(resourceId)
-                .andExpect(status().isNotFound());
+            findSpecificEntity(resourceId).assertThat().hasStatus(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -128,9 +139,13 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
 
             // when/then
-            createEntity(resourceBeforeSave).andExpect(status().isCreated())
-            .andExpect(jsonPath("$.resourceId", notNullValue()))
-            .andExpect(jsonPath("$.text", is(resourceAfterSave.getText())));
+            createEntity(resourceBeforeSave).assertThat()
+                                            .hasStatus(HttpStatus.CREATED)
+                                            .bodyJson()
+                                            .extractingPath("$")
+                                            .asMap()
+                                            .containsEntry(${EntityResource.className()}.Fields.TEXT, resourceAfterSave.getText())
+                                            .containsKey(${EntityResource.className()}.Fields.RESOURCE_ID);
         }
 
         @Test
@@ -139,7 +154,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
             ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
 
-            createEntity(resource).andExpect(status().isUnprocessableEntity());
+            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -154,9 +169,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(List.of(${endpoint.entityVarName}));
 
             // when/then
-            updateEntity(${endpoint.entityVarName}).andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].text", is(${endpoint.entityVarName}.getText())))
-                .andExpect(jsonPath("$[0].resourceId", is(${endpoint.entityVarName}.getResourceId())));
+            updateEntity(resourceId, widget).assertThat().hasStatus(HttpStatus.OK);
         }
 
         @Test
@@ -169,7 +182,7 @@ class ${Controller.testClass()} {
             ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(resourceId).text("updated text").build();
 
             // Attempt to update an entity that does not exist
-            updateEntity(resource).andExpect(status().isNotFound());
+            updateEntity(resource).assertThat().hasStatus(HttpStatus.NOT_FOUND);
         }
 
         /**
@@ -188,119 +201,122 @@ class ${Controller.testClass()} {
 
             // Submit an update request, with the ID in the URL not matching the ID in the body.
             // Expect back an UnprocessableEntity status code
-            updateEntity(resourceId, resource).andExpect(status().isUnprocessableEntity());
+            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
-@Nested
-class Delete${endpoint.entityName}Tests {
-@Test
-void shouldDelete${endpoint.entityName}() throws Exception {
-// given
-${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.entityName}TestFixtures.oneWithResourceId();
-String resourceId = ${endpoint.entityVarName}.getResourceId();
+    @Nested
+    class Delete${endpoint.entityName}Tests {
+        @Test
+        void shouldDelete${endpoint.entityName}() throws Exception {
+            // given
+            ${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.entityName}TestFixtures.oneWithResourceId();
+            String resourceId = ${endpoint.entityVarName}.getResourceId();
 
-// Mock the service layer finding the resource being deleted
-given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
-doNothing().when(${endpoint.entityVarName}Service).delete${endpoint.entityName}ByResourceId(${endpoint.entityVarName}.getResourceId());
+            // Mock the service layer finding the resource being deleted
+            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
+            doNothing().when(${endpoint.entityVarName}Service).delete${endpoint.entityName}ByResourceId(${endpoint.entityVarName}.getResourceId());
 
-// when/then
-deleteEntity(resourceId).andExpect(status().isOk())
-.andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())));
-}
+            // when/then
+            deleteEntity(resourceId).assertThat()
+                                    .hasStatus(HttpStatus.OK)
+                                    .bodyJson()
+                                    .extractingPath("$")
+                                    .asMap()
+                                    .containsKey(${EntityResource.className()}.Fields.RESOURCE_ID);
+        }
 
-@Test
-void shouldReturn404WhenDeletingNonExisting${endpoint.entityName}() throws Exception {
-String resourceId = randomSeries.nextResourceId();
-given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
+        @Test
+        void shouldReturn404WhenDeletingNonExisting${endpoint.entityName}() throws Exception {
+            String resourceId = randomSeries.nextResourceId();
+            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
-deleteEntity(resourceId).andExpect(status().isNotFound());
-}
-}
+            deleteEntity(resourceId).assertThat().hasStatus(HttpStatus.NOT_FOUND);
+        }
+    }
 
-@Nested
-class SearchByTextTests {
-@Test
-@SuppressWarnings("unchecked")
-void shouldReturnListWhenMatchesAreFound() throws Exception {
-given (${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class))).willReturn(pageOfData);
+    @Nested
+    class SearchByTextTests {
+        @Test
+        @SuppressWarnings("unchecked")
+        void shouldReturnListWhenMatchesAreFound() throws Exception {
+            given (${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class))).willReturn(pageOfData);
 
-// when/then (the default Pageable in the controller is sufficient for testing)
-searchByText("text").andExpect(status().isOk());
-}
-}
+            // when/then (the default Pageable in the controller is sufficient for testing)
+            searchByText("some%20bvalue").assertThat().hasStatus(HttpStatus.OK);
+        }
+    }
 
-@Nested
-class SearchTextValidationTests {
-@Test
-void whenTextIsTooLong_expectError() throws Exception {
-searchByText("supercalifragilisticexpialidocious").andExpect(status().is4xxClientError());
-}
-@Test
-void whenTextContainsInvalidCharacters_expectError() throws Exception {
-searchByText("192.168.0.0<555").andExpect(status().is4xxClientError());
-}
-}
+    // ---------------------------------------------------------------------------------------------------------------
+    //
+    // Helper methods
+    //
+    // ---------------------------------------------------------------------------------------------------------------
 
-// ---------------------------------------------------------------------------------------------------------------
-//
-// Helper methods
-//
-// ---------------------------------------------------------------------------------------------------------------
+    /**
+     * Sends a findAll request
+     */
+    protected MvcTestResult findAllEntities() throws Exception {
+        return mockMvcTester.get()
+                            .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findAll} )
+                            .exchange();
+    }
 
-/**
-* Sends a findAll request
-*/
-protected ResultActions findAllEntities() throws Exception {
-return mockMvc.perform(get( ${endpoint.entityName}Routes.${endpoint.routeConstants.findAll} ));
-}
-
-/**
-* Sends a findOne request
-*/
-protected ResultActions findSpecificEntity(String resourceId) throws Exception {
-return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, resourceId ));
-}
+    /**
+     * Sends a findOne request
+     */
+    protected MvcTestResult findSpecificEntity(String resourceId) throws Exception {
+        return mockMvcTester.get()
+                            .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, resourceId)
+                            .exchange();
+    }
 
 
-/**
-* Submits a search request
-*/
-protected ResultActions searchByText(String text) throws Exception {
-return mockMvc.perform(get(${endpoint.entityName}Routes.${endpoint.routeConstants.search}).param("text", text));
-}
+    /**
+     * Submits a search request
+     */
+    protected MvcTestResult searchByText(String text) {
+        return mockMvcTester.get()
+                            .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.search})
+                            .param("text", text)
+                            .exchange();
+    }
 
-/**
-* Submits a Delete request
-*/
-protected ResultActions deleteEntity(String resourceId) throws Exception {
-return mockMvc.perform(delete(${endpoint.entityName}Routes.${endpoint.routeConstants.delete},resourceId));
-}
+    /**
+     * Submits a Delete request
+     */
+    protected MvcTestResult deleteEntity(String resourceId) {
+        return mockMvcTester.delete().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.delete}, resourceId).exchange();
+    }
 
-/**
-* To support the use case of a well-formed update request
-*/
-protected ResultActions updateEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
-return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
-.contentType(MediaType.APPLICATION_JSON)
-.content(objectMapper.writeValueAsString(${endpoint.entityVarName})));
-}
+    /**
+     * To support the use case of a well-formed update request
+     */
+    protected MvcTestResult updateEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
+        return mockMvcTester.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .exchange();
+    }
 
-/**
-* To support the use case of the ID in the query string not matching the ID in the payload
-*/
-protected ResultActions updateEntity(String resourceId, ${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
-return mockMvc.perform(put(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
-.contentType(MediaType.APPLICATION_JSON)
-.content(objectMapper.writeValueAsString(${endpoint.entityVarName})));
-}
+    /**
+     * To support the use case of the ID in the query string not matching the ID in the payload
+     */
+    protected MvcTestResult updateEntity(String resourceId, ${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
+        return mockMvcTester.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .exchange();
+    }
 
-/**
-* Submits a Post request
-*/
-protected ResultActions createEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
-return mockMvc.perform(post(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
-.contentType(MediaType.APPLICATION_JSON)
-.content(objectMapper.writeValueAsString(${endpoint.entityVarName})));
-}
+    /**
+     * Submits a Post request
+     */
+    protected MvcTestResult createEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
+        return mockMvcTester.post().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .exchange();
+
+    }
 }

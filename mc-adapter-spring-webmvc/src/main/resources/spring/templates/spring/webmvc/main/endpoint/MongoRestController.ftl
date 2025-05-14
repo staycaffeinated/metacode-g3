@@ -122,7 +122,7 @@ public class ${Controller.className()} {
      */
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
     public PagedModel<EntityModel<${EntityResource.className()}>> searchByText (
-        @RequestParam(name="text", required = true) @SearchText Optional<String> text,
+        @RequestParam(name="text", required = true)  Optional< @SearchText String> text,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
         @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
         PagedResourcesAssembler<${EntityResource.className()}> resourceAssembler)
