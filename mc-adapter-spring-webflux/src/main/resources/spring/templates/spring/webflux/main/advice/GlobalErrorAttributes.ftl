@@ -9,6 +9,9 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 
 
 @Component
+@SuppressWarnings({
+    "java:S1185" // embellish the `getErrorAttributes` method as desired
+})
 public class ${GlobalErrorAttributes.className()} extends DefaultErrorAttributes {
 
     @Override

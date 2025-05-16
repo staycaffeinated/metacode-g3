@@ -63,10 +63,13 @@ class ${GlobalExceptionHandler.testClass()} {
     }
 
     @Test
-    void verifyHandleMethodReturnsNull() {
+    void verifyHandleMethodReturnProblemDetail() {
         var serverWebExchange = Mockito.mock(ServerWebExchange.class);
         var publisher = exceptionHandlerUnderTest.handle(serverWebExchange, new Throwable());
 
-        assertThat(publisher).isNull();
+        StepVerifier.create(publisher)
+                    .expectSubscription()
+                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value()))
+                    .verifyComplete();
     }
 }

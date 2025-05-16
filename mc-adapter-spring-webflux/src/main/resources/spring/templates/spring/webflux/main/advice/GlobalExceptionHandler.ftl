@@ -21,7 +21,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.sql.SQLException;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -71,11 +70,7 @@ public class ${GlobalExceptionHandler.className()} {
             Object invalidValue = constraint.getInvalidValue();
 
             objectNode.put("reason", message);
-            // Since its common for REST parameters to be Optional, we unwrap the Optional for a cleaner message
-            if (invalidValue instanceof Optional<?> theValue) {
-                theValue.ifPresent(o -> objectNode.put("invalid value", o.toString()));
-            }
-            else {
+            if (invalidValue != null) {
                 objectNode.put("invalid value", invalidValue.toString());
             }
             // You may not want to reveal the classname or method name since doing so leaks implementation details.
@@ -92,8 +87,11 @@ public class ${GlobalExceptionHandler.className()} {
     /**
      * Catch anything not caught by other handlers
      */
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
-        return null;
+    @SuppressWarnings({
+        "java:S1172" // `exchange` is unused but needed for the method signature
+    })
+    public Mono<ProblemDetail> handle(ServerWebExchange exchange, Throwable ex) {
+        return problemDescription("ServerWebExchange Error", ex, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     /**
