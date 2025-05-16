@@ -15,8 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.testcontainers.junit.jupiter.Testcontainers;
 <#if (endpoint.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,12 +30,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 /**
-* Verify exception handling
-*/
+ * Verify exception handling
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 <#if (endpoint.isWithTestContainers())>
@@ -40,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 </#if>
 class ${EntityResource.className()}ExceptionHandlingIT implements ${RegisterDatabaseProperties.className()} {
     @Autowired
-    MockMvc mockMvc;
+    MockMvcTester mockMvcTester;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -64,11 +67,13 @@ class ${EntityResource.className()}ExceptionHandlingIT implements ${RegisterData
 
             // when/then
             // @formatter:off
-            mockMvc.perform(post("${endpoint.basePath}").contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(payload)))
-                    .andExpect(jsonPath("$.stackTrace").doesNotExist())
-                    .andExpect(jsonPath("$.trace").doesNotExist())
-                    .andDo((print())).andReturn();
+            mockMvcTester.perform(post("${endpoint.basePath}").contentType(MediaType.APPLICATION_JSON)
+                         .content(objectMapper.writeValueAsString(payload)))
+                         .assertThat()
+                         .hasStatus(HttpStatus.NOT_FOUND)
+                         .bodyJson()
+                         .doesNotHavePath("$.stackTrace")
+                         .doesNotHavePath("$.trace");
             // @formatter:on
         }
     }
