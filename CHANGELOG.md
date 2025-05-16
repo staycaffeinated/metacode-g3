@@ -15,7 +15,7 @@
       which leads to an EJB object with the annotation `@Entity("orders")`, which
       enables `Order` to still be used for the resource/POJO name, while using `orders`
       as the name of the table that contains `Order` database records.
-
+    * Migrated tests that used `MockMvc` over to `MockMvcTester`. 
 
 
 ### Changes:
@@ -30,8 +30,11 @@
     * Upgrade gradle-lint-plugin to 20.5.6
     * Upgrade Lombok plugin to 8.12.1
     * Upgrade Ben Manes Version plugin to 0.52.0
-    * Upgrade SpringBoot to 3.3.8
+    * Upgrade SpringBoot to 3.4.5
     * Upgrade AssertJ to 3.27.3
+    * Upgrade data-faker to 2.4.3
+    * Upgrade mongodb-driver-sync to 5.5.0
+    * Upgrade OpenAPI starters to 2.8.8
 
 ## [11.5.0] - 2025-01-18
 
