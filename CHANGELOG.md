@@ -1,9 +1,11 @@
 ## Uncommitted
 
+## [12.0.0] - 2025-05-17
+
 ### Changes:
     * Removed the `findByText` method from the Controller and Service objects. The
       `search` method that accepts an RSQL query is more effective. 
-    * Updated OpenAPI support, which includes updating the OpenAPI annotations 
+    * Updated the OpenAPI support, which includes updating the OpenAPI annotations 
       found in the generated Controller class.
     * Added a `--table-name` option for endpoints. This is helpful when the chosen
       resource name has a conflict with an SQL reserved word.  The `--table-name`
@@ -16,14 +18,14 @@
       enables `Order` to still be used for the resource/POJO name, while using `orders`
       as the name of the table that contains `Order` database records.
     * Migrated tests that used `MockMvc` over to `MockMvcTester`. 
-
-
-### Changes:
     * The Spotless plugin deprecated `identWithSpaces` in favor of `leadingTabsToSpaces`.  
       The affected build scripts have been updated.
     * The `implementation` dependency on the Zalando Problem library has been removed
       from the generated `build.gradle`. Since Spring's built-in Problem implementation is
       now used, there's no compile-time or runtime dependency on the Zalando libraries. 
+    * The `platform` submodule has been removed. More sustainable techniques are available,
+      and this wasn't being used. 
+      
 
 ### Maintenance:
     * Upgrade spotless-gradle-plugin to 7.0.2
