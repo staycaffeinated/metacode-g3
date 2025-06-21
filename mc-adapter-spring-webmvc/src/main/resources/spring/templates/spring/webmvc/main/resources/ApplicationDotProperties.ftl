@@ -25,6 +25,9 @@ server.servlet.context-path=/
 <#if (project.isWithOpenApi())>
 springdoc.api-docs.enabled=true
 springdoc.swagger-ui.enabled=true
+springdoc.swagger-ui.operations-sorter=alpha
+springdoc.swagger-ui.tags-sorter=alpha
+springdoc.model-converters.pageable-converter.enabled=true
 </#if>
 
 # -------------------------------------------------------------------------------------------------------
@@ -38,35 +41,23 @@ springdoc.swagger-ui.enabled=true
 # -------------------------------------------------------------------------------------------------------
 spring.web.resources.add-mappings=false
 
-
-# Obfuscate the /actuator endpoint, which is the default health probe.
-# Health probes enable a liveness check and a readiness check.
-# Since Docker containers are commonly deployed via Kubernetes,
-# these health probes enable Kubernetes to monitor the health of this service.
-# If this service is deployed via Kubernetes, the Kubernetes deployment.yaml should
-# include:
-#   livenessProbe:
-#     httpGet:
-#       path: /_internal/health/liveness
-#       port: 8080
-#   readinessProbe:
-#     httpGet:
-#       path: /_internal/health/readiness
-#       port: 8080
-management.endpoints.web.base-path=/_internal
+#
+# Actuator properties
+#
 management.endpoint.health.probes.enabled=true
 
+#
+# JPA/Datasource properties
+#
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.id.new_generator_mappings=false
 <#if (project.isWithPostgres())>
 spring.jpa.database=POSTGRESQL
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgresPlusDialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.properties.id.new_generator_mappings=false
 </#if>
 <#if (project.schema?has_content)>
-<#noparse>
-spring.jpa.properties.hibernate.default_schema=${spring.application.schema-name}
-</#noparse>
+spring.jpa.properties.hibernate.default_schema=<#noparse>${spring.application.schema-name}</#noparse>
 </#if>
 
 
@@ -85,7 +76,7 @@ spring.datasource.driver-class-name=org.h2.Driver
 <#-- define the jdbc url -->
 <#if (project.isWithPostgres())>
     <#if project.schema?? && project.schema?has_content>
-spring.datasource.url=jdbc:postgresql://localhost:5432/postgres?currentSchema=${project.schema}
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
     <#else>
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
     </#if>
@@ -119,6 +110,7 @@ logging.level.root=INFO
 spring.datasource.hikari.connection-timeout=2000
 # the maximum size the pool can reach
 spring.datasource.hikari.maximum-pool-size=20
+spring.datasource.hikari.minimum-idle=2
 # cache prepared statements
 spring.datasource.hikari.data-source-properties.cachePrepStmts=true
 <#if (project.schema?has_content)>
@@ -139,7 +131,17 @@ spring.datasource.hikari.data-source-properties.cacheServerConfiguration=true
 # sets the default auto-commit behavior of connections
 spring.datasource.hikari.data-source-properties.elideSetAutoCommits=true
 spring.datasource.hikari.data-source-properties.maintainTimeStats=false
-spring.datasource.hikari.pool-name=spring-boot-hikari-postgresql-cp
+<#if (project.isWithPostgres())>
+# Identifies which service the connection is for.
+# See: https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/PGProperty.html#APPLICATION_NAME
+spring.datasource.hikari.data-source-properties.ApplicationName=<#noparse>"${spring.application.name}"</#noparse>
+<#if (project.schema?has_content)>
+# Identifies the schema to be set on the search path. This schema is used to resolve unqualified object names
+# See: https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/PGProperty.html#CURRENT_SCHEMA
+spring.datasource.hikari.data-source-properties.currentSchema=<#noparse>"${spring.application.schema-name}"</#noparse>
+</#if>
+</#if>
+spring.datasource.hikari.pool-name=springboot-hikari-cp
 spring.datasource.hikari.max-lifetime=1000000
 
 <#if (project.isWithKafka())>
