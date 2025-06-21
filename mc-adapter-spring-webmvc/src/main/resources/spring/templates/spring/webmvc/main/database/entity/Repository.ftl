@@ -1,7 +1,6 @@
 <#include "/common/Copyright.ftl">
 package ${Repository.packageName()};
 
-import ${CustomRepository.fqcn()};
 import ${Entity.fqcn()};
 import jakarta.persistence.QueryHint;
 import java.util.List;
