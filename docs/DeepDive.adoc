@@ -1,0 +1,160 @@
+
+== The Generated Code: A Deep Dive
+
+This `tree` output shows the inventory of classes generated for a hypothetical application
+with a Book resource and PostgreSQL integration.
+
+[%hardbreaks]
+[literal]
+.
+├── README.adoc
+├── application
+│   ├── build.gradle
+│   ├── src
+│   │   ├── integrationTest
+│   │   │   ├── java
+│   │   │   │   └── acme
+│   │   │   │       └── books
+│   │   │   │           ├── ApplicationIntegrationTest.java
+│   │   │   │           ├── common
+│   │   │   │           │   └── persistence
+│   │   │   │           │       ├── AbstractPostgresIntegrationTest.java
+│   │   │   │           │       └── RegisterDatabaseProperties.java
+│   │   │   │           ├── endpoints
+│   │   │   │           │   ├── book
+│   │   │   │           │   │   ├── api
+│   │   │   │           │   │   │   ├── BookControllerExceptionHandlerIntegrationTest.java
+│   │   │   │           │   │   │   ├── BookControllerIntegrationTest.java
+│   │   │   │           │   │   │   └── BookServiceImplIntegrationTest.java
+│   │   │   │           │   │   └── internal
+│   │   │   │           │   │       └── persistence
+│   │   │   │           │   │           ├── BookRepositoryIntegrationTest.java
+│   │   │   │           │   │           └── predicate
+│   │   │   │           │   │               └── BookSpecificationIntegrationTest.java
+│   │   │   │           │   └── home
+│   │   │   │           │       └── api
+│   │   │   │           │           ├── RootControllerExceptionHandlerIntegrationTest.java
+│   │   │   │           │           └── RootControllerIntegrationTest.java
+│   │   │   │           └── infrastructure
+│   │   │   │               ├── common
+│   │   │   │               │   └── AbstractIntegrationTest.java
+│   │   │   │               └── config
+│   │   │   │                   └── ContainerConfiguration.java
+│   │   │   └── resources
+│   │   │       └── db
+│   │   │           └── scripts
+│   │   │               └── 01-create-book-table.sql
+│   │   ├── main
+│   │   │   ├── java
+│   │   │   │   └── acme
+│   │   │   │       └── books
+│   │   │   │           ├── Application.java
+│   │   │   │           ├── common
+│   │   │   │           │   ├── exceptions
+│   │   │   │           │   │   ├── BadRequestException.java
+│   │   │   │           │   │   ├── ResourceNotFoundException.java
+│   │   │   │           │   │   └── UnprocessableEntityException.java
+│   │   │   │           │   ├── persistence
+│   │   │   │           │   │   └── AbstractDataStore.java
+│   │   │   │           │   └── traits
+│   │   │   │           │       ├── ResourceIdAware.java
+│   │   │   │           │       └── UpdateAwareConverter.java
+│   │   │   │           ├── endpoints
+│   │   │   │           │   ├── book
+│   │   │   │           │   │   ├── api
+│   │   │   │           │   │   │   ├── BookController.java
+│   │   │   │           │   │   │   ├── BookRoutes.java
+│   │   │   │           │   │   │   ├── BookService.java
+│   │   │   │           │   │   │   └── BookServiceImpl.java
+│   │   │   │           │   │   ├── internal
+│   │   │   │           │   │   │   └── persistence
+│   │   │   │           │   │   │       ├── BookDataStore.java
+│   │   │   │           │   │   │       ├── BookDataStoreProvider.java
+│   │   │   │           │   │   │       ├── BookEntity.java
+│   │   │   │           │   │   │       ├── BookRepository.java
+│   │   │   │           │   │   │       ├── converters
+│   │   │   │           │   │   │       │   ├── BookEntityToPojoConverter.java
+│   │   │   │           │   │   │       │   └── BookPojoToEntityConverter.java
+│   │   │   │           │   │   │       └── predicate
+│   │   │   │           │   │   │           └── BookSpecification.java
+│   │   │   │           │   │   └── model
+│   │   │   │           │   │       └── Book.java
+│   │   │   │           │   └── home
+│   │   │   │           │       └── api
+│   │   │   │           │           └── RootController.java
+│   │   │   │           └── infrastructure
+│   │   │   │               ├── advice
+│   │   │   │               │   └── GlobalExceptionHandler.java
+│   │   │   │               ├── api
+│   │   │   │               │   └── providers
+│   │   │   │               │       └── ResourceIdSupplier.java
+│   │   │   │               ├── config
+│   │   │   │               │   ├── ApplicationConfiguration.java
+│   │   │   │               │   ├── DateTimeFormatConfiguration.java
+│   │   │   │               │   ├── LocalDateConverter.java
+│   │   │   │               │   └── WebMvcConfiguration.java
+│   │   │   │               ├── profiles
+│   │   │   │               │   └── SpringProfiles.java
+│   │   │   │               ├── utils
+│   │   │   │               │   └── ResourceIdGenerator.java
+│   │   │   │               └── validation
+│   │   │   │                   ├── Alphabetic.java
+│   │   │   │                   ├── AlphabeticValidator.java
+│   │   │   │                   ├── OnCreate.java
+│   │   │   │                   ├── OnUpdate.java
+│   │   │   │                   ├── ResourceId.java
+│   │   │   │                   ├── ResourceIdValidator.java
+│   │   │   │                   ├── SearchText.java
+│   │   │   │                   └── SearchTextValidator.java
+│   │   │   └── resources
+│   │   │       ├── ValidationMessages.properties
+│   │   │       └── application.properties
+│   │   ├── test
+│   │   │   ├── java
+│   │   │   │   └── acme
+│   │   │   │       └── books
+│   │   │   │           ├── endpoints
+│   │   │   │           │   ├── book
+│   │   │   │           │   │   ├── api
+│   │   │   │           │   │   │   ├── BookControllerTest.java
+│   │   │   │           │   │   │   └── BookServiceImplTest.java
+│   │   │   │           │   │   └── internal
+│   │   │   │           │   │       └── persistence
+│   │   │   │           │   │           ├── BookDataStoreProviderTest.java
+│   │   │   │           │   │           ├── BookEntityTest.java
+│   │   │   │           │   │           ├── converters
+│   │   │   │           │   │           │   ├── BookEntityToPojoConverterTest.java
+│   │   │   │           │   │           │   └── BookPojoToEntityConverterTest.java
+│   │   │   │           │   │           └── predicate
+│   │   │   │           │   │               └── BookSpecificationTest.java
+│   │   │   │           │   └── home
+│   │   │   │           │       └── api
+│   │   │   │           │           └── RootControllerTest.java
+│   │   │   │           └── infrastructure
+│   │   │   │               ├── advice
+│   │   │   │               │   └── GlobalExceptionHandlerTest.java
+│   │   │   │               ├── config
+│   │   │   │               │   └── LocalDateConverterTest.java
+│   │   │   │               ├── utils
+│   │   │   │               │   └── ResourceIdGeneratorTest.java
+│   │   │   │               └── validation
+│   │   │   │                   ├── AlphabeticValidatorTest.java
+│   │   │   │                   ├── ResourceIdValidatorTest.java
+│   │   │   │                   └── SearchTextValidatorTest.java
+│   │   │   └── resources
+│   │   │       └── application-test.yaml
+│   │   └── testFixtures
+│   │       └── java
+│   │           └── acme
+│   │               └── books
+│   │                   └── fixtures
+│   │                       ├── BookEntityTestFixtures.java
+│   │                       └── BookTestFixtures.java
+│
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── lombok.config
+├── metacode.properties
+├── settings.gradle
+
