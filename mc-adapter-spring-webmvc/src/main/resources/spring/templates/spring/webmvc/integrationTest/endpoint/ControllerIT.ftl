@@ -70,7 +70,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     }
 
     @AfterEach
-    public void tearDownEachTime() {
+    void tearDownEachTime() {
         ${endpoint.entityVarName}Repository.deleteAll();
     }
 

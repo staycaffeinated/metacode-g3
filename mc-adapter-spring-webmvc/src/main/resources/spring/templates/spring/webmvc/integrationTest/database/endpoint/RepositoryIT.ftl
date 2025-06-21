@@ -57,7 +57,7 @@ class ${Repository.integrationTestClass()} implements RegisterDatabaseProperties
     }
 
     @AfterEach
-    public void tearDownEachTime() {
+    void tearDownEachTime() {
         repositoryUnderTest.deleteAll();
         repositoryUnderTest.flush();
     }

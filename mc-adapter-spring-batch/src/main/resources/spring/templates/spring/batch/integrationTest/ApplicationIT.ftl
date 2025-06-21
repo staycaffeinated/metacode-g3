@@ -47,7 +47,7 @@ class ${Application.integrationTestClass()} extends ${AbstractIntegrationTest.cl
     private JobRepositoryTestUtils jobRepositoryTestUtils;
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         jobRepositoryTestUtils.removeJobExecutions();
     }
 

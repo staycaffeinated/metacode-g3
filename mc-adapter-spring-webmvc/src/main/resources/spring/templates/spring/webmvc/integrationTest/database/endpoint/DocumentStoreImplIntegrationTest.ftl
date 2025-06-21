@@ -41,7 +41,7 @@ class ${ConcreteDocumentStoreImpl.integrationTestClass()} {
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         repository.deleteAll();
     }
 

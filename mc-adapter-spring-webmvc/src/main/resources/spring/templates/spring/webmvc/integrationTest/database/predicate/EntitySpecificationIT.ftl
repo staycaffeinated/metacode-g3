@@ -51,7 +51,7 @@ class ${EntitySpecification.integrationTestClass()} implements ${RegisterDatabas
         repository.saveAll(${EjbTestFixtures.className()}.allItems());
     }
 </#if>
-    public void tearDown() {
+    void tearDown() {
         repository.deleteAll();
     }
 
