@@ -6,7 +6,6 @@ import ${BadRequestException.fqcn()};
 import ${Entity.fqcn()};
 import ${EntitySpecification.fqcn()};
 import ${EntityResource.fqcn()};
-import ${GenericDataStore.fqcn()};
 import ${ConcreteDataStoreApi.fqcn()};
 import ${Repository.fqcn()};
 import ${UpdateAwareConverter.fqcn()};
@@ -24,9 +23,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * ${EntityResource.className()} DataStore provider. This extends the CrudDataStore to inherit the
- * implementations of the CRUD operations, and implements ${AbstractDataStoreApi.className()} to enable
- * auto-wiring wherever a ${AbstractDataStoreApi.className()} is needed.
+ * ${EntityResource.className()} DataStore provider. This is a wrapper on top of Persistence
+ * to provide a separation of concern between data storage and the persistence provider.
  */
 @Component
 public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStoreApi.className()} {
