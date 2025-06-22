@@ -27,7 +27,7 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/boot/main/resources/ApplicationDotProperties.ftl"
-        destination: "{{appModule}}/src/main/resources/application.properties"
+        destination: "{{appModule}}/src/main/resources/application.yml"
       - facet: "main"
         sourceTemplate: "/spring/common/main/resources/ValidationMessages.ftl"
         destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"

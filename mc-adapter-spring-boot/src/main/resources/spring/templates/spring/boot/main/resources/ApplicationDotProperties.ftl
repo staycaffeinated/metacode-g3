@@ -1,80 +1,78 @@
 
-<#if (project.applicationName)??>
-spring.application.name=${project.applicationName}
-<#else>
-spring.application.name=example-service
-</#if>
-server.port=8080
+server:
+  port: 8080
+  servlet:
 <#if (project.basePath)??>
-server.servlet.context-path=${project.basePath}
+    context-path: ${project.basePath}
 <#else>
-server.servlet.context-path=/
+    context-path: /
 </#if>
 
 <#if (project.isWithOpenApi())>
-springdoc.api-docs.enabled=true
-springdoc.swagger-ui.enabled=true
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
 </#if>
 
-# Obfuscate the /actuator endpoint, which is the default health probe.
-# Health probes enable a liveness check and a readiness check.
-# Since Docker containers are commonly deployed via Kubernetes,
-# these health probes enable Kubernetes to monitor the health of this service.
-# If this service is deployed via Kubernetes, the Kubernetes deployment.yaml should
-# include:
-#   livenessProbe:
-#     httpGet:
-#       path: /_internal/health/liveness
-#       port: 8080
-#   readinessProbe:
-#     httpGet:
-#       path: /_internal/health/readiness
-#       port: 8080
-management.endpoints.web.base-path=/_internal
-management.endpoint.health.probes.enabled=true
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+spring:
+  application:
+<#if (project.applicationName)??>
+    name: ${project.applicationName}
+<#else>
+    name: example-service
+</#if>
 
 <#if (project.isWithPostgres())>
-# ---------------------------------
-# Postgres settings
-# ---------------------------------
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.id.new_generator_mappings=false
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        id:
+          new_generator_mappings: false
 
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.datasource.username=root
-spring.datasource.password=secret
-
-    <#if (project.schema)??>
-spring.datasource.url=jdbc:postgresql://localhost:5432/${project.schema}
-    <#elseif (project.applicationName)??>
-spring.datasource.url=jdbc:postgresql://localhost:5432/${project.applicationName}
-    <#else>
-spring.datasource.url=jdbc:postgresql://localhost:5432/testdb
-    </#if>
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password: secret
+    url: jdbc:postgresql://localhost:5432
 </#if>
 
 <#if (project.isWithKafka())>
-# -------------------------------------------------------------------------------------------
-# Kafka
-# -------------------------------------------------------------------------------------------
-spring.kafka.bootstrap-servers=localhost:9092
-
-spring.kafka.consumer.auto-commit-interval=1s
-spring.kafka.consumer.enable-auto-commit=true
-<#noparse>spring.kafka.consumer.group-id=${spring.application.name}</#noparse>
-spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
-spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
-spring.kafka.consumer.client-id=default-client-id
-<#noparse>spring.kafka.consumer.bootstrap-servers=${spring.kafka.bootstrap-servers}</#noparse>
-spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
-spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
-<#noparse>spring.kafka.producer.bootstrap-servers=${spring.kafka.bootstrap-servers}</#noparse>
-spring.kafka.producer.properties.acks=all
-spring.kafka.producer.properties.retries=10
-spring.kafka.producer.properties.retry.backoff.ms=1000
-
-spring.kafka.listener.concurrency=2
-spring.kafka.listener.missing-topics-fatal=false
-<#noparse>spring.kafka.listener.client-id=${spring.application.name}</#noparse>
-spring.kafka.listener.ack-count=3
+  # -------------------------------------------------------------------------------------------
+  # Kafka
+  # -------------------------------------------------------------------------------------------
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-commit-interval: 1s
+      bootstrap-servers: <#noparse>${spring.kafka.bootstrap-servers}</#noparse>
+      client-id: default-client-id
+      enable-auto-commit: true
+      group-id: <#noparse>${spring.application.name}</#noparse>
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: <#noparse>${spring.kafka.bootstrap-servers}</#noparse>
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        acks: all
+        retries: 10
+        retry:
+          backoff:
+            ms: 1000
+    listener:
+      ack-count: 3
+      client-id: <#noparse>${spring.application.name}</#noparse>
+      concurrency: 2
+      missing-topics-fatal: false
 </#if>
