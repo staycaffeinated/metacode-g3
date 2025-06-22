@@ -1,5 +1,9 @@
 ## Uncommitted
 
+### Changes:
+    * Added some entries to `application.properties` to improve the `swagger-ui`
+      page behavior and PostgreSQL behavior. 
+
 ## [12.0.0] - 2025-05-17
 
 ### Changes:
