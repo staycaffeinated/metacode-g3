@@ -196,11 +196,11 @@ class SpringWebMvcTemplatesRenderingTests {
             String content = templateResolver.render(template, templateModel);
 
             assertThat(content).isNotNull();
-            assertThat(content).contains("spring.datasource.url=jdbc:postgresql:");
-            assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
+            assertThat(content).contains("url: jdbc:postgresql:");
+            assertThat(content).contains("driver-class-name: org.postgresql.Driver");
         }
 
-        @Disabled("Move this to SpringWebMvc")
+        @Test
         void whenPostgresFlagIsNotEnabled_expectH2JdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithPostgres(false);
@@ -210,8 +210,8 @@ class SpringWebMvcTemplatesRenderingTests {
 
             // When no database is specified, the templates default to the H2 in-memory database
             assertThat(content).isNotNull();
-            assertThat(content).contains("spring.datasource.url=jdbc:h2:mem");
-            assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
+            assertThat(content).contains("url: jdbc:h2:mem");
+            assertThat(content).contains("driver-class-name: org.h2.Driver");
         }
     }
 
@@ -236,7 +236,7 @@ class SpringWebMvcTemplatesRenderingTests {
             assertThat(content).contains("database: POSTGRESQL");
         }
 
-        @Disabled("Move this to SpringWebMvc")
+        @Test
         void whenPostgresFlagIsNotEnabled_expectH2JdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithPostgres(false);
@@ -246,9 +246,9 @@ class SpringWebMvcTemplatesRenderingTests {
 
             // When no database is specified, the templates default to the H2 in-memory database
             assertThat(content).isNotNull();
-            assertThat(content).contains("driver-class-name: org.h2.Driver");
-            assertThat(content).contains("url: jdbc:h2:mem:testdb");
-            assertThat(content).contains("database-platform: org.hibernate.dialect.H2Dialect");
+            assertThat(content).contains("driver-class-name: \"org.h2.Driver\"");
+            assertThat(content).contains("url: \"jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1\"");
+            assertThat(content).contains("database-platform: \"org.hibernate.dialect.H2Dialect\"");
         }
     }
 

@@ -13,10 +13,10 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/resources/ApplicationDotProperties.ftl"
-        destination: "{{appModule}}/src/main/resources/application.properties"
+        destination: "{{appModule}}/src/main/resources/application.yml"
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/resources/ApplicationTestDotYaml.ftl"
-        destination: "{{appModule}}/src/test/resources/application-test.yaml"
+        destination: "{{appModule}}/src/test/resources/application-test.yml"
       - facet: "main"
         sourceTemplate: "/spring/common/main/resources/ValidationMessages.ftl"
         destination: "{{appModule}}/src/main/resources/ValidationMessages.properties"
