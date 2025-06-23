@@ -1,3 +1,29 @@
+
+12.x:
+
+[X] Add these entries to app.props:
+    - springdoc.swagger-ui.operations-sorter: alpha
+    - springdoc.swagger-ui.tags-sorter: alpha
+    - springdoc.model-converters.pageable-converter.enabled=true
+
+[X] Update Actuator endpoint settings
+   - management.endpoint.health.show-details=true
+
+[X] - Datasource properties
+   - spring.datasource.hikari.maximum-pool-size=10
+   - spring.datasource.hikari.minimum-idle=2
+   - spring.datasource.hikari.data-source-properties.ApplicationName="${spring.application.name}"
+   - spring.datasource.hikari.data-source-properties.currentSchema="${spring.application.schema-name}"
+
+[X] - Convert app.props to app.yml
+
+
+
+[ ] Add flyway support
+[ ] Find issue with PSQL+Schemas (2 SQL scripts are generated; the 1st is wrong for psql) 
+
+
+
 12.0 ROADMAP:
 
 [x] Replace PageableAsQueryParam with ParameterObject
