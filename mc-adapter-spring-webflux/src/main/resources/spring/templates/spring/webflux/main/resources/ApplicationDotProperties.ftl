@@ -1,77 +1,138 @@
 
-<#if (project.applicationName)??>
-spring.application.name=${project.applicationName}
-<#else>
-spring.application.name=example-service
-</#if>
-server.port=8080
+# -------------------------------------------------------------------------
+# Server
+# -------------------------------------------------------------------------
+server:
+  port: 8080
+  webflux:
 <#if (project.basePath)??>
-spring.webflux.base-path=${project.basePath}
+    base-path=${project.basePath}
 <#else>
-spring.webflux.base-path=/
-</#if>
-spring.main.web-application-type=reactive
-<#if (project.schema?has_content)>
-spring.application.schema-name=${project.schema}
-</#if>
-
-<#if (project.isWithOpenApi())>
-springdoc.api-docs.enabled=true
-springdoc.swagger-ui.enabled=true
-</#if>
-
-# Obfuscate the /actuator endpoint
-# Health probes enable a liveness check, and a readiness check.
-# Docker containers are commonly deployed via Kubernetes.
-# These health probes enable K8S to monitor the health of this service.
-# If this service is deployed via K8S, the K8S deployment.yaml should
-# include:
-#   livenessProbe:
-#     httpGet:
-#       path: /_internal/health/liveness
-#       port: 8080
-#   readinessProbe:
-#     httpGet:
-#       path: /_internal/health/readiness
-#       port: 8080
-management.endpoints.web.base-path=/_internal
-management.endpoint.health.probes.enabled=true
-
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.id.new_generator_mappings=false
-
-<#-- define the jdbc driver -->
-<#if (project.reactiveMongo)??>
-# Reactive MongoDB
-# spring.datasource.driver-class-name=org.postgresql.Driver
-</#if>
-<#-- define the jdbc url -->
-<#if (project.isWithPostgres())>
-    <#if (project.schema)??>
-spring.r2dbc.url=r2dbc:postgresql://localhost:5432/postgres${project.schema}
-    <#else>
-spring.r2dbc.url=r2dbc:postgresql://localhost:5432/postgres
-    </#if>
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.database-platform=org.hibernate.dialect.PostgresPlusDialect
-spring.r2dbc.username=postgres
-spring.r2dbc.password=postgres
-<#else>
-    <#if (project.schema)??>#
-spring.r2dbc.url=r2dbc:h2:mem:///${project.schema}
-    <#elseif (project.applicationName)??>
-spring.r2dbc.url=r2dbc:h2:mem:///${project.applicationName}
-    <#else>
-spring.r2dbc.url=r2dbc:h2:mem:///testdb
-    </#if>
-spring.r2dbc.username=root
-spring.r2dbc.password=secret
+    base-path=/
 </#if>
 
 # -------------------------------------------------------------------------
 # Logging
 # -------------------------------------------------------------------------
-logging.level.root=INFO
+logging:
+  level:
+    root: INFO
+
+# -------------------------------------------------------------------------
+# SpringDoc/OpenApi
+# -------------------------------------------------------------------------
+<#if (project.isWithOpenApi())>
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+</#if>
+
+# -------------------------------------------------------------------------
+# Actuator
+# -------------------------------------------------------------------------
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+# -------------------------------------------------------------------------
+# Spring
+# -------------------------------------------------------------------------
+spring:
+  application:
+<#if (project.applicationName)??>
+    name: ${project.applicationName}
+<#else>
+    name: example-service
+</#if>
+<#if (project.schema?has_content)>
+    schema-name: ${project.schema}
+</#if>
+
+  main:
+    web-application-type: reactive
+
+<#if (project.isWithPostgres())>
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: "2000"
+      maximum-pool-size: 20
+      minimum-idle: 2
+      pool-name: springboot-hikari-cp
+      max-lifetime: 1000000
+      data-source-properties:
+        cachePrepStmts: true
+        <#if (project.schema?has_content)>
+        currentSchema: <#noparse>${spring.application.schema-name}"</#noparse>
+        </#if>
+        prepStmtCacheSize: 250
+        # The maximum length of a stmt the driver will cache
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        rewriteBatchStatements: true
+        cacheResultsSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+        ApplicationName: <#noparse>"${spring.application.name}"</#noparse>
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        id:
+          new_generator_mappings: false
+  r2dbc:
+    username: postgres
+    password: postgres
+    url: r2dbc:postgresql://localhost:5432/postgres
+<#else>
+  r2dbc:
+    username: root
+    password: secret
+    <#if (project.schema)??>
+    url: r2dbc:h2:mem:///${project.schema}
+    <#else>
+    url: r2dbc:h2:mem:///testdb
+    </#if>
+</#if>
+
+<#if (project.isWithKafka())>
+  # -------------------------------------------------------------------------------------------
+  # Kafka
+  # -------------------------------------------------------------------------------------------
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-commit-interval: 1s
+      bootstrap-servers: <#noparse>${spring.kafka.bootstrap-servers}</#noparse>
+      client-id: default-client-id
+      enable-auto-commit: true
+      group-id: <#noparse>${spring.application.name}</#noparse>
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: <#noparse>${spring.kafka.bootstrap-servers}</#noparse>
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        acks: all
+        retries: 10
+        retry:
+          backoff:
+            ms: 1000
+    listener:
+      ack-count: 3
+      client-id: <#noparse>${spring.application.name}</#noparse>
+      concurrency: 2
+      missing-topics-fatal: false
+</#if>
 
 # -------------------------------------------------------------------------------------------
 # Hikari

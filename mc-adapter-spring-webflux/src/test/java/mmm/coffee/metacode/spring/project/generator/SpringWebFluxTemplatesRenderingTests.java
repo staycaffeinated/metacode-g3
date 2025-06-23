@@ -180,31 +180,31 @@ class SpringWebFluxTemplatesRenderingTests {
         void whenPostgresTrue_expectPostgresJdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithPostgres(true);
-            templateModel.setWebMvc(true);
+            templateModel.setWebFlux(true);
 
             String content = templateResolver.render(template, templateModel);
 
             assertThat(content).isNotNull();
-            assertThat(content).contains("spring.r2dbc.url=r2dbc:postgresql://localhost:5432/postgres");
-            assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
-            assertThat(content).contains("spring.jpa.database-platform=org.hibernate.dialect.PostgresPlusDialect");
-            assertThat(content).contains("spring.r2dbc.username");
-            assertThat(content).contains("spring.r2dbc.password");
+            assertThat(content).contains("url: r2dbc:postgresql://localhost:5432/postgres");
+            assertThat(content).contains("driver-class-name: org.postgresql.Driver");
+            assertThat(content).contains("database-platform: org.hibernate.dialect.PostgreSQLDialect");
+            assertThat(content).contains("username");
+            assertThat(content).contains("password");
         }
 
         @Test
         void whenPostgresFlagIsNotEnabled_expectH2JdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithPostgres(false);
-            templateModel.setWebMvc(true);
+            templateModel.setWebFlux(false);
 
             String content = templateResolver.render(template, templateModel);
 
             // When no database is specified, the templates default to the H2 in-memory database
             assertThat(content).isNotNull();
-            assertThat(content).contains("spring.r2dbc.url=r2dbc:h2:mem:///petstore");
-            assertThat(content).contains("spring.r2dbc.username");
-            assertThat(content).contains("spring.r2dbc.password");
+            assertThat(content).contains("url: r2dbc:h2:mem:///testdb");
+            assertThat(content).contains("username");
+            assertThat(content).contains("password");
         }
     }
 
@@ -217,7 +217,7 @@ class SpringWebFluxTemplatesRenderingTests {
         void whenPostgresFlagEnabled_expectPostgresJdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithPostgres(true);
-            templateModel.setWebMvc(true);
+            templateModel.setWebFlux(true);
 
             String content = templateResolver.render(template, templateModel);
 
@@ -231,7 +231,7 @@ class SpringWebFluxTemplatesRenderingTests {
         void whenPostgresFlagIsNotEnabled_expectH2JdbcDriver() {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithPostgres(false);
-            templateModel.setWebMvc(true);
+            templateModel.setWebFlux(true);
 
             String content = templateResolver.render(template, templateModel);
 
