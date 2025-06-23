@@ -51,9 +51,6 @@ logging:
       health:
         probes:
           enabled: true
-    endpoints:
-      web:
-        base-path: /_internal
 
 <#if (project.isWithKafka())>
   # -------------------------------------------------------------------------------------------
