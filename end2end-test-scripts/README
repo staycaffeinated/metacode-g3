@@ -1,0 +1,40 @@
+
+These scripts are for end-to-end testing.
+Each script runs the `metacode` command to generate
+a project with particular options enabled to
+ensure the code generation works and those particular
+options are correctly generated.
+
+The scripts reference the metacode's jar file that's 
+produced during development. The jar file is expected
+to be found in the parent directory of where the 
+script resides. 
+
+A useful directory structure for end-to-end testing is:
+
+<code>
++ some-base-directory
+  + Metacode-x.y.z-beta
+    - metacode-x.y.z-all.jar
+    + flux-h2
+      - create-reactive-h2-app.sh
+    + flux-psql
+      - create-reactive-psql-app.sh
+    + mvc-h2
+      - create-mvc-h2-app.sh
+    + mvc-mongo
+      - create-mvc-mongo-app.sh
+    + mvc-psql
+      - create-mvc-psql-app.sh
+    + mvc-psql-schema
+      - create-mvc-psql-schema-app.sh
+</code>
+
+With this structure, the testing goes like this:
+
+1. Navigate into one of the directories
+2. Run the shell script
+3. Run `gradle wrapper` to add Gradle to the project
+4. Run `./gradlew build` 
+
+
