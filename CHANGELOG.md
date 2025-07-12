@@ -2,7 +2,8 @@
 
 ### Changes:
     * Correct a Postgres property name, from ApplicationName to applicationName
-
+    * Add explicit Builder implementations in DTO and EJB classes to make refactoring
+      easier.
 
 ## [12.1.0] - 2025-07-05 
 
