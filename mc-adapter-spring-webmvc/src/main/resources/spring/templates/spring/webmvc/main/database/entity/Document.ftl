@@ -11,11 +11,8 @@ import java.util.Objects;
 
 @Document(${Document.className()}.COLLECTION_NAME)
 @EqualsAndHashCode(of = {"resourceId"})
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ${Document.className()} {
 
     public static final String COLLECTION_NAME = "${endpoint.tableName}";
@@ -49,4 +46,85 @@ public class ${Document.className()} {
 
     @Column(name=Columns.TEXT, nullable = true)
     private String text;
+
+    /**
+     * Returns a builder for this document class
+     */
+    public static Builder builder() {
+        return new DefaultBuilder();
+    }
+
+    /*
+     * Getters and Setters. Once you settle on variable names,
+     * move to Lombok if you wish. The code generator starts
+     * with sample instance variables which most likely are not
+     * what you want. When an instance variable is renamed,
+     * the lombok get/set methods frequently don't get updated
+     * everywhere in the code to reflect the name change, leading
+     * to compile errors. With explicit get/set methods, IDEs
+     * easily refactor name changes.
+     */
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+
+    /**
+     * The builder interface
+     */
+    public interface Builder {
+        Builder resourceId(String resourceId);
+
+        Builder text(String text);
+
+        ${Document.className()} build();
+    }
+
+    /*
+     * The implementation of the Builder
+     */
+    private static class DefaultBuilder implements Builder {
+        private String resourceId;
+        private String text;
+
+        @Override
+        public Builder resourceId(String resourceId) {
+            this.resourceId = resourceId;
+            return this;
+        }
+
+        @Override
+        public Builder text(String text) {
+            this.text = text;
+            return this;
+        }
+
+        @Override
+        public ${Document.className()} build() {
+            ${Document.className()} doc = new ${Document.className()}();
+            doc.resourceId = resourceId;
+            doc.text = text;
+            return doc;
+        }
+    }
 }
