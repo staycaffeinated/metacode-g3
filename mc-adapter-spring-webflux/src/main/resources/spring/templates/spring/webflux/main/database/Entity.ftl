@@ -17,11 +17,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table(name="${endpoint.tableName}")
 @EqualsAndHashCode(of = {"resourceId"})
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ${Entity.className()} implements Persistable<Long> {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -76,4 +73,88 @@ public class ${Entity.className()} implements Persistable<Long> {
         return this;
     }
 
+    public static Builder builder() { return new DefaultBuilder(); }
+
+    /*
+     * Getters and Setters. Once you settle on variable names,
+     * move to Lombok if you wish. The code generator starts
+     * with sample instance variables which most likely are not
+     * what you want. When an instance variable is renamed,
+     * the lombok get/set methods frequently don't get updated
+     * everywhere in the code to reflect the name change, leading
+     * to compile errors. With explicit get/set methods, IDEs
+     * easily refactor name changes.
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    /*
+    * The Builder interface
+    */
+    public interface Builder {
+        Builder id(Long id);
+
+        Builder resourceId(String resourceId);
+
+        Builder text(String text);
+
+        ${Entity.className()} build();
+    }
+
+    /*
+     * The concrete implementation
+     */
+    private static class DefaultBuilder implements Builder {
+        private Long id;
+        private String resourceId;
+        private String text;
+
+        @Override
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+
+        @Override
+        public Builder resourceId(String resourceId) {
+            this.resourceId = resourceId;
+            return this;
+        }
+
+        @Override
+        public Builder text(String text) {
+            this.text = text;
+            return this;
+        }
+
+        @Override
+        public ${Entity.className()} build() {
+            ${Entity.className()} ejb = new ${Entity.className()}();
+            ejb.resourceId = resourceId;
+            ejb.text = text;
+            return ejb;
+        }
+    }
 }
