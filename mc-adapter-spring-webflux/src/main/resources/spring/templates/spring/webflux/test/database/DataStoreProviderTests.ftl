@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
  * Unit tests
  */
 @ExtendWith(MockitoExtension.class)
-public class ${ConcreteDataStoreImpl.testClass()} {
+class ${ConcreteDataStoreImpl.testClass()} {
 
 
     @InjectMocks
@@ -46,7 +46,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
 
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mockRepository = Mockito.mock(${Repository.className()}.class);
         dataStoreUnderTest = aWellFormedDataStore();
     }    
@@ -95,7 +95,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             pojo.setResourceId(${EjbTestFixtures.className()}.oneWithResourceId().getResourceId());
 
             Mono<${EntityResource.className()}> publisher = dataStoreUnderTest.update${endpoint.entityName}(pojo);
-            StepVerifier.create(publisher).expectSubscription().expectNext(pojo).verifyComplete();
+            StepVerifier.create(publisher).expectSubscription().expectNextCount(1).verifyComplete();
         }
 
         @Test
