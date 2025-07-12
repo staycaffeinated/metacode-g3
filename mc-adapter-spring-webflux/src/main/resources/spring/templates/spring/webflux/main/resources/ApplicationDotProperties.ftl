@@ -67,6 +67,9 @@ spring:
       pool-name: springboot-hikari-cp
       max-lifetime: 1000000
       data-source-properties:
+        # Identifies for Postgres which application the connections are for
+        # See: https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/PGProperty.html#APPLICATION
+        applicationName: <#noparse>"${spring.application.name}"</#noparse>
         cachePrepStmts: true
         <#if (project.schema?has_content)>
         currentSchema: <#noparse>${spring.application.schema-name}"</#noparse>
@@ -81,7 +84,6 @@ spring:
         cacheServerConfiguration: true
         elideSetAutoCommits: true
         maintainTimeStats: false
-        ApplicationName: <#noparse>"${spring.application.name}"</#noparse>
 
   jpa:
     show-sql: true
