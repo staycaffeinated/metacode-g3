@@ -36,7 +36,7 @@ class ${ConcreteDocumentStoreImpl.integrationTestClass()} {
     ${Repository.className()} repository;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() {
         repository.insert(${DocumentTestFixtures.className()}.allItems());
     }
 

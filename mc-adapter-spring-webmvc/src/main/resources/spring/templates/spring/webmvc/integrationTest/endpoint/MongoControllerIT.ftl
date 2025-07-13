@@ -39,7 +39,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -77,12 +76,12 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     @Nested
     class ValidateFindByText {
         @Test
-        void whenSearchFindsHits_expectOkAndMatchingRecords() throws Exception {
+        void whenSearchFindsHits_expectOkAndMatchingRecords() {
             searchByText("Bluey").assertThat().hasStatus(HttpStatus.OK);
         }
 
         @Test
-        void whenSearchComesUpEmpty_expectOkButNoRecords() throws Exception {
+        void whenSearchComesUpEmpty_expectOkButNoRecords() {
             searchByText("xyzzy").assertThat().hasStatus(HttpStatus.OK);
         }
     }
@@ -93,7 +92,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     @Nested
     class ValidateFindById {
         @Test
-        void shouldFind${endpoint.entityName}ById() throws Exception {
+        void shouldFind${endpoint.entityName}ById() {
             ${Document.className()} item = documentList.get(0);
 
             findOne(item.getResourceId()).assertThat().hasStatus(HttpStatus.OK);
@@ -157,7 +156,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     @Nested
     class ValidateDelete${endpoint.entityName} {
         @Test
-        void shouldDelete${endpoint.entityName}() throws Exception {
+        void shouldDelete${endpoint.entityName}() {
             ${Document.className()} document = documentList.get(0);
 
             deleteOne(document.getResourceId()).assertThat().hasStatus(HttpStatus.OK);
@@ -170,7 +169,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     //
     // ---------------------------------------------------------------------------------------------------------------
 
-    protected MvcTestResult searchByText(String text) throws Exception {
+    protected MvcTestResult searchByText(String text) {
         return mockMvcTester.get()
                             .uri(${Routes.className()}.${endpoint.routeConstants.search})
                             .param(${endpoint.entityName}.Fields.TEXT, text)
@@ -179,7 +178,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                             .exchange();
     }
 
-    protected MvcTestResult findOne(String resourceId) throws Exception {
+    protected MvcTestResult findOne(String resourceId) {
         return mockMvcTester.get()
                             .uri(${Routes.className()}.${endpoint.routeConstants.findOne}, resourceId)
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
@@ -205,7 +204,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                             .exchange();
     }
 
-    protected MvcTestResult deleteOne(String resourceId) throws Exception {
+    protected MvcTestResult deleteOne(String resourceId) {
         return mockMvcTester.delete()
                             .uri(${Routes.className()}.${endpoint.routeConstants.delete}, resourceId)
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)

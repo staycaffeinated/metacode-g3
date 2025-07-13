@@ -82,7 +82,7 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
     @Nested
     class Create${endpoint.entityName} {
         @Test
-        void shouldCreateNew${endpoint.entityName}() throws Exception {
+        void shouldCreateNew${endpoint.entityName}() {
             // given: a new item to be inserted into the database
             ${endpoint.pojoName} expected = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 

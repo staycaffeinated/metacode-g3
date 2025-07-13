@@ -37,7 +37,7 @@ import static org.mockito.Mockito.reset;
 
 @WebMvcTest(${Controller.className()}.class)
 @ActiveProfiles("test")
-class r${Controller.testClass()} {
+class ${Controller.testClass()} {
 
     @Autowired
     private MockMvcTester mockMvcTester;
@@ -76,8 +76,7 @@ class r${Controller.testClass()} {
         * shouldFetchAll${endpoint.entityName}s
         */
         @Test
-        void shouldFetchAll${endpoint.entityName}s() throws Exception {
-            int expectedSize = ${PojoTestFixtures.className()}.allItems().size();
+        void shouldFetchAll${endpoint.entityName}s() {
             given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${PojoTestFixtures.className()}.allItems());
 
             var jsonPathToId = "$.[0]." + ${endpoint.entityName}.Fields.RESOURCE_ID;
@@ -97,7 +96,7 @@ class r${Controller.testClass()} {
         *  shouldFind${endpoint.entityName}ById
         */
         @Test
-        void shouldFind${endpoint.entityName}ById() throws Exception {
+        void shouldFind${endpoint.entityName}ById() {
             // given
             ${EntityResource.className()} ${endpoint.entityVarName} = ${PojoTestFixtures.className()}.oneWithResourceId();
             String resourceId = ${endpoint.entityVarName}.getResourceId();
@@ -117,7 +116,7 @@ class r${Controller.testClass()} {
         }
 
         @Test
-        void shouldReturn404WhenFetchingNonExisting${endpoint.entityName}() throws Exception {
+        void shouldReturn404WhenFetchingNonExisting${endpoint.entityName}() {
             // given
             String resourceId = randomSeries.nextResourceId();
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
@@ -208,7 +207,7 @@ class r${Controller.testClass()} {
     @Nested
     class Delete${endpoint.entityName}Tests {
         @Test
-        void shouldDelete${endpoint.entityName}() throws Exception {
+        void shouldDelete${endpoint.entityName}() {
             // given
             ${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.entityName}TestFixtures.oneWithResourceId();
             String resourceId = ${endpoint.entityVarName}.getResourceId();
@@ -227,7 +226,7 @@ class r${Controller.testClass()} {
         }
 
         @Test
-        void shouldReturn404WhenDeletingNonExisting${endpoint.entityName}() throws Exception {
+        void shouldReturn404WhenDeletingNonExisting${endpoint.entityName}() {
             String resourceId = randomSeries.nextResourceId();
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
@@ -239,7 +238,7 @@ class r${Controller.testClass()} {
     class SearchByTextTests {
         @Test
         @SuppressWarnings("unchecked")
-        void shouldReturnListWhenMatchesAreFound() throws Exception {
+        void shouldReturnListWhenMatchesAreFound() {
             given (${endpoint.entityVarName}Service.findByText(any(String.class), any(Pageable.class))).willReturn(pageOfData);
 
             // when/then (the default Pageable in the controller is sufficient for testing)
@@ -256,7 +255,7 @@ class r${Controller.testClass()} {
     /**
      * Sends a findAll request
      */
-    protected MvcTestResult findAllEntities() throws Exception {
+    protected MvcTestResult findAllEntities() {
         return mockMvcTester.get()
                             .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findAll} )
                             .exchange();
@@ -265,7 +264,7 @@ class r${Controller.testClass()} {
     /**
      * Sends a findOne request
      */
-    protected MvcTestResult findSpecificEntity(String resourceId) throws Exception {
+    protected MvcTestResult findSpecificEntity(String resourceId) {
         return mockMvcTester.get()
                             .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.findOne}, resourceId)
                             .exchange();
