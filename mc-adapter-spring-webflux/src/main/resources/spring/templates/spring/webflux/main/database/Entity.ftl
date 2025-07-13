@@ -152,6 +152,7 @@ public class ${Entity.className()} implements Persistable<Long> {
         @Override
         public ${Entity.className()} build() {
             ${Entity.className()} ejb = new ${Entity.className()}();
+            ejb.id = id;
             ejb.resourceId = resourceId;
             ejb.text = text;
             return ejb;
