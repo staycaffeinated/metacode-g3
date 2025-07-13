@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.Builder;
 
 /**
  * This is the POJO of ${endpoint.entityName} data exposed to client applications
