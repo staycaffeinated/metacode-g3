@@ -19,7 +19,8 @@ testing {
          * Define the integration test suite
          */
         integrationTest(JvmTestSuite) {
-            testType.set(TestSuiteType.INTEGRATION_TEST)
+            // Not supported in Gradle 8.13 and newer, but needed for older versions
+            // testType.set(TestSuiteType.INTEGRATION_TEST)
             dependencies {
                 implementation project()
             }
@@ -40,7 +41,8 @@ testing {
          * Define the performance test suite
          */
         performanceTest(JvmTestSuite) {
-            testType.set(TestSuiteType.PERFORMANCE_TEST)
+            // Not supported in Gradle 8.13 and newer, but needed for older versions
+            // testType.set(TestSuiteType.PERFORMANCE_TEST)
             dependencies {
                 implementation project()
             }

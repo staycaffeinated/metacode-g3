@@ -48,14 +48,16 @@ dependencies {
 reporting {
     reports {
         testCodeCoverageReport(JacocoCoverageReport) {
-            // for gradle 13, use
-            // testSuiteName = "test"
-            testType = TestSuiteType.UNIT_TEST
+            // for Gradle 8.13 and above, use
+            testSuiteName = "test"
+            // for versions older than Gradle 8.13, use
+            // testType = TestSuiteType.UNIT_TEST
         }
         integrationTestCodeCoverageReport(JacocoCoverageReport) {
-            // for gradle 13, use
-            // testSuiteName = "integrationTest"
-            testType = TestSuiteType.INTEGRATION_TEST
+            // for Gradle 8.13, and above, use
+            testSuiteName = "integrationTest"
+            // for versions older than Gradle 8.13, use
+            // testType = TestSuiteType.INTEGRATION_TEST
         }
     }
 }

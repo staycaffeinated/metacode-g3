@@ -1,12 +1,26 @@
 ## Uncommitted
 
 ### Changes:
-    * Correct a Postgres property name, from ApplicationName to applicationName
-    * Add explicit Builder implementations in DTO and EJB classes to make refactoring
+    * Updated various `build.gradle` files to support Gradle 8.13 and up
+
+### Maintenance:
+    * Changed default Java version from 17 to 21
+    * Upgraded Sonar plugin to 6.3.1.5724
+    * Upgraded Spring Boot to 3.5.6
+    * Upgraded RSQL to 6.0.32
+    * Upgraded the Versions plugin to 0.53.0
+    * Upgraded H2 to 2.4.240
+    * Upgraded DataFaker to 2.5.1
+    * Upgraded Spring Cloud to 4.3.0
+
+## [12.2.0] - 2025-07-12
+ 
+### Changes:
+    * Corrected a Postgres property name, from ApplicationName to applicationName
+    * Added explicit Builder implementations in DTO and EJB classes to make refactoring
       easier.
 
 ## [12.1.0] - 2025-07-05 
-
 
 ### Changes:
     * Added some entries to `application.properties` to improve the `swagger-ui`
