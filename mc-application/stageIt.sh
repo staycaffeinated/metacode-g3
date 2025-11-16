@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 VERSION=$(head -n 1 ../version.txt)
-DESTINATION=/Users/joncaulfield/Scratch/Metacode/v${VERSION}/
+DESTINATION=$HOME/Scratch/Metacode/v${VERSION}
 
 mkdir -pv ${DESTINATION} 
 
