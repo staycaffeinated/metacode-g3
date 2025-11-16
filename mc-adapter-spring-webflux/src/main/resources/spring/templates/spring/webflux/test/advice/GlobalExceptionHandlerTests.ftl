@@ -25,7 +25,7 @@ class ${GlobalExceptionHandler.testClass()} {
     private ${GlobalExceptionHandler.className()} exceptionHandlerUnderTest;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         exceptionHandlerUnderTest = new GlobalExceptionHandler();
     }
 

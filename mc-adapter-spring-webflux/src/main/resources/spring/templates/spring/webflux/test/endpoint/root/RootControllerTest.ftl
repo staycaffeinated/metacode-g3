@@ -98,7 +98,7 @@ class ${RootController.testClass()} {
    	    Flux<String> stringFlux = Flux.just("A", "B", "C")
    			.concatWith(Flux.error(new RuntimeException("Exception Occurred")))
    			.concatWith(Flux.just("D"))
-   			.onErrorMap(e -> new UnprocessableEntityException(e));
+   			.onErrorMap(UnprocessableEntityException::new);
 
    	    StepVerifier.create(stringFlux.log())
    			.expectSubscription()
@@ -118,7 +118,7 @@ class ${RootController.testClass()} {
    	    Flux<String> stringFlux = Flux.just("A", "B", "C")
    			.concatWith(Flux.error(new RuntimeException("Exception Occurred")))
    			.concatWith(Flux.just("D"))
-   			.onErrorMap(e -> new UnprocessableEntityException(e))
+   			.onErrorMap(UnprocessableEntityException::new)
    			.retry(2);
 
    	    StepVerifier.create(stringFlux.log())

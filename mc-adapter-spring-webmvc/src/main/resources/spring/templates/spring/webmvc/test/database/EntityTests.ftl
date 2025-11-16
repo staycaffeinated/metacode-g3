@@ -20,7 +20,7 @@ class ${Entity.testClass()} {
     String resourceId = "12345";
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         underTest = new ${Entity.className()}();
         underTest.setResourceId(resourceId);
         underTest.setId(1L);

@@ -32,7 +32,7 @@ public class ${EntityWithText.testClass()} {
     private final CriteriaQuery<?> mockQuery = Mockito.mock(CriteriaQuery.class);
 
     @BeforeEach
-    public void mockUpCriteriaBuilder() {
+    void mockUpCriteriaBuilder() {
         given(mockCB.isTrue(any())).willReturn(mockPredicate);
         given(mockCB.like(any(), anyString())).willReturn(mockPredicate);
     }

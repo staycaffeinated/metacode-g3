@@ -63,7 +63,7 @@ class ${MongoDataStoreImpl.testClass()} {
     ${MongoDataStoreImpl.className()} documentStore;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         documentStore = ${MongoDataStoreImpl.className()}.builder()
             .documentConverter(documentConverter)
             .pojoConverter(pojoConverter)

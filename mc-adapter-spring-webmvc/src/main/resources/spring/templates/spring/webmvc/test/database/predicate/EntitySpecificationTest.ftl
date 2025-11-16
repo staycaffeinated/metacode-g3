@@ -34,7 +34,7 @@ class ${EntitySpecification.testClass()} {
     private final Root<${Entity.className()}> mockRoot = Mockito.mock(Root.class);
 
     @BeforeEach
-    public void mockUpCriteriaBuilder() {
+    void mockUpCriteriaBuilder() {
         given(mockCB.isTrue(any())).willReturn(mockPredicate);
         given(mockCB.like(any(), anyString())).willReturn(mockPredicate);
         given(mockCB.and(any(Predicate.class))).willReturn(mockPredicate);

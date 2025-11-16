@@ -41,13 +41,13 @@ class ${EntitySpecification.integrationTestClass()} implements ${RegisterDatabas
 
     @BeforeEach
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
-    public void setUp() {
+    void setUp() {
         /* create schemas, sequences, and other artifacts that hibernate does not auto-create */
         AbstractPostgresIntegrationTest.initTestContainerDatabase();
         repository.saveAll(${EjbTestFixtures.className()}.allItems());
     }
 <#else>
-    public void setUp() {
+    void setUp() {
         repository.saveAll(${EjbTestFixtures.className()}.allItems());
     }
 </#if>
