@@ -17,21 +17,23 @@ plugins {
 // --------------------------------------------------------------------------------
 java {
     def javaVersion = 17
-        try {
-            javaVersion = rootProject.file('.java-version').text.trim()
-        }
-        catch (Exception e) {
-            javaVersion = 17
-        }
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(javaVersion)
-        }
+    try {
+        javaVersion = rootProject.file('.java-version').text.trim()
+    }
+    catch (Exception e) {
+        javaVersion = 17
+    }
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaVersion as String)
+    }
+    sourceCompatibility = JavaLanguageVersion.of(javaVersion as String)
+    targetCompatibility = JavaLanguageVersion.of(javaVersion as String)
 }
 
 /**
  * Example of setting lint arguments
  */
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.compilerArgs += ["-Xlint:unchecked"]
 }
 
