@@ -10,7 +10,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.guice)
+    // implementation(libs.guice)
     implementation(libs.jakartaInject)
 }
 

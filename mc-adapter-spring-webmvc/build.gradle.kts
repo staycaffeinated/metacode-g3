@@ -14,7 +14,6 @@ dependencies {
     api(project(":mc-adapter-spring-shared"))
 
     implementation(libs.freemarker)
-    implementation(libs.guice)
     implementation(libs.jacksonYaml)
     implementation(libs.slf4jApi)
 
