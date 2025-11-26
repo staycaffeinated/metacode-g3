@@ -1,4 +1,5 @@
 plugins {
+    id("jvm-test-suite")
     id("buildlogic.java-library-conventions")
     id("buildlogic.versioning")
     id("buildlogic.integration-test")
@@ -17,13 +18,13 @@ dependencies {
     implementation(libs.jacksonYaml)
     implementation(libs.slf4jApi)
 
-    testImplementation(platform(libs.junitBillOfMaterial))
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.platform.launcher)
+    testImplementation(libs.junit.platform.runner)
     testImplementation(libs.junitSystemRules)
     testImplementation(libs.truth)
     testImplementation(libs.mockito)
     testImplementation(libs.spring.boot.starter.test)
-
 }
 
 sonar {

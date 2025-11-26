@@ -1,7 +1,6 @@
 plugins {
     id("buildlogic.java-library-conventions")
     id("buildlogic.versioning")
-    id("buildlogic.integration-test")
     alias(libs.plugins.lombok)
     alias(libs.plugins.versions)
     `java-test-fixtures`

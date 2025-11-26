@@ -4,10 +4,11 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    repositories.mavenLocal()
     repositories.mavenCentral()
 
     // Platform for dependency versions shared by main build and build-logic
-    includeBuild("../../gradle/platform")
+    // includeBuild("../../gradle/platform")
 
     versionCatalogs.create("libs") {
         from(files("../../gradle/libs.versions.toml"))

@@ -27,7 +27,6 @@ dependencies {
     implementation(libs.slf4jApi)
     implementation(libs.jakartaInject)
     
-    testImplementation(platform(libs.junitBillOfMaterial))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junitSystemRules)
     testImplementation(libs.truth)

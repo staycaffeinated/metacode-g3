@@ -10,11 +10,10 @@ import mmm.coffee.metacode.common.dictionary.io.ClassNameRulesReader;
 import mmm.coffee.metacode.common.dictionary.io.PackageLayoutReader;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
-import org.apache.commons.text.WordUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class FakeArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
@@ -60,7 +59,8 @@ public class FakeArchetypeDescriptorFactory implements IArchetypeDescriptorFacto
                                                String packageName,
                                                String className) implements JavaArchetypeDescriptor
     {
-        public String toString() {
+        @Override
+        @Nonnull public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("JavaArchetype[className: ").append(className()).append(", ");
             sb.append("fqcn: ").append(fqcn()).append(", ");

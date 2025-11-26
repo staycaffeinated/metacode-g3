@@ -1,7 +1,6 @@
 plugins {
     id("buildlogic.java-library-conventions")
     id("buildlogic.versioning")
-    id("buildlogic.integration-test")
     alias(libs.plugins.lombok)
     alias(libs.plugins.versions)
 }
@@ -21,7 +20,6 @@ dependencies {
     implementation(libs.jacksonYaml)
     implementation(libs.slf4jApi)
 
-    testImplementation(platform(libs.junitBillOfMaterial))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junitSystemRules)
     testImplementation(libs.truth)

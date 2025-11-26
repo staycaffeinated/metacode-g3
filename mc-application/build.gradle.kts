@@ -3,7 +3,6 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     id("buildlogic.java-application-conventions")
     id("buildlogic.versioning")     // reads version.txt file to acquire this app's version number
-    id("buildlogic.integration-test")
     id("application")
     id("distribution")              // builds a distribution of the application for the homebrew tap
     alias(libs.plugins.shadow.jar)  // builds runnable jar containing all dependencies; use for local testing
@@ -85,15 +84,15 @@ tasks {
 /**
  * Short-cut to copy the jar to my scratch directory for testing
  */
-tasks.register("stage") {
+tasks.register("stage", Exec::class) {
     group = "Verification"
     description = "Copy the jar to a staging area for end-to-end testing"
-    doLast {
-        exec {
-            workingDir = File(".")
-            commandLine("./stageIt.sh")
-        }
-    }
+
+    // Set the working directory
+    workingDir = File(".")
+
+    // Set the command to execute
+    commandLine("bash", "./stageIt.sh")
 }
 
 // Since some projects have integrationTests, and some don't,
