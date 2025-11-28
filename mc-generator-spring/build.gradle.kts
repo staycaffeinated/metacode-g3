@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.jacksonYaml)
     implementation(libs.slf4jApi)
     implementation(libs.jakartaInject)
-    implementation(libs.guice) // To retire this, we also have to convert Google Predicates to Java Predicates
     
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junitSystemRules)

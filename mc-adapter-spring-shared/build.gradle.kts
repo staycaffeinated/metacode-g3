@@ -11,7 +11,6 @@ dependencies {
     implementation(project(":mc-common"))
     implementation(project(":mc-annotations"))
     implementation(libs.freemarker)
-    implementation(libs.guice)
     implementation(libs.jacksonYaml)
 
     testImplementation(libs.spring.boot.starter.test)
@@ -20,7 +19,6 @@ dependencies {
     testFixturesImplementation(project(":mc-adapter-spring-core"))  // to enable visibility to catalogs and templates
     testFixturesImplementation(project(":mc-adapter-spring-webmvc")) // to enable visibility to catalogs and templates
     testFixturesImplementation(libs.freemarker)
-    testFixturesImplementation(libs.guice)
 }
 
 // Since some projects have integrationTests, and some don't,

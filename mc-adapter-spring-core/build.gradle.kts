@@ -18,7 +18,6 @@ dependencies {
     implementation(libs.commonsLang3)
     implementation(libs.jmustache)
     implementation(libs.freemarker)
-    implementation(libs.guice)
     implementation(libs.jacksonYaml)
     implementation(libs.slf4jApi)
     implementation(libs.jakartaInject)
@@ -33,7 +32,6 @@ dependencies {
     testFixturesImplementation(libs.commonsConfig)
     testFixturesImplementation(libs.spring.core)
     testFixturesImplementation(libs.freemarker)
-    testFixturesImplementation(libs.guice)
     testFixturesImplementation(project(":mc-common"))
     testFixturesImplementation(project(":mc-adapter-spring-shared"))
 

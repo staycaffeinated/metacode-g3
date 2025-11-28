@@ -16,7 +16,6 @@ dependencies {
     implementation(libs.commonsConfig)
     implementation(libs.commonsIo)
     implementation(libs.commonsLang3)
-    implementation(libs.guava)
     implementation(libs.jakartaAnnotations)
     implementation(libs.jmustache)
     implementation(libs.picocli)
