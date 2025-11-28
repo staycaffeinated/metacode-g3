@@ -3,8 +3,8 @@
  */
 package mmm.coffee.metacode.spring.endpoint.converter;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
+import java.util.function.Predicate;
+import mmm.coffee.metacode.common.base.PredicateHelper;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogEntryPredicates;
 import mmm.coffee.metacode.common.descriptor.RestEndpointDescriptor;
@@ -25,11 +25,11 @@ public class RestEndpointDescriptorToPredicateConverter implements ConvertTrait<
     public Predicate<CatalogEntry> convert(RestEndpointDescriptor fromType) {
         if (fromType.isWebFlux()) {
             // isEndpointTemplate AND isWebFluxTemplate
-            return Predicates.and(CatalogEntryPredicates.isEndpointArtifact(),
+            return PredicateHelper.and(CatalogEntryPredicates.isEndpointArtifact(),
                     CatalogEntryPredicates.isWebFluxArtifact());
         } else {
             // isEndpointTemplate and isWebMvcTemplate
-            return Predicates.and(CatalogEntryPredicates.isEndpointArtifact(),
+            return PredicateHelper.and(CatalogEntryPredicates.isEndpointArtifact(),
                     CatalogEntryPredicates.isWebMvcArtifact());
         }
     }

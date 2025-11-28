@@ -3,7 +3,7 @@
  */
 package mmm.coffee.metacode.common.freemarker;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogFileReader;
 import mmm.coffee.metacode.common.catalog.TemplateFacet;
@@ -29,8 +29,7 @@ import static com.google.common.truth.Truth.assertThat;
  */
 @SuppressWarnings({
         "DuplicateCode",
-        "java:S1075",       // false positive
-        "java:S4738"        // yes, I need to change guava predicates to java predicates
+        "java:S1075"       // false positive
 })
 class FreemarkerTemplateResolverIntegrationTest {
 
@@ -102,7 +101,7 @@ class FreemarkerTemplateResolverIntegrationTest {
         Predicate<CatalogEntry> keepThese = converter.convert(projectDescriptor);
         webMvcProject.configureLibraryVersions(dependencyCatalog);
 
-        templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(template -> {
+        templateCatalog.collect().stream().filter(keepThese).forEach(template -> {
             for (TemplateFacet facet : template.getFacets()) {
                 var content = resolverUnderTest.render(facet.getSourceTemplate(), webMvcProject);
                 // The rendered `schema.sql` file _can_ be blank, so make an exception for that.
@@ -125,7 +124,7 @@ class FreemarkerTemplateResolverIntegrationTest {
         Predicate<CatalogEntry> keepThese = converter.convert(projectDescriptor);
         webFluxProject.configureLibraryVersions(dependencyCatalog);
 
-        templateCatalog.collect().stream().filter(toJava8(keepThese)).forEach(template -> {
+        templateCatalog.collect().stream().filter(keepThese).forEach(template -> {
             for (TemplateFacet facet : template.getFacets()) {
                 var content = resolverUnderTest.render(facet.getSourceTemplate(), webFluxProject);
                 // The rendered `schema.sql` file _can_ be blank, so make an exception for that.

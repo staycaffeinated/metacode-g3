@@ -15,7 +15,7 @@
  */
 package mmm.coffee.metacode.spring.project.converter;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
 import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
@@ -89,12 +89,12 @@ class DescriptorToPredicateConverterTest {
 
         // Verify the predicate returns the correct verdict for a different CatalogEntries
         assertThat(predicate).isNotNull();
-        assertThat(predicate.apply(commonEntry)).isTrue();
+        assertThat(predicate.test(commonEntry)).isTrue();
         // Verify we don't get any false positives
-        assertThat(predicate.apply(postgresEntry)).isFalse();
-        assertThat(predicate.apply(testContainerEntry)).isFalse();
-        assertThat(predicate.apply(liquibaseEntry)).isFalse();
-        assertThat(predicate.apply(kafkaEntry)).isFalse();
+        assertThat(predicate.test(postgresEntry)).isFalse();
+        assertThat(predicate.test(testContainerEntry)).isFalse();
+        assertThat(predicate.test(liquibaseEntry)).isFalse();
+        assertThat(predicate.test(kafkaEntry)).isFalse();
     }
 
     /*
@@ -112,12 +112,12 @@ class DescriptorToPredicateConverterTest {
 
         // Verify the predicate returns the correct verdict for a different CatalogEntries
         assertThat(predicate).isNotNull();
-        assertThat(predicate.apply(commonEntry)).isTrue();
-        assertThat(predicate.apply(testContainerEntry)).isTrue();
+        assertThat(predicate.test(commonEntry)).isTrue();
+        assertThat(predicate.test(testContainerEntry)).isTrue();
 
         // Verify we don't get any false positives
-        assertThat(predicate.apply(postgresEntry)).isFalse();
-        assertThat(predicate.apply(liquibaseEntry)).isFalse();
+        assertThat(predicate.test(postgresEntry)).isFalse();
+        assertThat(predicate.test(liquibaseEntry)).isFalse();
     }
 
     /*
@@ -135,12 +135,12 @@ class DescriptorToPredicateConverterTest {
 
         // Verify the predicate returns the correct verdict for a different CatalogEntries
         assertThat(predicate).isNotNull();
-        assertThat(predicate.apply(commonEntry)).isTrue();
-        assertThat(predicate.apply(postgresEntry)).isTrue();
+        assertThat(predicate.test(commonEntry)).isTrue();
+        assertThat(predicate.test(postgresEntry)).isTrue();
 
         // Verify we don't get any false positives
-        assertThat(predicate.apply(testContainerEntry)).isFalse();
-        assertThat(predicate.apply(liquibaseEntry)).isFalse();
+        assertThat(predicate.test(testContainerEntry)).isFalse();
+        assertThat(predicate.test(liquibaseEntry)).isFalse();
     }
 
     /*
@@ -158,12 +158,12 @@ class DescriptorToPredicateConverterTest {
 
         // Verify the predicate returns the correct verdict for a different CatalogEntries
         assertThat(predicate).isNotNull();
-        assertThat(predicate.apply(commonEntry)).isTrue();
-        assertThat(predicate.apply(liquibaseEntry)).isTrue();
+        assertThat(predicate.test(commonEntry)).isTrue();
+        assertThat(predicate.test(liquibaseEntry)).isTrue();
 
         // Verify we don't get any false positives
-        assertThat(predicate.apply(testContainerEntry)).isFalse();
-        assertThat(predicate.apply(postgresEntry)).isFalse();
+        assertThat(predicate.test(testContainerEntry)).isFalse();
+        assertThat(predicate.test(postgresEntry)).isFalse();
     }
 
     /*
@@ -184,12 +184,12 @@ class DescriptorToPredicateConverterTest {
 
         // Verify the predicate returns the correct verdict for a different CatalogEntries
         assertThat(predicate).isNotNull();
-        assertThat(predicate.apply(commonEntry)).isTrue();
-        assertThat(predicate.apply(kafkaEntry)).isTrue();
+        assertThat(predicate.test(commonEntry)).isTrue();
+        assertThat(predicate.test(kafkaEntry)).isTrue();
 
         // Verify we don't get any false positives
-        assertThat(predicate.apply(testContainerEntry)).isFalse();
-        assertThat(predicate.apply(postgresEntry)).isFalse();
+        assertThat(predicate.test(testContainerEntry)).isFalse();
+        assertThat(predicate.test(postgresEntry)).isFalse();
     }
 
     /*

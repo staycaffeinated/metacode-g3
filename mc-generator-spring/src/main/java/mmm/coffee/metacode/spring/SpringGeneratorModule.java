@@ -15,7 +15,6 @@
  */
 package mmm.coffee.metacode.spring;
 
-import com.google.inject.AbstractModule;
 import freemarker.template.Configuration;
 import mmm.coffee.metacode.annotations.guice.*;
 import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
@@ -70,7 +69,7 @@ import org.springframework.context.annotation.Bean;
 @SuppressWarnings("java:S1452") // S1452: allow generic wildcards for the moment
 @ExcludeFromJacocoGeneratedReport // Ignore code coverage for this class
 @org.springframework.context.annotation.Configuration
-public class SpringGeneratorModule extends AbstractModule {
+public class SpringGeneratorModule {
 
     private static final String DEPENDENCY_FILE = "/spring/dependencies/dependencies.properties";
     private static final String TEMPLATE_DIRECTORY = "/spring/templates/";

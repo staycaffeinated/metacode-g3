@@ -15,8 +15,7 @@
  */
 package mmm.coffee.metacode.spring.project.converter;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
+import mmm.coffee.metacode.common.base.PredicateHelper;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogEntryPredicates;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
@@ -25,6 +24,7 @@ import mmm.coffee.metacode.spring.constant.SpringIntegrations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Converts a REST ProjectDescriptor into an uber-predicate.
@@ -42,7 +42,7 @@ public class DescriptorToPredicateConverter implements ConvertTrait<RestProjectD
     @Override
     public Predicate<CatalogEntry> convert(RestProjectDescriptor fromType) {
         List<Predicate<CatalogEntry>> predicateList = collectPredicates(fromType);
-        return Predicates.or(predicateList);
+        return PredicateHelper.or(predicateList);
     }
 
     private List<Predicate<CatalogEntry>> collectPredicates(RestProjectDescriptor descriptor) {
@@ -61,9 +61,6 @@ public class DescriptorToPredicateConverter implements ConvertTrait<RestProjectD
         if (descriptor.getIntegrations().contains(SpringIntegrations.KAFKA.name())) {
             resultSet.add(CatalogEntryPredicates.hasKafkaTag());
         }
-
-
         return resultSet;
     }
-
 }

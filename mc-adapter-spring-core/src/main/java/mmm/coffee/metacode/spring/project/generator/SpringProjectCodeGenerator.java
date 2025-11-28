@@ -15,25 +15,15 @@
  */
 package mmm.coffee.metacode.spring.project.generator;
 
-import com.google.common.base.Predicate;
-import com.samskivert.mustache.MustacheException;
-import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
-import mmm.coffee.metacode.common.catalog.TemplateFacet;
 import mmm.coffee.metacode.common.dependency.DependencyCatalog;
 import mmm.coffee.metacode.common.descriptor.RestProjectDescriptor;
 import mmm.coffee.metacode.common.dictionary.IArchetypeDescriptorFactory;
-import mmm.coffee.metacode.common.dictionary.ProjectArchetypeToMap;
 import mmm.coffee.metacode.common.generator.ICodeGenerator;
 import mmm.coffee.metacode.common.io.MetaPropertiesHandler;
-import mmm.coffee.metacode.common.model.Archetype;
-import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
-import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
-import mmm.coffee.metacode.common.mustache.MustacheExpressionResolver;
-import mmm.coffee.metacode.common.rule.PackageNameConversion;
 import mmm.coffee.metacode.common.stereotype.Collector;
 import mmm.coffee.metacode.common.stereotype.MetaTemplateModel;
 import mmm.coffee.metacode.common.stereotype.TemplateResolver;
@@ -43,10 +33,7 @@ import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModelFactory;
 import mmm.coffee.metacode.spring.project.mustache.MustacheDecoder;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.function.Predicate;
 
 /**
  * Code generator for SpringWebMvc project
@@ -113,15 +100,14 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
      * <p>
      * bookshelf().buildCollector().collect().etc()
      * collector.collect().filter(keepThese).stream().forEach(template -> {
-     *     var content = render(it, templateMetaModel)
-     *     handler.write(content)
+     * var content = render(it, templateMetaModel)
+     * handler.write(content)
      * }
      * </code>
      * A Template needs to tell us:
      * a) the file source of the template mark-up
      * b) the file destination of the rendered template
      */
-    @SuppressWarnings("java:S1135") // ignore TODO blocks for now
     public int generateCode(RestProjectDescriptor descriptor) {
         log.debug("generateCode: restProjectDescriptor: {}", descriptor);
 

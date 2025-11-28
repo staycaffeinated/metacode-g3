@@ -3,7 +3,7 @@
  */
 package mmm.coffee.metacode.spring.endpoint.converter;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import mmm.coffee.metacode.common.catalog.CatalogEntry;
 import mmm.coffee.metacode.common.catalog.CatalogEntryBuilder;
 import mmm.coffee.metacode.common.catalog.TemplateFacetBuilder;
@@ -99,13 +99,13 @@ class RestEndpointDescriptorToPredicateConverterTests {
         Predicate<CatalogEntry> predicate = converterUnderTest.convert(webFluxDescriptor);
 
         // expect: the predicate accepts a webflux template
-        assertThat(predicate.apply(webFluxEndpointCE)).isTrue();
+        assertThat(predicate.test(webFluxEndpointCE)).isTrue();
 
         // expect: the predicate rejects CatalogEntry's that
         // are not for WebFlux endpoints
-        assertThat(predicate.apply(webMvcEndpointCE)).isFalse();
-        assertThat(predicate.apply(webMvcProjectCE)).isFalse();
-        assertThat(predicate.apply(webFluxProjectCE)).isFalse();
+        assertThat(predicate.test(webMvcEndpointCE)).isFalse();
+        assertThat(predicate.test(webMvcProjectCE)).isFalse();
+        assertThat(predicate.test(webFluxProjectCE)).isFalse();
     }
 
     @Test
@@ -114,12 +114,12 @@ class RestEndpointDescriptorToPredicateConverterTests {
         Predicate<CatalogEntry> predicate = converterUnderTest.convert(webMvcDescriptor);
 
         // expect: the predicate accepts a webmvc template
-        assertThat(predicate.apply(webMvcEndpointCE)).isTrue();
+        assertThat(predicate.test(webMvcEndpointCE)).isTrue();
 
         // expect: the predicate rejects any CatalogEntry
         // that is not for a WebMvc endpoint
-        assertThat(predicate.apply(webFluxEndpointCE)).isFalse();
-        assertThat(predicate.apply(webFluxProjectCE)).isFalse();
-        assertThat(predicate.apply(webMvcProjectCE)).isFalse();
+        assertThat(predicate.test(webFluxEndpointCE)).isFalse();
+        assertThat(predicate.test(webFluxProjectCE)).isFalse();
+        assertThat(predicate.test(webMvcProjectCE)).isFalse();
     }
 }

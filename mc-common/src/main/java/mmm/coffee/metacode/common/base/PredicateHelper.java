@@ -158,9 +158,8 @@ public class PredicateHelper {
 
         @Override
         public boolean test(T t) {
-            // Avoid using the Iterator to avoid generating garbage (issue 820).
-            for (int i = 0; i < components.size(); i++) {
-                if (!components.get(i).test(t)) {
+            for (Predicate<? super T> component : components) {
+                if (!component.test(t)) {
                     return false;
                 }
             }
@@ -196,9 +195,8 @@ public class PredicateHelper {
 
         @Override
         public boolean test(T t) {
-            // Avoid using the Iterator to avoid generating garbage (issue 820).
-            for (int i = 0; i < components.size(); i++) {
-                if (components.get(i).test(t)) {
+            for (Predicate<? super T> component : components) {
+                if (component.test(t)) {
                     return true;
                 }
             }
@@ -213,8 +211,7 @@ public class PredicateHelper {
 
         @Override
         public boolean equals(@Nullable Object obj) {
-            if (obj instanceof OrPredicate) {
-                OrPredicate<?> that = (OrPredicate<?>) obj;
+            if (obj instanceof OrPredicate<?> that) {
                 return components.equals(that.components);
             }
             return false;
@@ -260,6 +257,7 @@ public class PredicateHelper {
         return Arrays.<Predicate<? super T>>asList(first, second);
     }
 
+    @SafeVarargs
     private static <T> List<T> defensiveCopy(T... array) {
         return defensiveCopy(Arrays.asList(array));
     }

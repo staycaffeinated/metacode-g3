@@ -3,7 +3,7 @@
  */
 package mmm.coffee.metacode.spring.endpoint.generator;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.common.ExitCodes;
