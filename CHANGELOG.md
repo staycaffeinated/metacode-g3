@@ -1,9 +1,16 @@
-q## Uncommitted
+## Uncommitted
+
+## [12.3.2] -- 2026-02-03
+
+### Fixes:
+    * Fixed misspelling in the classname of the Kafka deserializer
+
+### Maintenance:
+    * Upgraded Spring Boot to 3.5.10
+    * Upgraded RSQL to 6.0.33
+
 
 ## [12.3.0] -- 2025-11-23
-
-## Fixes:
-    * Fixed misspelling in the classname of the Kafka deserializer
 
 ### Changes:
     * Updated various `build.gradle` files to support Gradle 8.13 and up
@@ -12,8 +19,8 @@ q## Uncommitted
 ### Maintenance:
     * Changed default Java version from 17 to 21
     * Upgraded Sonar plugin to 6.3.1.5724
-    * Upgraded Spring Boot to 3.5.10
-    * Upgraded RSQL to 6.0.33
+    * Upgraded Spring Boot to 3.5.9
+    * Upgraded RSQL to 6.0.32
     * Upgraded the Versions plugin to 0.53.0
     * Upgraded H2 to 2.4.240
     * Upgraded DataFaker to 2.5.3
