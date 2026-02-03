@@ -148,7 +148,7 @@ spring:
       enable-auto-commit: true
       group-id: <#noparse>"${spring.application.name}"</#noparse>
       key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
-      value-deserializer: "org.apache.kakfa.common.serialization.StringDeserializer"
+      value-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
     producer:
       bootstrap-servers: <#noparse>"${spring.kafka.bootstrap-servers}"</#noparse>
       key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
