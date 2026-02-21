@@ -1,6 +1,8 @@
 [versions]
 assertJ = '${project.versions["assertJ"]}'
 datafaker = '${project.versions["datafaker"]}'
+flyway = '${project.versions["flyway"]}'
+flyway-test = '${project.versions["flyway-test"]}'
 h2 = '${project.versions["h2"]}'
 junitSystemRules =  '${project.versions["junitSystemRules"]}'
 junit = '${project.versions["junit"]}'
@@ -31,30 +33,44 @@ versions = '${project.versions["benManesPlugin"]}'
 
 [libraries]
 assertJ = { module = "org.assertj:assertj-core", version.ref = "assertJ" }
+
 datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
+
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-database-postgresql = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+flyway-spring-test = { module = "org.flywaydb.flyway-test-extensions:flyway-spring-test", version.ref = "flyway-test" }
+flyway-test = { module = "org.flywaydb.flyway-test-extensions:flyway-test", version.ref="flyway-test"}
+
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
+
 jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
+
 junit-bom = { module = "org.junit:junit-bom", version.ref="junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-runner = { module = "org.junit.platform:junit-platform-runner" }
 junit-system-rules = { module = "com.github.stefanbirkner:system-rules", version.ref = "junitSystemRules" }
+
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
+
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync" }
+
 openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "openApiStarterWebMvc" }
 openapi-starter-webflux-ui = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "openApiStarterWebflux" }
+
+reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactorTest" }
 rsql-jpa-spring-boot-starter = { module = "io.github.perplexhub:rsql-jpa-spring-boot-starter", version.ref = "rsql" }
 r2dbc-h2 = { module = "io.r2dbc:r2dbc-h2", version.ref="r2dbcH2" }
 r2dbc-postgres = { module = "io.r2dbc:r2dbc-postgresql", version.ref = "r2dbcPostgres" }
 r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbcSpi" }
+
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+
 problem-spring-web-starter = { module = "org.zalando:problem-spring-web-starter", version.ref = "problemSpringWeb" }
 problem-spring-webflux = { module = "org.zalando:problem-spring-webflux", version.ref = "problemSpringWeb" }
 problem-jackson-datatype = { module = "org.zalando:jackson-datatype-problem", version.ref = "problemJacksonDataType" }
-reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactorTest" }
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 spring-batch-test = { module = "org.springframework.batch:spring-batch-test" }
 spring-boot-config-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
@@ -85,6 +101,8 @@ testcontainers-kafka = { module = "org.testcontainers:kafka" }
 testcontainers-mongodb = { module = "org.testcontainers:mongodb" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql" }
 testcontainers-r2dbc = { module = "org.testcontainers:r2dbc" }
+
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 dependency-management = { id = "io.spring.dependency-management", version.ref="springDependencyManagement" }
