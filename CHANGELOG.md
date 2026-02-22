@@ -1,5 +1,10 @@
 ## Uncommitted
 
+## [12.4.0] -- tbd
+
+### Changes:
+   * Added Flyway support
+
 ## [12.3.2] -- 2026-02-03
 
 ### Fixes:
