@@ -97,7 +97,7 @@ public class PredicateHelper {
      */
     public static <T> Predicate<T> and(
             Predicate<? super T> first, Predicate<? super T> second) {
-        return new AndPredicate<>(PredicateHelper.<T>asList(checkNotNull(first), checkNotNull(second)));
+        return new AndPredicate<>(PredicateHelper.asList(checkNotNull(first), checkNotNull(second)));
     }
 
     /**
@@ -137,7 +137,7 @@ public class PredicateHelper {
      */
     public static <T> Predicate<T> or(
             Predicate<? super T> first, Predicate<? super T> second) {
-        return new OrPredicate<>(PredicateHelper.<T>asList(checkNotNull(first), checkNotNull(second)));
+        return new OrPredicate<>(PredicateHelper.asList(checkNotNull(first), checkNotNull(second)));
     }
 
     /* ==================================================================================================

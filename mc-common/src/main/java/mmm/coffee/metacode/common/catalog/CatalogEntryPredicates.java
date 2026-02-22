@@ -46,6 +46,10 @@ public class CatalogEntryPredicates {
         return p -> p.getScope() != null && p.getScope().contains("endpoint");
     }
 
+    public static Predicate<CatalogEntry> isProjectArtifact() {
+        return p -> p.getScope() != null && p.getScope().contains("project");
+    }
+
     /**
      * Returns {@code true} if the CatalogEntry is for a webflux artifact
      */
@@ -80,6 +84,28 @@ public class CatalogEntryPredicates {
     public static Predicate<CatalogEntry> hasLiquibaseTag() {
         return p -> containsTag(p, "liquibase");
     }
+
+    /**
+     * Returns {@code true} if the CatalogEntry's tags includes {@code flyway} _and_
+     * the catalog entry is a project-level artifact
+     */
+    public static Predicate<CatalogEntry> isProjectScopeFlywayArtifact() {
+        return p -> p.getScope() != null
+                && p.getScope().contains("project")
+                && containsTag(p, "flyway");
+    }
+
+    /**
+     * Returns {@code true} if the CatalogEntry's tags includes {@code flyway} _and_
+     * the catalog entry is a project-level artifact
+     */
+    public static Predicate<CatalogEntry> isEndpointScopeFlywayArtifact() {
+        return p -> p.getScope() != null
+                && p.getScope().contains("endpoint")
+                && containsTag(p, "flyway");
+    }
+
+
 
     /**
      * Returns {@code true} if the CatalogEntry's tag includes {@code kafka}

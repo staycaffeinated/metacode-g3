@@ -15,10 +15,9 @@ import mmm.coffee.metacode.spring.project.model.SpringTemplateModel;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.function.BiFunction;
+
+
 
 /**
  * RestEndpointTemplateModel
@@ -141,6 +140,9 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
     private boolean withLiquibase;
 
     @Setter(AccessLevel.PUBLIC)
+    private boolean withFlyway;
+
+    @Setter(AccessLevel.PUBLIC)
     private boolean withMongoDB;
 
     @Setter(AccessLevel.PUBLIC)
@@ -160,6 +162,10 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
 
     public boolean getLiquibaseFlag() {
         return withLiquibase;
+    }
+
+    public boolean getFlywayFlag() {
+        return withFlyway;
     }
 
     public boolean getMongoDbFlag() {
@@ -195,8 +201,12 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
      * In production, its presumed the end-user manages 
      */
     public String createTableScriptName() {
-        long fileCount = fileCount(scriptFolder());
-        return String.format("%02d-create-%s-table.sql", ++fileCount, getLowerCaseEntityName());
+        long fileCount = fileCount(mainDbScriptFolder());
+        if (withFlyway) {
+            return FlywayNameMapper().apply(++fileCount, getLowerCaseEntityName());
+        } else {
+            return LiquibaseNameMapper().apply(++fileCount, getLowerCaseEntityName());
+        }
     }
 
     private long fileCount(File folder) {
@@ -214,9 +224,35 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
         return list.length;
     }
 
-    private File scriptFolder() {
+    private File mainDbScriptFolder() {
         File currentDir = FileUtils.current();   // get the base folder of the spring/gradle project
-        final String scriptsFolder = "application/src/integrationTest/resources/db/scripts";
+        final String scriptsFolder = databaseScriptsFolderForMain();
         return new File(currentDir, scriptsFolder);
     }
+
+    public String databaseScriptsFolderForMain() {
+        if (withFlyway) {
+            // the flyway convention is to put scripts in the db/migration folder
+            return "application/src/main/resources/db/migration";
+        } else {
+            // the liquibase convention is to put scripts in db/scripts folder
+            return "application/src/main/resources/db/scripts";
+        }
+    }
+
+    /**
+     * Returns the name of the create-[entity].sql file, following liquibase naming convention
+     */
+    private static BiFunction<Long, String, String> LiquibaseNameMapper() {
+        return (count, baseName) -> String.format("%02d-create-%s-table.sql", count,baseName);
+    }
+    /**
+     * Returns the name of the create-[entity].sql file, following liquibase naming convention
+     */
+    private static BiFunction<Long, String, String> FlywayNameMapper() {
+        return (count, baseName) -> String.format("V%04d-create-%s-table.sql", count,baseName);
+    }
+
+
+
 }

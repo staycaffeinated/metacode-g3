@@ -17,12 +17,18 @@ dependencies {
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
 </#if>
+<#if (project.isWithFlyway())>
+    implementation libs.flyway.core
+</#if>
 <#if (project.isWithKafka())>
     implementation libs.spring.kafka
 </#if>
 <#if (project.isWithPostgres())>
     implementation libs.r2dbc.postgres
     runtimeOnly libs.postgresql
+    <#if (project.isWithFlyway())>
+    runtimeOnly libs.flyway.database.postgresql
+    </#if>
 <#else>
     implementation libs.r2dbc.h2
     runtimeOnly libs.h2
@@ -52,6 +58,10 @@ dependencies {
     testImplementation libs.datafaker
 <#if (project.isWithKafka())>
     testImplementation libs.spring.kafka.test
+</#if>
+<#if (project.isWithFlyway())>
+    testImplementation libs.flyway.spring.test
+    testImplementation libs.flyway.test
 </#if>
 
     testFixturesImplementation libs.reactor.test

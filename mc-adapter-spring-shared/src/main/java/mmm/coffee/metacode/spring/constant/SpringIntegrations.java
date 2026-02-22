@@ -24,6 +24,7 @@ import mmm.coffee.metacode.annotations.jacoco.ExcludeFromJacocoGeneratedReport;
 public enum SpringIntegrations {
     POSTGRES("postgres"),
     LIQUIBASE("liquibase"),
+    FLYWAY("flyway"),
     TESTCONTAINERS("testcontainers"),
     MONGODB("mongodb"),
     OPENAPI("openapi"),

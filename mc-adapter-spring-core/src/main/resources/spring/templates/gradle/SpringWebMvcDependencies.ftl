@@ -24,6 +24,9 @@ dependencies {
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
 </#if>
+<#if (project.isWithFlyway())>
+    implementation libs.flyway.core
+</#if>
 <#if (project.isWithKafka())>
     implementation libs.spring.kafka
 </#if>
@@ -33,6 +36,9 @@ dependencies {
 
 <#if (project.isWithPostgres())>
     runtimeOnly libs.postgresql
+    <#if (project.isWithFlyway())>
+    runtimeOnly libs.flyway.database.postgresql
+    </#if>
 <#elseif (project.isWithMongoDb())>
     runtimeOnly libs.mongodb.driver.sync
 <#else>
@@ -45,6 +51,10 @@ dependencies {
     testImplementation libs.junit.jupiter
 <#if (project.isWithKafka())>
     implementation libs.spring.kafka.test
+</#if>
+<#if (project.isWithFlyway())>
+    testImplementation libs.flyway.spring.test
+    testImplementation libs.flyway.test
 </#if>
 
 <#if (project.isWithTestContainers())>

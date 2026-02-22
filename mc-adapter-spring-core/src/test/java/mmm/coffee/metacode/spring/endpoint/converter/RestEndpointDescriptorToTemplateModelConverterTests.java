@@ -220,6 +220,7 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
             RestEndpointTemplateModel model = converterUnderTest.convert(descriptor);
 
             assertThat(model.isWithLiquibase()).isFalse();
+            assertThat(model.isWithFlyway()).isFalse();
             assertThat(model.isWithPostgres()).isFalse();
             assertThat(model.isWithTestContainers()).isFalse();
         }
@@ -236,6 +237,7 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
             RestEndpointTemplateModel model = converterUnderTest.convert(descriptor);
 
             assertThat(model.isWithLiquibase()).isFalse();
+            assertThat(model.isWithFlyway()).isFalse();
             assertThat(model.isWithPostgres()).isFalse();
             assertThat(model.isWithTestContainers()).isFalse();
         }
@@ -258,6 +260,7 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
             assertThat(model.isWithPostgres()).isTrue();
 
             assertThat(model.isWithLiquibase()).isFalse();
+            assertThat(model.isWithFlyway()).isFalse();
             assertThat(model.isWithTestContainers()).isFalse();
         }
 
@@ -278,6 +281,7 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
             assertThat(model.isWithTestContainers()).isTrue();
 
             assertThat(model.isWithLiquibase()).isFalse();
+            assertThat(model.isWithFlyway()).isFalse();
             assertThat(model.isWithPostgres()).isFalse();
         }
 
@@ -300,6 +304,7 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
             assertThat(model.isWithTestContainers()).isTrue();
 
             assertThat(model.isWithLiquibase()).isFalse();
+            assertThat(model.isWithFlyway()).isFalse();
         }
     }
 }

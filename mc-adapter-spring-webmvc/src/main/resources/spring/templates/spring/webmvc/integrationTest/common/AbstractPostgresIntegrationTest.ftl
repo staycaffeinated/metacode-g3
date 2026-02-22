@@ -36,8 +36,11 @@ public class AbstractPostgresIntegrationTest {
 
     // Where Metacode writes db scripts when neither Liquibase nor Flyway are used
     // (although Flyway is not supported yet).
+<#if (project.isWithFlyway())>
+    private static final String SCHEMA_FOLDER = "db/migration/";
+<#else>
     private static final String SCHEMA_FOLDER = "db/scripts/";
-
+</#if>
     public static PostgreSQLContainer<?> postgreSQLContainer() {
         return Initializer.postgres;
     }
@@ -116,5 +119,4 @@ public class AbstractPostgresIntegrationTest {
         String fqnOfScript = script.getFile().getAbsolutePath();
         return FileUtils.readFileToString(new File(fqnOfScript), StandardCharsets.UTF_8);
     }
-
 }

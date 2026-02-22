@@ -73,6 +73,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         spec.setFramework(config.getString(MetaProperties.FRAMEWORK));
         spec.setSchema(config.getString(MetaProperties.SCHEMA));
         spec.setWithLiquibase(config.getBoolean(MetaProperties.ADD_LIQUIBASE, false));
+        spec.setWithFlyway(config.getBoolean(MetaProperties.ADD_FLYWAY, false));
         spec.setWithPostgres(config.getBoolean(MetaProperties.ADD_POSTGRESQL, false));
         spec.setWithTestContainers(config.getBoolean(MetaProperties.ADD_TESTCONTAINERS, false));
         spec.setWithMongoDb(config.getBoolean(MetaProperties.ADD_MONGODB, false));
@@ -80,7 +81,6 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         spec.setWithKafka(config.getBoolean(MetaProperties.ADD_KAFKA, false));
 
         log.info("[doPreprocessing] on exit, spec.tableName ={}", spec.getTableName());
-
 
         return this;
     }
@@ -109,6 +109,8 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
                 archetypeDescriptorFactory,
                 descriptor.getBasePackage(),
                 templateModel.getResource()));
+        templateModel.getCustomProperties().put("createTableScriptName",
+                templateModel.createTableScriptName());
 
         // Create a predicate to determine which template's to render
         Predicate<CatalogEntry> keepThese = descriptor2predicate.convert(descriptor);

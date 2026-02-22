@@ -72,6 +72,7 @@ class DescriptorToTemplateModelConverterTest {
         assertThat(context.getBasePath()).isEqualTo(webMvcRestProject.getBasePath());
         // the following should remain in their default, 'off' position
         assertThat(context.isWithLiquibase()).isFalse();
+        assertThat(context.isWithFlyway()).isFalse();
         assertThat(context.isWithPostgres()).isFalse();
         assertThat(context.isWithTestContainers()).isFalse();
         assertThat(context.isWithMongoDb()).isFalse();
@@ -89,6 +90,7 @@ class DescriptorToTemplateModelConverterTest {
         assertThat(templateModel.isWithPostgres()).isTrue();
         // the other integration flags should remain in their 'off' position
         assertThat(templateModel.isWithLiquibase()).isFalse();
+        assertThat(templateModel.isWithFlyway()).isFalse();
         assertThat(templateModel.isWithTestContainers()).isFalse();
         assertThat(templateModel.isWithMongoDb()).isFalse();
     }
@@ -104,6 +106,7 @@ class DescriptorToTemplateModelConverterTest {
         // the 'withTestcontainers' flag should be 'true'; others are false
         assertThat(templateModel.isWithTestContainers()).isTrue();
         assertThat(templateModel.isWithLiquibase()).isFalse();
+        assertThat(templateModel.isWithFlyway()).isFalse();
         assertThat(templateModel.isWithPostgres()).isFalse();
         assertThat(templateModel.isWithMongoDb()).isFalse();
     }
@@ -119,6 +122,7 @@ class DescriptorToTemplateModelConverterTest {
         // the 'withLiquibase' flag should be 'true'
         assertThat(templateModel.isWithLiquibase()).isTrue();
         // the other options should remain in their 'off' position
+        assertThat(templateModel.isWithFlyway()).isFalse();
         assertThat(templateModel.isWithTestContainers()).isFalse();
         assertThat(templateModel.isWithPostgres()).isFalse();
         assertThat(templateModel.isWithMongoDb()).isFalse();
@@ -137,6 +141,7 @@ class DescriptorToTemplateModelConverterTest {
         assertThat(templateModel.isWithTestContainers()).isTrue();
         assertThat(templateModel.isWithPostgres()).isTrue();
         assertThat(templateModel.isWithLiquibase()).isFalse();
+        assertThat(templateModel.isWithFlyway()).isFalse();
         assertThat(templateModel.isWithMongoDb()).isFalse();
     }
 
@@ -154,6 +159,7 @@ class DescriptorToTemplateModelConverterTest {
         assertThat(templateModel.isWithTestContainers()).isFalse();
         assertThat(templateModel.isWithPostgres()).isFalse();
         assertThat(templateModel.isWithLiquibase()).isFalse();
+        assertThat(templateModel.isWithFlyway()).isFalse();
         assertThat(templateModel.isWithMongoDb()).isFalse();
     }
 
@@ -172,6 +178,7 @@ class DescriptorToTemplateModelConverterTest {
         assertThat(templateModel.isWithMongoDb()).isTrue();
 
         assertThat(templateModel.isWithLiquibase()).isFalse();
+        assertThat(templateModel.isWithFlyway()).isFalse();
         assertThat(templateModel.isWithPostgres()).isFalse();
     }
 
@@ -190,6 +197,7 @@ class DescriptorToTemplateModelConverterTest {
         assertThat(templateModel.isWithLiquibase()).isTrue();
         assertThat(templateModel.isWithPostgres()).isTrue();
         assertThat(templateModel.isWithTestContainers()).isTrue();
+        assertThat(templateModel.isWithFlyway()).isFalse();
     }
 
     @Test
@@ -203,6 +211,7 @@ class DescriptorToTemplateModelConverterTest {
         // the 'withTestcontainers' flag should be 'true'; others are false
         assertThat(templateModel.isWithMongoDb()).isTrue();
         assertThat(templateModel.isWithLiquibase()).isFalse();
+        assertThat(templateModel.isWithFlyway()).isFalse();
         assertThat(templateModel.isWithPostgres()).isFalse();
         assertThat(templateModel.isWithTestContainers()).isFalse();
     }

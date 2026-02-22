@@ -58,6 +58,9 @@ public class DescriptorToPredicateConverter implements ConvertTrait<RestProjectD
         if (descriptor.getIntegrations().contains(SpringIntegrations.LIQUIBASE.name()))
             resultSet.add(CatalogEntryPredicates.hasLiquibaseTag());
 
+        if (descriptor.getIntegrations().contains(SpringIntegrations.FLYWAY.name()))
+            resultSet.add(CatalogEntryPredicates.isProjectScopeFlywayArtifact());
+
         if (descriptor.getIntegrations().contains(SpringIntegrations.KAFKA.name())) {
             resultSet.add(CatalogEntryPredicates.hasKafkaTag());
         }

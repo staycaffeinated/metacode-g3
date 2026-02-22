@@ -100,6 +100,36 @@ class SpringCoreTemplatesRenderingTests {
         }
 
         @Test
+        void whenFlywayFlagIsEnabled_expectPresenceOfFlywayLibraries() {
+            RestProjectTemplateModel templateModel = buildBasicModel();
+            templateModel.setWithFlyway(true);
+            templateModel.setWebMvc(true);
+
+            String content = templateResolver.render(template, templateModel);
+
+            assertThat(content).isNotNull();
+            assertThat(content).contains("libs.flyway.core");
+            assertThat(content).contains("libs.flyway.spring.test");
+            assertThat(content).contains("libs.flyway.test");
+        }
+
+        @Test
+        void whenFlywayFlagAndPostgresAreEnabled_expectPresenceOfFlywayLibraries() {
+            RestProjectTemplateModel templateModel = buildBasicModel();
+            templateModel.setWithFlyway(true);
+            templateModel.setWebMvc(true);
+            templateModel.setWithPostgres(true);
+
+            String content = templateResolver.render(template, templateModel);
+
+            assertThat(content).isNotNull();
+            assertThat(content).contains("libs.flyway.core");
+            assertThat(content).contains("libs.flyway.spring.test");
+            assertThat(content).contains("libs.flyway.test");
+            assertThat(content).contains("libs.flyway.database.postgres");
+        }
+
+        @Test
         void whenLiquibaseAndPostgresAreEnabled_expectUsesPostgresTestContainerLibrary() {
             RestProjectTemplateModel templateModel = buildBasicModel();
             templateModel.setWithTestContainers(true);

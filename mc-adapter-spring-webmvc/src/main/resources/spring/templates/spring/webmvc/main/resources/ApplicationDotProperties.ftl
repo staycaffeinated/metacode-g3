@@ -134,6 +134,10 @@ spring:
     enabled: true
     change-log: "db/changelog/db.changelog-master.yaml"
 </#if>
+<#if (project.isWithFlyway())>
+  flyway:
+    schemas: "${spring.application.schema-name}"
+</#if>
 
 <#if (project.isWithKafka())>
   # -------------------------------------------------------------------------------------------

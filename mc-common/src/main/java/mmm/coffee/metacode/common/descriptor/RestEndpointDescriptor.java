@@ -71,6 +71,7 @@ public class RestEndpointDescriptor implements Descriptor {
     private boolean withPostgres;
     private boolean withTestContainers;
     private boolean withLiquibase;
+    private boolean withFlyway;
     private boolean withMongoDb;
     private boolean withOpenApi;
     private boolean withKafka;

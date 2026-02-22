@@ -64,14 +64,27 @@ public class SpringIntegrationValidator implements ValidationTrait {
         evaluated = true;
         AtomicBoolean containsPostgres = new AtomicBoolean(false);
         AtomicBoolean containsMongoDb = new AtomicBoolean(false);
+        AtomicBoolean containsLiquibase = new AtomicBoolean(false);
+        AtomicBoolean containsFlyway = new AtomicBoolean(false);
         selectedIntegrations.forEach(item -> {
             if (item.equals(SpringIntegrations.POSTGRES)) containsPostgres.set(true);
             if (item.equals(SpringIntegrations.MONGODB)) containsMongoDb.set(true);
+            if (item.equals(SpringIntegrations.FLYWAY)) containsFlyway.set(true);
+            if (item.equals(SpringIntegrations.LIQUIBASE)) containsLiquibase.set(true);
         });
-        if (containsPostgres.get() && containsMongoDb.get())
+        boolean containsMutEx = false;
+        if (containsPostgres.get() && containsMongoDb.get()) {
             errorMessage = String.format("Two mutually-exclusive items were selected together: %s and %s."
                             + " Only one of these is allowed per project.", SpringIntegrations.POSTGRES,
                     SpringIntegrations.MONGODB);
-        return containsMongoDb.get() && containsPostgres.get();
+            containsMutEx = true;
+        }
+        if (containsLiquibase.get() && containsFlyway.get()) {
+            errorMessage = String.format("Two mutually-exclusive items were selected together: %s and %s."
+                            + " Only one of these is allowed per project.", SpringIntegrations.FLYWAY,
+                    SpringIntegrations.LIQUIBASE);
+            containsMutEx = true;
+        }
+        return containsMutEx;
     }
 }

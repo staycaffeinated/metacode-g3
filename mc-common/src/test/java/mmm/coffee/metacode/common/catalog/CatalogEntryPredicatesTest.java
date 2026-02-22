@@ -75,6 +75,12 @@ class CatalogEntryPredicatesTest {
         assertThat(predicate.test(aLiquibaseCatalogEntry())).isTrue();
     }
 
+    @Test
+    void shouldRecognizeFlywayTags() {
+        Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isProjectScopeFlywayArtifact();
+        assertThat(predicate.test(aFlywayCatalogEntry())).isTrue();
+    }
+
 
     /* ------------------------------------------------------------------------------------------------------------
      * HELPER METHODS
@@ -170,6 +176,15 @@ class CatalogEntryPredicatesTest {
                 .build();
     }
 
+    private CatalogEntry aFlywayCatalogEntry() {
+        return CatalogEntryBuilder.builder()
+                .scope("project")
+                .tags("postgres,flyway")
+                .addFacet(aMainComponentTemplate())
+                .addFacet(aVanillaTemplate())
+                .build();
+    }
+
 
     private TemplateFacet aMainComponentTemplate() {
         TemplateFacet facet = new TemplateFacet();
@@ -200,6 +215,4 @@ class CatalogEntryPredicatesTest {
         facet.setSourceTemplate("/some/main/webmvc/template.ftl");
         return facet;
     }
-
-
 }

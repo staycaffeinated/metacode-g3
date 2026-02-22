@@ -71,6 +71,8 @@ public class RestProjectTemplateModel extends SpringTemplateModel {
     private boolean withOpenApi;
     @Setter
     private boolean withKafka;
+    @Setter
+    private boolean withFlyway;
 
     /*
      * Key: the library name, such as 'assertJ'
