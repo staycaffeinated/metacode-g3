@@ -41,6 +41,9 @@ public class MetaPropertiesWriter {
             if (ObjectUtils.isNotEmpty(properties.get(MetaProperties.ADD_LIQUIBASE))) {
                 configuration.setProperty(MetaProperties.ADD_LIQUIBASE, "true");
             }
+            if (ObjectUtils.isNotEmpty(properties.get(MetaProperties.ADD_FLYWAY))) {
+                configuration.setProperty(MetaProperties.ADD_FLYWAY, "true");
+            }
             if (ObjectUtils.isNotEmpty(properties.get(MetaProperties.ADD_POSTGRESQL))) {
                 configuration.setProperty(MetaProperties.ADD_POSTGRESQL, "true");
             }
