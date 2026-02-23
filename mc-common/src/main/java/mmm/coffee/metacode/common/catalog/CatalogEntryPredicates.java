@@ -46,10 +46,6 @@ public class CatalogEntryPredicates {
         return p -> p.getScope() != null && p.getScope().contains("endpoint");
     }
 
-    public static Predicate<CatalogEntry> isProjectArtifact() {
-        return p -> p.getScope() != null && p.getScope().contains("project");
-    }
-
     /**
      * Returns {@code true} if the CatalogEntry is for a webflux artifact
      */
