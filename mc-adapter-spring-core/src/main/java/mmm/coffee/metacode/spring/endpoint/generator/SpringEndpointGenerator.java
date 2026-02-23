@@ -109,7 +109,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
                 archetypeDescriptorFactory,
                 descriptor.getBasePackage(),
                 templateModel.getResource()));
-        templateModel.getCustomProperties().put("createTableScriptName",
+        templateModel.getCustomProperties().putIfAbsent("createTableScriptName",
                 templateModel.createTableScriptName());
 
         // Create a predicate to determine which template's to render

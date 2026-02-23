@@ -403,4 +403,4 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/resources/db/flyway/create-table.ftl"
-        destination: "{{appModule}}/src/main/resources/db/migration/V0001--create-table.sql"
+        destination: "{{appModule}}/src/main/resources/db/migration/{{createTableScriptName}}"

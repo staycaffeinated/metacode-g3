@@ -250,7 +250,7 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
      * Returns the name of the create-[entity].sql file, following liquibase naming convention
      */
     private static BiFunction<Long, String, String> FlywayNameMapper() {
-        return (count, baseName) -> String.format("V%04d-create-%s-table.sql", count,baseName);
+        return (count, baseName) -> String.format("V%04d__create-%s-table.sql", count,baseName);
     }
 
 
