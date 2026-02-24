@@ -41,6 +41,9 @@ dependencies {
     </#if>
 <#elseif (project.isWithMongoDb())>
     runtimeOnly libs.mongodb.driver.sync
+    <#if (project.isWithFlyway())>
+    runtimeOnly libs.flyway.database.nc.mongodb
+    </#if>
 <#else>
     runtimeOnly libs.h2
 </#if>

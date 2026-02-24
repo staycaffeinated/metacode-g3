@@ -38,6 +38,7 @@ datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-database-postgresql = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+flyway-database-nc-mongodb = { module = "org.flywaydb:flyway-database-nc-mongodb", version.ref = "flyway" }
 flyway-spring-test = { module = "org.flywaydb.flyway-test-extensions:flyway-spring-test", version.ref = "flyway-test" }
 flyway-test = { module = "org.flywaydb.flyway-test-extensions:flyway-test", version.ref="flyway-test"}
 
