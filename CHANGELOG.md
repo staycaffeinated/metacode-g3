@@ -3,7 +3,15 @@
 ## [12.4.0] -- tbd
 
 ### Changes:
-   * Added Flyway support
+   * Added Flyway support.  When creating a new project, use `--add flyway` to
+     trigger the gneration of artifacts for Flyway integration. Mostly, this means
+     including the Flyway libraries in the application `build.gradle` file and
+     generating the directory `application/src/main/resources/db/migration` along
+     with an initial SQL file. Any Flyway SQL files have to be manually updated
+     since this code generator does not known the schema of your entities, nor
+     the naming convention to follow.  
+   * Added a new integration test to WebFlux projects to improve code coverage.
+
 
 ## [12.3.2] -- 2026-02-03
 
