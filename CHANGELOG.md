@@ -11,6 +11,8 @@
      since this code generator does not known the schema of your entities, nor
      the naming convention to follow.  
    * Added a new integration test to WebFlux projects to improve code coverage.
+   * Improved code based on Claude 4.6 Opus suggestions. This helped readability
+     and test quality.
 
 
 ## [12.3.2] -- 2026-02-03
