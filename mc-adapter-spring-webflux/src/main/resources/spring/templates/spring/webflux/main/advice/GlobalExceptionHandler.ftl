@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.sql.SQLException;
 import java.util.Set;
 
 /**
@@ -33,6 +31,15 @@ import java.util.Set;
 @ControllerAdvice
 @ResponseBody
 public class ${GlobalExceptionHandler.className()} {
+
+    private final ObjectMapper objectMapper;
+
+    /**
+     * Constructor
+     */
+    public ${GlobalExceptionHandler.className()}(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @ExceptionHandler(UnprocessableEntityException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -53,12 +60,12 @@ public class ${GlobalExceptionHandler.className()} {
 	}
 
     @ExceptionHandler({jakarta.validation.ConstraintViolationException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Mono<ProblemDetail> handleConstraintViolationException(jakarta.validation.ConstraintViolationException exception)
     {
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode jsonArray = objectMapper.createArrayNode();
 
         for (final var constraint : constraintViolations) {

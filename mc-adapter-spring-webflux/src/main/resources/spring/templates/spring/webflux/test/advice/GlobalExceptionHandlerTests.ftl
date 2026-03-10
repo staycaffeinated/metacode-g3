@@ -3,7 +3,7 @@ package ${GlobalExceptionHandler.packageName()};
 
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,11 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.test.StepVerifier;
 
-import java.util.Objects;
-import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests of the GlobalExceptionHandler
@@ -26,7 +22,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
     @BeforeEach
     void setUp() {
-        exceptionHandlerUnderTest = new GlobalExceptionHandler();
+        exceptionHandlerUnderTest = new GlobalExceptionHandler(new ObjectMapper());
     }
 
     @Test
