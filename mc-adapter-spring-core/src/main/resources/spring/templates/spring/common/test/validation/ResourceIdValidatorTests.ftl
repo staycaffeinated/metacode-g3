@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
 * Unit tests of ResourceIdValidator
 */
-class ResourceIdValidatorTests {
+class ResourceIdValidatorTest {
 
 final ResourceIdValidator validationUnderTest = new ResourceIdValidator();
 

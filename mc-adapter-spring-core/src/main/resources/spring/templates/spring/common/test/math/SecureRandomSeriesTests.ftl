@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 * Unit tests of the ${SecureRandomSeries.className()} class
 */
 @SuppressWarnings("all")
-class ${SecureRandomSeries.className()}Tests {
+class ${SecureRandomSeries.className()}Test {
 
     static ${SecureRandomSeries.className()} randomSeriesUnderTest;
 
@@ -68,7 +68,7 @@ class ${SecureRandomSeries.className()}Tests {
         assertThat(resourceId).isNotBlank().hasSize(${SecureRandomSeries.className()}.ENTROPY_STRING_LENGTH);
 
         // In our implementation, resourceIds are all digits
-        resourceId.chars().forEach(ch -> assertThat(Character.isDigit(ch)));
+        assertAllLettersOrDigits(resourceId);
     }
 
     @Test
@@ -77,12 +77,21 @@ class ${SecureRandomSeries.className()}Tests {
 
         // Our numeric resource Ids have an entropy of 160 bits, so can reach a length of 49 digits.
         assertThat(resourceId).isNotBlank().hasSizeBetween(${SecureRandomSeries.className()}.ENTROPY_STRING_LENGTH, 49);
-        resourceId.chars().forEach(ch -> assertThat(Character.isDigit(ch)));
+        assertAllLettersOrDigits(resourceId);
     }
 
     @Test
     void shouldNotReturnNullInstance() {
         ${SecureRandomSeries.className()} instance = ${SecureRandomSeries.className()}.instance();
         assertThat(instance).isNotNull();
+    }
+
+    /* ===================================== HELPER METHODS ====================================== */
+
+    private static void assertAllLettersOrDigits(String value) {
+        value.chars().forEach(ch ->
+                assertThat(Character.isLetterOrDigit(ch))
+                    .as("Expected letter or digit but found '%c'", ch)
+                    .isTrue());
     }
 }
