@@ -29,7 +29,7 @@ public class ${KafkaConsumerConfiguration.className()} {
     private List<String> bootstrapServers;
 
     <#noparse>
-    @Value("{spring.application.name}")
+    @Value("${spring.application.name}")
     </#noparse>
     public String groupId;
 
