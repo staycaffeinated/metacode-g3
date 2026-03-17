@@ -14,6 +14,21 @@
    * Improved code based on Claude 4.6 Opus suggestions. This helped readability
      and test quality.
 
+### Maintenance:
+    * Upgraded Spring Boot to 3.5.11
+    * Upgraded Postgres to 42.7.10
+    * Upgraded DataFaker to 2.5.4
+
+### Fixes:
+    * Fixed a bug in the `RootControllerIntegrationTest` class and the
+      `RootControllerExceptionHandlerIntegrationTest` class. Both classes
+      were expecting to find the `AbstractPostgresIntegrationTest` class, but
+      if PostgreSQL was not selected as an option when generating the project,
+      no such class is generated, causing a compile error. The generated
+      classes now handle this use case. 
+    * In the `build.gradle`, `spring.kafka.test` should be a `testImplementation` 
+      dependency, not an `implementation` dependency.
+
 
 ## [12.3.2] -- 2026-02-03
 
