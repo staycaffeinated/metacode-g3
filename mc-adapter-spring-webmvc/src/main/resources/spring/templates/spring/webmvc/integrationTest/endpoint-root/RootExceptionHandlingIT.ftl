@@ -9,12 +9,13 @@ package ${RootControllerExceptionHandler.packageName()};
 <#-- and it struggles (errors) when trying to reorganize them w/o the help of an IDE. -->
 <#-- Tech Debt: refactor maybe into 2 distinct tempates                             -->
 <#-- ============================================================================== -->
-<#if project.isWithTestContainers()>
+<#if project.isWithPostgres() && project.isWithTestContainers()>
 import ${AbstractPostgresIntegrationTest.fqcn()};
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.context.annotation.Import;
-</#if>
+<#elseif project.isWithPostgres()>
 import ${RegisterDatabaseProperties.fqcn()};
+</#if>
 import ${RootController.fqcn()};
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,12 +45,15 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 */
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-<#if project.isWithTestContainers()>
+<#if project.isWithTestContainers() && project.isWithPostgres()>
 @Testcontainers
 class ${RootControllerExceptionHandler.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
-<#else>
+<#elseif project.isWithPostgres() >
 @ExtendWith(SpringExtension.class)
 class ${RootControllerExceptionHandler.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+<#else>
+@ExtendWith(SpringExtension.class)
+class ${RootControllerExceptionHandler.integrationTestClass()} {
 </#if>
     @Autowired
     MockMvc mockMvc;

@@ -9,12 +9,13 @@ import org.junit.jupiter.api.Test;
 <#-- ======================================= -->
 <#-- When using Postgres with TestContainers -->
 <#-- ======================================= -->
-<#if project.isWithTestContainers()>
+<#if project.isWithPostgres() && project.isWithTestContainers()>
 import ${AbstractPostgresIntegrationTest.fqcn()};
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.context.annotation.Import;
-</#if>
+import org.testcontainers.junit.jupiter.Testcontainers;
+<#elseif project.isWithPostgres()>
 import ${RegisterDatabaseProperties.fqcn()};
+</#if>
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,13 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-<#if project.isWithTestContainers()>
+<#if project.isWithPostgres() && (project.isWithTestContainers())>
 @Testcontainers
 class ${RootController.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
-<#else>
+<#elseif project.isWithPostgres()>
 class ${RootController.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
+<#else>
+class ${RootController.integrationTestClass()} {
 </#if>
     @Autowired
     MockMvc mockMvc;
