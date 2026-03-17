@@ -52,6 +52,9 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-runner = { module = "org.junit.platform:junit-platform-runner" }
 junit-system-rules = { module = "com.github.stefanbirkner:system-rules", version.ref = "junitSystemRules" }
 
+kafka-streams = { module = "org.apache.kafka:kafka-streams" }
+kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils" }
+
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 
