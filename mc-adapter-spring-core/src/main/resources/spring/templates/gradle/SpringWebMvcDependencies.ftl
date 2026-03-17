@@ -53,7 +53,7 @@ dependencies {
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
 <#if (project.isWithKafka())>
-    implementation libs.spring.kafka.test
+    testImplementation libs.spring.kafka.test
 </#if>
 <#if (project.isWithFlyway())>
     testImplementation libs.flyway.spring.test
