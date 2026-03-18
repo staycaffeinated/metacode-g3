@@ -18,6 +18,8 @@
     * Upgraded Spring Boot to 3.5.11
     * Upgraded Postgres to 42.7.10
     * Upgraded DataFaker to 2.5.4
+    * Upgrade AssertJ to 3.27.7
+    * Upgraded OpenAPI to 2.8.16
 
 ### Fixes:
     * Fixed a bug in the `RootControllerIntegrationTest` class and the
