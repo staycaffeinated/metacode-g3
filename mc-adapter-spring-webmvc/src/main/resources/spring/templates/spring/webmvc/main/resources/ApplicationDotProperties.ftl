@@ -190,12 +190,12 @@ spring:
             serde: 'org.apache.kafka.common.serialization.Serdes$StringSerde'
           value:
             serde: 'org.apache.kafka.common.serialization.Serdes$StringSerde'
-           deserialization:
-             exception:
-               handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
-           serialization:
-             exception:
-               handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
+          deserialization:
+            exception:
+              handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
+          serialization:
+            exception:
+              handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
 
 </#if>
 
