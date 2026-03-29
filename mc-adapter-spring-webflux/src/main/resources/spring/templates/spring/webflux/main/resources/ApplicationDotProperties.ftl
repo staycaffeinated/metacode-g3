@@ -47,6 +47,15 @@ spring:
     schema-name: ${project.schema}
 </#if>
 
+  # Modify these as desired.
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
+    serialization:
+      indent_output: false
+      write_dates_as_timestamps: false
+    deserialization:
+      fail_on_unknown_properties: false
+
   main:
     web-application-type: reactive
 
