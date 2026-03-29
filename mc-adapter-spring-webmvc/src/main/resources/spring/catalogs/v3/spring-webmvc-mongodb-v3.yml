@@ -13,7 +13,7 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/resources/MongoDbApplicationDotProperties.ftl"
-        destination: "{{appModule}}/src/main/resources/application.properties"
+        destination: "{{appModule}}/src/main/resources/application.yml"
 
   - scope: "project"
     archetype: "Text"
