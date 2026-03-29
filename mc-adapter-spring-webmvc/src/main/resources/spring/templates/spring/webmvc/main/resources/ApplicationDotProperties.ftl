@@ -177,6 +177,26 @@ spring:
       client-id: <#noparse>"${spring.application.name}"</#noparse>
       concurrency: 2
       missing-topics-fatal: false
+    #
+    # Kafka Streams. Remove this stanza if it doesn't apply to your project.
+    #
+    streams:
+      application-id: <#noparse>"${spring.application.name}"</#noparse>
+      # This is optional if `spring.kafka.bootstrap-servers` is configured.
+      bootstrap-servers: <#noparse>${spring.kafka.bootstrap-servers}</#noparse>
+    properties:
+        default:
+          key:
+            serde: 'org.apache.kafka.common.serialization.Serdes$StringSerde'
+          value:
+            serde: 'org.apache.kafka.common.serialization.Serdes$StringSerde'
+           deserialization:
+             exception:
+               handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
+           serialization:
+             exception:
+               handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
+
 </#if>
 
 # -------------------------------------------------------------------------
