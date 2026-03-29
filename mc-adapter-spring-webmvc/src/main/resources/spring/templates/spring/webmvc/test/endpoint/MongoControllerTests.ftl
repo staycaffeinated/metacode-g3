@@ -111,8 +111,8 @@ class ${Controller.testClass()} {
                                           .bodyJson()
                                           .extractingPath("$")
                                           .asMap()
-                                          .containsEntry(Widget.Fields.RESOURCE_ID, resourceId)
-                                          .containsEntry(Widget.Fields.TEXT, widget.getText());
+                                          .containsEntry(${EntityResource.className()}.Fields.RESOURCE_ID, resourceId)
+                                          .containsEntry(${EntityResource.className()}.Fields.TEXT, ${endpoint.entityVarName}.getText());
         }
 
         @Test
@@ -168,7 +168,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(List.of(${endpoint.entityVarName}));
 
             // when/then
-            updateEntity(resourceId, widget).assertThat().hasStatus(HttpStatus.OK);
+            updateEntity(resourceId, ${endpoint.entityVarName}).assertThat().hasStatus(HttpStatus.OK);
         }
 
         @Test

@@ -143,7 +143,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                     .hasContentTypeCompatibleWith(MediaType.APPLICATION_JSON)
                     .bodyJson()
                     .extractingPath("$")
-                    .convertTo(InstanceOfAssertFactories.list(Widget.class))
+                    .convertTo(InstanceOfAssertFactories.list(${EntityResource.className()}.class))
                     .hasSize(1)
                     .satisfies(list -> assertThat(list.stream().map(${EntityResource.className()}::getResourceId)).isNotEmpty())
                     .satisfies(list -> assertThat(list.stream().map(${EntityResource.className()}::getText)).isNotEmpty());
