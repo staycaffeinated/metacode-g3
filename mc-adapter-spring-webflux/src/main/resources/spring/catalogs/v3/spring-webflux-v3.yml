@@ -69,6 +69,12 @@ entries:
         sourceTemplate: "/spring/webflux/main/config/ApplicationConfiguration.ftl"
 
   - scope: "project"
+    archetype: "ObjectMapperConfiguration"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/config/ObjectMapperConfiguration.ftl"
+
+  - scope: "project"
     archetype: "WebFluxConfiguration"
     facets:
       - facet: "main"

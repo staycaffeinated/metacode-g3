@@ -41,6 +41,7 @@ public enum Archetype {
     KafkaProducerConfiguration("KafkaProducerConfiguration"),
     KafkaConsumerConfiguration("KafkaConsumerConfiguration"),
     KafkaTopicsConfiguration("KafkaTopicsConfiguration"),
+    ObjectMapperConfiguration("ObjectMapperConfiguration"),
 
     // converters
     EntityToPojoConverter("EntityToPojoConverter"),

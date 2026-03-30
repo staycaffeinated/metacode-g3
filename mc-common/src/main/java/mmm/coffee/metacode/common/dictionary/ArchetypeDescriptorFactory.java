@@ -1,5 +1,6 @@
 package mmm.coffee.metacode.common.dictionary;
 
+import jakarta.annotation.Nonnull;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +66,7 @@ public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
     @Builder
     private record DefaultJavaArchetypeDescriptor(Archetype archetype, String fqcn, String packageName,
                                                   String className) implements JavaArchetypeDescriptor {
+        @Nonnull
         public String toString() {
             return "DefaultJavaArchetype[className: " + className() + ", " +
                     "fqcn: " + fqcn() + ", " +

@@ -66,6 +66,7 @@ public class ProjectArchetypeToMap {
             Archetype.KafkaProducerConfiguration,
             Archetype.KafkaTopicsConfiguration,
             Archetype.KafkaConsumerConfiguration,
+            Archetype.ObjectMapperConfiguration,
 
             // persistence stuff
             Archetype.AbstractDataJpaTest,
