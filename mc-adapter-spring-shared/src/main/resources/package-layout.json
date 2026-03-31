@@ -83,6 +83,14 @@
       ]
     },
     {
+      "package": "{{basePackage}}.serdes",
+      "archetypes": [
+        "SerdesFactory",
+        "JsonSerializer",
+        "JsonDeserializer"
+      ]
+    },
+    {
       "package": "{{basePackage}}.infrastructure.filter",
       "archetypes": [ "SecurityResponseHeadersFilter" ]
     },

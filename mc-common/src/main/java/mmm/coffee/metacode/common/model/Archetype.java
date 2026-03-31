@@ -104,6 +104,9 @@ public enum Archetype {
     AbstractIntegrationTest("AbstractIntegrationTest"),
     AbstractDataJpaTest("AbstractDataJpaTest"),
     AbstractPostgresIntegrationTest("AbstractPostgresIntegrationTest"),
+    JsonSerializer("JsonSerializer"),
+    JsonDeserializer("JsonDeserializer"),
+    SerdesFactory("SerdesFactory"),
 
     /*
      * Endpoint-scope archetypes

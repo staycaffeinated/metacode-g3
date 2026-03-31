@@ -84,6 +84,11 @@ public class ProjectArchetypeToMap {
             Archetype.PostgresDbContainerTests,
             Archetype.AbstractPostgresIntegrationTest,
 
+            // Serdes for Kafka projects
+            Archetype.SerdesFactory,
+            Archetype.JsonSerializer,
+            Archetype.JsonDeserializer,
+
             // miscellaneous
             Archetype.Text,
             Archetype.AbstractIntegrationTest,
