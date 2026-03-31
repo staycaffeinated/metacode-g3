@@ -7,15 +7,15 @@ import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-
-@Component
 @Slf4j
 public class JsonSerializer<T> implements Serializer<T> {
 
-    @Autowired
     private ObjectMapper objectMapper;
+
+    public JsonSerializer(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     @Nullable

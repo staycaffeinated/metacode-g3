@@ -5,19 +5,17 @@ import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 @Slf4j
 public class JsonDeserializer<T> implements Deserializer<T> {
 
     private final Class<T> destinationClass;
 
-    @Autowired
     private ObjectMapper objectMapper;
 
-    public JsonDeserializer(Class<T> destinationClass) {
+    public JsonDeserializer(Class<T> destinationClass, ObjectMapper objectMapper) {
         this.destinationClass = destinationClass;
+        this.objectMapper = objectMapper;
     }
 
 
