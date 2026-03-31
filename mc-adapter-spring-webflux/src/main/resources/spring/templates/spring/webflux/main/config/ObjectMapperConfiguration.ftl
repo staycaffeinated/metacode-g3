@@ -26,6 +26,9 @@ import java.util.Objects;
 
 @Configuration
 @Slf4j
+@SuppressWarnings({
+    "java:S125" // allow code examples in comment blocks
+})
 public class ${ObjectMapperConfiguration.className()} {
     // Change these to whatever makes sense for your application.
     // The format given here includes a timezone.
