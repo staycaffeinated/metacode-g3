@@ -5,6 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
+<#if project.isWithKafka()>
+import org.springframework.test.context.TestPropertySource;
+</#if>
 
 <#-- ======================================= -->
 <#-- When using Postgres with TestContainers -->
@@ -25,6 +28,10 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
+<#if project.isWithKafka()>
+// toggle this according to what makes sense in your project
+@TestPropertySource(properties = "spring.kafka.streams.auto-startup=false")
+</#if>
 <#if project.isWithPostgres() && (project.isWithTestContainers())>
 @Testcontainers
 class ${RootController.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {

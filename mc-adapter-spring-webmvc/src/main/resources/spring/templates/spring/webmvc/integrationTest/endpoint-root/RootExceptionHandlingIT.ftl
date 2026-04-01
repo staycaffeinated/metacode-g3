@@ -23,6 +23,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+<#if project.isWithKafka()>
+import org.springframework.test.context.TestPropertySource;
+</#if>
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.context.annotation.Import;
@@ -45,6 +48,10 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 */
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
+<#if project.isWithKafka()>
+// toggle this according to what makes sense in your project
+@TestPropertySource(properties = "spring.kafka.streams.auto-startup=false")
+</#if>
 <#if project.isWithTestContainers() && project.isWithPostgres()>
 @Testcontainers
 class ${RootControllerExceptionHandler.integrationTestClass()} extends ${AbstractPostgresIntegrationTest.className()} {
