@@ -7,6 +7,8 @@ dependencies {
     implementation libs.spring.boot.starter.web
 <#if (project.isWithKafka())>
     implementation libs.spring.kafka
+    implementation libs.kafka.streams
+    implementation libs.jackson.datatype.jsr310
 </#if>
 
     // Optional: this reports out-of-date property names.
@@ -15,7 +17,13 @@ dependencies {
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
 <#if (project.isWithKafka())>
-    implementation libs.spring.kafka.test
+    testImplementation libs.spring.kafka.test
+    testImplementation libs.kafka.streams.test.utils
+    <#if project.isWithTestContainers()>
+    testImplementation libs.spring.boot.testcontainers
+    testImplementation libs.testcontainers.junit.jupiter
+    testImplementation libs.testcontainers.kafka
+    </#if>
 </#if>
 
 }

@@ -22,6 +22,8 @@ dependencies {
 </#if>
 <#if (project.isWithKafka())>
     implementation libs.spring.kafka
+    implementation libs.kafka.streams
+    implementation libs.jackson.datatype.jsr310
 </#if>
 <#if (project.isWithPostgres())>
     implementation libs.r2dbc.postgres
@@ -45,6 +47,9 @@ dependencies {
     testImplementation libs.testcontainers.postgres
     testImplementation libs.testcontainers.r2dbc
     </#if>
+    <#if project.isWithKafka()>
+    testImplementation libs.testcontainers.kafka
+    </#if>
 <#else>
 <#-- if testcontainers aren't in use, default to using H2 to enable -->
 <#-- out-of-the-box tests to work until a QA DB is set up by the developer. -->
@@ -58,6 +63,7 @@ dependencies {
     testImplementation libs.datafaker
 <#if (project.isWithKafka())>
     testImplementation libs.spring.kafka.test
+    testImplementation libs.kafka.streams.test.utils
 </#if>
 <#if (project.isWithFlyway())>
     testImplementation libs.flyway.spring.test

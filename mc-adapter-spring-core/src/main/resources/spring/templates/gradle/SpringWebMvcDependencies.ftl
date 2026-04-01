@@ -29,6 +29,8 @@ dependencies {
 </#if>
 <#if (project.isWithKafka())>
     implementation libs.spring.kafka
+    implementation libs.kafka.streams
+    implementation libs.jackson.datatype.jsr310
 </#if>
 
     // Optional: This reports out-of-date property names
@@ -54,6 +56,7 @@ dependencies {
     testImplementation libs.junit.jupiter
 <#if (project.isWithKafka())>
     testImplementation libs.spring.kafka.test
+    testImplementation libs.kafka.streams.test.utils
 </#if>
 <#if (project.isWithFlyway())>
     testImplementation libs.flyway.spring.test
@@ -69,6 +72,9 @@ dependencies {
     </#if>
     <#if (project.isWithMongoDb())> <#-- if (testcontainers && postgres) -->
     testImplementation libs.testcontainers.mongodb
+    </#if>
+    <#if (project.isWithKafka())>
+    testImplementation libs.testcontainers.kafka
     </#if>
 <#else>
 <#-- if testcontainers aren't in use, default to using H2 to enable -->
