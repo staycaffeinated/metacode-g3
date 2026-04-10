@@ -21,7 +21,7 @@ dependencies {
     testImplementation libs.kafka.streams.test.utils
     <#if project.isWithTestContainers()>
     testImplementation libs.spring.boot.testcontainers
-    testImplementation libs.testcontainers.junit.jupiter
+    testImplementation libs.testcontainers.jupiter
     testImplementation libs.testcontainers.kafka
     </#if>
 </#if>
