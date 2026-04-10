@@ -4,16 +4,19 @@ package ${KafkaTopicsConfiguration.packageName()};
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
 /**
- * Configure auto-created Kafka topics. This class is not necessary
+ * Configure any Kafka topics. This class is not necessary
  * if you don't want auto-created kafka topics.
  *
  * References:
@@ -22,14 +25,18 @@ import java.util.HashMap;
  * https://www.confluent.io/blog/kafka-streams-tables-part-2-topics-partitions-and-storage-fundamentals/
  */
 @Configuration
+@EnableKafka
 public class ${KafkaTopicsConfiguration.className()} {
     // A hypothetical topic name. Change at will. 
     public static final String MESSAGE_TOPIC = "message-topic";
 
+    <#noparse>@Value("${spring.kafka.bootstrap-servers}")</#noparse>
+    private List<String> bootstrapServers;
+
     @Bean
-    public KafkaAdmin admin() {
+    public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         return new KafkaAdmin(configs);
     }
 
