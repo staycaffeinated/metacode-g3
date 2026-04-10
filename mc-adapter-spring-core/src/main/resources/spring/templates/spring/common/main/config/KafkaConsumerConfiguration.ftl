@@ -24,7 +24,7 @@ import org.springframework.kafka.listener.DefaultErrorHandler;
 public class ${KafkaConsumerConfiguration.className()} {
 
     <#noparse>
-    @Value("${spring.kafka.producer.bootstrap-servers}")
+    @Value("${spring.kafka.consumer.bootstrap-servers}")
     </#noparse>
     private List<String> bootstrapServers;
 
