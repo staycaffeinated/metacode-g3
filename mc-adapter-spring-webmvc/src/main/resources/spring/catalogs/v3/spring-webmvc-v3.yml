@@ -283,6 +283,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/serdes/JsonSerializer.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/serdes/JsonSerializerTest.ftl"
 
   - scope: "project"
     archetype: "JsonDeserializer"
@@ -291,6 +293,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/serdes/JsonDeserializer.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/serdes/JsonDeserializerTest.ftl"
 
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts

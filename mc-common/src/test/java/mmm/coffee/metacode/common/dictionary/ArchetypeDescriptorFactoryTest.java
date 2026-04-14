@@ -37,6 +37,24 @@ class ArchetypeDescriptorFactoryTest {
     }
 
     @Test
+    void shouldReturnWellFormedArchetypeDescriptorForJsonSerializer() {
+        JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.JsonSerializer);
+        assertThat(descriptor).isNotNull();
+        assertThat(descriptor.archetype()).isEqualTo(Archetype.JsonSerializer);
+        assertThat(descriptor.className()).isEqualTo("JsonSerializer");
+        assertThat(descriptor.testClass()).isEqualTo("JsonSerializerTest");
+    }
+
+    @Test
+    void shouldReturnWellFormedArchetypeDescriptorForJsonDeserializer() {
+        JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.JsonDeserializer);
+        assertThat(descriptor).isNotNull();
+        assertThat(descriptor.archetype()).isEqualTo(Archetype.JsonDeserializer);
+        assertThat(descriptor.className()).isEqualTo("JsonDeserializer");
+        assertThat(descriptor.testClass()).isEqualTo("JsonDeserializerTest");
+    }
+
+    @Test
     void shouldReturnRenamedClass() {
         JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.SecureRandomSeries);
         assertThat(descriptor).isNotNull();

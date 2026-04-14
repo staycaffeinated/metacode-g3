@@ -2,6 +2,7 @@ package ${JsonDeserializer.packageName()};
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Nullable;
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,15 @@ public class JsonDeserializer<T> implements Deserializer<T> {
 
     private final Class<T> destinationClass;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     public JsonDeserializer(Class<T> destinationClass, ObjectMapper objectMapper) {
         this.destinationClass = destinationClass;
         this.objectMapper = objectMapper;
+    }
+
+    public JsonDeserializer(@Nonnull Class<T> destinationClass) {
+        this(destinationClass, new ObjectMapper());
     }
 
 

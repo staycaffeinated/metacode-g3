@@ -4,9 +4,9 @@ import org.apache.commons.text.WordUtils;
 
 public interface JavaArchetypeDescriptor extends ArchetypeDescriptor {
 
-    static final String TEST_SUFFIX = "Test";
-    static final String IT_SUFFIX = "IntegrationTest";
-    static final String FIXTURE_SUFFIX = ""; // blank because the archetype is already named TestFixtures
+    String TEST_SUFFIX = "Test";
+    String IT_SUFFIX = "IntegrationTest";
+    String FIXTURE_SUFFIX = ""; // blank because the archetype is already named TestFixtures
 
     /**
      * The fully-qualified class name, such as `com.acme.petstore.api.PetController`
