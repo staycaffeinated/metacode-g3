@@ -277,24 +277,24 @@ entries:
         sourceTemplate: "/spring/webmvc/main/serdes/SerdesFactory.ftl"
 
   - scope: "project"
-    archetype: "JsonSerializer"
+    archetype: "JacksonSerializer"
     feature: "kafka"
     tags: "kafka"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/serdes/JsonSerializer.ftl"
+        sourceTemplate: "/spring/webmvc/main/serdes/JacksonSerializer.ftl"
       - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/serdes/JsonSerializerTest.ftl"
+        sourceTemplate: "/spring/webmvc/test/serdes/JacksonSerializerTest.ftl"
 
   - scope: "project"
-    archetype: "JsonDeserializer"
+    archetype: "JacksonDeserializer"
     feature: "kafka"
     tags: "kafka"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/serdes/JsonDeserializer.ftl"
+        sourceTemplate: "/spring/webmvc/main/serdes/JacksonDeserializer.ftl"
       - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/serdes/JsonDeserializerTest.ftl"
+        sourceTemplate: "/spring/webmvc/test/serdes/JacksonDeserializerTest.ftl"
 
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts

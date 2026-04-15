@@ -86,8 +86,8 @@ public class ProjectArchetypeToMap {
 
             // Serdes for Kafka projects
             Archetype.SerdesFactory,
-            Archetype.JsonSerializer,
-            Archetype.JsonDeserializer,
+            Archetype.JacksonSerializer,
+            Archetype.JacksonDeserializer,
 
             // miscellaneous
             Archetype.Text,

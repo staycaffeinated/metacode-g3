@@ -104,8 +104,8 @@ public enum Archetype {
     AbstractIntegrationTest("AbstractIntegrationTest"),
     AbstractDataJpaTest("AbstractDataJpaTest"),
     AbstractPostgresIntegrationTest("AbstractPostgresIntegrationTest"),
-    JsonSerializer("JsonSerializer"),
-    JsonDeserializer("JsonDeserializer"),
+    JacksonSerializer("JacksonSerializer"),
+    JacksonDeserializer("JacksonDeserializer"),
     SerdesFactory("SerdesFactory"),
 
     /*

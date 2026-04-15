@@ -38,18 +38,18 @@ class ArchetypeDescriptorFactoryTest {
 
     @Test
     void shouldReturnWellFormedArchetypeDescriptorForJsonSerializer() {
-        JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.JsonSerializer);
+        JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.JacksonSerializer);
         assertThat(descriptor).isNotNull();
-        assertThat(descriptor.archetype()).isEqualTo(Archetype.JsonSerializer);
+        assertThat(descriptor.archetype()).isEqualTo(Archetype.JacksonSerializer);
         assertThat(descriptor.className()).isEqualTo("JsonSerializer");
         assertThat(descriptor.testClass()).isEqualTo("JsonSerializerTest");
     }
 
     @Test
     void shouldReturnWellFormedArchetypeDescriptorForJsonDeserializer() {
-        JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.JsonDeserializer);
+        JavaArchetypeDescriptor descriptor = factoryUnderTest.createArchetypeDescriptor(Archetype.JacksonDeserializer);
         assertThat(descriptor).isNotNull();
-        assertThat(descriptor.archetype()).isEqualTo(Archetype.JsonDeserializer);
+        assertThat(descriptor.archetype()).isEqualTo(Archetype.JacksonDeserializer);
         assertThat(descriptor.className()).isEqualTo("JsonDeserializer");
         assertThat(descriptor.testClass()).isEqualTo("JsonDeserializerTest");
     }

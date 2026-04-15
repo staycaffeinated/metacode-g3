@@ -1,20 +1,22 @@
 
-package ${JsonSerializer.packageName()};
+package ${JacksonSerializer.packageName()};
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 
 @Slf4j
-public class JsonSerializer<T> implements Serializer<T> {
+public class ${JacksonSerializer.className()}<T> implements Serializer<T> {
 
     private ObjectMapper objectMapper;
 
-    public JsonSerializer(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public ${JacksonSerializer.className()}(@Nonnull ObjectMapper objectMapper) {
+        this.objectMapper = Objects.requireNonNull(objectMapper, "The ObjectMapper must not be null");
     }
 
     @Override

@@ -1,15 +1,18 @@
-package ${JsonDeserializer.packageName()};
+package ${JacksonDeserializer.packageName()};
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 
 
-class ${JsonDeserializer.className()}Test {
+class ${JacksonDeserializer.className()}Test {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -19,7 +22,7 @@ class ${JsonDeserializer.className()}Test {
         String json = objectMapper.writeValueAsString(expected);
         byte[] raw = json.getBytes();
 
-        try (JsonDeserializer<TestObject> deserializer = new JsonDeserializer<>(TestObject.class, objectMapper)) {
+        try (${JacksonDeserializer.className()}<TestObject> deserializer = new ${JacksonDeserializer.className()}<>(TestObject.class, objectMapper)) {
             deserializer.configure(new HashMap<>(), false);
 
             TestObject actual = deserializer.deserialize("fake-topic", raw);
@@ -32,7 +35,7 @@ class ${JsonDeserializer.className()}Test {
     class EdgeCases {
         @Test
         void whenDataIsNull_thenReturnsNull() {
-            try (JsonDeserializer<TestObject> deserializer = new JsonDeserializer<>(TestObject.class)) {
+            try (${JacksonDeserializer.className()}<TestObject> deserializer = new ${JacksonDeserializer.className()}<>(TestObject.class)) {
                 TestObject actual = deserializer.deserialize("fake-topic", null);
                 assertThat(actual).isNull();
             }
@@ -40,10 +43,22 @@ class ${JsonDeserializer.className()}Test {
 
         @Test
         void whenDataIsEmpty_thenReturnsNull() {
-            try (JsonDeserializer<TestObject> deserializer = new JsonDeserializer<>(TestObject.class)) {
+            try (${JacksonDeserializer.className()}<TestObject> deserializer = new ${JacksonDeserializer.className()}<>(TestObject.class)) {
                 TestObject actual = deserializer.deserialize("fake-topic", new byte[0]);
                 assertThat(actual).isNull();
             }
+        }
+
+        @ParameterizedTest
+        @NullSource
+        void throwsExceptionIfTargetClassIsNull(Class<?> targetClass) {
+            assertThrows(NullPointerException.class, () -> new ${JacksonDeserializer.className()}<>(targetClass));
+        }
+
+        @ParameterizedTest
+        @NullSource
+        void throwsExceptionIfObjectMapperIsNull(ObjectMapper objectMapper) {
+            assertThrows(NullPointerException.class, () -> new ${JacksonDeserializer.className()}<>(String.class, objectMapper));
         }
     }
 
