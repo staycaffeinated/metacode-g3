@@ -3,9 +3,9 @@ server:
   port: 8080
 <#if (project.basePath)??>
   servlet:
-    context-path=${project.basePath}
+    context-path: ${project.basePath}
 <#else>
-    context-path=/
+    context-path: /
 </#if>
 
 logging:
