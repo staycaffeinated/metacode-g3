@@ -42,9 +42,10 @@ class ${JacksonDeserializer.className()}Test {
         }
 
         @Test
-        void whenDataIsEmpty_thenReturnsNull() {
+        void whenBadData_thenReturnsNull() {
             try (${JacksonDeserializer.className()}<TestObject> deserializer = new ${JacksonDeserializer.className()}<>(TestObject.class)) {
-                TestObject actual = deserializer.deserialize("fake-topic", new byte[0]);
+                byte[] wrongStructure = "{\"wrongField\":\"value\",\"anotherWrongField\":123}".getBytes();
+                TestObject actual = deserializer.deserialize("fake-topic", wrongStructure);
                 assertThat(actual).isNull();
             }
         }
