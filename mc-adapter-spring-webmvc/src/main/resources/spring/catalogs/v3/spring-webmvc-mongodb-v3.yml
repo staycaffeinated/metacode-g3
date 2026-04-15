@@ -222,6 +222,34 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/spi/MongoDataStore.ftl"
 
+  - scope: "project"
+    archetype: "SerdesFactory"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/serdes/SerdesFactory.ftl"
+
+  - scope: "project"
+    archetype: "JacksonSerializer"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/serdes/JacksonSerializer.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/serdes/JacksonSerializerTest.ftl"
+
+  - scope: "project"
+    archetype: "JacksonDeserializer"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/serdes/JacksonDeserializer.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/serdes/JacksonDeserializerTest.ftl"
+
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------
