@@ -86,8 +86,8 @@
       "package": "{{basePackage}}.serdes",
       "archetypes": [
         "SerdesFactory",
-        "JsonSerializer",
-        "JsonDeserializer"
+        "JacksonSerializer",
+        "JacksonDeserializer"
       ]
     },
     {
