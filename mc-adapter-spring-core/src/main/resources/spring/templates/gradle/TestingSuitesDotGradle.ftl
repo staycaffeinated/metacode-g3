@@ -37,28 +37,6 @@ testing {
                 }
             }
         }
-        /*
-         * Define the performance test suite
-         */
-        performanceTest(JvmTestSuite) {
-            // Not supported in Gradle 8.13 and newer, but needed for older versions
-            // testType.set(TestSuiteType.PERFORMANCE_TEST)
-            dependencies {
-                implementation project()
-            }
-            targets {
-                all {
-                    testTask.configure {
-                        shouldRunAfter(test)
-                    }
-                }
-            }
-            configurations {
-                performanceTestImplementation {
-                    extendsFrom testImplementation
-                }
-            }
-        }
     }
 }
 /*
