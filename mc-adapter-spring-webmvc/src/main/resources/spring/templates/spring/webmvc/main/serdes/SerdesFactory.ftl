@@ -18,8 +18,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @SuppressWarnings({
-    "java:S125", // allow code examples in comment blocks
-    "java:S1068" // the unused objectMapper will get used once Serdes instances are added
+    "java:S125",    // allow code examples in comment blocks
+    "java:S1068",   // the unused objectMapper will get used once Serdes instances are added
+    "java:S100"     // allow capitalized method names
 })
 public class ${SerdesFactory.className()} {
 
