@@ -22,7 +22,6 @@
     * Upgrade AssertJ to 3.27.7
     * Upgraded OpenAPI to 2.8.16
     * Upgraded ReactorTest to 3.8.5
-    * Upgraded r2dbc-h2 to 1.1.0.RELEASE
 
 ### Fixes:
     * Fixed a bug in the `RootControllerIntegrationTest` class and the
