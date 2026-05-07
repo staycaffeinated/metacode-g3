@@ -11,15 +11,18 @@
      since this code generator does not known the schema of your entities, nor
      the naming convention to follow.  
    * Added a new integration test to WebFlux projects to improve code coverage.
-   * Improved code based on Claude 4.6 Opus suggestions. This helped readability
-     and test quality.
+   * Improved code based on Claude 4.6 Opus suggestions. This helped readability and test quality.
+   * Renamed the `ApplicationConfiguration` class to `ResourceIdSupplierConfiguration` for a more precise name.
+     * Improved Kafka support. Default `JacksonSerializer` and `JacksonDeserializer` classes have been added, along with a `SerdesFactory` class. These come in handy when doing Kafka Stream processing. 
 
 ### Maintenance:
-    * Upgraded Spring Boot to 3.5.11
+    * Upgraded Spring Boot to 3.5.14 
     * Upgraded Postgres to 42.7.10
     * Upgraded DataFaker to 2.5.4
     * Upgrade AssertJ to 3.27.7
     * Upgraded OpenAPI to 2.8.16
+    * Upgraded ReactorTest to 3.8.5
+    * Upgraded r2dbc-h2 to 1.1.0.RELEASE
 
 ### Fixes:
     * Fixed a bug in the `RootControllerIntegrationTest` class and the
