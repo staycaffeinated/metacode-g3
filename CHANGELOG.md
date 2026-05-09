@@ -1,6 +1,6 @@
 ## Uncommitted
 
-## [12.4.0] -- tbd
+## [12.4.0] -- 2026-05-09
 
 ### Changes:
    * Added Flyway support.  When creating a new project, use `--add flyway` to
