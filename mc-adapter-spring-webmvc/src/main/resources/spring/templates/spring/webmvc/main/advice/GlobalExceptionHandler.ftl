@@ -3,7 +3,7 @@ package ${GlobalExceptionHandler.packageName()};
 
 import ${Exception.packageName()}.UnprocessableEntityException;
 
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ObjectNode;
 import jakarta.validation.ConstraintViolation;
@@ -48,11 +48,11 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ArrayNode jsonArray = objectMapper.createArrayNode();
+        JsonMapper jsonMapper = new JsonMapper();
+        ArrayNode jsonArray = jsonMapper.createArrayNode();
 
         for (final var constraint : constraintViolations) {
-            ObjectNode objectNode = objectMapper.createObjectNode();
+            ObjectNode objectNode = jsonMapper.createObjectNode();
 
             String className = constraint.getLeafBean().toString().split("@")[0];
             String message = constraint.getMessage();

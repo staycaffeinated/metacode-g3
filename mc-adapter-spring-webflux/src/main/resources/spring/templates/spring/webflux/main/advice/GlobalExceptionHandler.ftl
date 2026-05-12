@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ObjectNode;
 import jakarta.validation.ConstraintViolation;
@@ -32,13 +32,13 @@ import java.util.Set;
 @ResponseBody
 public class ${GlobalExceptionHandler.className()} {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     /**
      * Constructor
      */
-    public ${GlobalExceptionHandler.className()}(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public ${GlobalExceptionHandler.className()}(JsonMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
     }
 
     @ExceptionHandler(UnprocessableEntityException.class)
@@ -66,10 +66,10 @@ public class ${GlobalExceptionHandler.className()} {
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        ArrayNode jsonArray = objectMapper.createArrayNode();
+        ArrayNode jsonArray = jsonMapper.createArrayNode();
 
         for (final var constraint : constraintViolations) {
-            ObjectNode objectNode = objectMapper.createObjectNode();
+            ObjectNode objectNode = jsonMapper.createObjectNode();
 
             String className = constraint.getLeafBean().toString().split("@")[0];
             String message = constraint.getMessage();

@@ -14,7 +14,7 @@ import ${ServiceApi.fqcn()};
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,7 +48,7 @@ class ${ControllerExceptionHandler.integrationTestClass()} implements ${Register
     MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper;
+    JsonMapper jsonMapper;
 
     @MockitoBean
     private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
@@ -69,7 +69,7 @@ class ${ControllerExceptionHandler.integrationTestClass()} implements ${Register
             // when/then
             mockMvc.perform(post("${endpoint.basePath}")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(payload)))
+                .content(jsonMapper.writeValueAsString(payload)))
                 .andExpect(jsonPath("$.stackTrace").doesNotExist())
                 .andExpect(jsonPath("$.trace").doesNotExist())
                 .andDo((print()))

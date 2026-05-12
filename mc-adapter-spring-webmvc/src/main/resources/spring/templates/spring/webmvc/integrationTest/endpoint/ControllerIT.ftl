@@ -15,7 +15,7 @@ import ${RegisterDatabaseProperties.fqcn()};
 import ${Repository.fqcn()};
 import ${Routes.fqcn()};
 import ${EjbTestFixtures.fqcn()};
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -51,15 +51,15 @@ class ${Controller.integrationTestClass()} extends ${AbstractPostgresIntegration
 class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 </#if>
     private final MockMvcTester mockMvcTester;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
     private final ${Repository.className()} ${endpoint.entityVarName}Repository;
 
     private List<${Entity.className()}> ${endpoint.entityVarName}List = null;
 
     @Autowired
-    public ${Controller.integrationTestClass()}(MockMvcTester mockMvcTester, ObjectMapper objMapper, ${Repository.className()} repository) {
+    public ${Controller.integrationTestClass()}(MockMvcTester mockMvcTester, JsonMapper jsonMapper, ${Repository.className()} repository) {
         this.mockMvcTester = mockMvcTester;
-        this.objectMapper = objMapper;
+        this.jsonMapper = jsonMapper;
         this.${endpoint.entityVarName}Repository = repository;
     }
 
@@ -245,7 +245,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(pojo))
                     .exchange();
     }
 
@@ -258,7 +258,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(pojo))
                     .exchange();
     }
 }

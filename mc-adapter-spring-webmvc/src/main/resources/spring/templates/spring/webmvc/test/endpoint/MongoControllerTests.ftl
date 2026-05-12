@@ -46,7 +46,7 @@ class ${Controller.testClass()} {
     private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper jsonMapper;
 
     private List<${EntityResource.className()}> ${endpoint.entityVarName}List;
     private Page<${EntityResource.className()}> pageOfData;
@@ -294,7 +294,7 @@ class ${Controller.testClass()} {
     protected MvcTestResult updateEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
         return mockMvcTester.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .content(jsonMapper.writeValueAsString(${endpoint.entityVarName}))
                             .exchange();
     }
 
@@ -304,7 +304,7 @@ class ${Controller.testClass()} {
     protected MvcTestResult updateEntity(String resourceId, ${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
         return mockMvcTester.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .content(jsonMapper.writeValueAsString(${endpoint.entityVarName}))
                             .exchange();
     }
 
@@ -314,7 +314,7 @@ class ${Controller.testClass()} {
     protected MvcTestResult createEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
         return mockMvcTester.post().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .content(jsonMapper.writeValueAsString(${endpoint.entityVarName}))
                             .exchange();
 
     }

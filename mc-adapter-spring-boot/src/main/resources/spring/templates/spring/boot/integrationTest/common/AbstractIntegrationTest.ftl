@@ -5,7 +5,7 @@ import static ${SpringProfiles.fqcn()}.INTEGRATION_TEST;
 import static ${SpringProfiles.fqcn()}.TEST;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +28,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 public abstract class ${AbstractIntegrationTest.className()} {
 
     @Autowired
-    protected ObjectMapper objectMapper;
+    protected JsonMapper jsonMapper;
 <#if (project.testcontainers)??>
 
     // if possible, initialize these from bootstrap-test.properties

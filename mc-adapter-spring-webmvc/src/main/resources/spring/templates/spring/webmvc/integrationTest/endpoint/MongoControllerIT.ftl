@@ -191,7 +191,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                             .uri(${Routes.className()}.${endpoint.routeConstants.create})
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(pojo))
+                            .content(jsonMapper.writeValueAsString(pojo))
                             .exchange();
     }
 
@@ -200,7 +200,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                             .uri(${Routes.className()}.${endpoint.routeConstants.update}, pojo.getResourceId())
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(pojo))
+                            .content(jsonMapper.writeValueAsString(pojo))
                             .exchange();
     }
 

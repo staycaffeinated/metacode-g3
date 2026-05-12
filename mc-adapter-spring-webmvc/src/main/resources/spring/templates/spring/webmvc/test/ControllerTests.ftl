@@ -7,7 +7,7 @@ import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +43,7 @@ class ${Controller.testClass()} {
 
     private MockMvcTester mockMvcTester;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     private Page<${endpoint.pojoName}> pageOfData;
 
@@ -326,7 +326,7 @@ class ${Controller.testClass()} {
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(pojo))
                     .exchange();
     }
 
@@ -339,7 +339,7 @@ class ${Controller.testClass()} {
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(pojo))
                     .exchange();
     }
 }

@@ -2,7 +2,7 @@
 package ${JacksonSerializer.packageName()};
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Objects;
@@ -13,10 +13,10 @@ import org.apache.kafka.common.serialization.Serializer;
 @Slf4j
 public class ${JacksonSerializer.className()}<T> implements Serializer<T> {
 
-    private ObjectMapper objectMapper;
+    private JsonMapper jsonMapper;
 
-    public ${JacksonSerializer.className()}(@Nonnull ObjectMapper objectMapper) {
-        this.objectMapper = Objects.requireNonNull(objectMapper, "The ObjectMapper must not be null");
+    public ${JacksonSerializer.className()}(@Nonnull JsonMapper jsonMapper) {
+        this.jsonMapper = Objects.requireNonNull(jsonMapper, "The JsonMapper must not be null");
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ${JacksonSerializer.className()}<T> implements Serializer<T> {
             return null;
         }
         try {
-            return objectMapper.writeValueAsBytes(data);
+            return jsonMapper.writeValueAsBytes(data);
         } catch (Exception e) {
             throw new SerializationException(String.format("Error serializing data for topic '%s'", topic), e);
         }

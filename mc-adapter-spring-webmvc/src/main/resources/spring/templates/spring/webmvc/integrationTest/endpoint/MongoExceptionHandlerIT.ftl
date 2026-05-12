@@ -68,7 +68,7 @@ class ${EntityResource.className()}ExceptionHandlingIT implements ${RegisterData
             // when/then
             // @formatter:off
             mockMvcTester.perform(post("${endpoint.basePath}").contentType(MediaType.APPLICATION_JSON)
-                         .content(objectMapper.writeValueAsString(payload)))
+                         .content(jsonMapper.writeValueAsString(payload)))
                          .assertThat()
                          .hasStatus(HttpStatus.NOT_FOUND)
                          .bodyJson()

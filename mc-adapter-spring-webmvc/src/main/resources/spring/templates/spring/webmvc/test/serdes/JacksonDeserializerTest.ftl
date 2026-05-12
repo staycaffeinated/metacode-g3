@@ -3,7 +3,7 @@ package ${JacksonDeserializer.packageName()};
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import java.util.HashMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -14,12 +14,12 @@ import org.junit.jupiter.params.provider.NullSource;
 
 class ${JacksonDeserializer.className()}Test {
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    JsonMapper jsonMapper = new JsonMapper();
 
     @Test
     void shouldDeserializeValidObject() throws Exception {
         TestObject expected = new TestObject("widget-title", "widget-author");
-        String json = objectMapper.writeValueAsString(expected);
+        String json = jsonMapper.writeValueAsString(expected);
         byte[] raw = json.getBytes();
 
         try (${JacksonDeserializer.className()}<TestObject> deserializer = new ${JacksonDeserializer.className()}<>(TestObject.class, objectMapper)) {
