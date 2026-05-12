@@ -3,7 +3,7 @@ package ${JacksonDeserializer.packageName()};
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;

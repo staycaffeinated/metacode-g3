@@ -4,7 +4,7 @@ package ${JacksonSerializer.packageName()};
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.errors.SerializationException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

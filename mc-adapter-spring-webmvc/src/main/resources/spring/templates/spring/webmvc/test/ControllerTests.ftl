@@ -7,7 +7,7 @@ import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

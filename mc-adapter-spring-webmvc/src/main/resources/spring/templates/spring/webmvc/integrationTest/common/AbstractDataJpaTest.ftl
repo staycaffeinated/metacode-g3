@@ -3,7 +3,7 @@ package ${AbstractDataJpaTest.packageName()};
 
 import static ${SpringProfiles.packageName()}.SpringProfiles.INTEGRATION_TEST;
 
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
