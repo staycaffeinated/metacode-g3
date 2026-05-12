@@ -57,6 +57,7 @@ dependencies {
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
     testImplementation libs.spring.boot.starter.webmvc.test
+    testImplementation libs.spring.boot.starter.data.jpa.test
     testImplementation libs.spring.boot.starter.jdbc.test
     testImplementation libs.spring.boot.test.autoconfigure
 <#if (project.isWithKafka())>
