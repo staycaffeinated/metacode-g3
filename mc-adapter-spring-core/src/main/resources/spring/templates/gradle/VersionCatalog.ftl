@@ -46,6 +46,8 @@ h2 = { module = "com.h2database:h2", version.ref = "h2" }
 
 jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
+jackson-core = { module = "tools.jackson.core:jackson-core" }
+jackson-databind = { module = "tools.jackson.core:jackson-databind" }
 
 junit-bom = { module = "org.junit:junit-bom", version.ref="junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
@@ -64,17 +66,17 @@ mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync" }
 openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "openApiStarterWebMvc" }
 openapi-starter-webflux-ui = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "openApiStarterWebflux" }
 
-reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactorTest" }
-rsql-jpa-spring-boot-starter = { module = "io.github.perplexhub:rsql-jpa-spring-boot-starter", version.ref = "rsql" }
-r2dbc-h2 = { module = "io.r2dbc:r2dbc-h2", version.ref="r2dbcH2" }
-r2dbc-postgres = { module = "io.r2dbc:r2dbc-postgresql", version.ref = "r2dbcPostgres" }
-r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbcSpi" }
-
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 
 problem-spring-web-starter = { module = "org.zalando:problem-spring-web-starter", version.ref = "problemSpringWeb" }
 problem-spring-webflux = { module = "org.zalando:problem-spring-webflux", version.ref = "problemSpringWeb" }
 problem-jackson-datatype = { module = "org.zalando:jackson-datatype-problem", version.ref = "problemJacksonDataType" }
+
+reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactorTest" }
+rsql-jpa-spring-boot-starter = { module = "io.github.perplexhub:rsql-jpa-spring-boot-starter", version.ref = "rsql" }
+r2dbc-h2 = { module = "io.r2dbc:r2dbc-h2", version.ref="r2dbcH2" }
+r2dbc-postgres = { module = "io.r2dbc:r2dbc-postgresql", version.ref = "r2dbcPostgres" }
+r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbcSpi" }
 
 spring-batch-test = { module = "org.springframework.batch:spring-batch-test" }
 spring-boot-config-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
@@ -88,9 +90,13 @@ spring-boot-starter-data-r2dbc = { module = "org.springframework.boot:spring-boo
 spring-boot-starter-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-jdbc-test = { module = "org.springframework.boot:spring-boot-starter-jdbc-test" }
+spring-boot-test-autoconfigure = { module = "org.springframework.boot:spring-boot-test-autoconfigure" }
 spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+
 spring-cloud = { module = "org.springframework.cloud:spring-cloud-starter", version.ref = "springCloud" }
 spring-cloud-binder-kafka-streams = { module = "org.springframework.cloud:spring-cloud-stream-binder-kafka-streams", version.ref = "springCloud" }
 spring-cloud-starter-stream-kafka = { module = "org.springframework.cloud:spring-cloud-starter-stream-kafka", version.ref = "springCloud" }
@@ -98,6 +104,8 @@ spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
 spring-kafka-test = { module = "org.springframework.kafka:spring-kafka-test" }
 spring-orm = { module = "org.springframework:spring-orm", version.ref="springOrm" }
+
+swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations" }
 
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testContainers" }
 testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
