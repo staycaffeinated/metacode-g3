@@ -18,11 +18,10 @@ dependencies {
     implementation libs.spring.boot.starter.hateoas
     implementation libs.rsql.jpa.spring.boot.starter
 </#if>
-    implementation libs.jackson-core
-    implementation libs.jackson-databind
+    implementation libs.jackson.core
+    implementation libs.jackson.databind
 <#if project.isWithOpenApi()>
-    // implementation libs.openapi.starter.webmvc.ui
-    implementation libs.swagger-annotations
+    implementation libs.swagger.annotations
 </#if>
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
