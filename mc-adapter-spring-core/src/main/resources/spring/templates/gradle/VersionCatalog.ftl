@@ -23,6 +23,7 @@ springBoot = '${project.versions["springBoot"]}'
 springCloud = '${project.versions["springCloud"]}'
 springDependencyManagement = '${project.versions["springDependencyManagement"]}'
 springOrm = '${project.versions["springOrm"]}'
+swaggerAnnotations = '${project.versions["swaggerAnnotations"]}'
 problemJacksonDataType = '${project.versions["problemJacksonDataType"]}'
 problemSpringWeb = '${project.versions["problemSpringWeb"]}'
 reactorTest = '${project.versions["reactorTest"]}'
@@ -105,7 +106,7 @@ spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
 spring-kafka-test = { module = "org.springframework.kafka:spring-kafka-test" }
 spring-orm = { module = "org.springframework:spring-orm", version.ref="springOrm" }
 
-swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations" }
+swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swaggerAnnotations" }
 
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testContainers" }
 testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
