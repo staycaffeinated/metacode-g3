@@ -137,7 +137,7 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
      */
     protected ResponseEntity<ProblemDetail> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
         String error = String.format("The parameter '%s' is missing", ex.getParameterName());
-        return problemDescription (error, ex, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription (error, ex, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
 
@@ -148,7 +148,7 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
      * @return a ResponseEntity with a body containing the problem description
      */
     private ResponseEntity<ProblemDetail> problemDescription(String title, Throwable throwable) {
-        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     /**

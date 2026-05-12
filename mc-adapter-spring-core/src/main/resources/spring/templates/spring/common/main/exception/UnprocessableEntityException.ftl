@@ -11,7 +11,7 @@ import java.io.Serial;
 * An UnprocessableEntity exception indicates a well-formed request was
 * received, but could not be successfully processed.
 */
-@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
+@ResponseStatus(value = HttpStatus.UNPROCESSABLE_CONTENT)
 public class UnprocessableEntityException extends ResponseStatusException {
 
     @Serial
@@ -21,14 +21,14 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * Default Constructor
      */
     public UnprocessableEntityException() {
-        super(HttpStatus.UNPROCESSABLE_ENTITY);
+        super(HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     /**
      * Constructor
      */
     public UnprocessableEntityException(Throwable throwable) {
-        super(HttpStatus.UNPROCESSABLE_ENTITY, "Unable to process the resource (or entity)", throwable);
+        super(HttpStatus.UNPROCESSABLE_CONTENT, "Unable to process the resource (or entity)", throwable);
     }
 
     /**
@@ -38,7 +38,7 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * @param reason the associated reason (optional)
      */
     public UnprocessableEntityException(String reason) {
-        super(HttpStatus.UNPROCESSABLE_ENTITY, reason);
+        super(HttpStatus.UNPROCESSABLE_CONTENT, reason);
     }
 
     /**
@@ -49,6 +49,6 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * @param cause  a nested exception (optional)
      */
     public UnprocessableEntityException(String reason, Throwable cause) {
-        super(HttpStatus.UNPROCESSABLE_ENTITY, reason, cause);
+        super(HttpStatus.UNPROCESSABLE_CONTENT, reason, cause);
     }
 }

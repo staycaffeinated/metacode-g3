@@ -32,7 +32,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
         // then
         StepVerifier.create(publisher).expectSubscription()
-            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value()))
+            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value()))
             .verifyComplete();
     }
 
@@ -54,7 +54,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
         // then
         StepVerifier.create(publisher).expectSubscription()
-            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value()))
+            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value()))
             .verifyComplete();
     }
 
@@ -65,7 +65,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
         StepVerifier.create(publisher)
                     .expectSubscription()
-                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value()))
+                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value()))
                     .verifyComplete();
     }
 }

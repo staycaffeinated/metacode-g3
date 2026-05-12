@@ -42,7 +42,7 @@ public class ${GlobalExceptionHandler.className()} {
     }
 
     @ExceptionHandler(UnprocessableEntityException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public Mono<ProblemDetail> handleUnprocessableEntityException(UnprocessableEntityException exception) {
         return problemDescription("The request cannot be processed", exception);
     }
@@ -54,7 +54,7 @@ public class ${GlobalExceptionHandler.className()} {
 	}
 
 	@ExceptionHandler(NumberFormatException.class)
-	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
 	public Mono<ProblemDetail> handleNumberFormatException(NumberFormatException exception) {
 	    return problemDescription("Bad request: request contains an invalid parameter", exception);
 	}
@@ -98,14 +98,14 @@ public class ${GlobalExceptionHandler.className()} {
         "java:S1172" // `exchange` is unused but needed for the method signature
     })
     public Mono<ProblemDetail> handle(ServerWebExchange exchange, Throwable ex) {
-        return problemDescription("ServerWebExchange Error", ex, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription("ServerWebExchange Error", ex, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     /**
      * Build a Problem/JSON description with HttpStatus: 422 (unprocessable entity)
      */
     private Mono<ProblemDetail> problemDescription(String title, Throwable throwable) {
-        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     private Mono<ProblemDetail> problemDescription(String title, Throwable throwable, HttpStatus status) {

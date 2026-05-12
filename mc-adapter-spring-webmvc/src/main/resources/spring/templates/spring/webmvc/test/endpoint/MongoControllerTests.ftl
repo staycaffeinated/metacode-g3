@@ -153,7 +153,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
             ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
 
-            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
         }
     }
 
@@ -200,7 +200,7 @@ class ${Controller.testClass()} {
 
             // Submit an update request, with the ID in the URL not matching the ID in the body.
             // Expect back an UnprocessableEntity status code
-            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
         }
     }
 
