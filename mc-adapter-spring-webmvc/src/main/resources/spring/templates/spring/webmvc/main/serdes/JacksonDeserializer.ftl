@@ -1,6 +1,6 @@
 package ${JacksonDeserializer.packageName()};
 
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
@@ -14,16 +14,16 @@ public class ${JacksonDeserializer.className()}<T> implements Deserializer<T> {
 
     private final Class<T> destinationClass;
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     /**
-     * Create a new JacksonDeserializer using a custom ObjectMapper.
+     * Create a new JacksonDeserializer using a custom JsonMapper.
      * @param destinationClass the class of the object to deserialize to
-     * @param objectMapper the ObjectMapper to use for deserialization
+     * @param jsonMapper the JsonMapper to use for deserialization
     */
-    public ${JacksonDeserializer.className()}(@Nonnull Class<T> destinationClass, @Nonnull ObjectMapper objectMapper) {
+    public ${JacksonDeserializer.className()}(@Nonnull Class<T> destinationClass, @Nonnull JsonMapper jsonMapper) {
         this.destinationClass = Objects.requireNonNull(destinationClass, "The destinationClass must not be null");
-        this.objectMapper = Objects.requireNonNull(objectMapper, "The ObjectMapper must not be null");
+        this.jsonMapper = Objects.requireNonNull(jsonMapper, "The ObjectMapper must not be null");
     }
 
     /**
@@ -31,7 +31,7 @@ public class ${JacksonDeserializer.className()}<T> implements Deserializer<T> {
      * @param destinationClass the class of the object to deserialize to
      */
     public ${JacksonDeserializer.className()}(@Nonnull Class<T> destinationClass) {
-        this(destinationClass, new ObjectMapper());
+        this(destinationClass, new JsonMapper());
     }
 
 
@@ -42,7 +42,7 @@ public class ${JacksonDeserializer.className()}<T> implements Deserializer<T> {
             return null;
         }
         try {
-            return objectMapper.readValue(data, destinationClass);
+            return jsonMapper.readValue(data, destinationClass);
         } catch (Exception e) {
             log.error("An exception occurred in the deserializer: {}", e.getMessage(), e);
             return null;

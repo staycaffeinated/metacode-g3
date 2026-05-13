@@ -4,7 +4,7 @@ package ${JacksonSerializer.packageName()};
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.apache.kafka.common.errors.SerializationException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,12 +13,12 @@ import org.junit.jupiter.params.provider.NullSource;
 
 class ${JacksonSerializer.className()}Test {
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    JsonMapper jsonMapper = new JsonMapper();
 
     @Test
     void shouldSerializeValidObject() throws Exception {
 
-        try (${JacksonSerializer.className()}<TestObject> serializer = new ${JacksonSerializer.className()}<>(objectMapper)) {
+        try (${JacksonSerializer.className()}<TestObject> serializer = new ${JacksonSerializer.className()}<>(jsonMapper)) {
             // given
             TestObject expected = new TestObject("widget-title", "widget-description");
 
@@ -27,7 +27,7 @@ class ${JacksonSerializer.className()}Test {
 
             // then
             assertThat(serialized).isNotNull().hasSizeGreaterThan(0);
-            TestObject actual = objectMapper.readValue(serialized, TestObject.class);
+            TestObject actual = jsonMapper.readValue(serialized, TestObject.class);
             assertThat(actual).isNotNull();
             assertThat(actual.title()).isEqualTo(expected.title());
             assertThat(actual.description).isEqualTo(expected.description());
@@ -39,7 +39,7 @@ class ${JacksonSerializer.className()}Test {
     class EdgeCases {
         @Test
         void whenDataIsNull_thenReturnsNull() {
-            try (${JacksonSerializer.className()}<String> serializer = new ${JacksonSerializer.className()}<>(objectMapper)) {
+            try (${JacksonSerializer.className()}<String> serializer = new ${JacksonSerializer.className()}<>(jsonMapper)) {
                 byte[] result = serializer.serialize("fake-topic", null);
                 assertThat(result).isNull();
             }
@@ -47,7 +47,7 @@ class ${JacksonSerializer.className()}Test {
 
         @Test
         void whenObjectCannotBeSerialized_thenThrowsSerializationException() {
-            try (${JacksonSerializer.className()}<SelfReferencingObject> serializer = new ${JacksonSerializer.className()}<>(objectMapper)) {
+            try (${JacksonSerializer.className()}<SelfReferencingObject> serializer = new ${JacksonSerializer.className()}<>(jsonMapper)) {
                 // given
                 SelfReferencingObject data = new SelfReferencingObject();
                 data.self = data; // create circular reference to cause serialization failure
@@ -59,8 +59,8 @@ class ${JacksonSerializer.className()}Test {
 
         @ParameterizedTest
         @NullSource
-        void shouldThrowExceptionWhenObjectMapperIsNull(ObjectMapper anObjectMapper) {
-            assertThrows(NullPointerException.class, () -> new ${JacksonSerializer.className()}<>(anObjectMapper));
+        void shouldThrowExceptionWhenJsonMapperIsNull(JsonMapper aJsonMapper) {
+            assertThrows(NullPointerException.class, () -> new ${JacksonSerializer.className()}<>(aJsonMapper));
         }
     }
 
