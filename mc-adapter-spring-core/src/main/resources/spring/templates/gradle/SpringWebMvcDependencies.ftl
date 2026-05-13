@@ -68,6 +68,9 @@ dependencies {
     testImplementation libs.flyway.spring.test
     testImplementation libs.flyway.test
 </#if>
+<#if (project.isWithMongoDb())>
+    testImplementation libs.spring.boot.data.mongodb.test
+</#if>
 
 <#if (project.isWithTestContainers())>
     testImplementation(platform(libs.testcontainers.bom))

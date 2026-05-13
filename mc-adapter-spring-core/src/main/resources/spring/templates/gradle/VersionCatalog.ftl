@@ -81,6 +81,7 @@ r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbcSpi" }
 
 spring-batch-test = { module = "org.springframework.batch:spring-batch-test" }
 spring-boot-config-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
+spring-boot-data-mongodb-test = { module = "org.springframework.boot:spring-boot-data-mongodb-test" }
 spring-boot-properties-migrator = { module = "org.springframework.boot:spring-boot-properties-migrator" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop" }
