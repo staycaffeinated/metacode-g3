@@ -38,9 +38,9 @@ public interface RegisterDatabaseProperties {
     @DynamicPropertySource
     static void registerDatabaseProperties(DynamicPropertyRegistry registry) {
 <#if (project.schema?has_content)>
-        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS ${project.schema}\\;");
+        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS ${project.schema}\\;");
 <#else>
-        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1");
 </#if>
         registry.add("spring.datasource.driver-class-name", () -> "org.h2.Driver");
         registry.add("spring.datasource.initialization-mode", () -> "embedded");

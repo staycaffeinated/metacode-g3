@@ -14,7 +14,7 @@ public class DatabaseInitFunction {
         registry.add("spring.datasource.driver-class-name", () -> "org.testcontainers.jdbc.ContainerDatabaseDriver");
         registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.PostgreSQLDialect");
     <#else>
-        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1");
         registry.add("spring.datasource.driver-class-name", () -> "org.h2.Driver");
         registry.add("spring.datasource.initialization-mode", () -> "embedded");
         registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.H2Dialect");

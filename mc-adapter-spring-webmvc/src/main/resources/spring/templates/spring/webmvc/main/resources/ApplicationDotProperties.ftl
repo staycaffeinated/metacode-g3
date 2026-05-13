@@ -97,9 +97,9 @@ spring:
 <#if (project.schema)??>
     url: jdbc:h2:mem:${project.schema}
 <#elseif (project.applicationName)??>
-    url: jdbc:h2:mem:${project.applicationName}
+    url: jdbc:h2:mem:${project.applicationName};DATABASE_TO_UPPER=false
 <#else>
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false
 </#if>
 </#if>
     # -------------------------------------------------------------------------------------------

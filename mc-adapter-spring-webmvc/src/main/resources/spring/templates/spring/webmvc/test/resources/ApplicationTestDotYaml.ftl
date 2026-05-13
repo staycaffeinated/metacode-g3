@@ -23,7 +23,7 @@ spring:
 <#else> <#-- H2 configuration -->
     datasource:
         driver-class-name: "org.h2.Driver"
-        url: "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1"
+        url: "jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1"
         username: "sa"
         password: "password"
 

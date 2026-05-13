@@ -247,7 +247,7 @@ class SpringWebMvcTemplatesRenderingTests {
             // When no database is specified, the templates default to the H2 in-memory database
             assertThat(content).isNotNull();
             assertThat(content).contains("driver-class-name: \"org.h2.Driver\"");
-            assertThat(content).contains("url: \"jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1\"");
+            assertThat(content).contains("url: \"jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1\"");
             assertThat(content).contains("database-platform: \"org.hibernate.dialect.H2Dialect\"");
         }
     }
