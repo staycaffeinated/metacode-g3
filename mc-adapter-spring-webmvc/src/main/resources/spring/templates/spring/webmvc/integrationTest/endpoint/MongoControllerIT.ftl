@@ -13,7 +13,7 @@ import ${Document.fqcn()};
 import ${PojoToDocumentConverter.fqcn()};
 import ${DocumentToPojoConverter.fqcn()};
 import ${Repository.fqcn()};
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +54,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     private MockMvcTester mockMvcTester;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper jsonMapper;
 
     @Autowired
     private ${Repository.className()} repository;
