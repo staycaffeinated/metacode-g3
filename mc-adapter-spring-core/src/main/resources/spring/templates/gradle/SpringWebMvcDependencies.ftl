@@ -70,6 +70,7 @@ dependencies {
 </#if>
 
 <#if (project.isWithTestContainers())>
+    testImplementation(platform(libs.testcontainers.bom))
     testImplementation libs.spring.boot.testcontainers
     testImplementation libs.spring.devtools
     testImplementation libs.testcontainers.jupiter

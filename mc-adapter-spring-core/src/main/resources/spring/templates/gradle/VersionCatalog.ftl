@@ -110,11 +110,11 @@ spring-orm = { module = "org.springframework:spring-orm", version.ref="springOrm
 swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swaggerAnnotations" }
 
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testContainers" }
-testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
-testcontainers-kafka = { module = "org.testcontainers:kafka" }
-testcontainers-mongodb = { module = "org.testcontainers:mongodb" }
-testcontainers-postgres = { module = "org.testcontainers:postgresql" }
-testcontainers-r2dbc = { module = "org.testcontainers:r2dbc" }
+testcontainers-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter" }
+testcontainers-kafka = { module = "org.testcontainers:testcontainers-kafka" }
+testcontainers-mongodb = { module = "org.testcontainers:testcontainers-mongodb" }
+testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgresql" }
+testcontainers-r2dbc = { module = "org.testcontainers:testcontainers-r2dbc" }
 
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
