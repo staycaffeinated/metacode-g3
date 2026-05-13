@@ -36,7 +36,6 @@ public class ${ObjectMapperConfiguration.className()} {
     public ObjectMapper objectMapper() {
         return JsonMapper.builder()
             .findAndAddModules()
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .build();
     }
 
