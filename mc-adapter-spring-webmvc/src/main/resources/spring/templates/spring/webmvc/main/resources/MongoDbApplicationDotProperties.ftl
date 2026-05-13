@@ -19,10 +19,10 @@ spring:
 <#else>
     name: example-service
 </#if>
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/testdb
-      database: testdb
+
+  mongodb:
+    uri: mongodb://localhost:27017/testdb
+    database: testdb
 
   # Modify these as desired.
   jackson:
