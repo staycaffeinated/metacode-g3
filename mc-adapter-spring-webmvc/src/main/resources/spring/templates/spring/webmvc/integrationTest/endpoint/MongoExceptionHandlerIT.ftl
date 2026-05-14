@@ -74,10 +74,10 @@ class ${Controller.className()}ExceptionHandlingIT implements ${RegisterDatabase
 
             // when/then
             // @formatter:off
-            mockMvcTester.perform(post("${endpoint.basePath}").contentType(MediaType.APPLICATION_JSON)
+            mockMvcTester.perform(post(${Routes.className()}.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
                          .content(jsonMapper.writeValueAsString(payload)))
                          .assertThat()
-                         .hasStatus(HttpStatus.NOT_FOUND)
+                         .hasStatus(HttpStatus.BAD_REQUEST)
                          .bodyJson()
                          .doesNotHavePath("$.stackTrace")
                          .doesNotHavePath("$.trace");
