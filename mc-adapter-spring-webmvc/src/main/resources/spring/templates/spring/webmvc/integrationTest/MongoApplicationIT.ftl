@@ -11,12 +11,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 <#if (project.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 @Slf4j
 @SpringBootTest
 <#if (project.isWithTestContainers())>
 @Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
 </#if>
 class ${Application.integrationTestClass()} implements RegisterDatabaseProperties {
 

@@ -31,6 +31,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 <#if (endpoint.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -47,6 +49,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 <#if (endpoint.isWithTestContainers())>
 @Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
 </#if>
 class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 

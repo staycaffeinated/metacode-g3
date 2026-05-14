@@ -3,7 +3,6 @@ package ${ConcreteDocumentStoreImpl.packageName()};
 import ${EntityResource.fqcn()};
 import ${DocumentTestFixtures.fqcn()};
 import ${ModelTestFixtures.fqcn()};
-import ${ContainerConfiguration.fqcn()};
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -18,14 +17,30 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+<#if (endpoint.isWithTestContainers())>
+import ${ContainerConfiguration.fqcn()};
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+<#else>
+import org.springframework.boot.data.mongodb.test.autoconfigure.DataMongoTest;
+</#if>
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@Import(${ContainerConfiguration.className()}.class)
+<#if (endpoint.isWithTestContainers())>
+@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
+@Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
+<#else>
+@DataMongoTest
+</#if>
 @SuppressWarnings("unchecked")
 class ${ConcreteDocumentStoreImpl.integrationTestClass()} {
 

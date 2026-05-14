@@ -33,6 +33,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -45,7 +46,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * category, since the tests emulate the different behaviors that come about in the underlying
  * repository, particularly MongoTemplate behavior in various scenarios.
  */
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @SuppressWarnings("unchecked")
 class ${MongoDataStoreImpl.testClass()} {
 
@@ -146,8 +147,6 @@ class ${MongoDataStoreImpl.testClass()} {
         void shouldFindByText() {
             // given: repo.findBy returns a page of matching documents
             Page<${Document.className()}> mockPage = Mockito.mock(Page.class);
-            when(mockPage.hasContent()).thenReturn(true);
-            when(mockPage.isEmpty()).thenReturn(false);
             when(mockRepository.findByTextContainingIgnoreCase(anyString(), any(Pageable.class)))
                 .thenReturn(mockPage);
 

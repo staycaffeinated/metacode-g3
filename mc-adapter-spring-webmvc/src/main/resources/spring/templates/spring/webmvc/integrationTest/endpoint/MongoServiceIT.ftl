@@ -23,6 +23,8 @@ import org.springframework.data.domain.Pageable;
 <#if (endpoint.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 
 import java.util.List;
@@ -34,6 +36,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 <#if (endpoint.isWithTestContainers())>
 @Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
 </#if>
 class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired

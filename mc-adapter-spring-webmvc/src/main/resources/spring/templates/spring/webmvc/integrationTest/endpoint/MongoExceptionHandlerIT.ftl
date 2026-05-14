@@ -9,7 +9,9 @@ import ${RegisterDatabaseProperties.fqcn()};
 import ${Document.fqcn()};
 import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
-import tools.jackson.databind.ObjectMapper;
+import ${ServiceApi.fqcn()};
+
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 <#if (endpoint.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -40,13 +44,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 <#if (endpoint.isWithTestContainers())>
 @Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
 </#if>
-class ${EntityResource.className()}ExceptionHandlingIT implements ${RegisterDatabaseProperties.className()} {
+class ${Controller.className()}ExceptionHandlingIT implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvcTester mockMvcTester;
 
     @Autowired
-    ObjectMapper objectMapper;
+    JsonMapper jsonMapper;
 
     @MockitoBean
     private ${ServiceApi.className()} theService;
