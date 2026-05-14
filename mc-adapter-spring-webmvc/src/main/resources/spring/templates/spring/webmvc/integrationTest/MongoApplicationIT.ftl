@@ -18,7 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Import(ContainerConfiguration.class)
 @Testcontainers
 </#if>
-class ApplicationTests implements RegisterDatabaseProperties {
+class ${Application.integrationTestClass()} implements RegisterDatabaseProperties {
 
     @Test
     @SuppressWarnings("java:S2699") // there's nothing to assert
