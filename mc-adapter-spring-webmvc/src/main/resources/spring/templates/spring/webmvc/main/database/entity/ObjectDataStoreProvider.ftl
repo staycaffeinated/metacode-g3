@@ -112,11 +112,8 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
     @Override
     public ${EntityResource.className()} save(@NonNull ${EntityResource.className()} item) {
         ${Entity.className()} ejb = mapPojoToEjb.convert(item);
-        if (ejb != null) {
-            ${Entity.className()} managedEntity = repository.save(ejb);
-            return mapEjbToPojo.convert(managedEntity);
-        }
-        return null;
+        ${Entity.className()} managedEntity = repository.save(ejb);
+        return mapEjbToPojo.convert(managedEntity);
     }
 
     @Override
@@ -127,7 +124,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
             mapPojoToEjb.copyUpdates(item, ejb);
             ${Entity.className()} managed = repository.save(ejb);
             ${EntityResource.className()} updated = mapEjbToPojo.convert(managed);
-            if (updated != null) return Optional.of(updated);
+            return Optional.of(updated);
         }
         return Optional.empty();
     }

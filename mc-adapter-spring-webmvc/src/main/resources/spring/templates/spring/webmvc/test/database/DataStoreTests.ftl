@@ -199,24 +199,6 @@ public class ${ConcreteDataStoreImpl.testClass()} {
                 dataStoreUnderTest.save(null);
             });
         }
-
-        @Test
-        void shouldReturnNullWhenConverterReturnsNull() {
-            ${PojoToEntityConverter.className()} mockPojoToEntityConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
-
-            // Create a DataStore that uses the mock converter
-            ${ConcreteDataStoreApi.className()} edgeCaseDataStore = new ${ConcreteDataStoreImpl.className()}(
-                                mockRepository, ejbToPojoConverter, mockPojoToEntityConverter);
-
-            // given: the converter returns a null value
-            given(mockPojoToEntityConverter.convert(any(${EntityResource.className()}.class))).willReturn(null);
-
-            // when:
-            ${EntityResource.className()} result = edgeCaseDataStore.save(${ModelTestFixtures.className()}.oneWithoutResourceId());
-
-            // expect: when the conversion goes side-ways, save() returns a null
-            assertThat(result).isNull();
-        }
     }
 
     @Nested
@@ -258,29 +240,6 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             assertThrows(NullPointerException.class, () -> {
                 dataStoreUnderTest.update(null);
             });
-        }
-
-        @Test
-        void shouldReturnEmptyWhenConversionIsNull() {
-            // Create a Mock ejbToPojoConverter to enable testing a particular branch of code
-            ${EntityResource.className()}EntityToPojoConverter mockEjbToPojoConverter = Mockito.mock(${EntityResource.className()}EntityToPojoConverter.class);
-            given(mockEjbToPojoConverter.convert(any(${Entity.className()}.class))).willReturn(null);
-            // Create a DataStore that uses the mock converter
-            ${EntityResource.className()}DataStore edgeCaseDataStore = new ${EntityResource.className()}DataStoreProvider(mockRepository, mockEjbToPojoConverter, pojoToEjbConverter);
-
-            // given: the repository finds the requested record, but the conversion to a
-            // POJO yields a null value
-            ${EntityResource.className()} targetPojo = ${ModelTestFixtures.className()}.oneWithResourceId();
-            ${Entity.className()} targetEjb = pojoToEjbConverter.convert(targetPojo);
-            assert targetEjb != null;
-            given(mockRepository.findByResourceId(any(String.class))).willReturn(Optional.of(targetEjb));
-            given(mockRepository.save(any(${Entity.className()}.class))).willReturn(targetEjb);
-
-            // when: an update is attempted
-            Optional<${EntityResource.className()}> optional = edgeCaseDataStore.update(targetPojo);
-
-            // expect: an empty Optional is returned
-            assertThat(optional).isNotNull().isEmpty();
         }
     }
 
