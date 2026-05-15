@@ -1,18 +1,18 @@
 [versions]
 assertJ = '3.27.7'
 commonsBeanUtils = '1.9.4'
-commonsConfig = '2.14.0'
-commonsIo = '2.19.0'
+commonsConfig = '2.15.0'
+commonsIo = '2.22.0'
 commonsLang3 = '3.20.0'
 commonsText = '1.14.0'              # apache commons-text
 freemarker = '2.3.34'
 guava = '33.6.0-jre'
 guice = '7.0.0'
-jacksonYaml = '2.17.1'
+jacksonYaml = '2.21.3'
 jakartaAnnotations = '3.0.0'
 jakartaInject = '2.0.1'
 jmustache = '1.16'
-junit = '5.14.1'
+junit='6.0.3'
 junitPlatform = '1.14.3'
 log4j = '2.25.2'
 logback = '1.5.21'
@@ -81,7 +81,7 @@ vavr = { module = "io.vavr:vavr", version.ref = "vavr" }
 
 [plugins]
 dependency-management = { id = "io.spring.dependency-management", version.ref="springDependencyManagement" }
-versions = { id = "com.github.ben-manes.versions", version = "0.53.0" }
+versions = { id = "com.github.ben-manes.versions", version = "0.54.0" }
 spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
 kordamp-jacoco = { id = "org.kordamp.gradle.jacoco", version = "0.54.0" }
 kordamp-testing = { id = "org.kordamp.gradle.testing", version = "0.54.0" }
