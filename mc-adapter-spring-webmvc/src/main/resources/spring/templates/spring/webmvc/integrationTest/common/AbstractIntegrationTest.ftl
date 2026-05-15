@@ -18,7 +18,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 <#if (project.testcontainers)?? &&  (project.postgres)??>
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 </#if>
 
 @ActiveProfiles({TEST, INTEGRATION_TEST})
