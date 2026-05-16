@@ -15,6 +15,7 @@ dependencies {
 </#if>
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
+    implementation libs.openapi.starter.webflux.ui
 </#if>
 <#if (project.isWithFlyway())>
     implementation libs.flyway.core

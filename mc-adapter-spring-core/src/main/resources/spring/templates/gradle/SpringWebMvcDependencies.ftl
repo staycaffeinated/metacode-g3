@@ -22,6 +22,7 @@ dependencies {
     implementation libs.jackson.databind
 <#if project.isWithOpenApi()>
     implementation libs.swagger.annotations
+    implementation libs.openapi.starter.webmvc.ui
 </#if>
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
