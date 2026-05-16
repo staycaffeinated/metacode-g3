@@ -7,7 +7,7 @@ import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.TransactionSystemException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ class ${Controller.testClass()} {
 
     private MockMvcTester mockMvcTester;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     private Page<${endpoint.pojoName}> pageOfData;
 
@@ -150,7 +151,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
             ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
 
-            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
         }
     }
 
@@ -197,7 +198,7 @@ class ${Controller.testClass()} {
 
             // Submit an update request, with the ID in the URL not matching the ID in the body.
             // Expect back an UnprocessableEntity status code
-            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
         }
     }
 
@@ -326,7 +327,7 @@ class ${Controller.testClass()} {
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(pojo))
                     .exchange();
     }
 
@@ -339,7 +340,7 @@ class ${Controller.testClass()} {
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(pojo))
                     .exchange();
     }
 }

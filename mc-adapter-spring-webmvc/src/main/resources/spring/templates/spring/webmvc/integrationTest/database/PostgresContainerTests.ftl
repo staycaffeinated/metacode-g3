@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -29,7 +29,7 @@ public class PostgresContainerTests {
     // Note: the container is started as a singleton instead of using the @Container
     // annotation. When @Container is applied, multiple containers may get started.
     // When multiple containers are started, tests will hang from socket timeouts.
-    private static final PostgreSQLContainer<?> testContainer = (PostgreSQLContainer) new PostgreSQLContainer<>(IMAGE)
+    private static final PostgreSQLContainer testContainer = new PostgreSQLContainer(IMAGE)
         .withReuse(true)
         .withStartupTimeout(Duration.ofMinutes(1))
         .waitingFor(Wait.forListeningPort());

@@ -3,7 +3,7 @@ package ${GlobalExceptionHandler.packageName()};
 
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,7 +22,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
     @BeforeEach
     void setUp() {
-        exceptionHandlerUnderTest = new GlobalExceptionHandler(new ObjectMapper());
+        exceptionHandlerUnderTest = new GlobalExceptionHandler(new JsonMapper());
     }
 
     @Test
@@ -32,7 +32,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
         // then
         StepVerifier.create(publisher).expectSubscription()
-            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value()))
+            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value()))
             .verifyComplete();
     }
 
@@ -54,7 +54,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
         // then
         StepVerifier.create(publisher).expectSubscription()
-            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value()))
+            .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value()))
             .verifyComplete();
     }
 
@@ -65,7 +65,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
         StepVerifier.create(publisher)
                     .expectSubscription()
-                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value()))
+                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value()))
                     .verifyComplete();
     }
 }

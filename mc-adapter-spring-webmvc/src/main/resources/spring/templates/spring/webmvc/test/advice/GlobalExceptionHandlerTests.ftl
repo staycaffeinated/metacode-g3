@@ -50,10 +50,10 @@ class GlobalExceptionHandlerTest {
         EntityNotFoundException ex = new EntityNotFoundException("some entity");
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleEntityNotFound(ex);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
 
         // Check the problem body for a status field matching the http status code
-        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value());
     }
 
 
@@ -69,8 +69,8 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleDataIntegrityViolationException(ex);
 
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
-        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
+        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value());
         assertThat(response.getBody().getTitle()).isNotEmpty();
     }
 
@@ -99,7 +99,7 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     /**
@@ -141,7 +141,7 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleUnprocessableRequestException(ex);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
         assertThat(response.getBody().getTitle()).isNotBlank();
     }
 
@@ -152,7 +152,7 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMissingServletRequestParameter(ex);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
         assertThat(response.getBody().getTitle()).isNotBlank();
     }
 
@@ -167,7 +167,7 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     @Test
@@ -182,7 +182,7 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex,
         webRequest);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     @Test
@@ -196,7 +196,7 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMethodArgumentTypeMismatch(ex, webRequest);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     @ParameterizedTest

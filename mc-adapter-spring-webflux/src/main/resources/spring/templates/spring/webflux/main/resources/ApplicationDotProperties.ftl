@@ -52,7 +52,6 @@ spring:
     date-format: "yyyy-MM-dd HH:mm:ss"
     serialization:
       indent_output: false
-      write_dates_as_timestamps: false
     deserialization:
       fail_on_unknown_properties: false
 
@@ -110,9 +109,9 @@ spring:
     username: root
     password: secret
     <#if (project.schema)??>
-    url: r2dbc:h2:mem:///${project.schema}
+    url: r2dbc:h2:mem:///${project.schema};DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
     <#else>
-    url: r2dbc:h2:mem:///testdb
+    url: r2dbc:h2:mem:///testdb;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
     </#if>
 </#if>
 

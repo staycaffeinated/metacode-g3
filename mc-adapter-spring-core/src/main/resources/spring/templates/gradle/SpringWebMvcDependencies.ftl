@@ -18,7 +18,10 @@ dependencies {
     implementation libs.spring.boot.starter.hateoas
     implementation libs.rsql.jpa.spring.boot.starter
 </#if>
+    implementation libs.jackson.core
+    implementation libs.jackson.databind
 <#if project.isWithOpenApi()>
+    implementation libs.swagger.annotations
     implementation libs.openapi.starter.webmvc.ui
 </#if>
 <#if (project.isWithLiquibase())>
@@ -54,6 +57,10 @@ dependencies {
     testImplementation libs.datafaker
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
+    testImplementation libs.spring.boot.starter.webmvc.test
+    testImplementation libs.spring.boot.starter.data.jpa.test
+    testImplementation libs.spring.boot.starter.jdbc.test
+    testImplementation libs.spring.boot.test.autoconfigure
 <#if (project.isWithKafka())>
     testImplementation libs.spring.kafka.test
     testImplementation libs.kafka.streams.test.utils
@@ -62,8 +69,12 @@ dependencies {
     testImplementation libs.flyway.spring.test
     testImplementation libs.flyway.test
 </#if>
+<#if (project.isWithMongoDb())>
+    testImplementation libs.spring.boot.data.mongodb.test
+</#if>
 
 <#if (project.isWithTestContainers())>
+    testImplementation(platform(libs.testcontainers.bom))
     testImplementation libs.spring.boot.testcontainers
     testImplementation libs.spring.devtools
     testImplementation libs.testcontainers.jupiter

@@ -9,11 +9,13 @@ import ${RegisterDatabaseProperties.fqcn()};
 import ${Document.fqcn()};
 import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
-import com.fasterxml.jackson.databind.ObjectMapper;
+import ${ServiceApi.fqcn()};
+
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 <#if (endpoint.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -40,13 +44,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 <#if (endpoint.isWithTestContainers())>
 @Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
 </#if>
-class ${EntityResource.className()}ExceptionHandlingIT implements ${RegisterDatabaseProperties.className()} {
+class ${Controller.className()}ExceptionHandlingIT implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvcTester mockMvcTester;
 
     @Autowired
-    ObjectMapper objectMapper;
+    JsonMapper jsonMapper;
 
     @MockitoBean
     private ${ServiceApi.className()} theService;
@@ -67,10 +74,10 @@ class ${EntityResource.className()}ExceptionHandlingIT implements ${RegisterData
 
             // when/then
             // @formatter:off
-            mockMvcTester.perform(post("${endpoint.basePath}").contentType(MediaType.APPLICATION_JSON)
-                         .content(objectMapper.writeValueAsString(payload)))
+            mockMvcTester.perform(post(${Routes.className()}.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
+                         .content(jsonMapper.writeValueAsString(payload)))
                          .assertThat()
-                         .hasStatus(HttpStatus.NOT_FOUND)
+                         .hasStatus(HttpStatus.BAD_REQUEST)
                          .bodyJson()
                          .doesNotHavePath("$.stackTrace")
                          .doesNotHavePath("$.trace");

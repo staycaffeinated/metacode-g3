@@ -13,14 +13,14 @@ import ${Document.fqcn()};
 import ${PojoToDocumentConverter.fqcn()};
 import ${DocumentToPojoConverter.fqcn()};
 import ${Repository.fqcn()};
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 <#if (endpoint.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -47,6 +49,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 <#if (endpoint.isWithTestContainers())>
 @Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
 </#if>
 class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 
@@ -54,7 +59,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     private MockMvcTester mockMvcTester;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper jsonMapper;
 
     @Autowired
     private ${Repository.className()} repository;
@@ -191,7 +196,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                             .uri(${Routes.className()}.${endpoint.routeConstants.create})
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(pojo))
+                            .content(jsonMapper.writeValueAsString(pojo))
                             .exchange();
     }
 
@@ -200,7 +205,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
                             .uri(${Routes.className()}.${endpoint.routeConstants.update}, pojo.getResourceId())
                             .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(pojo))
+                            .content(jsonMapper.writeValueAsString(pojo))
                             .exchange();
     }
 

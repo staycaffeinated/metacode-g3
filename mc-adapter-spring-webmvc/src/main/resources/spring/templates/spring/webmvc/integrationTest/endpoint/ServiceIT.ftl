@@ -18,10 +18,11 @@ import org.junit.jupiter.api.*;
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
 import org.springframework.context.annotation.Import;
 <#else>
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import  org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 <#if endpoint.isWithTestContainers()>
 import org.springframework.test.context.DynamicPropertySource;

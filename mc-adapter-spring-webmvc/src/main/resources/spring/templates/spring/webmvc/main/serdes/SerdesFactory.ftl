@@ -1,7 +1,7 @@
 
 package ${SerdesFactory.packageName()};
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import org.apache.kafka.common.serialization.Serde;

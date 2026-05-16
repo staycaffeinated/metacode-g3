@@ -19,17 +19,16 @@ spring:
 <#else>
     name: example-service
 </#if>
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/testdb
-      database: testdb
+
+  mongodb:
+    uri: mongodb://localhost:27017/testdb
+    database: testdb
 
   # Modify these as desired.
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
     serialization:
       indent_output: false
-      write_dates_as_timestamps: false
     deserialization:
       fail_on_unknown_properties: false
 

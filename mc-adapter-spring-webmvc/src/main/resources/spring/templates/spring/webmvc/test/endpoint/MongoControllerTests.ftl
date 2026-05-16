@@ -8,11 +8,11 @@ import ${EntityResource.fqcn()};
 import ${PojoTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.TransactionSystemException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ class ${Controller.testClass()} {
     private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper jsonMapper;
 
     private List<${EntityResource.className()}> ${endpoint.entityVarName}List;
     private Page<${EntityResource.className()}> pageOfData;
@@ -153,7 +154,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
             ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
 
-            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
         }
     }
 
@@ -200,7 +201,7 @@ class ${Controller.testClass()} {
 
             // Submit an update request, with the ID in the URL not matching the ID in the body.
             // Expect back an UnprocessableEntity status code
-            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            updateEntity(resourceId, resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
         }
     }
 
@@ -294,7 +295,7 @@ class ${Controller.testClass()} {
     protected MvcTestResult updateEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
         return mockMvcTester.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, ${endpoint.entityVarName}.getResourceId())
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .content(jsonMapper.writeValueAsString(${endpoint.entityVarName}))
                             .exchange();
     }
 
@@ -304,7 +305,7 @@ class ${Controller.testClass()} {
     protected MvcTestResult updateEntity(String resourceId, ${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
         return mockMvcTester.put().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .content(jsonMapper.writeValueAsString(${endpoint.entityVarName}))
                             .exchange();
     }
 
@@ -314,7 +315,7 @@ class ${Controller.testClass()} {
     protected MvcTestResult createEntity(${endpoint.pojoName} ${endpoint.entityVarName}) throws Exception {
         return mockMvcTester.post().uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(${endpoint.entityVarName}))
+                            .content(jsonMapper.writeValueAsString(${endpoint.entityVarName}))
                             .exchange();
 
     }

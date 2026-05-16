@@ -7,12 +7,14 @@ import ${ContainerConfiguration.fqcn()};
 import ${RegisterDatabaseProperties.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 <#if (project.isWithTestContainers())>
 import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 </#if>
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -24,6 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 <#if (project.isWithTestContainers())>
 @Import(ContainerConfiguration.class)
 @Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
 </#if>
 class ${RootController.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired

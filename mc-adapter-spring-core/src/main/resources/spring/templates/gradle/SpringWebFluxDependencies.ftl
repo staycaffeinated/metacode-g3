@@ -6,16 +6,16 @@ dependencies {
     implementation libs.jackson.datatype.jsr310
     implementation libs.r2dbc.spi
     implementation libs.spring.boot.starter.data.r2dbc
-    implementation libs.spring.boot.starter.aop
     implementation libs.spring.boot.starter.actuator
     implementation libs.spring.boot.starter.webflux
     implementation libs.spring.boot.starter.validation
     implementation libs.jakarta.persistence.api
 <#if project.isWithOpenApi()>
-    implementation libs.openapi.starter.webflux.ui
+    implementation libs.swagger.annotations
 </#if>
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
+    implementation libs.openapi.starter.webflux.ui
 </#if>
 <#if (project.isWithFlyway())>
     implementation libs.flyway.core
@@ -57,6 +57,7 @@ dependencies {
 </#if>
     testAnnotationProcessor libs.lombok
     testCompileOnly libs.lombok
+    testImplementation libs.spring.boot.starter.webflux.test
     testImplementation libs.spring.boot.starter.test
     testImplementation libs.junit.jupiter
     testImplementation libs.reactor.test

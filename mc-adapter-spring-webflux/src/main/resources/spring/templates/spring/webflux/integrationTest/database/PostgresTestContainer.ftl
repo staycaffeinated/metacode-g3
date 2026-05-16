@@ -3,11 +3,11 @@ package ${PostgresDbContainerTests.packageName()};
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
 public abstract class ${PostgresDbContainerTests.className()} {
-    private static final PostgreSQLContainer<?> postgresContainer =
-            new PostgreSQLContainer<>("postgres:17.2-alpine3.20")
+    private static final PostgreSQLContainer postgresContainer =
+            new PostgreSQLContainer("postgres:17.2-alpine3.20")
                     .withDatabaseName("foo")
                     .withUsername("foo")
                     .withPassword("secret");

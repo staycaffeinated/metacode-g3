@@ -1,5 +1,15 @@
 ## Uncommitted
 
+## [13.0.0] -- tbd
+
+### Changes:
+    * Migrate to SpringBoot 4.x and Spring Framework 7.x. This migration necessitated upgrading several libraries:
+        ** RSQL: to 7.0.0 
+        ** SpringBoot: to 4.0.6
+        ** Migrated Jackson imports (for ObjectMapper) from 
+        `org.fasterxml.*` to `tools.jackson.*`
+        ** Adding a `JsonMapper` bean to the `ObjectMapperConfiguration` class. 
+
 ## [12.4.0] -- 2026-05-09
 
 ### Changes:

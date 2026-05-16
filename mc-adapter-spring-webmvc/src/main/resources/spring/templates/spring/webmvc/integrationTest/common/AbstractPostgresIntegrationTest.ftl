@@ -3,6 +3,7 @@ package ${AbstractPostgresIntegrationTest.packageName()};
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -12,11 +13,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.test.context.ContextConfiguration;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.ext.ScriptUtils;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.lifecycle.Startables;
-import org.testcontainers.shaded.org.apache.commons.io.FileUtils;
 
 import javax.script.ScriptException;
 
@@ -41,13 +41,13 @@ public class AbstractPostgresIntegrationTest {
 <#else>
     private static final String SCHEMA_FOLDER = "db/scripts/";
 </#if>
-    public static PostgreSQLContainer<?> postgreSQLContainer() {
+    public static PostgreSQLContainer postgreSQLContainer() {
         return Initializer.postgres;
     }
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-        static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17").withReuse(true);
+        static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:17").withReuse(true);
 
         private static void startContainers() {
             /*

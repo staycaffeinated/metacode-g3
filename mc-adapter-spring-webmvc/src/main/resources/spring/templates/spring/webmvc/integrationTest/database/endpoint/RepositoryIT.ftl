@@ -8,7 +8,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import ${Entity.fqcn()};
 import ${EntitySpecification.fqcn()};
 import ${EjbTestFixtures.fqcn()};
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 <#if endpoint.isWithPostgres() && endpoint.isWithTestContainers()>
 import ${AbstractPostgresIntegrationTest.fqcn()};
 <#else>
@@ -20,8 +19,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

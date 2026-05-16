@@ -10,10 +10,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.data.mongodb.test.autoconfigure.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import tools.jackson.databind.json.JsonMapper;
+<#if (endpoint.isWithTestContainers())>
+import ${ContainerConfiguration.fqcn()};
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+</#if>
 
 import java.util.List;
 
@@ -24,7 +33,17 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * to the Repository interface, then leverage this class to verify the queries
  * and the query syntax.
  */
+
+<#if (endpoint.isWithTestContainers())>
+@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
+@Import(ContainerConfiguration.class)
+@Testcontainers
+@EnableAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class
+})
+<#else>
 @DataMongoTest
+</#if>
 class ${Repository.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
 
     @Autowired

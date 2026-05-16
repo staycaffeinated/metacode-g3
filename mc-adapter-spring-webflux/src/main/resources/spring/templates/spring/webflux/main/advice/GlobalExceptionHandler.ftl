@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,17 +32,17 @@ import java.util.Set;
 @ResponseBody
 public class ${GlobalExceptionHandler.className()} {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     /**
      * Constructor
      */
-    public ${GlobalExceptionHandler.className()}(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public ${GlobalExceptionHandler.className()}(JsonMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
     }
 
     @ExceptionHandler(UnprocessableEntityException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public Mono<ProblemDetail> handleUnprocessableEntityException(UnprocessableEntityException exception) {
         return problemDescription("The request cannot be processed", exception);
     }
@@ -54,7 +54,7 @@ public class ${GlobalExceptionHandler.className()} {
 	}
 
 	@ExceptionHandler(NumberFormatException.class)
-	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
 	public Mono<ProblemDetail> handleNumberFormatException(NumberFormatException exception) {
 	    return problemDescription("Bad request: request contains an invalid parameter", exception);
 	}
@@ -66,10 +66,10 @@ public class ${GlobalExceptionHandler.className()} {
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        ArrayNode jsonArray = objectMapper.createArrayNode();
+        ArrayNode jsonArray = jsonMapper.createArrayNode();
 
         for (final var constraint : constraintViolations) {
-            ObjectNode objectNode = objectMapper.createObjectNode();
+            ObjectNode objectNode = jsonMapper.createObjectNode();
 
             String className = constraint.getLeafBean().toString().split("@")[0];
             String message = constraint.getMessage();
@@ -98,14 +98,14 @@ public class ${GlobalExceptionHandler.className()} {
         "java:S1172" // `exchange` is unused but needed for the method signature
     })
     public Mono<ProblemDetail> handle(ServerWebExchange exchange, Throwable ex) {
-        return problemDescription("ServerWebExchange Error", ex, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription("ServerWebExchange Error", ex, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     /**
      * Build a Problem/JSON description with HttpStatus: 422 (unprocessable entity)
      */
     private Mono<ProblemDetail> problemDescription(String title, Throwable throwable) {
-        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     private Mono<ProblemDetail> problemDescription(String title, Throwable throwable, HttpStatus status) {

@@ -3,9 +3,9 @@ package ${GlobalExceptionHandler.packageName()};
 
 import ${Exception.packageName()}.UnprocessableEntityException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -48,11 +48,11 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ArrayNode jsonArray = objectMapper.createArrayNode();
+        JsonMapper jsonMapper = new JsonMapper();
+        ArrayNode jsonArray = jsonMapper.createArrayNode();
 
         for (final var constraint : constraintViolations) {
-            ObjectNode objectNode = objectMapper.createObjectNode();
+            ObjectNode objectNode = jsonMapper.createObjectNode();
 
             String className = constraint.getLeafBean().toString().split("@")[0];
             String message = constraint.getMessage();
@@ -137,7 +137,7 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
      */
     protected ResponseEntity<ProblemDetail> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
         String error = String.format("The parameter '%s' is missing", ex.getParameterName());
-        return problemDescription (error, ex, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription (error, ex, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
 
@@ -148,7 +148,7 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
      * @return a ResponseEntity with a body containing the problem description
      */
     private ResponseEntity<ProblemDetail> problemDescription(String title, Throwable throwable) {
-        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_ENTITY);
+        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     /**

@@ -5,19 +5,20 @@ import static ${SpringProfiles.packageName()}.SpringProfiles.INTEGRATION_TEST;
 import static ${SpringProfiles.packageName()}.SpringProfiles.TEST;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 <#if (project.testcontainers)??>
-    import org.testcontainers.junit.jupiter.Container;
-    import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 <#if (project.testcontainers)?? &&  (project.postgres)??>
-    import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 </#if>
 
 @ActiveProfiles({TEST, INTEGRATION_TEST})
@@ -39,7 +40,7 @@ public abstract class AbstractIntegrationTest {
     protected MockMvc mockMvc;
 
     @Autowired
-    protected ObjectMapper objectMapper;
+    protected JsonMapper jsonMapper;
 <#if (project.testcontainers)??>
 
     // if possible, initialize these from bootstrap-test.properties
