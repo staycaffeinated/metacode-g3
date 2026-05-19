@@ -1,6 +1,6 @@
 ## Uncommitted
 
-## [13.0.0] -- tbd
+## [13.0.0] -- 2026-05-16
 
 ### Changes:
     * Migrate to SpringBoot 4.x and Spring Framework 7.x. This migration necessitated upgrading several libraries:
