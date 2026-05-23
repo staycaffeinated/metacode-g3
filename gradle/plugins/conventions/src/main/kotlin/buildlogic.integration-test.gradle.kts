@@ -33,12 +33,3 @@ tasks.named("integrationTest") {
 tasks.named("check") {
     dependsOn("integrationTest")
 }
-
-/**
- * Maybe also needs this added in dependencies:
- *
- * dependencies {
- *  configurations["integrationTestImplementation"](project)
- * }
- *
- */

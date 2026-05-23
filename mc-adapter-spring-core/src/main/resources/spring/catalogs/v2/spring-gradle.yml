@@ -147,6 +147,13 @@ entries:
     archetype: "Text"
     facets:
       - facet: "main"
+        sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/IntegrationTestDotGradle.ftl"
+        destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.integration-test.gradle"
+
+  - scope: "project"
+    archetype: "Text"
+    facets:
+      - facet: "main"
         sourceTemplate: "/gradle/plugins/java-conventions/src-main-groovy/ApplicationConventions.ftl"
         destination: "gradle/plugins/java-conventions/src/main/groovy/buildlogic.application-conventions.gradle"
 
