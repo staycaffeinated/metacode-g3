@@ -4,7 +4,10 @@
 
 ### Changes:
 
-* Changed the configuration of the JIB plugin. The `jib.from` stanza has been moved to the `application/build.gradle` file to make it easier to customize the base image.  In the `jib.to` stanza, the `tags` list now includes the `version`, which pins the Docker image with the application's version number.
+    * Changed the configuration of the JIB plugin. The `jib.from` stanza has been moved to the `application/build.gradle` file to make it easier to customize the base image.  In the `jib.to` stanza, the `tags` list now includes the `version`, which pins the Docker image with the application's version number.
+
+    * Improvements to the Spring Boot project template related to SpringBoot 4.x support. 
+
 
 ## [13.0.0] -- 2026-05-16
 

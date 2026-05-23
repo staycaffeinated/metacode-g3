@@ -27,17 +27,17 @@ import java.util.Collection;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+/*
+ * See https://docs.spring.io/spring-batch/reference/testing.html
+ * for information on how to test Spring Batch applications.
+ */
+
 @SpringBatchTest
 @SpringBootTest
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestPropertySource(properties = {
-    "spring.batch.job.enabled=false",
-    "spring.batch.jdbc.initialize-schema=always",
-    "spring.jpa.generate-ddl=true",
-    "spring.datasource.url=jdbc:tc:postgresql:17.2-alpine3.20:///public",
-    "spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver",
-    "spring.jpa.hibernate.ddl-auto=create-drop"})
+    "spring.batch.job.enabled=true"})
 class ${Application.integrationTestClass()} extends ${AbstractIntegrationTest.className()} {
 
     @Autowired
@@ -93,7 +93,7 @@ class ${Application.integrationTestClass()} extends ${AbstractIntegrationTest.cl
      */
     @Disabled
     public void whenStepExecution_expectCompleted() throws Exception {
-        var jobExecution = jobLauncherTestUtils.launchStep("step1");
+        var jobExecution = jobOperatorTestUtils.startStep("step1");
         Collection<StepExecution> actualStepExecutions = jobExecution.getStepExecutions();
         ExitStatus actualJobExitStatus = jobExecution.getExitStatus();
 
