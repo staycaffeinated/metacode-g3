@@ -27,9 +27,16 @@ version='0.0.1'
 // Jib specific configuration for this application
 // --------------------------------------------------------------------------------
 jib {
+    from {
+        // any java version compatible with Spring Boot 4.x should work
+        image = 'eclipse-temurin:21-jre-jammy'
+    }
     to {
         image = '${project.applicationName}'
-        tags = [ 'latest' ]
+        tags = [ 'latest', version ]
+    }
+    container {
+        format = 'OCI'
     }
 }
 

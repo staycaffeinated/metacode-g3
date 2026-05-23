@@ -1,9 +1,5 @@
 plugins {
     id "com.google.cloud.tools.jib"
 }
-
-jib {
-    from {
-        image = 'amazoncorretto:17-al2023-jdk'
-    }
-}
+// If you want successful builds to automatically create a docker image, uncomment the next line
+// tasks.build.dependsOn tasks.jibDockerBuild

@@ -1,9 +1,16 @@
 ## Uncommitted
 
+## [13.1.0] -- tbd
+
+### Changes:
+
+* Changed the configuration of the JIB plugin. The `jib.from` stanza has been moved to the `application/build.gradle` file to make it easier to customize the base image.  In the `jib.to` stanza, the `tags` list now includes the `version`, which pins the Docker image with the application's version number.
+
 ## [13.0.0] -- 2026-05-16
 
 ### Changes:
-    * Migrate to SpringBoot 4.x and Spring Framework 7.x. This migration necessitated upgrading several libraries:
+ * Migrate to SpringBoot 4.x and Spring Framework 7.x. This migration necessitated upgrading 
+    several libraries:
         ** RSQL: to 7.0.0 
         ** SpringBoot: to 4.0.6
         ** Migrated Jackson imports (for ObjectMapper) from 
