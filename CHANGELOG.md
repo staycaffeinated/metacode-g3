@@ -17,6 +17,8 @@
         `org.fasterxml.*` to `tools.jackson.*`
         ** Adding a `JsonMapper` bean to the `ObjectMapperConfiguration` class. 
 
+ * Added a `buildlogic.integration-test.gradle` configuration. Integration tests are no longer automatically wired into _every_ project module.  Instead, if you want to enable integration tests in a module, add `id 'buildlogic.integration-test'` in the module's `build.gradle` file, in the `plugins` block. 
+
 ## [12.4.0] -- 2026-05-09
 
 ### Changes:
