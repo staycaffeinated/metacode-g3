@@ -8,6 +8,12 @@
 
     * Improvements to the Spring Boot project template related to SpringBoot 4.x support. 
 
+### Maintenance:
+    * Bumped Ben Manes' Versions plugin to 0.54.0 
+    * Bumped SonarQube plugin to 7.3.0.8198
+    * Bumped Spotless plugin to 8.5.1
+    * Bumped Jib plugin to 3.5.3
+
 
 ## [13.0.0] -- 2026-05-16
 
