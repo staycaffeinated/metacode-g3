@@ -91,6 +91,13 @@
       ]
     },
     {
+      "package": "{{basePackage}}.topology",
+      "archetypes": [
+        "Schema",
+        "TopicProvisioner"
+      ]
+    },
+    {
       "package": "{{basePackage}}.infrastructure.filter",
       "archetypes": [ "SecurityResponseHeadersFilter" ]
     },

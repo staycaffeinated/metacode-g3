@@ -250,6 +250,22 @@ entries:
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/serdes/JacksonDeserializerTest.ftl"
 
+  - scope: "project"
+    archetype: "Schema"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/topology/Schema.ftl"
+
+  - scope: "project"
+    archetype: "TopicProvisioner"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/topology/TopicProvisioner.ftl"
+
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------

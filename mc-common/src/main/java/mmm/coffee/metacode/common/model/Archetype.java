@@ -107,6 +107,8 @@ public enum Archetype {
     JacksonSerializer("JacksonSerializer"),
     JacksonDeserializer("JacksonDeserializer"),
     SerdesFactory("SerdesFactory"),
+    Schema("Schema"),
+    TopicProvisioner("TopicProvisioner"),
 
     /*
      * Endpoint-scope archetypes

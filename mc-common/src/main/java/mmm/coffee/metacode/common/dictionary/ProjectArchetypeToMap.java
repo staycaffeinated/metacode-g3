@@ -88,6 +88,8 @@ public class ProjectArchetypeToMap {
             Archetype.SerdesFactory,
             Archetype.JacksonSerializer,
             Archetype.JacksonDeserializer,
+            Archetype.Schema,
+            Archetype.TopicProvisioner,
 
             // miscellaneous
             Archetype.Text,
