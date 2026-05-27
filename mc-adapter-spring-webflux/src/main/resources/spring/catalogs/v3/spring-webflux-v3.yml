@@ -214,6 +214,49 @@ entries:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webflux/integrationTest/database/PostgresTestContainer.ftl"
 
+  - scope: "project"
+    archetype: "TopicProvisioner"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/topology/TopicProvisioner.ftl"
+
+  - scope: "project"
+    archetype: "Schema"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/topology/Schema.ftl"
+
+  - scope: "project"
+    archetype: "JacksonDeserializer"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/serdes/JacksonDeserializer.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/serdes/JacksonDeserializerTest.ftl"
+
+  - scope: "project"
+    archetype: "JacksonSerializer"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/serdes/JacksonSerializer.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/serdes/JacksonSerializerTest.ftl"
+
+  - scope: "project"
+    archetype: "SerdesFactory"
+    feature: "kafka"
+    tags: "kafka"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/serdes/SerdesFactory.ftl"
 
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
