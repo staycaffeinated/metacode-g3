@@ -274,7 +274,7 @@ entries:
     tags: "kafka"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/serdes/SerdesFactory.ftl"
+        sourceTemplate: "/spring/common/main/serdes/SerdesFactory.ftl"
 
   - scope: "project"
     archetype: "JacksonSerializer"
@@ -282,9 +282,9 @@ entries:
     tags: "kafka"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/serdes/JacksonSerializer.ftl"
+        sourceTemplate: "/spring/common/main/serdes/JacksonSerializer.ftl"
       - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/serdes/JacksonSerializerTest.ftl"
+        sourceTemplate: "/spring/common/test/serdes/JacksonSerializerTest.ftl"
 
   - scope: "project"
     archetype: "JacksonDeserializer"
@@ -292,9 +292,9 @@ entries:
     tags: "kafka"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/serdes/JacksonDeserializer.ftl"
+        sourceTemplate: "/spring/common/main/serdes/JacksonDeserializer.ftl"
       - facet: "test"
-        sourceTemplate: "/spring/webmvc/test/serdes/JacksonDeserializerTest.ftl"
+        sourceTemplate: "/spring/common/test/serdes/JacksonDeserializerTest.ftl"
 
   - scope: "project"
     archetype: "Schema"
