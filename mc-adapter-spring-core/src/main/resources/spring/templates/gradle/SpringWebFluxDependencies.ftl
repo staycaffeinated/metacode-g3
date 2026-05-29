@@ -23,7 +23,6 @@ dependencies {
 </#if>
 <#if (project.isWithKafka())>
     implementation libs.spring.boot.starter.kafka
-    implementation libs.spring.boot.starter.integration
     implementation libs.apache.kafka.streams
     implementation libs.jackson.datatype.jsr310
 </#if>

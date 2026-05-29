@@ -24,7 +24,6 @@ dependencies {
     implementation libs.spring.boot.starter.data.jpa
 <#if (project.isWithKafka())>
     implementation libs.spring.boot.starter.kafka
-    implementation libs.spring.boot.starter.integration
 </#if>
 
 <#if (project.isWithPostgres())>

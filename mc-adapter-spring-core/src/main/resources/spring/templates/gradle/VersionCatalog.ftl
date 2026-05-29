@@ -110,6 +110,7 @@ spring-cloud = { module = "org.springframework.cloud:spring-cloud-starter", vers
 spring-cloud-binder-kafka-streams = { module = "org.springframework.cloud:spring-cloud-stream-binder-kafka-streams", version.ref = "springCloud" }
 spring-cloud-starter-stream-kafka = { module = "org.springframework.cloud:spring-cloud-starter-stream-kafka", version.ref = "springCloud" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-integration-kafka = { module = "org.springframework.integration:spring-integration-kafka" }
 spring-kafka = { module = "org.springframework.kafka:spring-kafka" }
 spring-kafka-test = { module = "org.springframework.kafka:spring-kafka-test" }
 spring-orm = { module = "org.springframework:spring-orm", version.ref="springOrm" }

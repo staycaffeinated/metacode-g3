@@ -32,7 +32,6 @@ dependencies {
     implementation libs.flyway.core
 </#if>
 <#if (project.isWithKafka())>
-    implementation libs.spring.boot.starter.integration
     implementation libs.spring.boot.starter.kafka
     implementation libs.apache.kafka.streams
     implementation libs.jackson.datatype.jsr310
