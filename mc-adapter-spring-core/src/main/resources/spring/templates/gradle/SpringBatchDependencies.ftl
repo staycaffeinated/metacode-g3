@@ -23,7 +23,8 @@ dependencies {
     implementation libs.spring.boot.starter.batch
     implementation libs.spring.boot.starter.data.jpa
 <#if (project.isWithKafka())>
-    implementation libs.spring.kafka
+    implementation libs.spring.boot.starter.kafka
+    implementation libs.spring.boot.starter.integration
 </#if>
 
 <#if (project.isWithPostgres())>

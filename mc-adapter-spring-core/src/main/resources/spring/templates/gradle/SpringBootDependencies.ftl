@@ -6,8 +6,9 @@ dependencies {
     implementation libs.spring.boot.starter.actuator
     implementation libs.spring.boot.starter.web
 <#if (project.isWithKafka())>
-    implementation libs.spring.kafka
-    implementation libs.kafka.streams
+    implementation libs.spring.boot.starter.kafka
+    implementation libs.spring.boot.starter.integration
+    implementation libs.apache.kafka.streams
     implementation libs.jackson.datatype.jsr310
 </#if>
 
@@ -18,7 +19,7 @@ dependencies {
     testImplementation libs.junit.jupiter
 <#if (project.isWithKafka())>
     testImplementation libs.spring.kafka.test
-    testImplementation libs.kafka.streams.test.utils
+    testImplementation libs.apache.kafka.streams.test.utils
     <#if project.isWithTestContainers()>
     testImplementation libs.spring.boot.testcontainers
     testImplementation libs.testcontainers.jupiter

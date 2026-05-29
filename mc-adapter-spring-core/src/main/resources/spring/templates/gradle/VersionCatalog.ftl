@@ -55,8 +55,8 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-runner = { module = "org.junit.platform:junit-platform-runner" }
 junit-system-rules = { module = "com.github.stefanbirkner:system-rules", version.ref = "junitSystemRules" }
 
-kafka-streams = { module = "org.apache.kafka:kafka-streams" }
-kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils" }
+apache-kafka-streams = { module = "org.apache.kafka:kafka-streams" }
+apache-kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils" }
 
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
@@ -80,6 +80,7 @@ r2dbc-postgres = { module = "org.postgresql:r2dbc-postgresql", version.ref = "r2
 r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbcSpi" }
 
 spring-batch-test = { module = "org.springframework.batch:spring-batch-test" }
+spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
 spring-boot-config-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
 spring-boot-data-mongodb-test = { module = "org.springframework.boot:spring-boot-data-mongodb-test" }
 spring-boot-properties-migrator = { module = "org.springframework.boot:spring-boot-properties-migrator" }
@@ -89,7 +90,11 @@ spring-boot-starter-batch = { module = "org.springframework.boot:spring-boot-sta
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-data-mongodb = { module = "org.springframework.boot:spring-boot-starter-data-mongodb" }
 spring-boot-starter-data-r2dbc = { module = "org.springframework.boot:spring-boot-starter-data-r2dbc" }
+spring-boot-starter-kafka = { module = "org.springframework.boot:spring-boot-starter-kafka" }
 spring-boot-starter-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas" }
+spring-boot-starter-integration = { module = "org.springframework.boot:spring-boot-starter-integration" }
+spring-boot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }

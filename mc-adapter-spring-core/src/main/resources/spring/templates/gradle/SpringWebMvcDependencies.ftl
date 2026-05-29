@@ -3,6 +3,7 @@ dependencies {
 
     developmentOnly libs.spring.devtools
 
+    implementation libs.spring.boot.autoconfigure
 <#if (project.isWithMongoDb())>
     implementation libs.spring.boot.starter.web
     implementation libs.spring.boot.starter.data.mongodb
@@ -31,8 +32,9 @@ dependencies {
     implementation libs.flyway.core
 </#if>
 <#if (project.isWithKafka())>
-    implementation libs.spring.kafka
-    implementation libs.kafka.streams
+    implementation libs.spring.boot.starter.integration
+    implementation libs.spring.boot.starter.kafka
+    implementation libs.apache.kafka.streams
     implementation libs.jackson.datatype.jsr310
 </#if>
 
@@ -63,7 +65,7 @@ dependencies {
     testImplementation libs.spring.boot.test.autoconfigure
 <#if (project.isWithKafka())>
     testImplementation libs.spring.kafka.test
-    testImplementation libs.kafka.streams.test.utils
+    testImplementation libs.apache.kafka.streams.test.utils
 </#if>
 <#if (project.isWithFlyway())>
     testImplementation libs.flyway.spring.test
