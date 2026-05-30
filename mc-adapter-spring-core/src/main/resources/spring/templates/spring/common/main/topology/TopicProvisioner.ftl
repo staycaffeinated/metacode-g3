@@ -3,7 +3,6 @@ package ${TopicProvisioner.packageName()};
 
 import jakarta.annotation.PostConstruct;
 import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -31,12 +30,6 @@ public class ${TopicProvisioner.className()} {
 
     @PostConstruct
     public void createStandardTopics() {
-        // Taking a SWAG at default configuration values
-        Map<String, String> baseConfigs = Map.of(
-            "retention.ms", "604800000",
-            "mins.insync.replicas", "1",
-            "cleanup.policy", "delete");
-
         try (AdminClient client = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
             List<NewTopic> standardTopics = Schema.allTopics().stream()
                 .map(topic -> new NewTopic(topic, 4, (short) 1))
