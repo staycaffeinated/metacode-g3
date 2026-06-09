@@ -119,7 +119,8 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @Test
         void shouldFindMultipleItems() {
             // scenario: the repository contains multiple ${EntityResource.className()} entities
-            given(mockRepository.findAll()).willReturn(${EjbTestFixtures.className()}.allItems());
+            given(mockRepository.findAll(any(Pageable.class)))
+                .willReturn(new PageImpl<>(${EjbTestFixtures.className()}.allItems()));
 
             // when:
             List<${EntityResource.className()}> items = dataStoreUnderTest.findAll();
@@ -132,7 +133,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @Test
         void shouldHaveEmptyResults() {
             // scenario: the repository contains no ${EntityResource.className()} entities
-            given(mockRepository.findAll()).willReturn(List.of());
+            given(mockRepository.findAll(any(Pageable.class))).willReturn(new PageImpl<>(List.of()));
 
             // when:
             List<${EntityResource.className()}> items = dataStoreUnderTest.findAll();
@@ -144,10 +145,12 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @Test
         void shouldLimitRowCount() {
             // scenario: the repository contains multiple ${EntityResource.className()} entities
-            given(mockRepository.findAll()).willReturn(${EjbTestFixtures.className()}.allItems());
+            final int rowCount = 3;
+            given(mockRepository.findAll(any(Pageable.class)))
+                .willReturn(new PageImpl<>(${EjbTestFixtures.className()}.allItems().subList(0, rowCount)));
 
             // when:
-            final int rowCount = 3;
+
             List<${EntityResource.className()}> items = dataStoreUnderTest.findAll(rowCount);
 
             // expect: the resultSet only contains `rowCount` items
@@ -157,7 +160,8 @@ public class ${ConcreteDataStoreImpl.testClass()} {
         @Test
         void shouldDefaultIfRowLimitIsZeroOrNegative() {
             // scenario: the repository contains multiple ${EntityResource.className()} entities
-            given(mockRepository.findAll()).willReturn(${EjbTestFixtures.className()}.allItems());
+            given(mockRepository.findAll(any(Pageable.class)))
+                .willReturn(new PageImpl<>(${EjbTestFixtures.className()}.allItems()));
 
             // when:
             final int rowCount = 0;

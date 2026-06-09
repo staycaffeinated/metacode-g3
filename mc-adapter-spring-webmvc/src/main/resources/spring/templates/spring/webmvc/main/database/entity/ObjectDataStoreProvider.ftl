@@ -15,6 +15,7 @@ import io.github.perplexhub.rsql.RSQLJPASupport;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -93,17 +94,13 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
 
     @Override
     public List<${EntityResource.className()}> findAll() {
-        return repository.findAll().stream()
-            .limit(pageLimit(DEFAULT_ROW_LIMIT))
-            .map(mapEjbToPojo::convert)
-            .toList();
+        return findAll(DEFAULT_ROW_LIMIT);
     }
 
     public List<${EntityResource.className()}> findAll(int limit) {
-        return repository.findAll().stream()
-            .limit(pageLimit(limit))
-            .map(mapEjbToPojo::convert)
-        .toList();
+        return repository.findAll(PageRequest.of(0, pageLimit(limit))).stream()
+                    .map(mapEjbToPojo::convert)
+                    .toList();
     }
 
     @Override
