@@ -32,6 +32,8 @@ import java.util.Set;
 @ControllerAdvice
 public class ${GlobalExceptionHandler.className()} extends ResponseEntityExceptionHandler {
 
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
+
     @ExceptionHandler(UnprocessableEntityException.class)
     public ResponseEntity<ProblemDetail> handleUnprocessableRequestException(UnprocessableEntityException exception) {
         return problemDescription("The request cannot be processed", exception);
@@ -48,11 +50,10 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        JsonMapper jsonMapper = new JsonMapper();
-        ArrayNode jsonArray = jsonMapper.createArrayNode();
+        ArrayNode jsonArray = JSON_MAPPER.createArrayNode();
 
         for (final var constraint : constraintViolations) {
-            ObjectNode objectNode = jsonMapper.createObjectNode();
+            ObjectNode objectNode = JSON_MAPPER.createObjectNode();
 
             String className = constraint.getLeafBean().toString().split("@")[0];
             String message = constraint.getMessage();
