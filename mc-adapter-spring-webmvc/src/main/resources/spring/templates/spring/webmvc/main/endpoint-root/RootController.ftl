@@ -19,7 +19,7 @@ public class ${RootController.className()} {
      * The root path
      */
     @GetMapping (value= "", produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<String> getHome() {
+    public ResponseEntity<Void> getHome() {
         return ResponseEntity.ok().build();
     }
 }
