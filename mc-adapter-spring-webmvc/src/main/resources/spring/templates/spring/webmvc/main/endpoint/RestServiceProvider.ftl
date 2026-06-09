@@ -76,7 +76,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /**
      * delete
      */
-    public void delete${endpoint.entityName}ByResourceId(@NonNull String id) {
-        ${ConcreteDataStoreApi.varName()}.deleteByResourceId(id);
+    public Optional<${endpoint.pojoName}> delete${endpoint.entityName}ByResourceId(@NonNull String id) {
+        return ${ConcreteDataStoreApi.varName()}.deleteByResourceId(id);
     }
 }

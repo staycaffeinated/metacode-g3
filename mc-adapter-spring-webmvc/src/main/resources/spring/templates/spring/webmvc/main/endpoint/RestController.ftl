@@ -147,12 +147,9 @@ public class ${Controller.className()} {
 </#if>
     @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.delete})
     public ResponseEntity<${EntityResource.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
-        return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)
-            .map(${endpoint.entityVarName} -> {
-                ${ServiceApi.varName()}.delete${endpoint.entityName}ByResourceId(id);
-                return ResponseEntity.ok(${endpoint.entityVarName});
-            })
-        .orElseGet(() -> ResponseEntity.notFound().build());
+        return ${ServiceApi.varName()}.delete${endpoint.entityName}ByResourceId(id)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /*

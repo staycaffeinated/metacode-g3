@@ -211,8 +211,7 @@ class ${Controller.testClass()} {
             String resourceId = ${endpoint.entityVarName}.getResourceId();
 
             // Mock the service layer finding the resource being deleted
-            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
-            doNothing().when(${endpoint.entityVarName}Service).delete${endpoint.entityName}ByResourceId(${endpoint.entityVarName}.getResourceId());
+            given(${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
             deleteEntity(resourceId)

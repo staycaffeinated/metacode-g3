@@ -44,5 +44,5 @@ public interface ${ServiceApi.className()} {
     /**
      * delete
      */
-    void delete${endpoint.entityName}ByResourceId( String id );
+    Optional<${EntityResource.className()}> delete${endpoint.entityName}ByResourceId( String id );
 }

@@ -127,8 +127,12 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
     }
 
     @Override
-    public void deleteByResourceId(@NonNull String resourceId) {
-        repository.findByResourceId(resourceId).ifPresent(repository::delete);
+    public Optional<${EntityResource.className()}> deleteByResourceId(@NonNull String resourceId) {
+        return repository.findByResourceId(resourceId).map(entity -> {
+            ${EntityResource.className()} pojo = mapEjbToPojo.convert(entity);
+            repository.delete(entity);
+            return pojo;
+        });
     }
 
     protected int pageLimit(int preferredLimit) {

@@ -44,5 +44,5 @@ public interface ${AbstractDataStoreApi.className()}<T> {
        * Delete the Domain object that has the given {@code resourceId}.
        * Attempts to delete a non-existent object are quietly ignored.
        */
-      void deleteByResourceId(@NonNull String resourceId);
+      Optional<T> deleteByResourceId(@NonNull String resourceId);
 }
