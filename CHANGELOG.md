@@ -1,5 +1,16 @@
 ## Uncommitted
 
+### Changes:
+
+* Fixed pagination issue in the `findAll()` style methods of the `Repository-type` classes.
+* Changed `deleteByResourceId` to return `Optional<T>`. This changes the flow from 3 DB calls to 2 DB calls.
+* The `GlobalExceptionHandler` uses a static final `JsonMapper` instead of creating instances as needed.
+* The `ResourceIdGenerator.instance` is now `static final`. 
+* The `RootController.getHome()` method now returns `Void` instead of `String`.
+* Removed a redundant `@ResponseStatus(HttpStatus.CREATED)` in the controllers.
+* In the controller's `search` method, the `q` request parameter is now optional. 
+
+
 ## [13.1.0] -- tbd
 
 ### Changes:
