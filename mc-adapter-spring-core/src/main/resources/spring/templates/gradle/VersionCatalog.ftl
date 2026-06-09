@@ -46,12 +46,18 @@ flyway-test = { module = "org.flywaydb.flyway-test-extensions:flyway-test", vers
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 
 jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api" }
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api" }
+jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api" }
+
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
 jackson-core = { module = "tools.jackson.core:jackson-core" }
 jackson-databind = { module = "tools.jackson.core:jackson-databind" }
 
 junit-bom = { module = "org.junit:junit-bom", version.ref="junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-platform-runner = { module = "org.junit.platform:junit-platform-runner" }
 junit-system-rules = { module = "com.github.stefanbirkner:system-rules", version.ref = "junitSystemRules" }
 
@@ -81,6 +87,9 @@ r2dbc-spi = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbcSpi" }
 
 spring-batch-test = { module = "org.springframework.batch:spring-batch-test" }
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
+spring-boot-data-jpa = { module = "org.springframework.boot:spring-boot-data-jpa" }
+spring-boot-webmvc = { module = "org.springframework.boot:spring-boot-webmvc" }
+spring-boot-webmvc-test = { module = "org.springframework.boot:spring-boot-webmvc-test" }
 spring-boot-config-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
 spring-boot-data-mongodb-test = { module = "org.springframework.boot:spring-boot-data-mongodb-test" }
 spring-boot-properties-migrator = { module = "org.springframework.boot:spring-boot-properties-migrator" }
