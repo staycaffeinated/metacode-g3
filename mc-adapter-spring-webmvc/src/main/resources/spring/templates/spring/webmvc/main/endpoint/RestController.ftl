@@ -51,16 +51,10 @@ public class ${Controller.className()} {
 
     private final ${ServiceApi.className()} ${ServiceApi.varName()};
 
-    /*
-     * Constructor
-     */
     public ${Controller.className()}(${ServiceApi.className()} ${ServiceApi.varName()}) {
         this.${ServiceApi.varName()} = ${ServiceApi.varName()};
     }
 
-    /*
-     * Get all
-     */
     <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Retrieve all ${endpoint.entityName}")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found all ${endpoint.entityName}")})
@@ -70,10 +64,6 @@ public class ${Controller.className()} {
         return ${ServiceApi.varName()}.findAll${endpoint.entityName}s();
     }
 
-    /*
-     * Get one by resourceId
-     *
-     */
     <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Retrieve a single pet based on its public identifier")
     @ApiResponses(value = {
@@ -89,9 +79,6 @@ public class ${Controller.className()} {
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /*
-     * Create one
-     */
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Create a new ${endpoint.entityName} and persist it")
     @ApiResponses(value = {
@@ -102,7 +89,6 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<${EntityResource.className()}> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
         try {
             ${EntityResource.className()} savedResource = ${ServiceApi.varName()}.create${endpoint.entityName} ( resource );
@@ -120,9 +106,6 @@ public class ${Controller.className()} {
         }
     }
 
-    /*
-     * Update one
-     */
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Update an existing ${endpoint.entityName}")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Updated the ${endpoint.entityName}"),
@@ -137,9 +120,6 @@ public class ${Controller.className()} {
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /*
-     * Delete one
-     */
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Delete an existing ${endpoint.entityName}")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Removed the ${endpoint.entityName}"),
@@ -152,9 +132,6 @@ public class ${Controller.className()} {
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /*
-     * Search using an RSQL query
-     */
     <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Search for ${endpoint.entityName} using an RSQL query")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
