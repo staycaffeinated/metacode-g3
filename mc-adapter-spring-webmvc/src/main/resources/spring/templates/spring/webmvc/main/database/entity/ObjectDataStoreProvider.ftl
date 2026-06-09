@@ -66,9 +66,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
      */
     public Page<${EntityResource.className()}> findByAttribute(@NonNull String attributeValue, Pageable pageable) {
         Specification<${Entity.className()}> where = ${EntitySpecification.className()}.builder().text(attributeValue).build();
-        Page<${Entity.className()}> resultSet = repository.findAll(where, pageable);
-        List<${EntityResource.className()}> list = resultSet.stream().map(mapEjbToPojo::convert).toList();
-        return new PageImpl<>(list, pageable, list.size());
+        return toPage(repository.findAll(where, pageable), pageable);
     }
 
     /**
@@ -86,8 +84,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
                 Specification<${Entity.className()}> where = RSQLJPASupport.toSpecification(searchQuery);
                 resultSet = repository.findAll(where, pageable);
             }
-            List<${EntityResource.className()}> list = resultSet.stream().map(mapEjbToPojo::convert).toList();
-            return new PageImpl<>(list, pageable, list.size());
+            return toPage(resultSet, pageable);
         }
         catch (RSQLParserException e) {
             throw new BadRequestException(e.getLocalizedMessage());
@@ -136,6 +133,11 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
 
     protected int pageLimit(int preferredLimit) {
         return preferredLimit > 0 ? preferredLimit : DEFAULT_ROW_LIMIT;
+    }
+
+    private Page<${EntityResource.className()}> toPage(Page<${Entity.className()}> resultSet, Pageable pageable) {
+        List<${EntityResource.className()}> list = resultSet.stream().map(mapEjbToPojo::convert).toList();
+        return new PageImpl<>(list, pageable, resultSet.getTotalElements());
     }
 
 }
