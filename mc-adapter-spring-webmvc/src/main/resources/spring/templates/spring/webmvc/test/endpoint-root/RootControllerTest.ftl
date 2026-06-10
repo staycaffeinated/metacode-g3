@@ -26,11 +26,6 @@ class RootControllerTest {
     @Autowired
     private JsonMapper jsonMapper;
 
-    @BeforeEach
-    void setUp() {
-        // empty
-    }
-
     @Nested
     class TestRootRoute {
         /*

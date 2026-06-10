@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.Serial;
 
 /**
-* A requested resource was not found
+* Indicates the request could not be processed due to a client error (HTTP 400).
 */
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class BadRequestException extends ResponseStatusException {

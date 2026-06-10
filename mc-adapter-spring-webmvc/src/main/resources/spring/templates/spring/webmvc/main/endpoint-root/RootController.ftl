@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class ${RootController.className()} {
 
-    /*
-     * The root path
-     */
     @GetMapping (value= "", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<Void> getHome() {
         return ResponseEntity.ok().build();

@@ -1,6 +1,7 @@
 <#include "/common/Copyright.ftl">
 package ${SearchTextValidator.packageName()};
 
+import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,7 +9,6 @@ import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 
-import jakarta.validation.ConstraintValidatorContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,8 +45,8 @@ class SearchTextValidatorTest {
         }
 
         @Test
-        void shouldNotAllowNull() {
-            assertThrows(NullPointerException.class, () -> validationUnderTest.isValid(null, mockContext));
+        void shouldTreatNullAsValid() {
+            assertThat(validationUnderTest.isValid(null, mockContext)).isTrue();
         }
     }
 }

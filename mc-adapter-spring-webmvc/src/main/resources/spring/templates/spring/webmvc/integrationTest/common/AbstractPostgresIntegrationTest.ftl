@@ -96,14 +96,17 @@ public class AbstractPostgresIntegrationTest {
             Resource[] scripts = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(pattern);
 
             var containerDelegate = new JdbcDatabaseDelegate(postgreSQLContainer(), "");
+            String parentPath = scripts.length > 0
+                ? scripts[0].getFile().getParentFile().getAbsolutePath()
+                : "";
             Arrays.stream(scripts).forEach(script -> {
                 try {
-                    ScriptUtils.executeDatabaseScript(containerDelegate,
-                                script.getFile().getParentFile().getAbsolutePath(),
-                                loadScript(script));
-                }
-                catch (ScriptException | IOException e) {
-                    log.error("An error occurred while either loading or executing this database script: {}", SCHEMA_FOLDER + script.getFilename(), e);
+                    ScriptUtils.executeDatabaseScript(containerDelegate, parentPath, loadScript(script));
+                } catch (ScriptException | IOException e) {
+                    log.error(
+                        "An error occurred while either loading or executing this database script: {}",
+                        SCHEMA_FOLDER + script.getFilename(),
+                        e);
                 }
             });
         }
@@ -116,7 +119,6 @@ public class AbstractPostgresIntegrationTest {
     }
 
     private static String loadScript(Resource script) throws IOException {
-        String fqnOfScript = script.getFile().getAbsolutePath();
-        return FileUtils.readFileToString(new File(fqnOfScript), StandardCharsets.UTF_8);
+        return FileUtils.readFileToString(script.getFile(), StandardCharsets.UTF_8);
     }
 }

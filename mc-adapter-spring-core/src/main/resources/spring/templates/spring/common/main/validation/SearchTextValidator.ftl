@@ -1,7 +1,6 @@
 <#include "/common/Copyright.ftl">
 package ${SearchTextValidator.packageName()};
 
-import lombok.NonNull;
 import org.springframework.util.ObjectUtils;
 
 import jakarta.validation.ConstraintValidator;
@@ -28,7 +27,7 @@ public class SearchTextValidator implements ConstraintValidator<SearchText, Stri
     private static final int MAXLENGTH = 24;
 
     @Override
-    public boolean isValid(@NonNull String value, ConstraintValidatorContext context) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
         // when empty, then the content of the text is irrelevant to the search filter
         if (ObjectUtils.isEmpty(value)) return true;
 

@@ -75,8 +75,8 @@ class ${SecureRandomSeries.className()}Test {
     void whenNumericResourceId_shouldReturnNumericId() {
         var resourceId = randomSeriesUnderTest.nextNumericResourceId();
 
-        // Our numeric resource Ids have an entropy of 160 bits, so can reach a length of 49 digits.
-        assertThat(resourceId).isNotBlank().hasSizeBetween(${SecureRandomSeries.className()}.ENTROPY_STRING_LENGTH, 49);
+        // Our numeric resource Ids have an entropy of 160 bits, so they can reach a length of 49 digits.
+        assertThat(resourceId).isNotBlank().hasSizeBetween(ResourceIdGenerator.ENTROPY_STRING_LENGTH, ResourceIdGenerator.ENTROPY_MAX_NUMERIC_LENGTH);
         assertAllLettersOrDigits(resourceId);
     }
 

@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * Unit tests of GlobalExceptionHandler
@@ -40,7 +41,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
  */
 class GlobalExceptionHandlerTest {
 
-    private final GlobalExceptionHandler exceptionHandlerUnderTest = new GlobalExceptionHandler();
+    private final GlobalExceptionHandler exceptionHandlerUnderTest = new GlobalExceptionHandler(new JsonMapper());
 
     /**
      * Test the condition the server raised an EntityNotFoundException

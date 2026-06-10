@@ -32,7 +32,11 @@ import java.util.Set;
 @ControllerAdvice
 public class ${GlobalExceptionHandler.className()} extends ResponseEntityExceptionHandler {
 
-    private static final JsonMapper JSON_MAPPER = new JsonMapper();
+    private final JsonMapper jsonMapper;
+
+    public GlobalExceptionHandler(JsonMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
+    }
 
     @ExceptionHandler(UnprocessableEntityException.class)
     public ResponseEntity<ProblemDetail> handleUnprocessableRequestException(UnprocessableEntityException exception) {
@@ -50,14 +54,16 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        ArrayNode jsonArray = JSON_MAPPER.createArrayNode();
+        ArrayNode jsonArray = jsonMapper.createArrayNode();
 
         for (final var constraint : constraintViolations) {
-            ObjectNode objectNode = JSON_MAPPER.createObjectNode();
+            ObjectNode objectNode = jsonMapper.createObjectNode();
 
-            String className = constraint.getLeafBean().toString().split("@")[0];
+            String className = constraint.getLeafBean().getClass().getName();
             String message = constraint.getMessage();
-            String propertyPath = constraint.getPropertyPath().toString().split("\\.")[0];
+            String fullPath = constraint.getPropertyPath().toString();
+            int dotIndex = fullPath.indexOf('.');
+            String propertyPath = dotIndex >= 0 ? fullPath.substring(0, dotIndex) : fullPath;
             Object invalidValue = constraint.getInvalidValue();
 
             objectNode.put("reason", message);
