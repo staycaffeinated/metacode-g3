@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 </#if>
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,17 +37,10 @@ import java.time.Duration;
 </#noparse>
 @Slf4j
 @Validated
+@RequiredArgsConstructor
 public class ${Controller.className()} {
 
     private final ${ServiceApi.className()} ${endpoint.entityVarName}Service;
-
-    /*
-     * Constructor
-     */
-     @Autowired
-     public ${endpoint.entityName}Controller(${ServiceApi.className()} ${endpoint.entityVarName}Service) {
-        this.${endpoint.entityVarName}Service = ${endpoint.entityVarName}Service;
-     }
 
     /*
      * Get all
@@ -65,7 +59,7 @@ public class ${Controller.className()} {
      *
      */
 <#if endpoint.isWithOpenApi()>
-    @Operation(summary = "Retrieve a single${endpoint.entityName} based on its public identifier")
+    @Operation(summary = "Retrieve a single ${endpoint.entityName} based on its public identifier")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Found the ${endpoint.entityName}", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ${endpoint.pojoName}.class))}),
@@ -142,7 +136,6 @@ public class ${Controller.className()} {
     @DeleteMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.delete})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
-        Mono<${endpoint.pojoName}> resource = ${endpoint.entityVarName}Service.findByResourceId(id);
-        resource.subscribe(value -> ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id));
+        ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id);
     }
 }

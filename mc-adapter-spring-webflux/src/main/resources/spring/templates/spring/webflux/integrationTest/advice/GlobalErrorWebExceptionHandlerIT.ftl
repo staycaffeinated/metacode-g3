@@ -15,11 +15,11 @@ class GlobalErrorWebExceptionHandlerIntegrationTest {
     private WebTestClient webTestClient;
 
     @Test
-    void whenEndpointIsUnknown_expectBadRequest() {
+    void whenEndpointIsUnknown_expectNotFound() {
         webTestClient.get()
-                     .uri("/trigger-bad-request")
+                     .uri("/no-such-endpoint")
                      .exchange()
                      .expectStatus()
-                     .isBadRequest();
+                     .isNotFound();
     }
 }

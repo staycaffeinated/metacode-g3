@@ -48,6 +48,6 @@ public class ResourceNotFoundException extends ResponseStatusException {
      * @param cause  a nested exception (optional)
      */
     public ResourceNotFoundException(String reason, Throwable cause) {
-        super(HttpStatus.UNPROCESSABLE_CONTENT, reason, cause);
+        super(HttpStatus.NOT_FOUND, reason, cause);
     }
 }

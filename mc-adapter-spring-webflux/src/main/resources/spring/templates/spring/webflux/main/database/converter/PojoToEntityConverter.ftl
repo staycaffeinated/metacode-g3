@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
-* Converts Drink entity beans into DrinkResource objects
-*/
+ * Converts ${EntityResource.className()} entity beans into ${Entity.className()} objects
+ */
 @Component
 public class ${PojoToEntityConverter.className()} implements ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> {
     /**

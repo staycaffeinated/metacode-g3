@@ -39,7 +39,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
 		if (entity == null) {
 			      return Mono.error(new UnprocessableEntityException());
   		}
-        return repository.save(entity).flatMap(item -> Mono.just(item.getResourceId()));
+        return repository.save(entity).map(${endpoint.ejbName}::getResourceId);
     }
 
     /**
@@ -47,15 +47,9 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
      */
     public Mono<${endpoint.entityName}> update${endpoint.entityName}(${endpoint.pojoName} resource) {
 	    return repository.findByResourceId(resource.getResourceId())
-                    .map(Optional::of)
-				    .defaultIfEmpty(Optional.empty())
-                    .flatMap(optionalItem -> {
-                        if (optionalItem.isPresent()) {
-                            ${Entity.className()} ejb = optionalItem.get();
-                            ejb.copyMutableFieldsFrom(resource);
-                            return repository.save(ejb).mapNotNull(ejbToPojoConverter::convert);
-                        }
-                        return Mono.empty();
+                    .flatMap(ejb -> {
+                        ejb.copyMutableFieldsFrom(resource);
+                        return repository.save(ejb).mapNotNull(ejbToPojoConverter::convert);
                     });
     }
 
@@ -79,13 +73,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
      */
     @Override
     public Mono<${endpoint.pojoName}> findById(Long id) {
-        Mono<${endpoint.ejbName}> monoItem = repository.findById(id)
-                    .map(Optional::of)
-                    .defaultIfEmpty(Optional.empty())
-                    .flatMap(optionalItem -> optionalItem
-                        .<Mono<? extends ${Entity.className()}>>map(Mono::just) // if found
-                        .orElseGet(Mono::empty));  // if not found
-        return monoItem.flatMap(it -> Mono.just(Objects.requireNonNull(ejbToPojoConverter.convert(it))));
+        return repository.findById(id).map(ejbToPojoConverter::convert);
     }
 
     /**
