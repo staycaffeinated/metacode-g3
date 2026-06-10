@@ -65,7 +65,7 @@ class ${GlobalExceptionHandler.testClass()} {
 
         StepVerifier.create(publisher)
                     .expectSubscription()
-                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value()))
+                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                     .verifyComplete();
     }
 }

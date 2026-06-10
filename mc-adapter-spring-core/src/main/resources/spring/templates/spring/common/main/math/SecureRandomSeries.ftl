@@ -85,7 +85,7 @@ public class ${SecureRandomSeries.className()} implements ResourceIdSupplier {
     public static ${SecureRandomSeries.className()} instance() { return instance; }
 
     /**
-     * Returns a secure random value with about 143 bits of entropy.
+     * Returns a secure random value with about 160 bits of entropy.
      * The returned value is suitable for usage within URLs.
      * @return a URL-safe, secure, random String
      */

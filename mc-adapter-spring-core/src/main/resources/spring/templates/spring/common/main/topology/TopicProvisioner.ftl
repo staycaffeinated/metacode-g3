@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.errors.TopicExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,16 @@ public class ${TopicProvisioner.className()} {
                 .map(topic -> new NewTopic(topic, 4, (short) 1))
                 .toList();
 
-            client.createTopics(standardTopics);
+            client.createTopics(standardTopics).all().get();
+        }
+        catch (java.util.concurrent.ExecutionException e) {
+            if (!(e.getCause() instanceof TopicExistsException)) {
+                log.warn("Topic creation encountered an error: {}", e.getMessage());
+            }
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warn("Topic creation was interrupted: {}", e.getMessage());
         }
     }
 }

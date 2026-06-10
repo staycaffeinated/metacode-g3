@@ -130,12 +130,14 @@ public class ${Controller.className()} {
      */
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Delete an existing ${endpoint.entityName}")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Removed the ${endpoint.entityName}"),
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204",
+            description = "Removed the ${endpoint.entityName}. Returns number of records removed."),
         @ApiResponse(responseCode = "400", description = "An incorrect identifier was submitted")})
 </#if>
     @DeleteMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.delete})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
-        ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id);
+    public Mono<Long> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
+        return ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id);
     }
 }

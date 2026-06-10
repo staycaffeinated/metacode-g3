@@ -1,6 +1,7 @@
 <#include "/common/Copyright.ftl">
 package ${GlobalErrorWebExceptionHandler.packageName()};
 
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.web.WebProperties;
@@ -17,8 +18,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.*;
 import org.springframework.web.reactive.result.view.ViewResolver;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 /**
  * Exceptions not routed to the `GlobalExceptionHandler` are handled here.

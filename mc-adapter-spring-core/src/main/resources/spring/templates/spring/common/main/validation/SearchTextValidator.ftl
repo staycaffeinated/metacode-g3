@@ -22,22 +22,16 @@ import java.util.regex.Pattern;
  */
 public class SearchTextValidator implements ConstraintValidator<SearchText, String> {
 
-    // These value constraints are arbitrary, since we have to start somewhere.
+    // This value constraint is arbitrary, but we have to start somewhere.
     // These should be adjusted to something that makes sense to your use cases.
-    // Don't forget to account for URL-encoded values.
-    private static final String REGEX = "(?s).*";   // allow anything.
+    // Remember to account for URL-encoded values and unprintable characters.
     private static final int MAXLENGTH = 24;
-    private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     @Override
     public boolean isValid(@NonNull String value, ConstraintValidatorContext context) {
         // when empty, then the content of the text is irrelevant to the search filter
         if (ObjectUtils.isEmpty(value)) return true;
 
-        // don't allow unlimited length; pick a limit to the length
-        if (value.length() > MAXLENGTH) return false;
-
-        // check against the allowed characters
-        return PATTERN.matcher(value).find();
+        return value.length() <= MAXLENGTH;
     }
 }

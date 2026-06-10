@@ -65,22 +65,7 @@ class ${Entity.testClass()} {
         }
     }
     
-    
-	  @Nested
-	  class TestCopyMutableFields {
-		    @Test
-		    void shouldCopyMutableFields() {
-			      ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
 
-			      ${endpoint.ejbName} entity = ${EjbTestFixtures.className()}.oneWithResourceId();
-			      final String immutableId = entity.getResourceId();
-
-			      ${endpoint.ejbName} actual = entity.copyMutableFieldsFrom(pojo);
-
-			      assertThat(actual.getResourceId()).isEqualTo(immutableId);
-			      assertThat(actual.getText()).isEqualTo(pojo.getText());
-		    }
-	  }
 
     @Nested
     class TestIsNew {

@@ -5,21 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 
-import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.databind.node.ArrayNode;
-import tools.jackson.databind.node.ObjectNode;
 import jakarta.validation.ConstraintViolation;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
-import java.util.Set;
 
 /**
  * Handles turning exceptions into RFC-7807 problem/json responses,
@@ -71,9 +74,10 @@ public class ${GlobalExceptionHandler.className()} {
         for (final var constraint : constraintViolations) {
             ObjectNode objectNode = jsonMapper.createObjectNode();
 
-            String className = constraint.getLeafBean().toString().split("@")[0];
+            String className = constraint.getLeafBean().getClass().getSimpleName();
             String message = constraint.getMessage();
-            String propertyPath = constraint.getPropertyPath().toString().split("\\.")[0];
+            String fullPath = constraint.getPropertyPath().toString();
+            String propertyPath =  fullPath.contains(".") ? fullPath.substring(0, fullPath.indexOf('.')) : fullPath;
             Object invalidValue = constraint.getInvalidValue();
 
             objectNode.put("reason", message);
@@ -91,14 +95,27 @@ public class ${GlobalExceptionHandler.className()} {
         return Mono.just(problemDetail);
     }
 
+    @ExceptionHandler(ResponseStatusException.class)
+    public Mono<ResponseEntity<ProblemDetail>> handleResponseStatusException(ResponseStatusException exception) {
+        HttpStatusCode statusCode = exception.getStatusCode();
+        ProblemDetail problem = ProblemDetail.forStatus(statusCode);
+        String reason = exception.getReason();
+        if (reason != null) {
+            problem.setDetail(reason);
+        }
+        return Mono.just(ResponseEntity.status(statusCode).body(problem));
+    }
+
     /**
      * Catch anything not caught by other handlers
      */
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @SuppressWarnings({
         "java:S1172" // `exchange` is unused but needed for the method signature
     })
     public Mono<ProblemDetail> handle(ServerWebExchange exchange, Throwable ex) {
-        return problemDescription("ServerWebExchange Error", ex, HttpStatus.UNPROCESSABLE_CONTENT);
+        return problemDescription("Unexpected server error", ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**

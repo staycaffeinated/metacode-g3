@@ -27,7 +27,7 @@ public class BadRequestException extends ResponseStatusException {
      * Constructor
      */
     public BadRequestException(Throwable throwable) {
-        super(HttpStatus.BAD_REQUEST, "The request cannot be processed", throwable);
+        super(HttpStatus.BAD_REQUEST, "The request cannot be processed due to client error", throwable);
     }
 
     /**

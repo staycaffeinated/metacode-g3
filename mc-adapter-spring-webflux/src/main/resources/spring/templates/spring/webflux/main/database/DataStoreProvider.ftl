@@ -48,7 +48,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
     public Mono<${endpoint.entityName}> update${endpoint.entityName}(${endpoint.pojoName} resource) {
 	    return repository.findByResourceId(resource.getResourceId())
                     .flatMap(ejb -> {
-                        ejb.copyMutableFieldsFrom(resource);
+                        pojoToEjbConverter.copyUpdates(resource, ejb); // copy changes into ejb
                         return repository.save(ejb).mapNotNull(ejbToPojoConverter::convert);
                     });
     }
@@ -59,13 +59,13 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
      */
     @Override
     public Mono<${endpoint.pojoName}> findByResourceId(String id) {
-        Mono<${endpoint.ejbName}> monoItem = repository.findByResourceId(id)
-                .map(Optional::of)
-                .defaultIfEmpty(Optional.empty())
-                .flatMap(optionalItem -> optionalItem
-                    .<Mono<? extends ${Entity.className()}>>map(Mono::just) // if found
-                    .orElseGet(Mono::empty)); // if not found
-        return monoItem.flatMap(it -> Mono.just(Objects.requireNonNull(ejbToPojoConverter.convert(it))));
+        return repository.findByResourceId(id).flatMap(entity -> {
+                ${endpoint.pojoName} pojo = ejbToPojoConverter.convert(entity);
+                if (pojo == null) {
+                    return Mono.error(new UnprocessableEntityException());
+                }
+                return Mono.just(pojo);
+        });
     }
 
     /**
@@ -73,7 +73,13 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
      */
     @Override
     public Mono<${endpoint.pojoName}> findById(Long id) {
-        return repository.findById(id).map(ejbToPojoConverter::convert);
+        return repository.findById(id).flatMap(entity -> {
+                ${endpoint.pojoName} pojo = ejbToPojoConverter.convert(entity);
+                if (pojo == null) {
+                    return Mono.error(new UnprocessableEntityException());
+                }
+                return Mono.just(pojo);
+        });
     }
 
     /**
@@ -90,13 +96,13 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
      */
     @Override
     public Flux<${endpoint.pojoName}> findAllByText(String text) {
-        return Flux.from(repository.findAllByText(text).mapNotNull(ejbToPojoConverter::convert));
+        return repository.findAllByText(text).mapNotNull(ejbToPojoConverter::convert);
     }
 
     /**
      * findAll
      */
     public Flux<${endpoint.pojoName}> findAll() {
-        return Flux.from(repository.findAll().mapNotNull(ejbToPojoConverter::convert));
+        return repository.findAll().mapNotNull(ejbToPojoConverter::convert);
     }
 }
