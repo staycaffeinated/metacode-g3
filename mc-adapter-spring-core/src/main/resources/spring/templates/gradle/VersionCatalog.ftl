@@ -33,6 +33,9 @@ versions = '${project.versions["benManesPlugin"]}'
 
 
 [libraries]
+apache-kafka-streams = { module = "org.apache.kafka:kafka-streams" }
+apache-kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils" }
+
 assertJ = { module = "org.assertj:assertj-core", version.ref = "assertJ" }
 
 datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
@@ -45,13 +48,13 @@ flyway-test = { module = "org.flywaydb.flyway-test-extensions:flyway-test", vers
 
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 
-jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api" }
-jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api" }
-jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api" }
-
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
 jackson-core = { module = "tools.jackson.core:jackson-core" }
 jackson-databind = { module = "tools.jackson.core:jackson-databind" }
+
+jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api" }
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api" }
+jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api" }
 
 junit-bom = { module = "org.junit:junit-bom", version.ref="junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
@@ -61,12 +64,10 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 junit-platform-runner = { module = "org.junit.platform:junit-platform-runner" }
 junit-system-rules = { module = "com.github.stefanbirkner:system-rules", version.ref = "junitSystemRules" }
 
-apache-kafka-streams = { module = "org.apache.kafka:kafka-streams" }
-apache-kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils" }
-
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter" }
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync" }
 
