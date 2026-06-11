@@ -3,6 +3,7 @@ package ${TopicProvisioner.packageName()};
 
 import jakarta.annotation.PostConstruct;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -36,7 +37,7 @@ public class ${TopicProvisioner.className()} {
                 .map(topic -> new NewTopic(topic, 4, (short) 1))
                 .toList();
 
-            client.createTopics(standardTopics).all().get();
+            client.createTopics(standardTopics).all().get(10, TimeUnit.SECONDS);
         }
         catch (java.util.concurrent.ExecutionException e) {
             if (!(e.getCause() instanceof TopicExistsException)) {
@@ -46,6 +47,9 @@ public class ${TopicProvisioner.className()} {
         catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.warn("Topic creation was interrupted: {}", e.getMessage());
+        }
+        catch (java.util.concurrent.TimeoutException e) {
+            log.warn("Topic creation timed out: {}", e.getMessage());
         }
     }
 }

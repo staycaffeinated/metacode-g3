@@ -15,33 +15,15 @@ import java.util.Optional;
 
 public interface ${ServiceApi.className()} {
 
-    /*
-     * findAll
-     */
     List<${endpoint.entityName}> findAll${endpoint.entityName}s();
 
-    /**
-     * findByResourceId
-     */
     Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id);
 
-    /*
-     * findByText
-     */
     Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable);
 
-    /**
-     * Persists a new resource
-     */
     ${EntityResource.className()} create${endpoint.entityName}(@NonNull @Validated(${OnCreateAnnotation.className()}.class) ${EntityResource.className()} resource);
 
-    /**
-     * Updates an existing resource
-     */
     List<${EntityResource.className()}> update${endpoint.entityName}(@NonNull @Validated(${OnUpdateAnnotation.className()}.class) @Valid ${EntityResource.className()} resource);
 
-    /**
-     * delete
-     */
     void delete${endpoint.entityName}ByResourceId(@NonNull String id);
 }

@@ -4,6 +4,7 @@ package ${Document.packageName()};
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +13,6 @@ import java.util.Objects;
 @Document(${Document.className()}.COLLECTION_NAME)
 @EqualsAndHashCode(of = {"resourceId"})
 @NoArgsConstructor
-@AllArgsConstructor
 public class ${Document.className()} {
 
     public static final String COLLECTION_NAME = "${endpoint.tableName}";

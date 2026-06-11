@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
-* The default implementation of this controller merely returns Http:200 responses to GET requests.
+* The default implementation of this controller returns Http:200 responses to GET requests.
 */
 @RestController
 @RequestMapping("/")

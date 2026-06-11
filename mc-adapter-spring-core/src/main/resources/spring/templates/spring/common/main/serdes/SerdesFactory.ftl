@@ -1,7 +1,7 @@
 
 package ${SerdesFactory.packageName()};
 
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import org.apache.kafka.common.serialization.Serde;
@@ -24,10 +24,10 @@ import org.springframework.stereotype.Component;
 })
 public class ${SerdesFactory.className()} {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
-    public SerdesFactory(@Nonnull ObjectMapper objectMapper) {
-        this.objectMapper = Objects.requireNonNull(objectMapper, "The ObjectMapper must not be null");
+    public SerdesFactory(@Nonnull JsonMapper jsonMapper) {
+        this.jsonMapper = Objects.requireNonNull(jsonMapper, "The JsonMapper must not be null");
     }
 
     /*!
@@ -37,8 +37,8 @@ public class ${SerdesFactory.className()} {
       adding a call to `serdesFactory.PurchaseEvent()` accomplishes that.
 
       public Serde<PurchaseEvent> PurchaseEvent() {
-          JacksonSerializer<PurchaseEvent> jsonSerializer = new JacksonSerializer<>(objectMapper);
-          JacksonDeserializer<PurchaseEvent> jsonDeserialize = new JacksonDeserializer<>(PurchaseEvent.class, objectMapper);
+          JacksonSerializer<PurchaseEvent> jsonSerializer = new JacksonSerializer<>(jsonMapper);
+          JacksonDeserializer<PurchaseEvent> jsonDeserialize = new JacksonDeserializer<>(PurchaseEvent.class, jsonMapper);
 
           return Serdes.serdeFrom(jsonSerializer, jsonDeserialize);
       }

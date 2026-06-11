@@ -10,7 +10,6 @@ import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${ConcreteDocumentStoreApi.fqcn()};
 import com.mongodb.client.result.UpdateResult;
-import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +31,6 @@ import java.util.Optional;
 */
 @Component
 @RequiredArgsConstructor
-@Builder
 public class ${ConcreteDocumentStoreImpl.className()} implements ${ConcreteDocumentStoreApi.className()} {
 
     private final ${DocumentToPojoConverter.className()} documentConverter;
@@ -47,12 +45,8 @@ public class ${ConcreteDocumentStoreImpl.className()} implements ${ConcreteDocum
     public Optional<${EntityResource.className()}> findByResourceId(@NonNull String publicId)  {
         Query query = Query.query(Criteria.where(RESOURCE_ID).is(publicId));
         ${Document.className()} document = mongoTemplate.findOne(query, ${Document.className()}.class, ${Document.className()}.collectionName());
-        if (document == null)
-            return Optional.empty();
-        else {
-            ${EntityResource.className()} pojo = documentConverter.convert(document);
-            return Optional.ofNullable(pojo);
-        }
+        if (document == null) return Optional.empty();
+        return Optional.of(documentConverter.convert(document));
     }
 
     @Override
@@ -68,7 +62,6 @@ public class ${ConcreteDocumentStoreImpl.className()} implements ${ConcreteDocum
     @Override
     public ${EntityResource.className()} create(${EntityResource.className()} pojo) {
         ${Document.className()} document = pojoConverter.convert(pojo);
-        Objects.requireNonNull(document);
         document.setResourceId(resourceIdGenerator.nextResourceId());
         ${Document.className()} managed = mongoTemplate.save(document, ${Document.className()}.collectionName());
         return documentConverter.convert(managed);
@@ -79,17 +72,12 @@ public class ${ConcreteDocumentStoreImpl.className()} implements ${ConcreteDocum
         Query query = Query.query(Criteria.where(RESOURCE_ID).is(pojo.getResourceId()));
         // By default, this is only updating the 'text' column.
         // You will want to decide how you want this to actually work and change this.
-        UpdateDefinition updateDefinition = Update.update("text", pojo.getText());
+        UpdateDefinition updateDefinition = Update.update(${Document.className()}.Columns.TEXT, pojo.getText());
         UpdateResult updateResult = mongoTemplate.updateMulti(query, updateDefinition, ${Document.className()}.collectionName());
-        if (updateResult.getModifiedCount() > 0) {
-            List<${Document.className()}> modified = mongoTemplate.find(query, ${Document.className()}.class, ${Document.className()}.collectionName());
-            if (!modified.isEmpty()) {
-                List<${EntityResource.className()}> pojoList = documentConverter.convert(modified);
-                return List.copyOf(pojoList);
-            }
-        }
-        // No matches were found, so return an empty list
-        return List.of();
+        if (updateResult.getModifiedCount() == 0) return List.of();
+        List<${Document.className()}> modified = mongoTemplate.find(query, ${Document.className()}.class, ${Document.className()}.collectionName());
+        if (modified.isEmpty()) return List.of();
+        return List.copyOf(documentConverter.convert(modified));
     }
 
     @Override

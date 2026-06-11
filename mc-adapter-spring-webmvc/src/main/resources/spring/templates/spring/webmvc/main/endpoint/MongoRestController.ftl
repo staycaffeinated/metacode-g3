@@ -40,26 +40,19 @@ public class ${Controller.className()} {
 
     private final ${ServiceApi.className()} ${ServiceApi.varName()};
 
-    /*
-     * Constructor
-     */
+
     @Autowired
     public ${endpoint.entityName}Controller(${ServiceApi.className()} service) {
         this.${ServiceApi.varName()} = service;
     }
 
-    /*
-     * Get all
-     */
+
     @GetMapping (value=${Routes.className()}.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
     public List<${EntityResource.className()}> getAll${endpoint.entityName}s() {
         return ${ServiceApi.varName()}.findAll${endpoint.entityName}s();
     }
 
-    /*
-     * Get one by resourceId
-     *
-     */
+
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<${EntityResource.className()}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
         return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)
@@ -67,11 +60,8 @@ public class ${Controller.className()} {
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /*
-     * Create one
-     */
+
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<${EntityResource.className()}> create${endpoint.entityName}(@RequestBody @Validated(${OnCreateAnnotation.className()}.class) ${EntityResource.className()} resource ) {
         try {
             ${endpoint.pojoName} savedResource = ${ServiceApi.varName()}.create${endpoint.entityName} ( resource );
@@ -89,9 +79,7 @@ public class ${Controller.className()} {
         }
     }
 
-    /*
-     * Update one
-     */
+
     @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.update}, produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<List<${EntityResource.className()}>> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(${OnUpdateAnnotation.className()}.class) ${EntityResource.className()} ${endpoint.entityVarName}) {
         if (!id.equals(${endpoint.entityVarName}.getResourceId())) {
@@ -104,9 +92,7 @@ public class ${Controller.className()} {
             return ResponseEntity.ok(rs);
     }
 
-    /*
-     * Delete one
-     */
+
     @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.delete})
     public ResponseEntity<${EntityResource.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
         return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)

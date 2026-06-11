@@ -100,7 +100,6 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
     @Validated(OnCreate.class) 
     public Mono<ResponseEntity<ResourceIdentity>> create${endpoint.entityName}(@RequestBody ${endpoint.pojoName} resource ) {
         Mono<String> id = ${endpoint.entityVarName}Service.create${endpoint.entityName}(resource);

@@ -65,13 +65,12 @@ class ${MongoDataStoreImpl.testClass()} {
 
     @BeforeEach
     void setUp() {
-        documentStore = ${MongoDataStoreImpl.className()}.builder()
-            .documentConverter(documentConverter)
-            .pojoConverter(pojoConverter)
-            .resourceIdGenerator(resourceIdGenerator)
-            .repository(mockRepository)
-            .mongoTemplate(mockMongoTemplate)
-            .build();
+        documentStore = new ${MongoDataStoreImpl.className()}(
+            documentConverter,
+            pojoConverter,
+            resourceIdGenerator,
+            mockMongoTemplate,
+            mockRepository);
     }
 
     @Nested
