@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class PredicateHelper {
@@ -271,9 +272,6 @@ public class PredicateHelper {
     }
 
     public static <T> T checkNotNull(T reference) {
-        if (reference == null) {
-            throw new NullPointerException();
-        }
-        return reference;
+        return Objects.requireNonNull(reference);
     }
 }

@@ -68,7 +68,7 @@ public class CatalogEntryPredicates {
     }
 
     /**
-     * Returns {@code true} if the CatalogEntry's tags includes {@code postgres}
+     * Returns {@code true} if the CatalogEntry's tags includes {@code testcontainer}
      */
     public static Predicate<CatalogEntry> hasTestContainerTag() {
         return p -> containsTag(p, "testcontainer");

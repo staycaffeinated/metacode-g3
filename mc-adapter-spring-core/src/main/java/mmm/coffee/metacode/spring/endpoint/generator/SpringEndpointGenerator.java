@@ -37,7 +37,7 @@ import org.apache.commons.configuration2.Configuration;
 // S125: we're OK with comments that look like code
 public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescriptor> {
 
-    final MetaPropertiesHandler<RestEndpointDescriptor> metaPropertiesHandler;
+    private final MetaPropertiesHandler<RestEndpointDescriptor> metaPropertiesHandler;
     private final ConvertTrait<RestEndpointDescriptor, RestEndpointTemplateModel> descriptor2templateModel;
     private final ConvertTrait<RestEndpointDescriptor, Predicate<CatalogEntry>> descriptor2predicate;
     private final TemplateResolver<MetaTemplateModel> templateRenderer;
@@ -66,7 +66,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
      */
     @Override
     public ICodeGenerator<RestEndpointDescriptor> doPreprocessing(RestEndpointDescriptor spec) {
-        log.info("[doPreprocessing] on entry, spec.tableName ={}", spec.getTableName());
+        log.debug("[doPreprocessing] on entry, spec.tableName ={}", spec.getTableName());
         Configuration config = metaPropertiesHandler.readMetaProperties();
         spec.setBasePackage(config.getString(MetaProperties.BASE_PACKAGE));
         spec.setBasePath(config.getString(MetaProperties.BASE_PATH));
@@ -80,7 +80,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         spec.setWithOpenApi(config.getBoolean(MetaProperties.ADD_OPENAPI, false));
         spec.setWithKafka(config.getBoolean(MetaProperties.ADD_KAFKA, false));
 
-        log.info("[doPreprocessing] on exit, spec.tableName ={}", spec.getTableName());
+        log.debug("[doPreprocessing] on exit, spec.tableName ={}", spec.getTableName());
 
         return this;
     }
@@ -103,7 +103,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Build the TemplateModel consumed by Freemarker to resolve template variables
         var templateModel = descriptor2templateModel.convert(descriptor);
 
-        log.info("[generateCode] tableName at entry is {}", templateModel.getTableName());
+        log.debug("[generateCode] tableName at entry is {}", templateModel.getTableName());
 
         templateModel.setCustomProperties(CustomPropertyAssembler.assembleCustomProperties(
                 archetypeDescriptorFactory,
@@ -118,9 +118,9 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
         // Provide state to the MustacheDecoder so that mustache variables can be resolved.
         mustacheDecoder.configure(templateModel);
 
-        log.info("[generateCode] collector is-a {}", collector.getClass().getName());
-        log.info("[generateCode] outputHandler is-a {}", outputHandler.getClass().getName());
-        log.info("[generateCode] tableName before rendering is {}", templateModel.getTableName());
+        log.debug("[generateCode] collector is-a {}", collector.getClass().getName());
+        log.debug("[generateCode] outputHandler is-a {}", outputHandler.getClass().getName());
+        log.debug("[generateCode] tableName before rendering is {}", templateModel.getTableName());
 
         // Render the templates
         collector.prepare(descriptor).collect().stream().parallel().filter(keepThese).forEach(catalogEntry -> {
@@ -132,7 +132,7 @@ public class SpringEndpointGenerator implements ICodeGenerator<RestEndpointDescr
                             catalogEntry.getArchetype(),
                             templateModel,
                             mustacheDecoder);
-                    log.info("Resolved destination: archetype: {}, destination: {}", catalogEntry.getArchetype(), outputFileName);
+                    log.debug("Resolved destination: archetype: {}, destination: {}", catalogEntry.getArchetype(), outputFileName);
                     outputHandler.writeOutput(outputFileName, renderedContent);
                 }
             });

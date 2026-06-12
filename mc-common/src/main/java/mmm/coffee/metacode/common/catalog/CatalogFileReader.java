@@ -68,6 +68,14 @@ import static org.springframework.util.ResourceUtils.FILE_URL_PREFIX;
 @Component
 public class CatalogFileReader implements ICatalogReader {
 
+    private static final ObjectMapper YAML_OBJECT_MAPPER;
+
+    static {
+        YAML_OBJECT_MAPPER = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+        YAML_OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        YAML_OBJECT_MAPPER.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true);
+    }
+
     private final ResourceLoader resourceLoader;
 
     /**
@@ -95,26 +103,14 @@ public class CatalogFileReader implements ICatalogReader {
      * @return the entries of the catalog, as a list of CatalogEntry
      */
     public Optional<TemplateCatalog> readCatalog(@NonNull String catalogLocation) {
-        ObjectMapper objectMapper = getYamlFriendlyObjectMapper();
         try (InputStream is = loadResourceAsInputStream(catalogLocation)) {
             // fail fast if file isn't found
             Objects.requireNonNull(is, String.format("The catalog file, '%s', was not found. Verify the resource exists at the given path.", catalogLocation));
-            return Optional.of(objectMapper.readValue(is, TemplateCatalog.class));
+            return Optional.of(YAML_OBJECT_MAPPER.readValue(is, TemplateCatalog.class));
         } catch (IOException e) {
             String msg = String.format("Unable to read catalog file: %s", catalogLocation);
             throw new RuntimeApplicationError(msg, e);
         }
-    }
-
-    private ObjectMapper getYamlFriendlyObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
-
-        /*
-         * This can also be set at class-level with an annotation: @JsonIgnoreProperties(ignoreUnknown = true)
-         */
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true);
-        return mapper;
     }
 
     /**

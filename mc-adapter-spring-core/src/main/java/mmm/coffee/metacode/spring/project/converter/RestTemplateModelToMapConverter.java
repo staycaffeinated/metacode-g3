@@ -23,12 +23,12 @@ import java.util.Map;
  */
 public class RestTemplateModelToMapConverter implements ConvertTrait<RestProjectTemplateModel, Map<String, String>> {
 
-    public Map<String, String> convert(RestProjectTemplateModel model) {
-        NameConverter nameConverter = new NameConverter();
+    private static final NameConverter NAME_CONVERTER = new NameConverter();
 
+    public Map<String, String> convert(RestProjectTemplateModel model) {
         var map = new HashMap<String, String>();
         map.put(MustacheConstants.BASE_PACKAGE, model.getBasePackage());
-        map.put(MustacheConstants.BASE_PACKAGE_PATH, nameConverter.packageNameToPath(model.getBasePackage()));
+        map.put(MustacheConstants.BASE_PACKAGE_PATH, NAME_CONVERTER.packageNameToPath(model.getBasePackage()));
         map.put(MustacheConstants.BASE_PATH, model.getBasePath());
         map.put(MustacheConstants.APP_MODULE, model.getAppModule());
         return map;

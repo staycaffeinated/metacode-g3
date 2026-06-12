@@ -41,7 +41,6 @@ import java.util.function.Predicate;
 @Slf4j
 @SuperBuilder
 @SuppressWarnings({
-        "java:S1068",   // this is a work-in-progress, so unused stuff is OK
         "java:S1602",   // false positive; curly braces in a comment do not mean it's a commented-out lambda function
         "java:S125",    // we're OK with comments that happen to look like code
         "java:S4738"    // migrating to java.util.function.Predicate is on the roadmap
@@ -57,12 +56,6 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
     private final MustacheDecoder mustacheDecoder;
     private final MetaPropertiesHandler<RestProjectDescriptor> metaPropertiesHandler;
     private final IArchetypeDescriptorFactory archetypeDescriptorFactory;
-
-    /*
-     * An instance of a RestProjectDescriptor is almost never available
-     * when this object's builder methods are called.
-     */
-    private RestProjectDescriptor descriptor;
 
     /**
      * Writes the metacode.properties file
@@ -141,7 +134,6 @@ public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDes
                         templateModel,
                         mustacheDecoder);
                 log.debug("Resolved destination: archetype: {}, destination: {}", catalogEntry.getArchetype(), outputFileName);
-                //String outputFileName = mustacheDecoder.decode(facet.getDestination());
                 outputHandler.writeOutput(outputFileName, renderedContent);
             });
         });

@@ -26,9 +26,9 @@ public class ClassNameRuleSet {
 
     public String resolveClassName(String archetype) {
         String pkgExpression = ruleset.getOrDefault(archetype, "{{archetype}}");
-        Map<String, String> model = new HashMap<>();
-        model.put("archetype", StringUtils.capitalize(archetype));
-        model.put("restResource", StringUtils.capitalize(archetype)); // to handle RootController/Service
+        Map<String, String> model = Map.of(
+            "archetype", StringUtils.capitalize(archetype),
+            "restResource", StringUtils.capitalize(archetype)); // to handle RootController/Service
         return MustacheExpressionResolver.resolve(pkgExpression, model);
     }
 
@@ -38,9 +38,9 @@ public class ClassNameRuleSet {
         if (pkgExpression.endsWith(UNDEFINED_SUFFIX)) {
             log.warn("No classname rule was found for archetype '{}', so the suffix 'Undefined' was used.", archetypeName);
         }
-        Map<String, String> model = new HashMap<>();
-        model.put("restResource", StringUtils.capitalize(resource));
-        model.put("archetype", StringUtils.capitalize(archetypeName));
+        Map<String, String> model = Map.of(
+            "restResource", StringUtils.capitalize(resource),
+            "archetype", StringUtils.capitalize(archetypeName));
         return MustacheExpressionResolver.resolve(pkgExpression, model);
     }
 

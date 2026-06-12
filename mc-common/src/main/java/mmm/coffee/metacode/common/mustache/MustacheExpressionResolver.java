@@ -17,11 +17,13 @@ package mmm.coffee.metacode.common.mustache;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
+import com.samskivert.mustache.Template;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Converts a mustache expressions into a resolved value.
@@ -29,6 +31,8 @@ import java.util.Map;
 @Component
 @Slf4j
 public class MustacheExpressionResolver {
+
+    private static final ConcurrentHashMap<String, Template> TEMPLATE_CACHE = new ConcurrentHashMap<>();
 
     private MustacheExpressionResolver() {
         // empty
@@ -44,7 +48,9 @@ public class MustacheExpressionResolver {
      */
     public static String resolve(@NonNull String mustacheExpression, Map<String, String> values) {
         try {
-            return Mustache.compiler().compile(mustacheExpression).execute(values);
+            Template template = TEMPLATE_CACHE.computeIfAbsent(
+                mustacheExpression, expr -> Mustache.compiler().compile(expr));
+            return template.execute(values);
         }
         catch (MustacheException e) {
             String msg = String.format("This expression could not be evaluated: %s. %s",  mustacheExpression, e.getMessage());

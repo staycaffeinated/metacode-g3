@@ -30,8 +30,8 @@ public class CustomPropertyAssembler {
         Map<String, ArchetypeDescriptor> customProperties = ProjectArchetypeToMap.map(archetypeDescriptorFactory);
         Map<String, Object> props = new TreeMap<>();
         customProperties.forEach((key, value) -> {
-            ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage);
-            props.put(key, descriptor1);
+            ArchetypeDescriptor resolved = resolveBasePackageOf(value, basePackage);
+            props.put(key, resolved);
         });
         return props;
     }
@@ -55,8 +55,8 @@ public class CustomPropertyAssembler {
         // of project-scope classes (such as Exceptions and ResourceIdSuppliers). 
         Map<String, Object> endpointScopeProperties = new TreeMap<>(projectScopeProperties);
         customProperties.forEach((key, value) -> {
-            ArchetypeDescriptor descriptor1 = resolveBasePackageOf(value, basePackage, restResource);
-            endpointScopeProperties.put(key, descriptor1);
+            ArchetypeDescriptor resolved = resolveBasePackageOf(value, basePackage, restResource);
+            endpointScopeProperties.put(key, resolved);
         });
         return endpointScopeProperties;
     }
@@ -79,7 +79,7 @@ public class CustomPropertyAssembler {
                      PostgresDbContainerTests,
                      AbstractPostgresIntegrationTest ->
                 {
-                    log.info("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
+                    log.debug("[resolveBasePackageOf: archetype: {}", descriptor.archetypeName());
                     yield EdgeCaseResolvedArchetypeDescriptor.builder()
                             .archetype(descriptor.archetype())
                             .fqcn(resolvedFQCN)
@@ -100,7 +100,7 @@ public class CustomPropertyAssembler {
     }
 
     protected static ArchetypeDescriptor resolveBasePackageOf(ArchetypeDescriptor descriptor, String basePackage, String restObj) {
-        log.info("[resolveBasePackageOf] restObj: {}", restObj);
+        log.debug("[resolveBasePackageOf] restObj: {}", restObj);
         if (descriptor instanceof JavaArchetypeDescriptor that) {
             Map<String, String> map = new HashMap<>();   // the map for the mustache resolver
             map.put("basePackage", basePackage);

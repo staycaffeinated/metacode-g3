@@ -10,6 +10,7 @@ import mmm.coffee.metacode.spring.project.converter.RestTemplateModelToMapConver
 import mmm.coffee.metacode.spring.project.model.RestProjectTemplateModel;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This function decodes any mustache expression used in
@@ -39,6 +40,7 @@ public class MustacheDecoder implements DecodeTrait {
     }
 
     public String decode(@NonNull String incoming) {
+        Objects.requireNonNull(map, "configure() must be called before decode()");
         return MustacheExpressionResolver.resolve(incoming, map);
     }
 }

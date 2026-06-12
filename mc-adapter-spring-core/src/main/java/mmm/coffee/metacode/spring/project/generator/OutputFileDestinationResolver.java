@@ -65,12 +65,12 @@ public class OutputFileDestinationResolver {
                 }
             }
         }
-        // If customProps is null we land here
-        log.error("Unable to resolve the destination of {}", archetypeName);
-        log.error("If this block is reached when processing a project-scope archetype, it is possible%n the archetype is not included in the ProjectArchetypeToMap class,%n so the archetype is mistaken for an endpoint-scope archetype.");
-        log.debug("[resolveDestination] destinationExpression: {}", destinationExpression);
-        log.debug("[resolveDestination] archetypeName: {}", archetypeName);
-        return null;
+        // If customProps is null or archetypeName is not found, we land here
+        String msg = String.format(
+            "Unable to resolve the destination of '%s'. If this occurs for a project-scope archetype, verify the archetype is registered in ProjectArchetypeToMap.",
+            archetypeName);
+        log.error(msg);
+        throw new RuntimeApplicationError(msg);
 
     }
 
