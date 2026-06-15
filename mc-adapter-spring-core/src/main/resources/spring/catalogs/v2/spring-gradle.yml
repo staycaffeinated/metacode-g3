@@ -36,12 +36,12 @@ entries:
   # -- Application Config Classes
   # ------------------------------------------------
   - scope: "project"
-    archetype: "KafkaTopicsConfiguration"
+    archetype: "KafkaAdminConfiguration"
     feature: "kafka"
     tags: "kafka"
     facets:
       - facet: "main"
-        sourceTemplate: "/spring/common/main/config/KafkaTopicsConfiguration.ftl"
+        sourceTemplate: "/spring/common/main/config/KafkaAdminConfiguration.ftl"
 
   - scope: "project"
     archetype: "KafkaConsumerConfiguration"

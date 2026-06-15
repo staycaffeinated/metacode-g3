@@ -40,7 +40,7 @@ public enum Archetype {
     JobCompletionNotificationListener("JobCompletionNotificationListener"),
     KafkaProducerConfiguration("KafkaProducerConfiguration"),
     KafkaConsumerConfiguration("KafkaConsumerConfiguration"),
-    KafkaTopicsConfiguration("KafkaTopicsConfiguration"),
+    KafkaAdminConfiguration("KafkaAdminConfiguration"),
     ObjectMapperConfiguration("ObjectMapperConfiguration"),
 
     // converters

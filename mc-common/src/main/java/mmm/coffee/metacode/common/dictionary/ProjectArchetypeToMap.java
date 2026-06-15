@@ -64,7 +64,7 @@ public class ProjectArchetypeToMap {
             Archetype.BatchConfiguration,
             Archetype.JobCompletionNotificationListener,
             Archetype.KafkaProducerConfiguration,
-            Archetype.KafkaTopicsConfiguration,
+            Archetype.KafkaAdminConfiguration,
             Archetype.KafkaConsumerConfiguration,
             Archetype.ObjectMapperConfiguration,
 

@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${KafkaTopicsConfiguration.packageName()};
+package ${KafkaAdminConfiguration.packageName()};
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +23,7 @@ import org.springframework.kafka.core.KafkaAdmin;
  */
 @Configuration
 @EnableKafka
-public class ${KafkaTopicsConfiguration.className()} {
+public class ${KafkaAdminConfiguration.className()} {
 
     <#noparse>@Value("${spring.kafka.bootstrap-servers}")</#noparse>
     private List<String> bootstrapServers;
