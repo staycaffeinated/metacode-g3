@@ -8,8 +8,8 @@ spring:
         driver-class-name: "org.testcontainers.jdbc.ContainerDatabaseDriver"
     <#noparse>
         url: "jdbc:tc:postgresql:17.2-alpine3.20:///testdb?currentSchema=public"
-        username: "postgres"
-        password: "postgres"
+        username: "${DB_USERNAME:postgres}"
+        password: "${DB_PASSWORD:postgres}"
     </#noparse>
     jpa:
         database: POSTGRESQL

@@ -41,8 +41,10 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: root
-    password: secret
+    <#noparse>
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:secret}
+    </#noparse>
     url: jdbc:postgresql://localhost:5432
 </#if>
 

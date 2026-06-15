@@ -30,8 +30,10 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     # These are example credentials; change them
-    username: postgres
-    password: postgres
+    <#noparse>
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    </#noparse>
   jpa:
     # Vendor list is found here: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/jpa/vendor/Database.html
     vendor: POSTGRESQL

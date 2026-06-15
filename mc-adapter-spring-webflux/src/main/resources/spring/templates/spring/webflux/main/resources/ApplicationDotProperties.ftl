@@ -101,13 +101,17 @@ spring:
         id:
           new_generator_mappings: false
   r2dbc:
-    username: postgres
-    password: postgres
+    <#noparse>
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    </#noparse>
     url: r2dbc:postgresql://localhost:5432/postgres
 <#else>
   r2dbc:
-    username: root
-    password: secret
+    <#noparse>
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:secret}
+    </#noparse>
     <#if (project.schema)??>
     url: r2dbc:h2:mem:///${project.schema};DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
     <#else>

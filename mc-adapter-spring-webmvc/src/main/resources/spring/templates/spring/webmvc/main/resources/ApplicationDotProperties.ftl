@@ -85,14 +85,18 @@ spring:
 <#-- define the jdbc driver -->
 <#if (project.isWithPostgres())>
   datasource:
-    username: postgres
-    password: postgres
+    <#noparse>
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    </#noparse>
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
 <#else>
   datasource:
-    username: root
-    password: secret
+    <#noparse>
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:secret}
+    </#noparse>
     driver-class-name: org.h2.Driver
 <#if (project.schema)??>
     url: jdbc:h2:mem:${project.schema}
