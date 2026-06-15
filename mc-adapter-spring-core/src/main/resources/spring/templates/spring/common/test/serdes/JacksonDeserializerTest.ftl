@@ -52,6 +52,15 @@ class ${JacksonDeserializer.className()}Test {
             }
         }
 
+        @Test
+        void whenMalformedJson_thenReturnsNull() {
+            try (JacksonDeserializer<TestObject> deserializer = new JacksonDeserializer<>(TestObject.class)) {
+                byte[] malformed = "not-valid-json".getBytes();
+                TestObject actual = deserializer.deserialize("fake-topic", malformed);
+                assertThat(actual).isNull();
+            }
+        }
+
         @ParameterizedTest
         @NullSource
         void throwsExceptionIfTargetClassIsNull(Class<?> targetClass) {
