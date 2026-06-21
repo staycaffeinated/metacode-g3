@@ -187,7 +187,7 @@ spring:
       application-id: <#noparse>"${spring.application.name}"</#noparse>
       # This is optional if `spring.kafka.bootstrap-servers` is configured.
       bootstrap-servers: <#noparse>${spring.kafka.bootstrap-servers}</#noparse>
-    properties:
+      properties:
         default:
           key:
             serde: 'org.apache.kafka.common.serialization.Serdes$StringSerde'
