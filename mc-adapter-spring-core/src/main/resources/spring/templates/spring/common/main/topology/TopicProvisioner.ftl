@@ -1,16 +1,25 @@
 package ${TopicProvisioner.packageName()};
 
-
+import ${Schema.fqcn()};
 import jakarta.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.errors.TopicExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
-import org.springframework.stereotype.Component;
 
 /*
  * This is a convenience class that creates the standard topics used by the application.
@@ -19,37 +28,47 @@ import org.springframework.stereotype.Component;
  * create the topics.
  */
 
-@Component
+@Configuration
+@EnableKafka
 @Slf4j
 public class ${TopicProvisioner.className()} {
 
     private final KafkaAdmin kafkaAdmin;
 
     @Autowired
-    public TopicProvisioner(KafkaAdmin kafkaAdmin) {
+    public ${TopicProvisioner.className()}(KafkaAdmin kafkaAdmin) {
         this.kafkaAdmin = kafkaAdmin;
     }
 
-    @PostConstruct
-    public void createStandardTopics() {
+    @EventListener(ApplicationReadyEvent.class)
+    public void createTopics() {
         try (AdminClient client = AdminClient.create(kafkaAdmin.getConfigurationProperties())) {
-            List<NewTopic> standardTopics = Schema.allTopics().stream()
-                .map(topic -> new NewTopic(topic, 4, (short) 1))
-                .toList();
-
-            client.createTopics(standardTopics).all().get(10, TimeUnit.SECONDS);
+            List<NewTopic> topics = Arrays.stream(Schema.ALL_TOPICS).map(this::createTopic).toList();
+            client.createTopics(topics).all().get(30, TimeUnit.SECONDS);
         }
-        catch (java.util.concurrent.ExecutionException e) {
-            if (!(e.getCause() instanceof TopicExistsException)) {
-                log.warn("Topic creation encountered an error: {}", e.getMessage());
+        catch (ExecutionException e) {
+            if (e.getCause() instanceof TopicExistsException) {
+                log.info("Topics already exist");
+            } else {
+                log.error("Failed to create Kafka topics", e);
             }
         }
         catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            log.warn("Topic creation was interrupted: {}", e.getMessage());
+            log.error("Topic creation interrupted", e);
         }
-        catch (java.util.concurrent.TimeoutException e) {
-            log.warn("Topic creation timed out: {}", e.getMessage());
+        catch (TimeoutException e) {
+            log.error("Timed out waiting for topic creation", e);
         }
+    }
+    /*
+     * The brokers' default number of partitions and replicas will be used
+     * if those values are not explicitly set here.
+     * For guidance on choosing the number of partitions, see:
+     * https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/
+     * https://www.confluent.io/blog/kafka-streams-tables-part-2-topics-partitions-and-storage-fundamentals/
+     */
+    private NewTopic createTopic(String topicName) {
+        return TopicBuilder.name(topicName).build();
     }
 }

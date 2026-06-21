@@ -11,13 +11,15 @@ import java.util.List;
  * The structure of this class is inspired by some example code from Confluent.
  */
 
+@SuppressWarnings({"java:S2386" // false positive; ALL_TOPICS cannot be `protected`
+})
 public class ${Schema.className()} {
 
-    public static List<String> allTopics() {
-        return List.of(Topics.ITEM_CREATED, Topics.ITEM_VALIDATED, Topics.ITEM_DLQ);
-    }
+    public static final String[] ALL_TOPICS = {
+        Topics.ITEM_CREATED, Topics.ITEM_VALIDATED, Topics.ITEM_DLQ
+    };
 
-    // These are the topics used by the application.
+    // These are the example topics. Change these to match your application.
     public static class Topics {
         public static final String ITEM_CREATED = "example-app.items.created";
         public static final String ITEM_VALIDATED = "example-app.items.validated";
