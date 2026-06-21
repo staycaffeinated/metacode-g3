@@ -1,4 +1,7 @@
 dependencies {
+    // enable Mockito Java Agents
+    <#noparse>mockitoAgent("org.mockito:mockito-core") { transitive = false }</#noparse>
+
     annotationProcessor libs.spring.boot.config.processor
 
     developmentOnly libs.spring.devtools

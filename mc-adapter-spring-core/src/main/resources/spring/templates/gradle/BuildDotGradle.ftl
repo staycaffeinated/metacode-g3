@@ -60,3 +60,12 @@ tasks.named('check') {
     dependsOn tasks.named('integrationTestCodeCoverageReport')
     dependsOn tasks.named('testCodeCoverageReport')
 }
+
+// --------------------------------------------------------------------------------
+// Enable Mockito's Agent
+// --------------------------------------------------------------------------------
+tasks.withType(Test).configureEach {
+    doFirst {
+        <#noparse>jvmArgs "-javaagent:${configurations.mockitoAgent.asPath}"</#noparse>
+    }
+}
