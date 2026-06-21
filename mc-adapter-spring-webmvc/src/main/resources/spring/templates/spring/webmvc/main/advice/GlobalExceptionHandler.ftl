@@ -3,12 +3,14 @@ package ${GlobalExceptionHandler.packageName()};
 
 import ${Exception.packageName()}.UnprocessableEntityException;
 
-import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.databind.node.ArrayNode;
-import tools.jackson.databind.node.ObjectNode;
 import jakarta.validation.ConstraintViolation;
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.Set;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -17,11 +19,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 
-import java.sql.SQLException;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * Handles turning exceptions into RFC-7807 problem/json responses,
@@ -138,13 +140,20 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
 
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
-     *
+     * The parent class implements a protected version of this method.
      * @param ex MissingServletRequestParameterException
      * @return the ApiError object
      */
-    protected ResponseEntity<ProblemDetail> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
-        String error = String.format("The parameter '%s' is missing", ex.getParameterName());
-        return problemDescription (error, ex, HttpStatus.UNPROCESSABLE_CONTENT);
+    @Override
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(
+                                MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request)
+    {
+
+        String title = String.format("Missing request parameter '%s'", ex.getParameterName());
+        ProblemDetail pd = ProblemDetail.forStatus(status);
+        pd.setDetail(ex.getMessage());
+        pd.setTitle(title);
+        return ResponseEntity.status(status).body(pd);
     }
 
 

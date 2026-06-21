@@ -1,3 +1,32 @@
+14.x:
+
+1. Add an ApplicationProperties class in the infra layer. It'll read from app.yml
+any properties starting with `application:`
+
+
+1. Add 4 base folders:
+    - domain
+    - infrastructure
+    - adapters
+    - application
+
+2. Add domain/model package. Write POJOs there.
+Book.java should not import validation.*.
+
+3. Change BookService -> BookUseCase
+4. Change BookDataStoreProvider -> BookPersistenceAdapter
+
+CRITICAL-3: Static singleton in @PrePersist hook
+BookEntity.java:51-53 calls ResourceIdGenerator.instance() — untestable, bypasses DI, hides side effects. Fix: inject ResourceIdSupplier into BookDataStoreProvider.save(), set ID there, remove @PrePersist.
+
+5. Change TopicProvisioner to KafkaTopicConfiguration.
+
+
+
+
+
+
+
 
 12.x:
 

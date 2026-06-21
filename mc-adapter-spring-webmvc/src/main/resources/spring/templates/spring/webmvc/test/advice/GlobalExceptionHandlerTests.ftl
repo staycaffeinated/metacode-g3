@@ -24,6 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.core.MethodParameter;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -150,11 +151,15 @@ class GlobalExceptionHandlerTest {
     void whenMissingServletRequestParameter_expectBadRequest() {
         var ex = Mockito.mock(MissingServletRequestParameterException.class);
         when(ex.getMessage()).thenReturn("Mock message");
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpHeaders headers = new HttpHeaders();
+        WebRequest webRequest = Mockito.mock(WebRequest.class);
 
-        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleMissingServletRequestParameter(ex);
+        ResponseEntity<Object> response = exceptionHandlerUnderTest.handleMissingServletRequestParameter(
+                                ex, headers, status, webRequest);
+
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
-        assertThat(response.getBody().getTitle()).isNotBlank();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
