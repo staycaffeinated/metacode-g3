@@ -1,14 +1,148 @@
 14.x:
 
+Add ApplicationException:
+
+import java.io.Serial;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+/**
+ * Base class for application-specific HTTP exceptions.
+ */
+public abstract class ApplicationException extends ResponseStatusException {
+
+    @Serial
+    private static final long serialVersionUID = -5945110847552720009L;
+
+    protected ApplicationException(HttpStatus status) {
+        super(status);
+    }
+
+    protected ApplicationException(HttpStatus status, String reason, Throwable cause) {
+        super(status, reason, cause);
+    }
+
+    protected ApplicationException(HttpStatus status, String reason) {
+        super(status, reason);
+    }
+}
+
+changes other exceptions thusly:
+
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends ApplicationException {
+
+    @Serial
+    private static final long serialVersionUID = -1144457886816201247L;
+
+    /**
+     * Default Constructor
+     */
+    public ResourceNotFoundException() {
+        super(HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Constructor
+     */
+    public ResourceNotFoundException(Throwable throwable) {
+        super(HttpStatus.NOT_FOUND, "The requested resource was not found", throwable);
+    }
+
+    /**
+     * Constructor with a reason to add to the exception
+     * message as explanation.
+     *
+     * @param reason the associated reason (optional)
+     */
+    public ResourceNotFoundException(String reason) {
+        super(HttpStatus.NOT_FOUND, reason);
+    }
+
+    /**
+     * Constructor with a reason to add to the exception
+     * message as explanation, as well as a nested exception.
+     *
+     * @param reason the associated reason (optional)
+     * @param cause  a nested exception (optional)
+     */
+    public ResourceNotFoundException(String reason, Throwable cause) {
+        super(HttpStatus.NOT_FOUND, reason, cause);
+    }
+}
+
+====
+
+Make the ResourceIdentity class a record.  This is in WebFlux.
+
+====
+
+GlobalExceptionHandler is missing handler for BadRequestException. This is WebFlux only.
+
+Maybe nix GlobalErrorAttributes. It isn't used.
+
+====
+
+Application.java:  Duplicate @EnableWebFlux can disable Spring Boot WebFlux auto-config
+-- need to look into this. Not sure where the duplicate is.
+
+====
+
+Relocate AbstractDataStore into domain/ports/outbound
+Relocate {EntityDataStore} into domain/ports/outbound
+Relocate {Entity}JpaRepository into adapters/ports/outbound/persistence
+Relocate {Entity}Mapper into adapters/ports/outbound/mappers
+Relocate {Entity}Ejb into adapters/ports/outbound/entities
+Relocate {Resource}Pojo into domain/model
+Relocate {Resource}Controller in adapters/ports/inbound
+Relocate UpdateAwareConverter into adapters/ports/outbound/mappers
+
+
+
+
+
+
+
 1. Add an ApplicationProperties class in the infra layer. It'll read from app.yml
 any properties starting with `application:`
 
 
-1. Add 4 base folders:
+1. Add 5 base folders:
+    - common
+      - validation
+      - exceptions
+      - types
+      - utils
     - domain
+      - model
+      - endpoints
+        - inbound
+          AddBookUseCase, SearchBooksUseCase, etc.
+        - outbound
+          - BookDataStore
     - infrastructure
     - adapters
+      - inbound
+        + BookController
+        - dtos
+          - AddBookRequest, SearchBooksRequest, etc.
+          - AddBookResponse, SearchBooksResponse, etc.
+      - outbound
+        + BookPersistenceAdapter
+        - entities
+          - BookEntity
+        - mappers
+          - BookMapper
+        - persistence
+          - BookJpaRepository
+
     - application
+      - services
+        - AddBookService impls AddBookUseCase
+        - SearchBookService impls SearchBooksUseCase
+      - commands
+        - AddBookCommand
+        - SearchBooksCommand
 
 2. Add domain/model package. Write POJOs there.
 Book.java should not import validation.*.
