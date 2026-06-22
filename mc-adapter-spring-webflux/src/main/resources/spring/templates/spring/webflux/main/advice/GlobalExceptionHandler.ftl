@@ -4,6 +4,7 @@ package ${GlobalExceptionHandler.packageName()};
 import lombok.extern.slf4j.Slf4j;
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
+import ${BadRequestException.fqcn()};
 
 import jakarta.validation.ConstraintViolation;
 import java.util.Set;
@@ -44,22 +45,28 @@ public class ${GlobalExceptionHandler.className()} {
         this.jsonMapper = jsonMapper;
     }
 
-    @ExceptionHandler(UnprocessableEntityException.class)
+    @ExceptionHandler(${UnprocessableEntityException.className()}.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
-    public Mono<ProblemDetail> handleUnprocessableEntityException(UnprocessableEntityException exception) {
-        return problemDescription("The request cannot be processed", exception);
+    public Mono<ProblemDetail> handleUnprocessableEntityException(${UnprocessableEntityException.className()} exception) {
+        return problemDescription(exception.getLocalizedMessage(), exception, HttpStatus.UNPROCESSABLE_CONTENT);
     }
     
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler(${ResourceNotFoundException.className()}.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public Mono<ProblemDetail> handleResourceNotFound(ResourceNotFoundException exception) {
-	    return problemDescription("Resource not found", exception, HttpStatus.NOT_FOUND);
+	public Mono<ProblemDetail> handleResourceNotFound(${ResourceNotFoundException.className()} exception) {
+	    return problemDescription(exception.getLocalizedMessage(), exception, HttpStatus.NOT_FOUND);
 	}
+
+    @ExceptionHandler(${BadRequestException.className()}.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Mono<ProblemDetail> handleResourceNotFound(${BadRequestException.className()} exception) {
+        return problemDescription(exception.getLocalizedMessage(), exception, HttpStatus.BAD_REQUEST);
+        }
 
 	@ExceptionHandler(NumberFormatException.class)
 	@ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
 	public Mono<ProblemDetail> handleNumberFormatException(NumberFormatException exception) {
-	    return problemDescription("Bad request: request contains an invalid parameter", exception);
+	    return problemDescription("Bad request: request contains an invalid parameter", exception, HttpStatus.UNPROCESSABLE_CONTENT);
 	}
 
     @ExceptionHandler({jakarta.validation.ConstraintViolationException.class})
