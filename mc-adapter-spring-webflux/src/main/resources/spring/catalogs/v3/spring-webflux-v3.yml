@@ -32,11 +32,12 @@ entries:
       - facet: "integrationTest"
         sourceTemplate: "/spring/webflux/integrationTest/advice/GlobalErrorWebExceptionHandlerIT.ftl"
 
-  - scope: "project"
-    archetype: "GlobalErrorAttributes"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webflux/main/advice/GlobalErrorAttributes.ftl"
+#   This is retired. It's a good example, but no generated code uses it.
+#  - scope: "project"
+#    archetype: "GlobalErrorAttributes"
+#    facets:
+#      - facet: "main"
+#        sourceTemplate: "/spring/webflux/main/advice/GlobalErrorAttributes.ftl"
 
   - scope: "project"
     archetype: "UnprocessableEntityException"
