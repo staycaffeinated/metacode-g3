@@ -68,14 +68,18 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
             String propertyPath = dotIndex >= 0 ? fullPath.substring(0, dotIndex) : fullPath;
             Object invalidValue = constraint.getInvalidValue();
 
+            log.error(
+                "Constraint violation: {} on property {} with value {} in class {}",
+                message,
+                propertyPath,
+                invalidValue,
+                className);
+
             objectNode.put("reason", message);
             // Since its common for REST parameters to be Optional, we unwrap the Optional for a cleaner message
             if (invalidValue != null) {
                 objectNode.put("invalid value", invalidValue.toString());
             }
-            // You may not want to reveal the classname or method name since doing so leaks implementation details.
-            // For troubleshooting internal applications, this may be useful.
-            objectNode.put("class", className);
             objectNode.put("method", propertyPath);
 
             jsonArray.add(objectNode);

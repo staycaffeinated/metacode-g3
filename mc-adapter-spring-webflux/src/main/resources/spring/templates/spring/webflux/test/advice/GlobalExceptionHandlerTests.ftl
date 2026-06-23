@@ -3,6 +3,7 @@ package ${GlobalExceptionHandler.packageName()};
 
 import ${ResourceNotFoundException.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
+import ${BadRequestException.fqcn()};
 import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,18 @@ class ${GlobalExceptionHandler.testClass()} {
         StepVerifier.create(publisher).expectSubscription()
             .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value()))
             .verifyComplete();
+    }
+
+    @Test
+    void whenBadRequestException_expectHttpStatusIsBadRequest() {
+        // when
+        var publisher = exceptionHandlerUnderTest.handleBadRequestException(new BadRequestException("test"));
+
+        // then
+        StepVerifier.create(publisher)
+                    .expectSubscription()
+                    .consumeNextWith(p -> assertThat(p.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value()))
+                    .verifyComplete();
     }
 
     @Test

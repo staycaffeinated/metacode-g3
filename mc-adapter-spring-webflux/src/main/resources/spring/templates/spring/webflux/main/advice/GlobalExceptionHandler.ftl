@@ -59,7 +59,7 @@ public class ${GlobalExceptionHandler.className()} {
 
     @ExceptionHandler(${BadRequestException.className()}.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Mono<ProblemDetail> handleResourceNotFound(${BadRequestException.className()} exception) {
+    public Mono<ProblemDetail> handleBadRequestException(${BadRequestException.className()} exception) {
         return problemDescription(exception.getLocalizedMessage(), exception, HttpStatus.BAD_REQUEST);
         }
 
@@ -87,13 +87,17 @@ public class ${GlobalExceptionHandler.className()} {
             String propertyPath =  fullPath.contains(".") ? fullPath.substring(0, fullPath.indexOf('.')) : fullPath;
             Object invalidValue = constraint.getInvalidValue();
 
+            log.error(
+                    "Constraint violation: {} on property {} with value {} in class {}",
+                    message,
+                    propertyPath,
+                    invalidValue,
+                    className);
+
             objectNode.put("reason", message);
             if (invalidValue != null) {
                 objectNode.put("invalid value", invalidValue.toString());
             }
-            // You may not want to reveal the classname or method name since doing so leaks implementation details.
-            // For troubleshooting internal applications, this may be useful.
-            objectNode.put("class", className);
             objectNode.put("method", propertyPath);
 
             jsonArray.add(objectNode);
@@ -123,13 +127,6 @@ public class ${GlobalExceptionHandler.className()} {
     })
     public Mono<ProblemDetail> handle(ServerWebExchange exchange, Throwable ex) {
         return problemDescription("Unexpected server error", ex, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    /**
-     * Build a Problem/JSON description with HttpStatus: 422 (unprocessable entity)
-     */
-    private Mono<ProblemDetail> problemDescription(String title, Throwable throwable) {
-        return problemDescription(title, throwable, HttpStatus.UNPROCESSABLE_CONTENT);
     }
 
     private Mono<ProblemDetail> problemDescription(String title, Throwable throwable, HttpStatus status) {
