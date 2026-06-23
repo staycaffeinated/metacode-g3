@@ -29,6 +29,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/advice/GlobalErrorWebExceptionHandler.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webflux/test/advice/GlobalErrorWebExceptionHandlerTest.ftl"
       - facet: "integrationTest"
         sourceTemplate: "/spring/webflux/integrationTest/advice/GlobalErrorWebExceptionHandlerIT.ftl"
 

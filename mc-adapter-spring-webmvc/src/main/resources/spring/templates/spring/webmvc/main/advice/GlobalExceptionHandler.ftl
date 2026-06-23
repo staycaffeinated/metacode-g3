@@ -7,6 +7,7 @@ import jakarta.validation.ConstraintViolation;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ import tools.jackson.databind.node.ObjectNode;
  */
 @SuppressWarnings("java:1102")
 @ControllerAdvice
+@Slf4j
 public class ${GlobalExceptionHandler.className()} extends ResponseEntityExceptionHandler {
 
     private final JsonMapper jsonMapper;
