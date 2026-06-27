@@ -28,9 +28,23 @@ version='0.0.1'
 // Jib specific configuration for this application
 // --------------------------------------------------------------------------------
 jib {
+    dockerClient {
+        executable = project.findProperty('dockerExecutable') ?: '/usr/local/bin/docker'
+    }
     from {
-        // any java version compatible with Spring Boot 4.x should work
+        // Any java version compatible with Spring Boot 4.x should work
+        // To run on Windows use, for example: 'eclipse-temurin:21-jre-windowsservercore'
         image = 'eclipse-temurin:21-jre-jammy'
+        platforms {
+            platform {
+                os = 'linux'
+                architecture = 'arm64'
+           }
+           platform {
+                os = 'linux'
+                architecture = 'amd64'
+           }
+        }
     }
     to {
         image = '${project.applicationName}'
