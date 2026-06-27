@@ -6,7 +6,6 @@ plugins {
     id "buildlogic.jacoco"
     id "buildlogic.spotless"
     id "buildlogic.lint"
-    id "buildlogic.docker"
 }
 
 // --------------------------------------------------------------------------------
