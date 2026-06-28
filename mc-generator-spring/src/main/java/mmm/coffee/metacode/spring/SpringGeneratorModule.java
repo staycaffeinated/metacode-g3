@@ -132,7 +132,7 @@ public class SpringGeneratorModule {
     }
 
     @Bean("springBatchGenerator")
-    @SpringBootProvider
+    @SpringBatchProvider
     ICodeGenerator<RestProjectDescriptor> providesSpringBatchGenerator(PackageLayoutRuleSet packageLayoutRuleSet, ClassNameRuleSet classNameRuleSet) {
         return SpringProjectCodeGenerator.builder()
                 .collector(new SpringBatchTemplateCatalog(new CatalogFileReader()))

@@ -42,11 +42,7 @@ import picocli.CommandLine;
 @SuppressWarnings({"java:S1854", "java:S1481"}) // S1854, S1481: allow  unused vars for now
 @Component
 public class SubcommandCreateWebFluxProject extends AbstractCreateSpringProject {
-    /**
-     * Handle to the code generator
-     */
-    @SuppressWarnings("all") // false positive: if this field is made final, injection will not work
-    private ICodeGenerator<RestProjectDescriptor> codeGenerator;
+    private final ICodeGenerator<RestProjectDescriptor> codeGenerator;
 
     /**
      * Construct with the given code generator

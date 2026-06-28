@@ -32,10 +32,7 @@ import picocli.CommandLine;
         "java:S125"     // allow comments that look like code
 })
 public class SubcommandCreateSpringBootProject extends AbstractCreateSpringProject {
-    /**
-     * Handle to the code generator
-     */
-    private ICodeGenerator<RestProjectDescriptor> codeGenerator;
+    private final ICodeGenerator<RestProjectDescriptor> codeGenerator;
 
     /**
      * Construct instance with a given generator

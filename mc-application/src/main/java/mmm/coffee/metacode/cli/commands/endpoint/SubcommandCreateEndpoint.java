@@ -15,7 +15,7 @@
  */
 package mmm.coffee.metacode.cli.commands.endpoint;
 
-import io.micrometer.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import mmm.coffee.metacode.cli.mixin.DryRunOption;
 import mmm.coffee.metacode.cli.validation.ResourceNameValidator;
