@@ -43,7 +43,8 @@ import java.util.function.Predicate;
 @SuppressWarnings({
         "java:S1602",   // false positive; curly braces in a comment do not mean it's a commented-out lambda function
         "java:S125",    // we're OK with comments that happen to look like code
-        "java:S4738"    // migrating to java.util.function.Predicate is on the roadmap
+        "java:S4738",    // migrating to java.util.function.Predicate is on the roadmap
+        "java:S1068"     // false positive; descriptor2TemplateModel is needed and is used.
 })
 public class SpringProjectCodeGenerator implements ICodeGenerator<RestProjectDescriptor> {
 
