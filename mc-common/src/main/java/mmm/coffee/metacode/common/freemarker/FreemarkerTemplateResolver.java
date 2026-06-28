@@ -27,7 +27,9 @@ import mmm.coffee.metacode.common.stereotype.TemplateResolver;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,7 +88,7 @@ public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplate
                 map.put(archetypeDescriptor.archetype().name(), archetypeDescriptor);
             }
             if (dataModel.getCustomProperties() != null) {
-                for (Map.Entry<String,Object> entry : dataModel.getCustomProperties().entrySet()) {
+                for (Map.Entry<String, Object> entry : dataModel.getCustomProperties().entrySet()) {
                     map.put(entry.getKey(), entry.getValue());
                     log.trace("Added custom property for {} : {}", entry.getKey(), entry.getValue());
                 }
@@ -103,6 +105,7 @@ public class FreemarkerTemplateResolver implements TemplateResolver<MetaTemplate
     }
 
     private String currentYear() {
-        return String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        LocalDateTime today = LocalDateTime.now(ZoneId.systemDefault());
+        return String.valueOf(today.getYear());
     }
 }
