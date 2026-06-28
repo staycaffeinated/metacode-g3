@@ -58,16 +58,16 @@ class OutputFileDestinationResolverTest {
     }
 
     @Test
-    void whenTemplateHasNullCustomProperties_expectNullDestination() {
+    void whenTemplateHasNullCustomProperties_expectException() {
         SpringTemplateModel templateModel = Mockito.mock(SpringTemplateModel.class);
         when(templateModel.getCustomProperties()).thenReturn(null);
 
-        String output = OutputFileDestinationResolver.resolveDestination(
-                aTemplateFacetOf(MAIN),
-                Archetype.ApplicationConfiguration.toString(),
-                templateModel,
-                defaultDecoder);
-        assertThat(output).isNull();
+        assertThrows(RuntimeApplicationError.class, () ->
+                OutputFileDestinationResolver.resolveDestination(
+                        aTemplateFacetOf(MAIN),
+                        Archetype.ApplicationConfiguration.toString(),
+                        templateModel,
+                        defaultDecoder));
     }
 
     @Test
