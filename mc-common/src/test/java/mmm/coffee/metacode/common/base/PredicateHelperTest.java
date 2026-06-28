@@ -1,6 +1,5 @@
 package mmm.coffee.metacode.common.base;
 
-import org.assertj.core.condition.Not;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
