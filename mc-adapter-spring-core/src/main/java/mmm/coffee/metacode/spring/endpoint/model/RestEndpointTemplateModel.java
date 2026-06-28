@@ -203,9 +203,9 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
     public String createTableScriptName() {
         long fileCount = fileCount(mainDbScriptFolder());
         if (withFlyway) {
-            return FlywayNameMapper().apply(++fileCount, getLowerCaseEntityName());
+            return flywayNameMapper().apply(++fileCount, getLowerCaseEntityName());
         } else {
-            return LiquibaseNameMapper().apply(++fileCount, getLowerCaseEntityName());
+            return liquibaseNameMapper().apply(++fileCount, getLowerCaseEntityName());
         }
     }
 
@@ -243,16 +243,13 @@ public class RestEndpointTemplateModel extends SpringTemplateModel {
     /**
      * Returns the name of the create-[entity].sql file, following liquibase naming convention
      */
-    private static BiFunction<Long, String, String> LiquibaseNameMapper() {
+    private static BiFunction<Long, String, String> liquibaseNameMapper() {
         return (count, baseName) -> String.format("%02d-create-%s-table.sql", count,baseName);
     }
     /**
      * Returns the name of the create-[entity].sql file, following liquibase naming convention
      */
-    private static BiFunction<Long, String, String> FlywayNameMapper() {
+    private static BiFunction<Long, String, String> flywayNameMapper() {
         return (count, baseName) -> String.format("V%04d__create-%s-table.sql", count,baseName);
     }
-
-
-
 }
