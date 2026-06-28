@@ -194,7 +194,7 @@ public class PredicateHelper {
 
     private static final class OrPredicate<T>
             implements Predicate<T>, Serializable {
-        private final List<? extends Predicate<? super T>> components;
+        private final transient List<? extends Predicate<? super T>> components;
 
         private OrPredicate(List<? extends Predicate<? super T>> components) {
             this.components = components;
@@ -231,7 +231,7 @@ public class PredicateHelper {
 
     private static final class NotPredicate<T>
             implements Predicate<T>, Serializable {
-        final Predicate<T> predicate;
+        final transient Predicate<T> predicate;
 
         NotPredicate(Predicate<T> predicate) {
             this.predicate = checkNotNull(predicate);
