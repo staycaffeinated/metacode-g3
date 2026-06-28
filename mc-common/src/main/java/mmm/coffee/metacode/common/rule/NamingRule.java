@@ -57,7 +57,7 @@ public class NamingRule {
     }
 
     public static String toBasePackagePath(@NonNull String basePackage) {
-        return StringUtils.replace(basePackage, ".", "/");
+        return StringUtils.replaceChars(basePackage, ".", "/");
     }
 
     /**
