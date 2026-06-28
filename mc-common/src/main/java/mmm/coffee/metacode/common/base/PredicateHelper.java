@@ -89,6 +89,9 @@ public class PredicateHelper {
      * <p><b>Discouraged:</b> Prefer using {@code first.and(second).and(third).and(...)}.
      */
     @SafeVarargs
+    @SuppressWarnings({
+            "java:S2293"    // 'new AndPredicate<T>' must be used or a compiler error occurs because the type cannot be inferred
+    })
     public static <T> Predicate<T> and(Predicate<? super T>... components) {
         return new AndPredicate<T>(defensiveCopy(components));
     }
@@ -129,6 +132,9 @@ public class PredicateHelper {
      * <p><b>Discouraged:</b> Prefer using {@code first.or(second).or(third).or(...)}.
      */
     @SafeVarargs
+    @SuppressWarnings({
+            "java:S2293"    // `new OrPredicate<T>` must be used or a compiler error occurs because the type cannot be inferred
+    })
     public static <T> Predicate<T> or(Predicate<? super T>... components) {
         return new OrPredicate<T>(defensiveCopy(components));
     }
@@ -151,7 +157,7 @@ public class PredicateHelper {
 
     private static final class AndPredicate<T>
             implements Predicate<T>, Serializable {
-        private final List<? extends Predicate<? super T>> components;
+        private transient final List<? extends Predicate<? super T>> components;
 
         private AndPredicate(List<? extends Predicate<? super T>> components) {
             this.components = components;
