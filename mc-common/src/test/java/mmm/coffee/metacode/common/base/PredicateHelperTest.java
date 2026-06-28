@@ -51,8 +51,8 @@ class PredicateHelperTest {
         @Test
         void verifyHashCodeAndEqualsMethods() {
             var p = anAndPredicateThatEvaluatesToTrue();
-            assertThat(p.hashCode()).isEqualTo(anAndPredicateThatEvaluatesToTrue().hashCode());
-            assertThat(p.hashCode()).isNotEqualTo(anAndPredicateThatEvaluatesToFalse().hashCode());
+            assertThat(p).hasSameHashCodeAs(anAndPredicateThatEvaluatesToTrue())
+                         .doesNotHaveSameHashCodeAs(anAndPredicateThatEvaluatesToFalse());
 
             assertThat(p.equals(anAndPredicateThatEvaluatesToTrue())).isTrue();
             assertThat(p.equals(anAndPredicateThatEvaluatesToFalse())).isFalse();
@@ -85,8 +85,8 @@ class PredicateHelperTest {
         @Test
         void verifyHashCodeAndEqualsMethods() {
             var p = anOrPredicateThatEvaluatesToTrue();
-            assertThat(p.hashCode()).isEqualTo(anOrPredicateThatEvaluatesToTrue().hashCode());
-            assertThat(p.hashCode()).isNotEqualTo(anOrPredicateThatEvaluatesToFalse().hashCode());
+            assertThat(p).hasSameHashCodeAs(anOrPredicateThatEvaluatesToTrue())
+                         .doesNotHaveSameHashCodeAs(anOrPredicateThatEvaluatesToFalse());
 
             assertThat(p.equals(anOrPredicateThatEvaluatesToTrue())).isTrue();
             assertThat(p.equals(anOrPredicateThatEvaluatesToFalse())).isFalse();

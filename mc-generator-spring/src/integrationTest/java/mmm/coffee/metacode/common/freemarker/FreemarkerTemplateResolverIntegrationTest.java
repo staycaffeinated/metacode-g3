@@ -54,6 +54,7 @@ class FreemarkerTemplateResolverIntegrationTest {
     /***
      * Wraps a Google Predicate in a java.util.function.Predicate
      */
+    @SuppressWarnings("java:S4738") // we specifically handle Guava predicates as well as Java predicates
     public static <T> java.util.function.Predicate<T> toJava8(com.google.common.base.Predicate<T> guavaPredicate) {
         return (guavaPredicate::apply);
     }
