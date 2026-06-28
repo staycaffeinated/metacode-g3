@@ -16,7 +16,7 @@ class PackageLayoutRuleSetTest {
     PackageLayoutRuleSet rulesUnderTest;
 
     @BeforeEach
-    public void initRuleSet() {
+    void initRuleSet() {
         HashMap<String, String> rules = new HashMap<>();
         Archetype[] values = Archetype.values();
         for (Archetype e : values) {

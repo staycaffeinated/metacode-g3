@@ -93,7 +93,7 @@ class SpringProjectCodeGeneratorTest {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         // create a Collector that'll return some test data
         fakeCollector = new FakeCollector();
 

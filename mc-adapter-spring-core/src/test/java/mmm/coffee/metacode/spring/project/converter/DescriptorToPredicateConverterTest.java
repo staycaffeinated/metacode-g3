@@ -55,7 +55,7 @@ class DescriptorToPredicateConverterTest {
      * CatalogEntries we create in this method are those sample payloads.
      */
     @BeforeEach
-    public void setUpTestData() {
+    void setUpTestData() {
         // A template that's applied for common usage, such as error advice, won't have any tag
         commonEntry = buildCatalogEntry("ErrorAdvice.ftl");
 

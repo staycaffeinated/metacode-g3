@@ -19,7 +19,7 @@ class EndpointArchetypeToMapTest {
     IArchetypeDescriptorFactory descriptorFactory;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         descriptorFactory = new FakeArchetypeDescriptorFactory();
     }
 

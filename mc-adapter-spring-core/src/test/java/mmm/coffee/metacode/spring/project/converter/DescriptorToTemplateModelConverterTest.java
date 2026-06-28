@@ -36,7 +36,7 @@ class DescriptorToTemplateModelConverterTest {
     RestProjectDescriptor webMvcRestProject;
 
     @BeforeEach
-    public void createNewDescriptors() {
+    void createNewDescriptors() {
         webFluxRestProject = RestProjectDescriptor.builder()
                 .applicationName(APP_NAME)
                 .basePackage(BASE_PKG)

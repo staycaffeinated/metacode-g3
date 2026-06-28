@@ -16,7 +16,7 @@ class ArchetypeDescriptorTest {
     IArchetypeDescriptorFactory factory;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         factory = new FakeArchetypeDescriptorFactory();
     }
 

@@ -30,7 +30,7 @@ class RestEndpointDescriptorToPredicateConverterTests {
     CatalogEntry webMvcProjectCE;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         final String basePath = "/petstore";
         final String route = "/pet";
         final String resource = "Pet";

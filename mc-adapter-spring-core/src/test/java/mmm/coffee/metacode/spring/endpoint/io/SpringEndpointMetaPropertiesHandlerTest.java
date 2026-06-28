@@ -32,7 +32,7 @@ class SpringEndpointMetaPropertiesHandlerTest {
     SpringEndpointMetaPropertiesHandler handlerUnderTest;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         handlerUnderTest = setUpMetaPropertiesHandler();
     }
 

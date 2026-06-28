@@ -50,7 +50,7 @@ class RestProjectTemplateModelTests {
     DependencyCatalog mockDependencyCatalog;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         modelUnderTest = RestProjectTemplateModel.builder().build();
 
         // Mock the DependencyCatalog to return sample data

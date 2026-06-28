@@ -15,7 +15,7 @@ class ClassNameRuleSetTest {
     ClassNameRuleSet rulesUnderTest;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         rulesUnderTest = ClassNameRuleSetTestFixture.classNameRuleSet();
     }
 

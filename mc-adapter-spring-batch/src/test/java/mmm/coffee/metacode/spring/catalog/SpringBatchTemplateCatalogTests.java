@@ -36,7 +36,7 @@ class SpringBatchTemplateCatalogTests {
     SpringBatchTemplateCatalog catalogUnderTest;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         CatalogFileReader catalogFileReader = new CatalogFileReader();
         catalogUnderTest = new SpringBatchTemplateCatalog(catalogFileReader);
     }

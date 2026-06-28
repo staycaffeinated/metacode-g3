@@ -23,7 +23,7 @@ class SpringTemplateCatalogTest {
 
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         CatalogFileReader catalogFileReader = new CatalogFileReader();
         catalogUnderTest = new SpringWebMvcTemplateCatalog(catalogFileReader);
     }

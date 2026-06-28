@@ -16,7 +16,7 @@ class CatalogEntryTest {
     private static final String EXPECTED_ARCHETYPE = Archetype.Controller.toString();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         catalogEntryUnderTest.setArchetype(EXPECTED_ARCHETYPE);
         catalogEntryUnderTest.setScope(EXPECTED_SCOPE);
         catalogEntryUnderTest.setFacets(exampleFacets());

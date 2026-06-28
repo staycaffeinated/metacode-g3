@@ -54,7 +54,7 @@ class WebFluxProjectGeneratorIntegrationTest {
      * Configure the code generator under test
      */
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         generatorUnderTest = SpringProjectCodeGenerator.builder()
                 .collector(new SpringWebFluxTemplateCatalog(new CatalogFileReader()))
                 .descriptor2templateModel(new DescriptorToTemplateModelConverter())

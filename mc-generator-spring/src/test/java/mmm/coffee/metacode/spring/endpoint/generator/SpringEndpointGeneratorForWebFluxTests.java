@@ -71,7 +71,7 @@ class SpringEndpointGeneratorForWebFluxTests {
      * Initialization
      */
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         MetaPropertiesHandler<RestEndpointDescriptor> mockMetaPropertiesHandler = setUpMetaPropertiesHandler();
         MustacheEndpointDecoder decoder = setUpMustacheDecoder();
         Collector templateCollector = setUpTemplateCollector();

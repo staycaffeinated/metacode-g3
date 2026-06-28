@@ -30,7 +30,7 @@ class SpringMetaPropertiesHandlerTests {
     MetaPropertiesHandler<RestProjectDescriptor> handlerUnderTest;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         // Set up a temporary folder
         TemporaryFolder temporaryFolder = new TemporaryFolder();
         temporaryFolder.create();

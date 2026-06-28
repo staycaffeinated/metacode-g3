@@ -20,7 +20,7 @@ class ArchetypeDescriptorFactoryTest {
     ArchetypeDescriptorFactory factoryUnderTest;
 
     @BeforeEach
-    public void setUpFactory() throws Exception {
+    void setUpFactory() throws Exception {
         PackageLayoutRuleSet plrs = PackageLayoutRuleSetTestFixture.packageLayoutRuleSet();
         ClassNameRuleSet cnrs = ClassNameRuleSetTestFixture.classNameRuleSet();
         factoryUnderTest = new ArchetypeDescriptorFactory(plrs, cnrs);

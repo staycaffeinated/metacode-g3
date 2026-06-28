@@ -18,7 +18,7 @@ class MustachEndpointDecoderTests {
     MustacheEndpointDecoder decoderUnderTest;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         decoderUnderTest = MustacheEndpointDecoder.builder()
                 .converter(new RestEndpointTemplateModelToMapConverter())
                 .build();

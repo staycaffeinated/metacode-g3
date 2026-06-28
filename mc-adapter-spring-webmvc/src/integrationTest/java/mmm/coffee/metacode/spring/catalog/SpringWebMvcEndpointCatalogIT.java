@@ -29,7 +29,7 @@ class SpringWebMvcEndpointCatalogIT {
     RestEndpointDescriptor endpointDescriptor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         // @formatter:off
         catalogUnderTest = SpringEndpointCatalog.builder()
                 .reader(new CatalogFileReader())

@@ -23,7 +23,7 @@ class SharedSpringTemplateCatalogTest {
 
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         catalogUnderTest = SpringTemplateCatalogFixture.springTemplateCatalog();
     }
 

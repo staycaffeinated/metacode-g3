@@ -61,7 +61,7 @@ class SpringBootGeneratorIntegrationTest {
      * Initialization
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MetaPropertiesHandler<RestEndpointDescriptor> mockMetaPropertiesHandler = setUpMetaPropertiesHandler();
         MustacheEndpointDecoder decoder = setUpMustacheDecoder();
         Collector templateCollector = setUpTemplateCollector();

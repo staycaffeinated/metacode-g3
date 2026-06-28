@@ -21,7 +21,7 @@ class CustomPropertyAssemblerTest {
     IArchetypeDescriptorFactory factory;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         factory = new FakeArchetypeDescriptorFactory();
     }
 

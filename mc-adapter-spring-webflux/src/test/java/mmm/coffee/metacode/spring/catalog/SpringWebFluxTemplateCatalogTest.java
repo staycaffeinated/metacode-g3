@@ -36,7 +36,7 @@ class SpringWebFluxTemplateCatalogTest {
     SpringWebFluxTemplateCatalog catalogUnderTest;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         CatalogFileReader catalogFileReader = new CatalogFileReader();
         catalogUnderTest = new SpringWebFluxTemplateCatalog(catalogFileReader);
     }
