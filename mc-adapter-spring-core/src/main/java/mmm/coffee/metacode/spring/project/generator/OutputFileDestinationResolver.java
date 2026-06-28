@@ -71,7 +71,6 @@ public class OutputFileDestinationResolver {
             archetypeName);
         log.error(msg);
         throw new RuntimeApplicationError(msg);
-
     }
 
 }

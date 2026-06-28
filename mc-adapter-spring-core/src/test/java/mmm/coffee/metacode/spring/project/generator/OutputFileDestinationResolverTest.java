@@ -62,12 +62,11 @@ class OutputFileDestinationResolverTest {
         SpringTemplateModel templateModel = Mockito.mock(SpringTemplateModel.class);
         when(templateModel.getCustomProperties()).thenReturn(null);
 
-        assertThrows(RuntimeApplicationError.class, () ->
-                OutputFileDestinationResolver.resolveDestination(
-                        aTemplateFacetOf(MAIN),
-                        Archetype.ApplicationConfiguration.toString(),
-                        templateModel,
-                        defaultDecoder));
+        TemplateFacet facet = aTemplateFacetOf(MAIN);
+        String archetypeName = Archetype.ApplicationConfiguration.toString();
+
+        assertThrows(RuntimeApplicationError.class,
+                () -> OutputFileDestinationResolver.resolveDestination(facet, archetypeName, templateModel, defaultDecoder));
     }
 
     @Test
