@@ -157,7 +157,7 @@ public class PredicateHelper {
 
     private static final class AndPredicate<T>
             implements Predicate<T>, Serializable {
-        private transient final List<? extends Predicate<? super T>> components;
+        private final transient List<? extends Predicate<? super T>> components;
 
         private AndPredicate(List<? extends Predicate<? super T>> components) {
             this.components = components;
