@@ -1,5 +1,6 @@
 package mmm.coffee.metacode.cli.validation;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -62,6 +63,21 @@ class PackageNameValidatorTest {
         assertThat(validator.evaluate(candidate)).isFalse();
     }
 
+
+    @Test
+    void errorMessageTriggersEvaluateWhenCalledBeforeIsValid() {
+        // errorMessage() called first — evaluated flag is false, so evaluate() runs inside errorMessage()
+        PackageNameValidator validator = PackageNameValidator.of("class.Integer.foobar");
+        assertThat(validator.errorMessage()).isNotBlank();
+    }
+
+    @Test
+    void errorMessageSkipsEvaluateWhenAlreadyEvaluated() {
+        // isValid() sets evaluated = true; subsequent errorMessage() skips evaluate()
+        PackageNameValidator validator = PackageNameValidator.of("class.Integer.foobar");
+        validator.isValid();
+        assertThat(validator.errorMessage()).isNotBlank();
+    }
 
     /* ------------------------------------------------------------------------------------------------
      * HELPER METHODS
