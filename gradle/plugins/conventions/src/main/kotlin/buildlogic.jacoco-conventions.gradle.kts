@@ -5,8 +5,10 @@ plugins {
 
 
 tasks.jacocoTestReport {
-    // Enable to generate reports for individual projects; disable to turn that off
     enabled = true
+
+    // Pick up exec files from all test tasks (test + integrationTest when present)
+    executionData.setFrom(fileTree(layout.buildDirectory).include("jacoco/*.exec"))
 
     reports {
         xml.required.set(true)

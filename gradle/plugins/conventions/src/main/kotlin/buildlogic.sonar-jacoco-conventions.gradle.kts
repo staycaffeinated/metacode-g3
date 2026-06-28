@@ -7,5 +7,9 @@ sonar {
     properties {
         property("sonar.sources", "src/main/java")
         property("sonar.tests", "src/test/java, src/integrationTest/java")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory.get()}/reports/jacoco/test/jacocoTestReport.xml"
+        )
     }
 }

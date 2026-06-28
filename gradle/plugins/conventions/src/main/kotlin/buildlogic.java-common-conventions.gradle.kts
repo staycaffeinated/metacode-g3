@@ -6,6 +6,17 @@ plugins {
     id("buildlogic.sonar-jacoco-conventions")
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    testLogging { events("passed", "skipped", "failed") }
+}
+
+dependencies {
+    // JUnit 6 requires the platform launcher to be on the classpath explicitly
+    // to avoid Gradle's bundled JUnit 5 launcher being used instead
+    add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher:6.0.3")
+}
+
 repositories {
     // Allow mavenLocal to enable using snapshot versions of libraries
     // that are build+published locally before said library is published

@@ -3,10 +3,6 @@ plugins {
     id("jvm-test-suite")
 }
 
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    testLogging { events("passed", "skipped", "failed") }
-}
 
 testing {
     suites {
@@ -32,4 +28,11 @@ tasks.named("integrationTest") {
 }
 tasks.named("check") {
     dependsOn("integrationTest")
+}
+
+// Wire integrationTest exec data into jacocoTestReport when jacoco is present
+plugins.withId("jacoco") {
+    tasks.named("jacocoTestReport") {
+        dependsOn(tasks.named("integrationTest"))
+    }
 }
