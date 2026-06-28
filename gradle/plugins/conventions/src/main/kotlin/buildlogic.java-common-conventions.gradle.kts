@@ -14,7 +14,7 @@ tasks.withType<Test>().configureEach {
 dependencies {
     // JUnit 6 requires the platform launcher to be on the classpath explicitly
     // to avoid Gradle's bundled JUnit 5 launcher being used instead
-    add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher:6.0.3")
+    add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher:6.1.1")
 }
 
 repositories {
