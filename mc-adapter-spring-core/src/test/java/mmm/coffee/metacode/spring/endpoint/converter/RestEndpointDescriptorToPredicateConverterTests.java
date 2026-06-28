@@ -122,4 +122,21 @@ class RestEndpointDescriptorToPredicateConverterTests {
         assertThat(predicate.test(webFluxProjectCE)).isFalse();
         assertThat(predicate.test(webMvcProjectCE)).isFalse();
     }
+
+    @Test
+    void whenIsWithFlyway_shouldAcceptFlyway() {
+        webMvcDescriptor.setWithFlyway(true);
+        Predicate<CatalogEntry> predicate = converterUnderTest.convert(webMvcDescriptor);
+
+        var webMvcFlywayEntry = CatalogEntryBuilder.builder()
+                .scope("endpoint")
+                .tags("flyway")
+                .addFacet(TemplateFacetBuilder.builder()
+                        .facet("main")
+                        .source("/spring/webmvc/endpoint/Controller.ftl")
+                        .build())
+                .build();
+
+        assertThat(predicate.test(webMvcFlywayEntry)).isTrue();
+    }
 }

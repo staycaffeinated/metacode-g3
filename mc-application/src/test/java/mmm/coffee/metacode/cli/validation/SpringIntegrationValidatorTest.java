@@ -47,6 +47,19 @@ class SpringIntegrationValidatorTest {
             SpringIntegrations.MONGODB
     };
 
+    private final SpringIntegrations[] onlyLiquibase = {
+            SpringIntegrations.LIQUIBASE
+    };
+
+    private final SpringIntegrations[] onlyFlyway = {
+            SpringIntegrations.FLYWAY
+    };
+
+    private final SpringIntegrations[] flywayAndLiquibase = {
+            SpringIntegrations.FLYWAY,
+            SpringIntegrations.LIQUIBASE
+    };
+
     @Test
     void shouldAllowPostgresWithoutMongoDb() {
         assertThat(SpringIntegrationValidator.of(onlyPostgres).isValid()).isTrue();
@@ -87,6 +100,39 @@ class SpringIntegrationValidatorTest {
             var validator = SpringIntegrationValidator.of(onlyPostgres);
             assertThat(validator.isValid()).isTrue();
             assertThat(validator.errorMessage()).isEmpty();
+        }
+    }
+
+    @Nested
+    class MutualExclusionUseCases {
+        @Test
+        void shouldAllowPostgresWithoutMongoDb() {
+            assertThat(SpringIntegrationValidator.of(onlyPostgres).isValid()).isTrue();
+        }
+
+        @Test
+        void shouldAllowMongoDbWithoutPostgres() {
+            assertThat(SpringIntegrationValidator.of(onlyMongoDb).isValid()).isTrue();
+        }
+
+        @Test
+        void shouldNotAllowPostgresAndMongoDbTogether() {
+            assertThat(SpringIntegrationValidator.of(bothPostgresAndMongoDb).isValid()).isFalse();
+        }
+
+        @Test
+        void shouldAllowFlywayWithoutLiquibase() {
+            assertThat(SpringIntegrationValidator.of(onlyFlyway).isValid()).isTrue();
+        }
+
+        @Test
+        void shouldAllowLiquibaseWithoutFlyway() {
+            assertThat(SpringIntegrationValidator.of(onlyLiquibase).isValid()).isTrue();
+        }
+
+        @Test
+        void shouldNotAllowLiquibaseWithFlyway() {
+            assertThat(SpringIntegrationValidator.of(flywayAndLiquibase).isValid()).isFalse();
         }
     }
 }

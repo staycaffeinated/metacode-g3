@@ -103,6 +103,15 @@ class CatalogEntryTest {
         assertThat(entry.archetypeValue()).isEqualTo(Archetype.Text);
     }
 
+    @Test
+    void shouldReturnUndefinedWhenArchetypeFieldIsNull() throws Exception {
+        CatalogEntry entry = new CatalogEntry();
+        var field = CatalogEntry.class.getDeclaredField("archetype");
+        field.setAccessible(true);
+        field.set(entry, null);
+        assertThat(entry.archetypeValue()).isEqualTo(Archetype.Undefined);
+    }
+
     /* ----------------------------------------------------------------
      * HELPER METHODS
      * ---------------------------------------------------------------- */

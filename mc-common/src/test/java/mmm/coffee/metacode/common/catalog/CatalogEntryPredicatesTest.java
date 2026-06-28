@@ -1,5 +1,6 @@
 package mmm.coffee.metacode.common.catalog;
 
+import mmm.coffee.metacode.common.model.Archetype;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Predicate;
@@ -14,7 +15,7 @@ class CatalogEntryPredicatesTest {
 
         assertThat(predicate.test(aBasicProjectCatalogEntry())).isTrue();
         assertThat(predicate.test(aProjectCatalogEntryWithEmptyTags())).isTrue();
-        
+
         assertThat(predicate.test(aBasicEndpointCatalogEntry())).isFalse();
         assertThat(predicate.test(aCatalogEntryWithNullScope())).isFalse();
     }
@@ -79,6 +80,26 @@ class CatalogEntryPredicatesTest {
     void shouldRecognizeFlywayTags() {
         Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isProjectScopeFlywayArtifact();
         assertThat(predicate.test(aFlywayCatalogEntry())).isTrue();
+    }
+
+    @Test
+    void shouldRecognizeFlywayTagsOnEndpointEntry() {
+        Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isEndpointScopeFlywayArtifact();
+        assertThat(predicate.test(aFlywayEndpointCatalogEntry())).isTrue();
+    }
+
+    @Test
+    void shouldRecognizeKafkaTags() {
+        Predicate<CatalogEntry> predicate = CatalogEntryPredicates.hasKafkaTag();
+        assertThat(predicate.test(aKafkaCatalogEntry())).isTrue();
+    }
+
+    @Test
+    void whenArchetypeIsNull_shouldReturnUndefined() {
+        CatalogEntry entry = new CatalogEntry();
+        entry.setArchetype(null);
+        assertThat(entry.archetypeValue()).isEqualTo(Archetype.Undefined);
+
     }
 
 
@@ -180,6 +201,25 @@ class CatalogEntryPredicatesTest {
         return CatalogEntryBuilder.builder()
                 .scope("project")
                 .tags("postgres,flyway")
+                .addFacet(aMainComponentTemplate())
+                .addFacet(aVanillaTemplate())
+                .build();
+    }
+
+    private CatalogEntry aFlywayEndpointCatalogEntry() {
+        return CatalogEntryBuilder.builder()
+                .scope("endpoint")
+                .tags("flyway")
+                .addFacet(aMainComponentTemplate())
+                .addFacet(aVanillaTemplate())
+                .build();
+    }
+
+
+    private CatalogEntry aKafkaCatalogEntry() {
+        return CatalogEntryBuilder.builder()
+                .scope("project")
+                .tags("kafka")
                 .addFacet(aMainComponentTemplate())
                 .addFacet(aVanillaTemplate())
                 .build();

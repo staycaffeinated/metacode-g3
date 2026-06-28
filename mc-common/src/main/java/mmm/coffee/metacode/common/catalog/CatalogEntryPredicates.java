@@ -67,6 +67,7 @@ public class CatalogEntryPredicates {
         return p -> containsTag(p, "postgres");
     }
 
+
     /**
      * Returns {@code true} if the CatalogEntry's tags includes {@code testcontainer}
      */
