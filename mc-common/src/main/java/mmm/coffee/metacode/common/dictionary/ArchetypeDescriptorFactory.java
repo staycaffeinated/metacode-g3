@@ -8,9 +8,8 @@ import mmm.coffee.metacode.common.dictionary.functions.ClassNameRuleSet;
 import mmm.coffee.metacode.common.dictionary.functions.PackageLayoutRuleSet;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.JavaArchetypeDescriptor;
-import org.springframework.stereotype.Component;
 
-@Component
+
 @Slf4j
 public class ArchetypeDescriptorFactory implements IArchetypeDescriptorFactory {
 
