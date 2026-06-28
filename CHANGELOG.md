@@ -9,6 +9,15 @@
 * The `RootController.getHome()` method now returns `Void` instead of `String`.
 * Removed a redundant `@ResponseStatus(HttpStatus.CREATED)` in the controllers.
 * In the controller's `search` method, the `q` request parameter is now optional. 
+* Added platform specifics to `jib` configuration. This makes it easier to build Macs and Linux. 
+* Changed the `ResourceIdentity` class into a `record`
+* Enabled Mockito Java agents in the test configurations.
+* Improved the `GlobalExceptionHandler` class
+* The `buildlogic.application` plugin imports `buildlogic.docker`.
+* Removed redundant `@EnableWebFlux` annotations.
+* In the `application.yml`, wrap the database credentials in environment variables.
+* Fixed a YML indentation issue. 
+* Nixed the `GlobalErrorAttributes` class. 
 
 
 ## [13.1.0] -- tbd
