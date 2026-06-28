@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,6 +30,25 @@ class PredicateHelperTest {
 
     @Nested
     class AndPredicateUseCases {
+        @Test
+        void shouldOnlyReturnTrueIfAllPredicatesAreTrue_whenPassedAsIterable() {
+            List<Predicate<Object>> components = List.of(
+                    PredicateHelper.alwaysTrue(),
+                    PredicateHelper.alwaysTrue(),
+                    PredicateHelper.alwaysTrue()
+            );
+            assertThat(PredicateHelper.and(components).test(1)).isTrue();
+        }
+
+        @Test
+        void shouldReturnFalseIfAnyPredicateIsFalse_whenPassedAsIterable() {
+            List<Predicate<Object>> components = List.of(
+                    PredicateHelper.alwaysTrue(),
+                    PredicateHelper.alwaysFalse()
+            );
+            assertThat(PredicateHelper.and(components).test(1)).isFalse();
+        }
+
         @Test
         void shouldOnlyReturnTrueIfAllPredicatesAreTrue() {
             Predicate<Object> p1 = PredicateHelper.alwaysTrue();
@@ -57,11 +78,54 @@ class PredicateHelperTest {
             assertThat(p.equals(anAndPredicateThatEvaluatesToTrue())).isTrue();
             assertThat(p.equals(anAndPredicateThatEvaluatesToFalse())).isFalse();
         }
+
+        @Test
+        void equalsReturnsFalseForNonAndPredicateArgument() {
+            Predicate<Object> andPredicate = anAndPredicateThatEvaluatesToTrue();
+            Predicate<Object> orPredicate = anOrPredicateThatEvaluatesToTrue();
+
+            assertThat(andPredicate.equals(null)).isFalse();
+            assertThat(andPredicate.equals("not a predicate")).isFalse();
+            assertThat(andPredicate.equals(orPredicate)).isFalse();
+        }
+
+        @Test
+        void applyDelegatesToTest() throws Exception {
+            Predicate<Object> predicate = anAndPredicateThatEvaluatesToTrue();
+            Method apply = predicate.getClass().getDeclaredMethod("apply", Object.class);
+            apply.setAccessible(true);
+
+            assertThat((Boolean) apply.invoke(predicate, "input")).isTrue();
+
+            Predicate<Object> falsy = anAndPredicateThatEvaluatesToFalse();
+            apply = falsy.getClass().getDeclaredMethod("apply", Object.class);
+            apply.setAccessible(true);
+            assertThat((Boolean) apply.invoke(falsy, "input")).isFalse();
+        }
     }
 
 
     @Nested
     class OrPredicateUseCases {
+        @Test
+        void shouldReturnTrueIfAnyPredicateIsTrue_whenPassedAsIterable() {
+            List<Predicate<Object>> components = List.of(
+                    PredicateHelper.alwaysFalse(),
+                    PredicateHelper.alwaysTrue(),
+                    PredicateHelper.alwaysFalse()
+            );
+            assertThat(PredicateHelper.or(components).test(1)).isTrue();
+        }
+
+        @Test
+        void shouldReturnFalseIfAllPredicatesAreFalse_whenPassedAsIterable() {
+            List<Predicate<Object>> components = List.of(
+                    PredicateHelper.alwaysFalse(),
+                    PredicateHelper.alwaysFalse()
+            );
+            assertThat(PredicateHelper.or(components).test(1)).isFalse();
+        }
+
         @Test
         void shouldReturnTrueIfAnyPredicateIsTrue() {
             Predicate<Object> p1 = PredicateHelper.alwaysFalse();
@@ -90,6 +154,30 @@ class PredicateHelperTest {
 
             assertThat(p.equals(anOrPredicateThatEvaluatesToTrue())).isTrue();
             assertThat(p.equals(anOrPredicateThatEvaluatesToFalse())).isFalse();
+        }
+
+        @Test
+        void equalsReturnsFalseForNonOrPredicateArgument() {
+            Predicate<Object> orPredicate = anOrPredicateThatEvaluatesToTrue();
+            Predicate<Object> andPredicate = anAndPredicateThatEvaluatesToTrue();
+
+            assertThat(orPredicate.equals(null)).isFalse();
+            assertThat(orPredicate.equals("not a predicate")).isFalse();
+            assertThat(orPredicate.equals(andPredicate)).isFalse();
+        }
+
+        @Test
+        void applyDelegatesToTest() throws Exception {
+            Predicate<Object> predicate = anOrPredicateThatEvaluatesToTrue();
+            Method apply = predicate.getClass().getDeclaredMethod("apply", Object.class);
+            apply.setAccessible(true);
+
+            assertThat((Boolean) apply.invoke(predicate, "input")).isTrue();
+
+            Predicate<Object> falsy = anOrPredicateThatEvaluatesToFalse();
+            apply = falsy.getClass().getDeclaredMethod("apply", Object.class);
+            apply.setAccessible(true);
+            assertThat((Boolean) apply.invoke(falsy, "input")).isFalse();
         }
     }
 
@@ -144,6 +232,47 @@ class PredicateHelperTest {
 
             // Not same object, so not equal
             assertThat(alsoNotTrue.equals(alwaysTrue)).isFalse();
+        }
+
+        @Test
+        void equalsReturnsTrueWhenBothNotPredicatesWrapSamePredicate() {
+            Predicate<Object> base = anOrPredicateThatEvaluatesToTrue();
+            Predicate<Object> notA = PredicateHelper.not(base);
+            Predicate<Object> notB = PredicateHelper.not(base);
+
+            assertThat(notA.equals(notB)).isTrue();
+        }
+
+        @Test
+        void equalsReturnsFalseWhenNotPredicatesWrapDifferentPredicates() {
+            Predicate<Object> notTrue = PredicateHelper.not(PredicateHelper.alwaysTrue());
+            Predicate<Object> notFalse = PredicateHelper.not(PredicateHelper.alwaysFalse());
+
+            assertThat(notTrue.equals(notFalse)).isFalse();
+        }
+
+        @Test
+        void equalsReturnsFalseForNonNotPredicateArgument() {
+            Predicate<Object> notPredicate = PredicateHelper.not(PredicateHelper.alwaysTrue());
+            Predicate<Object> andPredicate = anAndPredicateThatEvaluatesToTrue();
+
+            assertThat(notPredicate.equals(null)).isFalse();
+            assertThat(notPredicate.equals("not a predicate")).isFalse();
+            assertThat(notPredicate.equals(andPredicate)).isFalse();
+        }
+
+        @Test
+        void applyDelegatesToTest() throws Exception {
+            Predicate<Object> predicate = PredicateHelper.not(PredicateHelper.alwaysFalse());
+            Method apply = predicate.getClass().getDeclaredMethod("apply", Object.class);
+            apply.setAccessible(true);
+
+            assertThat((Boolean) apply.invoke(predicate, "input")).isTrue();
+
+            Predicate<Object> falsy = PredicateHelper.not(PredicateHelper.alwaysTrue());
+            apply = falsy.getClass().getDeclaredMethod("apply", Object.class);
+            apply.setAccessible(true);
+            assertThat((Boolean) apply.invoke(falsy, "input")).isFalse();
         }
     }
 
