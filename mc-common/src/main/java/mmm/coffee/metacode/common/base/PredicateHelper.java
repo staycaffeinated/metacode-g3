@@ -31,6 +31,10 @@ import java.util.function.Predicate;
 
 public class PredicateHelper {
 
+    private PredicateHelper() {
+        // essentially sealed
+    }
+
     /**
      * Returns a predicate that always evaluates to {@code true}.
      *
