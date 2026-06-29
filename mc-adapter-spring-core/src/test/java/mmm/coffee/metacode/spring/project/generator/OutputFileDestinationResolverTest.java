@@ -15,6 +15,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,6 +75,22 @@ class OutputFileDestinationResolverTest {
     void whenUnknownFacet_expectException() throws IOException {
         SpringTemplateModel templateModel = aSpringProjectTemplateModel();
         TemplateFacet facet = aTemplateFacetOf("UnknownFacet");
+        String archetypeName = Archetype.ApplicationConfiguration.toString();
+
+        assertThrows(RuntimeApplicationError.class,
+                () -> OutputFileDestinationResolver.resolveDestination(facet, archetypeName, templateModel, defaultDecoder));
+    }
+
+    @Test
+    void whenDescriptorValueIsNotJavaArchetypeDescriptor_expectException() {
+        // line 31 false branch: customProps != null but value for archetypeName is not a JavaArchetypeDescriptor
+        Map<String, Object> customProps = new HashMap<>();
+        customProps.put(Archetype.ApplicationConfiguration.toString(), "not a descriptor");
+
+        SpringTemplateModel templateModel = Mockito.mock(SpringTemplateModel.class);
+        when(templateModel.getCustomProperties()).thenReturn(customProps);
+
+        TemplateFacet facet = aTemplateFacetOf(MAIN);
         String archetypeName = Archetype.ApplicationConfiguration.toString();
 
         assertThrows(RuntimeApplicationError.class,

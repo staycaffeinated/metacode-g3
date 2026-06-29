@@ -110,6 +110,24 @@ class SpringEndpointGeneratorTests {
 
     }
 
+    @Test
+    void whenCatalogEntryHasNonNullArchetype_outputHandlerIsInvoked() throws IOException {
+        generatorUnderTest = setUpGeneratorWith(WEBMVC_FRAMEWORK, new FakeWebMvcCollectorWithArchetype());
+        var descriptor = RestEndpointDescriptor.builder().resource("Pet").route("/pet").build();
+
+        int rc = generatorUnderTest.doPreprocessing(descriptor).generateCode(descriptor);
+        assertThat(rc).isEqualTo(ExitCodes.OK);
+    }
+
+    @Test
+    void whenCatalogEntryHasNullArchetype_ifBlockIsSkipped() throws IOException {
+        generatorUnderTest = setUpGeneratorWith(WEBMVC_FRAMEWORK, new FakeWebMvcCollectorWithNullArchetype());
+        var descriptor = RestEndpointDescriptor.builder().resource("Pet").route("/pet").build();
+
+        int rc = generatorUnderTest.doPreprocessing(descriptor).generateCode(descriptor);
+        assertThat(rc).isEqualTo(ExitCodes.OK);
+    }
+
     // -------------------------------------------------------------------------------------
     //
     // Helper Methods
@@ -192,6 +210,39 @@ class SpringEndpointGeneratorTests {
         return setUpGenerator(Framework.SPRING_BOOT.name());
     }
 
+    private SpringEndpointGenerator setUpGeneratorWith(String frameworkToUse, Collector collector) throws IOException {
+        mockRenderer = Mockito.mock(TemplateResolver.class);
+        when(mockRenderer.render(any(), any())).thenReturn("");
+
+        var mockTemplateResolver = Mockito.mock(TemplateResolver.class);
+        when(mockTemplateResolver.render(any(), any())).thenReturn("");
+
+        Configuration mockConfig = Mockito.mock(Configuration.class);
+        when(mockConfig.getString(MetaProperties.BASE_PATH)).thenReturn(BASE_PATH);
+        when(mockConfig.getString(MetaProperties.BASE_PACKAGE)).thenReturn(BASE_PACKAGE);
+        when(mockConfig.getString(MetaProperties.FRAMEWORK)).thenReturn(frameworkToUse);
+
+        mockMetaPropHandler = Mockito.mock(MetaPropertiesHandler.class);
+        when(mockMetaPropHandler.readMetaProperties()).thenReturn(mockConfig);
+
+        var converterMap = new RestEndpointTemplateModelToMapConverter();
+        var mustacheEndpointDecoder = MustacheEndpointDecoder.builder().converter(converterMap).build();
+
+        var mockOutputHandler = Mockito.mock(WriteOutputTrait.class);
+        doNothing().when(mockOutputHandler).writeOutput(anyString(), anyString());
+
+        return SpringEndpointGenerator.builder()
+                .collector(collector)
+                .descriptor2predicate(new RestEndpointDescriptorToPredicateConverter())
+                .descriptor2templateModel(new RestEndpointDescriptorToTemplateModelConverter(new NameConverter(), new RouteConstantsConverter()))
+                .metaPropertiesHandler(mockMetaPropHandler)
+                .mustacheDecoder(mustacheEndpointDecoder)
+                .templateRenderer(mockTemplateResolver)
+                .outputHandler(mockOutputHandler)
+                .archetypeDescriptorFactory(new FakeArchetypeDescriptorFactory())
+                .build();
+    }
+
     /**
      * A fake Collector suitable for unit test usage
      */
@@ -235,6 +286,43 @@ class SpringEndpointGeneratorTests {
         }
     }
 
+
+    public static class FakeWebMvcCollectorWithArchetype implements Collector {
+        @Override
+        public List<CatalogEntry> collect() {
+            CatalogEntry entry = CatalogEntryBuilder.builder()
+                    .scope("endpoint")
+                    .archetype("Controller")
+                    .addFacet(TemplateFacetBuilder.builder()
+                            .source("/spring/webmvc/endpoint/Controller.ftl")
+                            .destination("")
+                            .facet("main")
+                            .build())
+                    .build();
+            return List.of(entry);
+        }
+    }
+
+    static class CatalogEntryWithNullArchetype extends CatalogEntry {
+        @Override
+        public String getArchetype() {
+            return null;
+        }
+    }
+
+    public static class FakeWebMvcCollectorWithNullArchetype implements Collector {
+        @Override
+        public List<CatalogEntry> collect() {
+            CatalogEntryWithNullArchetype entry = new CatalogEntryWithNullArchetype();
+            entry.setScope("endpoint");
+            entry.getFacets().add(TemplateFacetBuilder.builder()
+                    .source("/spring/webmvc/endpoint/Controller.ftl")
+                    .destination("")
+                    .facet("main")
+                    .build());
+            return List.of(entry);
+        }
+    }
 
     ClassNameRuleSet buildClassNameRuleSet() throws IOException {
         return ClassNameRuleSetFixture.buildClassNameRuleSet();

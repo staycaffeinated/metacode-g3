@@ -134,6 +134,24 @@ class DescriptorToMetaPropertiesTests {
         assertThat(map.get(MetaProperties.ADD_MONGODB)).isEqualTo(Boolean.TRUE);
     }
 
+    @Test
+    void whenIntegrationWithFlyway_expectFlywayPropertyIsSet() {
+        RestProjectDescriptor descriptor = newWebMvcProject(SpringIntegrations.FLYWAY);
+
+        Map<String, Object> map = converterUnderTest.convert(descriptor);
+
+        assertThat(map.get(MetaProperties.ADD_FLYWAY)).isEqualTo(Boolean.TRUE);
+    }
+
+    @Test
+    void whenIntegrationWithKafka_expectKafkaPropertyIsSet() {
+        RestProjectDescriptor descriptor = newWebMvcProject(SpringIntegrations.KAFKA);
+
+        Map<String, Object> map = converterUnderTest.convert(descriptor);
+
+        assertThat(map.get(MetaProperties.ADD_KAFKA)).isEqualTo(Boolean.TRUE);
+    }
+
     // ---------------------------------------------------------------------------------------------------------
     // Helper methods
     // ---------------------------------------------------------------------------------------------------------

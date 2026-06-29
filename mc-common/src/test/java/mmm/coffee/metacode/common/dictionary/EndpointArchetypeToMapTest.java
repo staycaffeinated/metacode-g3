@@ -1,5 +1,6 @@
 package mmm.coffee.metacode.common.dictionary;
 
+import com.samskivert.mustache.MustacheException;
 import mmm.coffee.metacode.common.model.Archetype;
 import mmm.coffee.metacode.common.model.ArchetypeDescriptor;
 import org.junit.jupiter.api.Assertions;
@@ -8,11 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 
 import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 
 class EndpointArchetypeToMapTest {
 
@@ -59,6 +62,17 @@ class EndpointArchetypeToMapTest {
     @NullSource
     void shouldThrowExceptionWhenResourceIsNull(String resource) {
         assertThrows(NullPointerException.class, () -> EndpointArchetypeToMap.map(descriptorFactory, resource));
+    }
+
+    @Test
+    @SuppressWarnings("java:S125") // false positive; comment does not contain real code
+    void shouldRethrowMustacheExceptionWhenMappingFails() {
+        // lines 53-56: catch(MustacheException), log error, rethrow
+        IArchetypeDescriptorFactory badFactory = Mockito.mock(IArchetypeDescriptorFactory.class);
+        Mockito.when(badFactory.createArchetypeDescriptor(any(Archetype.class)))
+               .thenThrow(new MustacheException("simulated template error"));
+
+        assertThrows(MustacheException.class, () -> EndpointArchetypeToMap.map(badFactory, "Pet"));
     }
 
     @Test
