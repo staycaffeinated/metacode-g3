@@ -83,8 +83,42 @@ class CatalogEntryPredicatesTest {
     }
 
     @Test
+    void isProjectScopeFlywayArtifact_coversAllConditions() {
+        Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isProjectScopeFlywayArtifact();
+
+        // condition 1: scope == null -> false
+        assertThat(predicate.test(aCatalogEntryWithNullScope())).isFalse();
+
+        // condition 2: scope != null but not "project" -> false
+        assertThat(predicate.test(aFlywayEndpointCatalogEntry())).isFalse();
+
+        // condition 3: scope == "project" but no flyway tag -> false
+        assertThat(predicate.test(aBasicProjectCatalogEntry())).isFalse();
+
+        // all conditions true: scope == "project" and has flyway tag -> true
+        assertThat(predicate.test(aFlywayCatalogEntry())).isTrue();
+    }
+
+    @Test
     void shouldRecognizeFlywayTagsOnEndpointEntry() {
         Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isEndpointScopeFlywayArtifact();
+        assertThat(predicate.test(aFlywayEndpointCatalogEntry())).isTrue();
+    }
+
+    @Test
+    void isEndpointScopeFlywayArtifact_coversAllConditions() {
+        Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isEndpointScopeFlywayArtifact();
+
+        // condition 1: scope == null -> false
+        assertThat(predicate.test(aCatalogEntryWithNullScope())).isFalse();
+
+        // condition 2: scope != null but not "endpoint" -> false
+        assertThat(predicate.test(aFlywayCatalogEntry())).isFalse();
+
+        // condition 3: scope == "endpoint" but no flyway tag -> false
+        assertThat(predicate.test(aBasicEndpointCatalogEntry())).isFalse();
+
+        // all conditions true: scope == "endpoint" and has flyway tag -> true
         assertThat(predicate.test(aFlywayEndpointCatalogEntry())).isTrue();
     }
 
@@ -92,6 +126,20 @@ class CatalogEntryPredicatesTest {
     void shouldRecognizeKafkaTags() {
         Predicate<CatalogEntry> predicate = CatalogEntryPredicates.hasKafkaTag();
         assertThat(predicate.test(aKafkaCatalogEntry())).isTrue();
+    }
+
+    @Test
+    void isCommonProjectArtifact_coversAllTagsConditions() {
+        Predicate<CatalogEntry> predicate = CatalogEntryPredicates.isCommonProjectArtifact();
+
+        // condition 1: tags == null -> true
+        assertThat(predicate.test(aBasicProjectCatalogEntry())).isTrue();
+
+        // condition 2: tags.isBlank() -> true (empty string)
+        assertThat(predicate.test(aProjectCatalogEntryWithEmptyTags())).isTrue();
+
+        // condition 3: tags non-null and non-blank -> false (project scope but has tags; not a common artifact)
+        assertThat(predicate.test(aPostgresCatalogEntry())).isFalse();
     }
 
     @Test
