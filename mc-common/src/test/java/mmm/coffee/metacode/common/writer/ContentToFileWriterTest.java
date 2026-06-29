@@ -50,6 +50,18 @@ class ContentToFileWriterTest {
     }
 
     @Test
+    void shouldWriteToScriptDestination(@TempDir Path tempDir) {
+        // destination contains "script" — exercises both if-blocks at lines 73-74 and 77-78
+        Path path = tempDir.resolve("script").resolve("V1__init.sql");
+        String destination = path.toFile().getAbsolutePath();
+
+        ContentToFileWriter writer = new ContentToFileWriter();
+        writer.writeOutput(destination, "CREATE TABLE pet (id BIGINT PRIMARY KEY);");
+
+        assertThat(Files.exists(path)).isTrue();
+    }
+
+    @Test
     void shouldThrowExceptionIfDestinationIsNull() {
         FileSystem fs = new FileSystem();
         ContentToFileWriter writer = new ContentToFileWriter(fs);
