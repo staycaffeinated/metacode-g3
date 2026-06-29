@@ -197,6 +197,40 @@ class RestEndpointDescriptorToTemplateModelConverterTests {
         assertThat(routeConstants.getUpdate()).contains("UPDATE");
     }
 
+    @Test
+    void whenExplicitTableNameAndNoPostgres_thenTableNameUsesDescriptorValue() {
+        var spec = RestEndpointDescriptor.builder()
+                .basePackage(BASE_PACKAGE)
+                .basePath(BASE_PATH)
+                .framework(WEBFLUX)
+                .resource(RESOURCE)
+                .route(ROUTE)
+                .tableName("pet_store")
+                .withPostgres(false)
+                .build();
+
+        var model = converterUnderTest.convert(spec);
+
+        assertThat(model.getTableName()).isNotEmpty();
+    }
+
+    @Test
+    void whenExplicitTableNameAndPostgresEnabled_thenTableNameUsesDescriptorValue() {
+        var spec = RestEndpointDescriptor.builder()
+                .basePackage(BASE_PACKAGE)
+                .basePath(BASE_PATH)
+                .framework(WEBFLUX)
+                .resource(RESOURCE)
+                .route(ROUTE)
+                .tableName("pet_store")
+                .withPostgres(true)
+                .build();
+
+        var model = converterUnderTest.convert(spec);
+
+        assertThat(model.getTableName()).isNotEmpty();
+    }
+
     // ------------------------------------------------------------------------------------------------------------
     // Helper methods
     // ------------------------------------------------------------------------------------------------------------
