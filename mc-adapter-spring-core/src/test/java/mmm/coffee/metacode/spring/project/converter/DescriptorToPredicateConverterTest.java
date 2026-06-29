@@ -46,6 +46,7 @@ class DescriptorToPredicateConverterTest {
     CatalogEntry postgresEntry;
     CatalogEntry testContainerEntry;
     CatalogEntry liquibaseEntry;
+    CatalogEntry flywayEntry;
     CatalogEntry kafkaEntry;
 
     /*
@@ -67,6 +68,9 @@ class DescriptorToPredicateConverterTest {
 
         // A template specific to liquibase support should contain the liquibase tag
         liquibaseEntry = buildCatalogEntry("liquibaseTemplate.ftl", "liquibase.yml", SpringIntegrations.LIQUIBASE.toString());
+
+        // A template specific to flyway support should contain the flyway tag
+        flywayEntry = buildCatalogEntry("FlywayMigration.ftl", "V1__init.sql", SpringIntegrations.FLYWAY.toString());
 
         // A template specific to liquibase support should contain the liquibase tag
         kafkaEntry = buildCatalogEntry("KafkaTopicConfiguration.ftl", "KafkaTopicConfig.java", SpringIntegrations.KAFKA.toString());
@@ -164,6 +168,32 @@ class DescriptorToPredicateConverterTest {
         // Verify we don't get any false positives
         assertThat(predicate.test(testContainerEntry)).isFalse();
         assertThat(predicate.test(postgresEntry)).isFalse();
+    }
+
+    /*
+     * When building a project that has Flyway integration enabled,
+     * the uber-predicate should include common templates and flyway templates,
+     * but not other integration-specific templates like postgres templates.
+     */
+    @Test
+    void whenFlywaySupport_shouldHaveFlywayPredicate() {
+        restProject = RestProjectDescriptor.builder()
+                .basePath(BASE_PATH)
+                .basePackage(BASE_PKG)
+                .applicationName(APP_NAME)
+                .build();
+        restProject.getIntegrations().add(SpringIntegrations.FLYWAY.name());
+
+        Predicate<CatalogEntry> predicate = converterUnderTest.convert(restProject);
+
+        assertThat(predicate).isNotNull();
+        assertThat(predicate.test(commonEntry)).isTrue();
+        assertThat(predicate.test(flywayEntry)).isTrue();
+
+        // Verify we don't get any false positives
+        assertThat(predicate.test(postgresEntry)).isFalse();
+        assertThat(predicate.test(liquibaseEntry)).isFalse();
+        assertThat(predicate.test(kafkaEntry)).isFalse();
     }
 
     /*
