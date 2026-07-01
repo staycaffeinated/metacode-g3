@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -151,8 +152,13 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
      * @return the ApiError object
      */
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(
-                                MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request)
+    <#noparse>
+    protected ResponseEntity<@NonNull Object> handleMissingServletRequestParameter(
+                                MissingServletRequestParameterException ex,
+                                HttpHeaders headers,
+                                HttpStatusCode status,
+                                WebRequest request)
+    </#noparse>
     {
 
         String title = String.format("Missing request parameter '%s'", ex.getParameterName());
