@@ -2,16 +2,14 @@
 package ${Exception.packageName()};
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.Serial;
 
 /**
-* An UnprocessableEntity exception indicates a well-formed request was
-* received, but could not be successfully processed.
-*/
-@ResponseStatus(value = HttpStatus.UNPROCESSABLE_CONTENT)
+ * An UnprocessableEntity exception indicates a well-formed request was
+ * received, but could not be successfully processed.
+ */
 public class UnprocessableEntityException extends ResponseStatusException {
 
     @Serial

@@ -18,6 +18,7 @@
 * In the `application.yml`, wrap the database credentials in environment variables.
 * Fixed a YML indentation issue. 
 * Nixed the `GlobalErrorAttributes` class. 
+* Removed the @ResponseStatus annotations on the custom exceptions. The GlobalExceptionHandler has precedence over the response status code. To avoid confusion, the @ResponseStatus annotations are removed from the custom exceptions. 
 
 
 ## [13.1.0] -- tbd

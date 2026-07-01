@@ -2,15 +2,13 @@
 package ${Exception.packageName()};
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.Serial;
 
 /**
-* Indicates the request could not be processed due to a client error (HTTP 400).
-*/
-@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+ * Indicates the request could not be processed due to a client error (HTTP 400).
+ */
 public class BadRequestException extends ResponseStatusException {
 
     @Serial

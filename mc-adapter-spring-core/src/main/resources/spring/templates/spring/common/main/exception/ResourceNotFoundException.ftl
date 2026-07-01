@@ -2,15 +2,13 @@
 package ${Exception.packageName()};
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.Serial;
 
 /**
-* A requested resource was not found
-*/
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+ * A requested resource was not found
+ */
 public class ResourceNotFoundException extends ResponseStatusException {
 
     @Serial
