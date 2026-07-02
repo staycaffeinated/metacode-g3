@@ -92,4 +92,15 @@ class ${Entity.testClass()} {
             assertThat(sample.getResourceId()).isNotBlank().isNotEmpty();
         }
     }
+
+    @Nested
+    class TestCopyMutableFields {
+        @Test
+        void shouldCopyMutableFields() {
+            var pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
+            var ejb = new ${Entity.className()}();
+            var copy = ejb.copyMutableFieldsFrom(pojo);
+            assertThat(copy.getText()).isEqualTo(pojo.getText());
+        }
+    }
 }
