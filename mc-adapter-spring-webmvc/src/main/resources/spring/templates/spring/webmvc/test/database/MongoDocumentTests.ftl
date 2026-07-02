@@ -23,6 +23,13 @@ public class ${Document.testClass()} {
         objectUnderTest = ${DocumentTestFixtures.className()}.sampleOne();
     }
 
+    @Test
+    void shouldSetId() {
+        String id = "abc12345XYZ";
+        objectUnderTest.setId(id);
+        assertThat(objectUnderTest.getId()).isEqualTo(id);
+    }
+
     @Nested
     class EqualsMethod {
         @Test
