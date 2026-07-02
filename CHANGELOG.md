@@ -1,5 +1,7 @@
 ## Uncommitted
 
+## [13.2.0] -- 2026-07-02
+
 ### Changes:
 
 * Fixed pagination issue in the `findAll()` style methods of the `Repository-type` classes.
@@ -21,7 +23,7 @@
 * Removed the @ResponseStatus annotations on the custom exceptions. The GlobalExceptionHandler has precedence over the response status code. To avoid confusion, the @ResponseStatus annotations are removed from the custom exceptions. 
 
 
-## [13.1.0] -- tbd
+## [13.1.0] -- 2026-05-30
 
 ### Changes:
 
