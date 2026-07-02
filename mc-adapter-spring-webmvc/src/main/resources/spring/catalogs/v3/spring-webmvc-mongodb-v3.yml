@@ -265,6 +265,8 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/common/main/topology/TopicProvisioner.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/common/test/topology/TopicProvisionerTest.ftl"
 
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
