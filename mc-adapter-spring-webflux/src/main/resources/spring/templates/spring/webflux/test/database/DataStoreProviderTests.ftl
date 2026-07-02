@@ -192,6 +192,19 @@ class ${ConcreteDataStoreImpl.testClass()} {
                         .verifyComplete();
             // @formatter:on
         }
+
+        @Test
+        void shouldReturnErrorWhenConversionToPojoFails() {
+            ${ConcreteDataStoreImpl.className()} dodgyProvider = oneWithDodgyEjbConverter();
+
+            Mono<${Entity.className()}> returnValue = Mono.just(${EjbTestFixtures.className()}.oneWithResourceId());
+            when(mockRepository.findById(any(Long.class))).thenReturn(returnValue);
+
+            Long expectedId = 1L; // any fake ID will do
+            Mono<${EntityResource.className()}> publisher = dodgyProvider.findById(expectedId);
+
+            StepVerifier.create(publisher).expectSubscription().verifyError();
+        }
     }    
     
     @Nested

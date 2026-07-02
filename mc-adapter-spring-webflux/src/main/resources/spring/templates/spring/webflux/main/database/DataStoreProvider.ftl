@@ -62,7 +62,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
         return repository.findByResourceId(id).flatMap(entity -> {
                 ${endpoint.pojoName} pojo = ejbToPojoConverter.convert(entity);
                 if (pojo == null) {
-                    return Mono.error(new UnprocessableEntityException());
+                    return Mono.error(new ResourceNotFoundException());
                 }
                 return Mono.just(pojo);
         });
@@ -76,7 +76,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
         return repository.findById(id).flatMap(entity -> {
                 ${endpoint.pojoName} pojo = ejbToPojoConverter.convert(entity);
                 if (pojo == null) {
-                    return Mono.error(new UnprocessableEntityException());
+                    return Mono.error(new ResourceNotFoundException());
                 }
                 return Mono.just(pojo);
         });
