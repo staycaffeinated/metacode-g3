@@ -15,6 +15,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.executable.ExecutableValidator;
+import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -163,6 +166,79 @@ class ${GlobalExceptionHandler.testClass()} {
     }
 
 
+    /**
+     * dotIndex < 0: field-level constraint produces a path with no dot (e.g. "name"),
+     * so the handler uses the full path as-is.
+     */
+    @Test
+    void whenConstraintViolationPathHasNoDot_expectFullPathUsed() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        jakarta.validation.Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<SingleFieldBean>> violations = validator.validate(new SingleFieldBean(null));
+        assertThat(violations).hasSize(1);
+
+        String fullPath = violations.iterator().next().getPropertyPath().toString();
+        assertThat(fullPath).doesNotContain(".");
+
+        ConstraintViolationException exception = new ConstraintViolationException(violations);
+        var publisher = exceptionHandlerUnderTest.handleConstraintViolationException(exception);
+
+        // then
+        StepVerifier.create(publisher)
+                    .expectSubscription()
+                    .consumeNextWith(p -> {
+                        assertThat(p).isNotNull();
+                        assertThat(p.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+                        assertThat(p.getProperties()).isNotNull().containsKey("errors");
+                        var errors = (ArrayNode) p.getProperties().get("errors");
+                        assertThat(errors).hasSize(1);
+                        assertThat(errors.get(0).get("method").asString()).isEqualTo(fullPath);
+                    })
+                    .verifyComplete();
+    }
+
+
+    /**
+     * dotIndex >= 0: method-parameter constraint produces a path like "process.name", ]
+     * so the handler truncates at the dot and stores only "process"
+     */
+    @Test
+    void whenConstraintViolationPathHasDot_expectPathTruncatedBeforeDot() throws NoSuchMethodException {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        ExecutableValidator executableValidator = factory.getValidator().forExecutables();
+
+        // validateParameters with null triggers @NotNull; Hibernate Validator builds a path
+        // of the form "process.name" (or "process.arg0" without -parameters flag) — either
+        // way the dot is present, which is the condition under test.
+        ConstrainedParamService service = new ConstrainedParamService();
+        Method method = ConstrainedParamService.class.getMethod("process", String.class);
+        Set<ConstraintViolation<ConstrainedParamService>> violations =
+                executableValidator.validateParameters(service, method, new Object[] {null});
+
+        assertThat(violations).hasSize(1);
+        String fullPath = violations.iterator().next().getPropertyPath().toString();
+        assertThat(fullPath).contains(".");
+
+        ConstraintViolationException exception = new ConstraintViolationException(violations);
+        var publisher = exceptionHandlerUnderTest.handleConstraintViolationException(exception);
+
+        // then
+        StepVerifier.create(publisher)
+                    .expectSubscription()
+                    .consumeNextWith(p -> {
+                        assertThat(p).isNotNull();
+                        assertThat(p.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+                        assertThat(p.getProperties()).isNotNull().containsKey("errors");
+                        var errors = (ArrayNode) p.getProperties().get("errors");
+                        assertThat(errors).hasSize(1);
+                        // handler must store only the part before the first dot
+                        String expectedTruncated = fullPath.substring(0, fullPath.indexOf('.'));
+                        assertThat(errors.get(0).get("method").asString()).isEqualTo(expectedTruncated);
+                })
+                .verifyComplete();
+    }
+
     /* =======================================================================================
      * HELPER METHODS
      * ======================================================================================= */
@@ -176,13 +252,29 @@ class ${GlobalExceptionHandler.testClass()} {
         return Stream.of(Arguments.of(sample1), Arguments.of(sample2));
     }
 
-    private static ConstraintViolationException getConstraintViolationException(
-        ValidatorFactory factory, SampleObject ts) {
-            jakarta.validation.Validator validator = factory.getValidator();
-            Set<ConstraintViolation<SampleObject>> violations = validator.validate(ts);
-            return new ConstraintViolationException(violations);
-        }
+    private static ConstraintViolationException getConstraintViolationException(ValidatorFactory factory, SampleObject ts)
+    {
+        jakarta.validation.Validator validator = factory.getValidator();
+        // Invoke validate() to trigger the validation
+        Set<ConstraintViolation<SampleObject>> violations = validator.validate(ts);
+        // Create an exception that wraps the constraint violations
+        return new ConstraintViolationException(violations);
+    }
 
+    private static class SingleFieldBean {
+        @NotNull(message = "name must not be null")
+        final String name;
+
+        SingleFieldBean(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class ConstrainedParamService {
+        public void process(@NotNull(message = "name must not be null") String name) {
+            // no-op method
+        }
+    }
 
 
     /**
