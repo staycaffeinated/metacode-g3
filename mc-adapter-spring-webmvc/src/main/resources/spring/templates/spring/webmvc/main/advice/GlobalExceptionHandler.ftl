@@ -15,11 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ArrayNode;
@@ -135,6 +137,20 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
         ex.getName(), value, klass.getSimpleName());
 
         return problemDescription(message, ex);
+    }
+
+    @ExceptionHandler(TransactionSystemException.class)
+    public ResponseEntity<ProblemDetail> handleTransactionSystemException(TransactionSystemException ex) {
+        log.error(ex.getMessage());
+        return problemDescription("The request could not be persisted", ex);
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ProblemDetail> handleResponseStatusException(ResponseStatusException ex) {
+        ProblemDetail pd = ProblemDetail.forStatus(ex.getStatusCode());
+        pd.setDetail(ex.getReason());
+        pd.setTitle(ex.getMessage());
+        return ResponseEntity.status(ex.getStatusCode()).body(pd);
     }
 
     /**

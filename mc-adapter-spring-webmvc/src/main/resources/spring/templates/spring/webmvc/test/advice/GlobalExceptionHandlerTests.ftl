@@ -30,8 +30,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ArrayNode;
@@ -123,6 +125,29 @@ class GlobalExceptionHandlerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
         assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE.value());
         assertThat(response.getBody().getTitle()).isNotEmpty();
+    }
+
+    @Test
+    void onTransactionSystemException_shouldReturnUnprocessableContent() {
+        TransactionSystemException ex = new TransactionSystemException("constraint violation on commit");
+
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleTransactionSystemException(ex);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT);
+        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value());
+        assertThat(response.getBody().getTitle()).isNotBlank();
+    }
+
+    @Test
+    void onResponseStatusException_shouldReturnStatusFromException() {
+        ResponseStatusException ex = new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found");
+
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleResponseStatusException(ex);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 
     /**
