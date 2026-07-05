@@ -457,3 +457,15 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/resources/db/flyway/create-table.ftl"
         destination: "{{appModule}}/src/main/resources/db/migration/{{createTableScriptName}}"
+
+  - scope: "endpoint"
+    archetype: "EntityRequest"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/adapter/in/web/EntityRequest.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityResponse"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/adapter/in/web/EntityResponse.ftl"

@@ -130,6 +130,8 @@ public enum Archetype {
     Entity("Entity"),   // the EJB view of a POJO
     EntityResource("EntityResource"), // the POJO view of an EJB
     Repository("Repository"),
+    EntityRequest("EntityRequest"),
+    EntityResponse("EntityResponse"),
     PersistenceAdapter("PersistenceAdapter"),
     ConcreteDataStoreApi("ConcreteDataStoreApi"), // api for the kind of pojo persisted as ejb's (eg: DataStore<Book>)
     ConcreteDocumentStoreApi("ConcreteDocumentStoreApi"), // api for the kind of pojo persisted as documents (eg: DocumentStore<Book>)

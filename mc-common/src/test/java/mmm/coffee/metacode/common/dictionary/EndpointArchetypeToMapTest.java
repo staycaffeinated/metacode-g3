@@ -36,6 +36,8 @@ class EndpointArchetypeToMapTest {
             "DocumentTestFixtures",
             "DocumentToPojoConverter",
             "EntityResource",
+            "EntityRequest",
+            "EntityResponse",
             "MongoDataStoreApi",
             "ConcreteDataStoreApi",
             "ConcreteDataStoreImpl",

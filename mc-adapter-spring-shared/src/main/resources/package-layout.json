@@ -141,6 +141,14 @@
       ]
     },
     {
+      "package": "{{basePackage}}.adapter.in.web.{{endpoint}}",
+      "archetypes": [
+        "EntityRequest",
+        "EntityResponse"
+      ]
+    },
+
+    {
       "package": "{{basePackage}}.endpoints.{{endpoint}}.helper",
       "archetypes": [
         "ConversionService"

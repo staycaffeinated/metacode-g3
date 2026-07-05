@@ -7,6 +7,7 @@ import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${GlobalExceptionHandler.fqcn()};
 import tools.jackson.databind.json.JsonMapper;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +20,7 @@ import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.HateoasPageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,8 +55,11 @@ class ${Controller.testClass()} {
     @BeforeEach
     void configureSystemUnderTest() {
         ${endpoint.entityVarName}Service = Mockito.mock(${ServiceApi.className()}.class);
+        var pageableResolver = new HateoasPageableHandlerMethodArgumentResolver();
+
         var mockMvc = MockMvcBuilders.standaloneSetup(new ${Controller.className()}(${endpoint.entityVarName}Service))
-                                       .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                                       .setCustomArgumentResolvers(pageableResolver, new PageableHandlerMethodArgumentResolver())
+                                       .setControllerAdvice(new GlobalExceptionHandler(new JsonMapper()))
                                        .build();
         mockMvcTester = MockMvcTester.create(mockMvc);
 
