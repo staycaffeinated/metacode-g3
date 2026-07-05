@@ -1,16 +1,13 @@
 <#include "/common/Copyright.ftl">
 package ${Exception.packageName()};
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.io.Serial;
 
 /**
  * An UnprocessableEntity exception indicates a well-formed request was
  * received, but could not be successfully processed.
  */
-public class UnprocessableEntityException extends ResponseStatusException {
+public class UnprocessableEntityException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 2711067751568445348L;
@@ -19,14 +16,14 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * Default Constructor
      */
     public UnprocessableEntityException() {
-        super(HttpStatus.UNPROCESSABLE_CONTENT);
+        super();
     }
 
     /**
      * Constructor
      */
     public UnprocessableEntityException(Throwable throwable) {
-        super(HttpStatus.UNPROCESSABLE_CONTENT, "Unable to process the resource (or entity)", throwable);
+        super("Unable to process the resource (or entity)", throwable);
     }
 
     /**
@@ -36,17 +33,17 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * @param reason the associated reason (optional)
      */
     public UnprocessableEntityException(String reason) {
-        super(HttpStatus.UNPROCESSABLE_CONTENT, reason);
+        super();
     }
 
     /**
      * Constructor with a reason to add to the exception
-     * message as explanation, as well as a nested exception.
+     * message as an explanation, as well as a nested exception.
      *
      * @param reason the associated reason (optional)
-     * @param cause  a nested exception (optional)
+     * @param the cause for the exception (optional)
      */
     public UnprocessableEntityException(String reason, Throwable cause) {
-        super(HttpStatus.UNPROCESSABLE_CONTENT, reason, cause);
+        super(reason, cause);
     }
 }

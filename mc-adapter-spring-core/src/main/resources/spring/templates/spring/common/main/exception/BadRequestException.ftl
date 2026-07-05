@@ -1,15 +1,12 @@
 <#include "/common/Copyright.ftl">
 package ${Exception.packageName()};
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.io.Serial;
 
 /**
  * Indicates the request could not be processed due to a client error (HTTP 400).
  */
-public class BadRequestException extends ResponseStatusException {
+public class BadRequestException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 1968592496239029423L;
@@ -18,14 +15,14 @@ public class BadRequestException extends ResponseStatusException {
      * Default Constructor
      */
     public BadRequestException() {
-        super(HttpStatus.BAD_REQUEST);
+        super();
     }
 
     /**
      * Constructor
      */
     public BadRequestException(Throwable throwable) {
-        super(HttpStatus.BAD_REQUEST, "The request cannot be processed due to client error", throwable);
+        super("The request cannot be processed due to client error", throwable);
     }
 
     /**
@@ -35,17 +32,17 @@ public class BadRequestException extends ResponseStatusException {
      * @param reason the associated reason (optional)
      */
     public BadRequestException(String reason) {
-        super(HttpStatus.BAD_REQUEST, reason);
+        super(reason);
     }
 
     /**
      * Constructor with a reason to add to the exception
-     * message as explanation, as well as a nested exception.
+     * message as an explanation, as well as a nested exception.
      *
-     * @param reason the associated reason (optional)
-     * @param cause  a nested exception (optional)
+     * @param the reason for the exception (optional)
+     * @param the cause for the exception (optional)
      */
     public BadRequestException(String reason, Throwable cause) {
-        super(HttpStatus.BAD_REQUEST, reason, cause);
+        super(reason, cause);
     }
 }
