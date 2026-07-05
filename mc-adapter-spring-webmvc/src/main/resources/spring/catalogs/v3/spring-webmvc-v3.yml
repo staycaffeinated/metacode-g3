@@ -469,3 +469,15 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/adapter/in/web/EntityResponse.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityCommandUseCase"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/application/port/in/EntityCommandUseCase.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityQueryUseCase"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/application/port/in/EntityQueryUseCase.ftl"

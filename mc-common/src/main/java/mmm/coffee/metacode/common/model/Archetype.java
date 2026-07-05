@@ -132,6 +132,8 @@ public enum Archetype {
     Repository("Repository"),
     EntityRequest("EntityRequest"),
     EntityResponse("EntityResponse"),
+    EntityCommandUseCase("EntityCommandUseCase"),
+    EntityQueryUseCase("EntityQueryUseCase"),
     PersistenceAdapter("PersistenceAdapter"),
     ConcreteDataStoreApi("ConcreteDataStoreApi"), // api for the kind of pojo persisted as ejb's (eg: DataStore<Book>)
     ConcreteDocumentStoreApi("ConcreteDocumentStoreApi"), // api for the kind of pojo persisted as documents (eg: DocumentStore<Book>)

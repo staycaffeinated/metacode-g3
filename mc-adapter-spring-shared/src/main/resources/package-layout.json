@@ -141,10 +141,17 @@
       ]
     },
     {
-      "package": "{{basePackage}}.adapter.in.web.{{endpoint}}",
+      "package": "{{basePackage}}.adapter.inbound.web.{{endpoint}}",
       "archetypes": [
         "EntityRequest",
         "EntityResponse"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.application.{{endpoint}}.port.inbound",
+      "archetypes": [
+        "EntityCommandUseCase",
+        "EntityQueryUseCase"
       ]
     },
 
