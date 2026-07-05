@@ -167,7 +167,6 @@ class GlobalExceptionHandlerTest {
     void whenUnprocessableEntityException_expectBadRequest() {
         var ex = Mockito.mock(UnprocessableEntityException.class);
         when(ex.getMessage()).thenReturn("A mock message");
-        when(ex.getReason()).thenReturn("A mock reason");
 
         ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleUnprocessableRequestException(ex);
         assertThat(response).isNotNull();
