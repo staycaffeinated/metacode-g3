@@ -31,7 +31,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.common.exceptions",
+      "package": "{{basePackage}}.application.shared.exceptions",
       "archetypes": [
         "Exception",
         "BadRequestException",
