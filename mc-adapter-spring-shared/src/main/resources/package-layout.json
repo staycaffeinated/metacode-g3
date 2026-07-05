@@ -70,7 +70,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.infrastructure.validation",
+      "package": "{{basePackage}}.adapter.in.web.validation",
       "archetypes": [
         "AlphabeticAnnotation",
         "AlphabeticValidator",
