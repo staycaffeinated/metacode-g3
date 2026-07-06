@@ -70,7 +70,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.adapter.in.web.validation",
+      "package": "{{basePackage}}.adapter.inbound.web.validation",
       "archetypes": [
         "AlphabeticAnnotation",
         "AlphabeticValidator",
@@ -164,15 +164,18 @@
     {
       "package": "{{basePackage}}.common.persistence",
       "archetypes": [
-        "CustomRepository",
-        "CustomSQLRepository",
-        "AbstractDataStoreApi",
-        "GenericDataStore",
-        "PersistenceAdapter",
         "RegisterDatabaseProperties",
         "AbstractPostgresIntegrationTest",
         "MongoDbContainerTests",
         "PostgresDbContainerTests"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.application.shared.port.outbound",
+      "archetypes": [
+        "CustomRepository",
+        "PersistenceAdapter",
+        "AbstractDataStoreApi"
       ]
     },
     {
@@ -185,13 +188,18 @@
         "AbstractDataStoreImpl",
         "Entity",
         "EntityCallback",
-        "ConcreteDataStoreApi",
         "ConcreteDataStoreImpl",
         "Repository",
         "MongoDataStoreApi",
         "MongoDataStoreImpl",
         "TestTableInitializer",
         "TableInitializer"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.application.{{endpoint}}.port.outbound",
+      "archetypes": [
+        "ConcreteDataStoreApi"
       ]
     },
     {
