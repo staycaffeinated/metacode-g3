@@ -86,7 +86,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.serdes",
+      "package": "{{basePackage}}.adapter.outbound.messaging.serdes",
       "archetypes": [
         "SerdesFactory",
         "JacksonSerializer",
@@ -94,7 +94,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.topology",
+      "package": "{{basePackage}}.adapter.outbound.messaging.topology",
       "archetypes": [
         "Schema",
         "TopicProvisioner"
