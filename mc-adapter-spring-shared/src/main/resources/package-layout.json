@@ -60,10 +60,15 @@
       ]
     },
     {
-      "package": "{{basePackage}}.common.traits",
+      "package": "{{basePackage}}.domain.shared",
       "archetypes": [
         "ResourceIdTrait",
-        "ResourceIdentity",
+        "ResourceIdentity"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.adapter.shared.outbound",
+      "archetypes": [
         "UpdateAwareConverter"
       ]
     },
