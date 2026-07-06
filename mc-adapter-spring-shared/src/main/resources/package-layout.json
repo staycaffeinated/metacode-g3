@@ -40,7 +40,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.home.api",
+      "package": "{{basePackage}}.adapter.inbound.web.home",
       "archetypes": [
         "RootController",
         "RootControllerExceptionHandler",
@@ -136,7 +136,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.api",
+      "package": "{{basePackage}}.adapter.inbound.web.{{endpoint}}",
       "archetypes": [
         "Controller",
         "ControllerExceptionHandler",
