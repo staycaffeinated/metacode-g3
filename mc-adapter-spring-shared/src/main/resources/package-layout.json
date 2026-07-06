@@ -148,7 +148,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.application.{{endpoint}}.port.inbound",
+      "package": "{{basePackage}}.application.port.inbound.{{endpoint}}",
       "archetypes": [
         "EntityCommandUseCase",
         "EntityQueryUseCase"
@@ -179,27 +179,27 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence",
+      "package": "{{basePackage}}.adapter.outbound.persistence.{{endpoint}}",
       "archetypes": [
         "DatabaseTablePopulator",
         "Document",
-        "ConcreteDocumentStoreApi",
         "ConcreteDocumentStoreImpl",
         "AbstractDataStoreImpl",
         "Entity",
         "EntityCallback",
         "ConcreteDataStoreImpl",
         "Repository",
-        "MongoDataStoreApi",
         "MongoDataStoreImpl",
         "TestTableInitializer",
         "TableInitializer"
       ]
     },
     {
-      "package": "{{basePackage}}.application.{{endpoint}}.port.outbound",
+      "package": "{{basePackage}}.application.port.outbound.{{endpoint}}",
       "archetypes": [
-        "ConcreteDataStoreApi"
+        "ConcreteDataStoreApi",
+        "ConcreteDocumentStoreApi",
+        "MongoDataStoreApi"
       ]
     },
     {
