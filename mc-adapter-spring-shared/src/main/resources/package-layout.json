@@ -104,6 +104,11 @@
     {
       "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence.converters",
       "archetypes": [
+        "EndpointConfiguration"]
+    },
+    {
+      "package": "{{basePackage}}.adapter.outbound.persistence.{{endpoint}}.converters",
+      "archetypes": [
         "EndpointConfiguration",
         "EntityToPojoConverter",
         "PojoToEntityConverter",
@@ -207,7 +212,6 @@
       "archetypes": [
         "EjbTestFixtures",
         "DocumentTestFixtures",
-        "EjbTestFixtures",
         "ModelTestFixtures",
         "PojoTestFixtures",
         "ModelTestFixtures"
@@ -225,7 +229,7 @@
       ]
     },
     {
-      "package": "{{basePackage}}.endpoints.{{endpoint}}.internal.persistence.predicate",
+      "package": "{{basePackage}}.adapter.outbound.persistence.{{endpoint}}.predicate",
       "archetypes": [
         "EntityWithText",
         "EntitySpecification"
