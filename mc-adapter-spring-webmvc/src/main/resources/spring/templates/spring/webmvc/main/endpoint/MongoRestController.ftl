@@ -7,6 +7,7 @@ import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
 import ${ResourceIdAnnotation.fqcn()};
 import ${SearchTextAnnotation.fqcn()};
+import ${ServiceApi.fqcn()};
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

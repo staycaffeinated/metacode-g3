@@ -8,6 +8,7 @@ import ${EntityResource.fqcn()};
 import ${PojoTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
+import ${ServiceApi.fqcn()};
 import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;

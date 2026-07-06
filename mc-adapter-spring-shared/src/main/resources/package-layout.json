@@ -44,9 +44,7 @@
       "archetypes": [
         "RootController",
         "RootControllerExceptionHandler",
-        "RootService",
-        "DefaultController",
-        "DefaultService"
+        "DefaultController"
       ]
     },
     {
@@ -140,9 +138,16 @@
       "archetypes": [
         "Controller",
         "ControllerExceptionHandler",
-        "Routes",
+        "Routes"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.application.service",
+      "archetypes": [
         "ServiceApi",
-        "ServiceImpl"
+        "ServiceImpl",
+        "RootService",
+        "DefaultService"
       ]
     },
     {

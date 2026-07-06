@@ -9,6 +9,7 @@ import ${ResourceIdTrait.fqcn()};
 import ${SearchTextAnnotation.fqcn()};
 import ${ResourceIdAnnotation.fqcn()};
 import ${Routes.fqcn()};
+import ${ServiceApi.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;

@@ -8,6 +8,7 @@ import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${GlobalExceptionHandler.fqcn()};
+import ${ServiceApi.fqcn()};
 import tools.jackson.databind.json.JsonMapper;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
