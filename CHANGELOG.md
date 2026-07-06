@@ -2,6 +2,7 @@
 
 ## Changes
 * Improved GlobalExceptionHandler
+* Reorganized namespaces to follow a _hexagon architecture_ style. There are four high-level packages: `domain`, `infrastructure`, `application`, and `adapter`. The `domain` package contains POJOs, the `infrastructure` package contains the Spring configuration classes, the `application` package contains the use cases, and the `adapter` package contains the controllers and components for backend integration (e.g., JDBC, Kafka). 
 
 ## [13.2.0] -- 2026-07-02
 
