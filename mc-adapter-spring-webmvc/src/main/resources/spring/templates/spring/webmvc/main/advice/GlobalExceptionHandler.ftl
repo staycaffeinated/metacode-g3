@@ -1,7 +1,9 @@
 <#include "/common/Copyright.ftl">
 package ${GlobalExceptionHandler.packageName()};
 
-import ${Exception.packageName()}.UnprocessableEntityException;
+import ${BadRequestException.fqcn()};
+import ${ResourceNotFoundException.fqcn()};
+import ${UnprocessableEntityException.fqcn()};
 
 import jakarta.validation.ConstraintViolation;
 import java.sql.SQLException;
@@ -151,6 +153,22 @@ public class ${GlobalExceptionHandler.className()} extends ResponseEntityExcepti
         pd.setDetail(ex.getReason());
         pd.setTitle(ex.getMessage());
         return ResponseEntity.status(ex.getStatusCode()).body(pd);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        pd.setDetail(ex.getMessage());
+        pd.setTitle("Resource not found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pd);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ProblemDetail> handleBadRequestException(BadRequestException ex) {
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        pd.setDetail(ex.getMessage());
+        pd.setTitle("Bad request");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
     }
 
     /**
