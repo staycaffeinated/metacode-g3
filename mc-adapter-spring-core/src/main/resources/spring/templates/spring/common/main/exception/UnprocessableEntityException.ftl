@@ -33,7 +33,7 @@ public class UnprocessableEntityException extends RuntimeException {
      * @param reason the associated reason (optional)
      */
     public UnprocessableEntityException(String reason) {
-        super();
+        super(reason);
     }
 
     /**
