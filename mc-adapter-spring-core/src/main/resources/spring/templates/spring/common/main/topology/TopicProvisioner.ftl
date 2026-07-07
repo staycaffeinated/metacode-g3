@@ -15,11 +15,12 @@ import org.apache.kafka.common.errors.TopicExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
+import org.springframework.stereotype.Component;
+
 
 /*
  * This is a convenience class that creates the standard topics used by the application.
@@ -28,8 +29,7 @@ import org.springframework.kafka.core.KafkaAdmin;
  * create the topics.
  */
 
-@Configuration
-@EnableKafka
+@Component
 @Slf4j
 public class ${TopicProvisioner.className()} {
 
