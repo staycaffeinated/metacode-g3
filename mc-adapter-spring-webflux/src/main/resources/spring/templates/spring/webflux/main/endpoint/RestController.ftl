@@ -9,6 +9,7 @@ import ${ResourceIdAnnotation.fqcn()};
 import ${ServiceApi.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
+import ${ServiceApi.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;

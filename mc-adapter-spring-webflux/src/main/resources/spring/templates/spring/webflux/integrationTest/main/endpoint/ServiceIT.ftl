@@ -7,6 +7,7 @@ import ${PostgresDbContainerTests.fqcn()};
 </#if>
 import ${RegisterDatabaseProperties.fqcn()};
 import ${ConcreteDataStoreApi.fqcn()};
+import ${Repository.fqcn()};
 import ${EjbTestFixtures.fqcn()};
 import ${EntityResource.fqcn()};
 import ${Entity.fqcn()};
@@ -40,19 +41,18 @@ class ${ServiceImpl.integrationTestClass()} implements ${RegisterDatabasePropert
     @Autowired
     ${ConcreteDataStoreApi.className()} dataStore;
 
+    @Autowired
+    ${Repository.className()} repository;
+
     ${ServiceImpl.className()} serviceUnderTest;
 
     @BeforeEach
     void setUp() {
         serviceUnderTest = new ${ServiceImpl.className()}(dataStore);
+        repository.deleteAll().block();
         ${ModelTestFixtures.className()}.allItems().forEach(item -> {
-          serviceUnderTest.create${endpoint.entityName}(item).blockOptional(Duration.ofSeconds(1)); 
+            serviceUnderTest.create${endpoint.entityName}(item).blockOptional(Duration.ofSeconds(1));
         });
-    }
-
-    @AfterEach
-    void tearDown() {
-        // empty
     }
 
     @Test

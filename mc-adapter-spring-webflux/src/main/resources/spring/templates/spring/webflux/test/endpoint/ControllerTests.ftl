@@ -5,6 +5,7 @@ import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${EntityResource.fqcn()};
 import ${ModelTestFixtures.fqcn()};
+import ${ServiceApi.fqcn()};
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
