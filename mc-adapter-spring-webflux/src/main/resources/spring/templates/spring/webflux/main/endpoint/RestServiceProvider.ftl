@@ -42,12 +42,12 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     }
 
 
-    public Mono<String> create${endpoint.entityName}( @NonNull @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
+    public Mono<String> create${endpoint.entityName}( @NonNull ${endpoint.pojoName} resource ) {
         return dataStore.create${endpoint.entityName}(resource);
     }
 
 
-    public Mono<${endpoint.entityName}> update${endpoint.entityName}( @NonNull @Validated(OnUpdate.class) ${endpoint.pojoName} resource ) {
+    public Mono<${endpoint.entityName}> update${endpoint.entityName}( @NonNull ${endpoint.pojoName} resource ) {
         return dataStore.update${endpoint.entityName}(resource);
     }
 
