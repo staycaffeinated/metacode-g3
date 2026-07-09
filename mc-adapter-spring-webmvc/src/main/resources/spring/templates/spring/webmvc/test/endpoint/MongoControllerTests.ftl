@@ -9,6 +9,7 @@ import ${PojoTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${ServiceApi.fqcn()};
+import ${GlobalExceptionHandler.fqcn()};
 import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -17,6 +18,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.HateoasPageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,8 +60,11 @@ class ${Controller.testClass()} {
     @BeforeEach
     void configureSystemUnderTest() {
         ${endpoint.entityVarName}Service = Mockito.mock(${ServiceApi.className()}.class);
+        var pageableResolver = new HateoasPageableHandlerMethodArgumentResolver();
+
         var mockMvc = MockMvcBuilders.standaloneSetup(new ${Controller.className()}(${endpoint.entityVarName}Service))
-                                     .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                                     .setCustomArgumentResolvers(pageableResolver, new PageableHandlerMethodArgumentResolver())
+                                     .setControllerAdvice(new GlobalExceptionHandler(new JsonMapper()))
                                      .build();
         mockMvcTester = MockMvcTester.create(mockMvc);
 
