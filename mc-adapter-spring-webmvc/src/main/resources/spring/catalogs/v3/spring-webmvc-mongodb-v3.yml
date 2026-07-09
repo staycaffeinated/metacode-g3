@@ -283,6 +283,22 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/domain/EntityResource.ftl"
 
+  - scope: "endpoint"
+    archetype: "EntityRequest"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/adapter/in/web/EntityRequest.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/adapter/in/web/EntityRequestTest.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityResponse"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webmvc/main/adapter/in/web/EntityResponse.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/adapter/in/web/EntityResponseTest.ftl"
+
 # The database representation of the POJO
   - scope: "endpoint"
     archetype: "Document"
