@@ -340,14 +340,6 @@ entries:
         sourceTemplate: "/spring/webflux/main/endpoint/EndpointConfig.ftl"
 
   - scope: "endpoint"
-    archetype: "EntityEvent"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webflux/main/endpoint/EntityEvent.ftl"
-      - facet: "test"
-        sourceTemplate: "/spring/webflux/test/endpoint/EntityEventTests.ftl"
-
-  - scope: "endpoint"
     archetype: "Controller"
     facets:
       - facet: "main"
