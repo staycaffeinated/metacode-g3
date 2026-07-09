@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import ${Exception.packageName()}.UnprocessableEntityException;
+import ${Exception.packageName()}.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -149,6 +149,23 @@ class GlobalExceptionHandlerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(response.getBody().getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
+
+    @Test
+    void onBadRequestException_shouldReturnBadRequest() {
+        BadRequestException ex = new BadRequestException("some bad request");
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleBadRequestException(ex);
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void onResourceNotFoundException_shouldReturnNotFound() {
+        ResourceNotFoundException ex = new ResourceNotFoundException("some resource not found");
+        ResponseEntity<ProblemDetail> response = exceptionHandlerUnderTest.handleResourceNotFoundException(ex);
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
 
     /**
      * Test our catch-all handler
