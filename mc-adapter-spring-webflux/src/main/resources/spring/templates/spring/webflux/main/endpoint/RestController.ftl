@@ -10,6 +10,7 @@ import ${ServiceApi.fqcn()};
 import ${UnprocessableEntityException.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
 import ${ServiceApi.fqcn()};
+import ${EntityRequest.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;
@@ -102,8 +103,8 @@ public class ${Controller.className()} {
 </#if>
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
     @Validated(OnCreate.class) 
-    public Mono<ResponseEntity<ResourceIdentity>> create${endpoint.entityName}(@RequestBody ${endpoint.pojoName} resource ) {
-        Mono<String> id = ${endpoint.entityVarName}Service.create${endpoint.entityName}(resource);
+    public Mono<ResponseEntity<ResourceIdentity>> create${endpoint.entityName}(@RequestBody ${EntityRequest.className()} request ) {
+        Mono<String> id = ${endpoint.entityVarName}Service.create${endpoint.entityName}(request.toDomain());
         return id.map(value -> ResponseEntity.status(HttpStatus.CREATED).body(new ResourceIdentity(value)));
     }
     
@@ -117,12 +118,12 @@ public class ${Controller.className()} {
 </#if>
     @PutMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.update}, produces = MediaType.APPLICATION_JSON_VALUE )
     @Validated(OnUpdate.class) 
-    public Mono<${endpoint.entityName}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody ${endpoint.pojoName} ${endpoint.entityVarName}) {
-        if (!Objects.equals(id, ${endpoint.entityVarName}.getResourceId())) {
-            log.error("Update declined: mismatch between query string identifier, {}, and resource identifier, {}", id, ${endpoint.entityVarName}.getResourceId());
+    public Mono<${endpoint.entityName}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody ${EntityRequest.className()} request) {
+        if (!Objects.equals(id, request.resourceId())) {
+            log.error("Update declined: mismatch between query string identifier, {}, and resource identifier, {}", id, request.resourceId());
             return Mono.error(new UnprocessableEntityException("Mismatch between the identifiers in the URI and the payload"));
         }
-        return ${endpoint.entityVarName}Service.update${endpoint.entityName}(${endpoint.entityVarName});
+        return ${endpoint.entityVarName}Service.update${endpoint.entityName}(request.toDomain());
     }
 
     /*

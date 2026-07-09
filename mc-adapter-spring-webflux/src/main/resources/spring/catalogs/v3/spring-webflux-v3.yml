@@ -379,6 +379,12 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/endpoint/EntityRoutes.ftl"
 
+  - scope: "endpoint"
+    archetype: "EntityRequest"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/adapter/in/web/EntityRequest.ftl"
+
   #
   # Resource files
   #
@@ -410,3 +416,4 @@ entries:
     facets:
       - facet: "testFixtures"
         sourceTemplate: "/spring/webflux/testFixtures/domain/ModelTestFixtures.ftl"
+
