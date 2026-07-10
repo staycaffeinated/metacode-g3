@@ -30,6 +30,7 @@ public enum Archetype {
     // project-scope archetypes
     // configs
     ApplicationConfiguration("ApplicationConfiguration"),
+    Architecture("Architecture"),
     DateTimeFormatConfiguration("DateTimeFormatConfiguration"),
     ProblemConfiguration("ProblemConfiguration"),
     LocalDateConverter("LocalDateConverter"),

@@ -21,6 +21,7 @@ public class ProjectArchetypeToMap {
     protected static final Archetype[] PROJECT_ARCHETYPES = {
             // application class
             Archetype.Application,
+            Archetype.Architecture,
             Archetype.RootController,
             Archetype.RootControllerExceptionHandler,
             Archetype.RootService,

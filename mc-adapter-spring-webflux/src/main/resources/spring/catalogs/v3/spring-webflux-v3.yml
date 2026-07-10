@@ -263,6 +263,12 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/common/main/serdes/SerdesFactory.ftl"
 
+  - scope: "project"
+    archetype: "Architecture"
+    facets:
+      - facet: "test"
+        sourceTemplate: "/spring/webflux/test/ArchitectureTest.ftl"
+
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------

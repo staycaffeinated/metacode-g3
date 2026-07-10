@@ -268,6 +268,12 @@ entries:
       - facet: "test"
         sourceTemplate: "/spring/common/test/topology/TopicProvisionerTest.ftl"
 
+  - scope: "project"
+    archetype: "Architecture"
+    facets:
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/ArchitectureTest.ftl"
+
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------

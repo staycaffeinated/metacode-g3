@@ -93,13 +93,6 @@ entries:
       - facet: "main"
         sourceTemplate: "/spring/webmvc/main/config/DateTimeFormatConfiguration.ftl"
 
-# Retired
-#  - scope: "project"
-#    archetype: "ProblemConfiguration"
-#    facets:
-#      - facet: "main"
-#        sourceTemplate: "/spring/webmvc/main/config/ProblemConfiguration.ftl"
-
   - scope: "project"
     archetype: "WebMvcConfiguration"
     facets:
@@ -113,18 +106,6 @@ entries:
         sourceTemplate: "/spring/common/main/config/LocalDateConverter.ftl"
       - facet: "test"
         sourceTemplate: "/spring/common/test/config/LocalDateConverterTests.ftl"
-
-#  - scope: "project"
-#    archetype: "CustomSQLRepository"
-#    facets:
-#      - facet: "main"
-#        sourceTemplate: "/spring/webmvc/main/database/CustomSQLRepository.ftl"
-
-#  - scope: "project"
-#    archetype: "GenericDataStore"
-#    facets:
-#      - facet: "main"
-#        sourceTemplate: "/spring/webmvc/main/database/GenericDataStore.ftl"
 
   - scope: "project"
     archetype: "SecurityResponseHeadersFilter"
@@ -313,6 +294,12 @@ entries:
         sourceTemplate: "/spring/common/main/topology/TopicProvisioner.ftl"
       - facet: "test"
         sourceTemplate: "/spring/common/test/topology/TopicProvisionerTest.ftl"
+
+  - scope: "project"
+    archetype: "Architecture"
+    facets:
+      - facet: "test"
+        sourceTemplate: "/spring/webmvc/test/ArchitectureTest.ftl"
 
 
   # ---------------------------------------------------------------------------------------------------

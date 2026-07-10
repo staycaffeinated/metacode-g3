@@ -28,6 +28,21 @@ class JavaArchetypeDescriptorTest {
     }
 
     @Test
+    void shouldResolveArchitectureTestBasePackage() {
+        JavaArchetypeDescriptor jad = DefaultJavaArchetypeDescriptor.builder()
+                .archetype(Archetype.Architecture)
+                .fqcn("acme.stores.petstore.Architecture")
+                .packageName("acme.stores.petstore")
+                .className("Architecture")
+                .build();
+
+        assertThat(jad.fqcn()).isEqualTo("acme.stores.petstore.Architecture");
+        assertThat(jad.testClass()).isEqualTo("ArchitectureTest");
+        assertThat(jad.fqcnUnitTest()).isEqualTo("acme.stores.petstore.ArchitectureTest");
+
+    }
+
+    @Test
     void shouldHandleNullClassName() {
         // Since JavaArchetypeDescriptor is an interface, there's no way to enforce non-null
         JavaArchetypeDescriptor jad = new DefaultJavaArchetypeDescriptor(Archetype.Application, "org.example.Application", "org.example", null);

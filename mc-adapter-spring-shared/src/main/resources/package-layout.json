@@ -135,7 +135,7 @@
     {
       "package": "{{basePackage}}",
       "archetypes": [
-        "Application"
+        "Application", "Architecture"
       ]
     },
     {
