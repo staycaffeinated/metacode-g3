@@ -1,4 +1,5 @@
 [versions]
+archunit = '${project.versions["archunit"]}'
 assertJ = '${project.versions["assertJ"]}'
 datafaker = '${project.versions["datafaker"]}'
 flyway = '${project.versions["flyway"]}'
@@ -35,6 +36,8 @@ versions = '${project.versions["benManesPlugin"]}'
 [libraries]
 apache-kafka-streams = { module = "org.apache.kafka:kafka-streams" }
 apache-kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils" }
+
+archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
 
 assertJ = { module = "org.assertj:assertj-core", version.ref = "assertJ" }
 

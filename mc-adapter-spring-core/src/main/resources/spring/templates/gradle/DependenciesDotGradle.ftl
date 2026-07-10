@@ -1,5 +1,6 @@
 ext {
 versions = [
+archunit               : ${project.archUnit}',
 apacheKafka            : '${project.apacheKafkaVersion}',         // Apache's Kafka libraries
 assertJ                : '${project.assertJVersion}',             // Assertion library for test cases
 h2                     : '${project.h2Version}',
