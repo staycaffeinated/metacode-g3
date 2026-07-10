@@ -43,6 +43,7 @@ dependencies {
     // Optional: This reports out-of-date property names
     runtimeOnly libs.spring.boot.properties.migrator
 
+    testImplementation libs.archunit.junit5
 <#if (project.isWithTestContainers())>
     testImplementation libs.spring.boot.testcontainers
     testImplementation libs.testcontainers.jupiter

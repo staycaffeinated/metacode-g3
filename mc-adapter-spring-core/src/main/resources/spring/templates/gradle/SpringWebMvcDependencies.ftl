@@ -56,7 +56,7 @@ dependencies {
 <#else>
     runtimeOnly libs.h2
 </#if>
-
+    testImplementation libs.archunit.junit5
     testImplementation libs.assertJ
     testImplementation libs.datafaker
     testImplementation libs.spring.boot.starter.test
