@@ -7,6 +7,8 @@ import ${EntityResource.fqcn()};
 import ${ConcreteDataStoreApi.fqcn()};
 import ${OnCreateAnnotation.fqcn()};
 import ${OnUpdateAnnotation.fqcn()};
+import ${EntityCommandUseCase.fqcn()};
+import ${EntityQueryUseCase.fqcn()};
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,63 +21,51 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
+public class ${ServiceImpl.className()} implements ${ServiceApi.className()}, ${EntityCommandUseCase.className()}, ${EntityQueryUseCase.className()} {
 
     private final ${ConcreteDataStoreApi.className()} ${ConcreteDataStoreApi.varName()};
 
-    /*
-     * Constructor
-     */
     public ${ServiceImpl.className()}(${ConcreteDataStoreApi.className()} ${ConcreteDataStoreApi.varName()})
     {
       this.${ConcreteDataStoreApi.varName()} = ${ConcreteDataStoreApi.varName()};
     }
 
-    /*
-     * findAll
-     */
+    @Override
     public List<${EntityResource.className()}> findAll${endpoint.entityName}s() {
         return ${ConcreteDataStoreApi.varName()}.findAll();
     }
 
-    /**
-     * findByResourceId
-     */
+    @Override
+    public Page<${EntityResource.className()}> findAll${endpoint.entityName}(Pageable pageable) {
+        return ${ConcreteDataStoreApi.varName()}.search("", pageable);
+    }
+
+    @Override
     public Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id) {
         return ${ConcreteDataStoreApi.varName()}.findByResourceId ( id );
     }
 
-    /*
-     * findByAttribute
-     */
+    @Override
     public Page<${EntityResource.className()}> findByAttribute(@NonNull String attributeValue, Pageable pageable) {
         return ${ConcreteDataStoreApi.varName()}.findByAttribute(attributeValue, pageable);
     }
 
-    /*
-     * Search
-     */
+    @Override
     public Page<${EntityResource.className()}> search(@NonNull String rsqlQuery, Pageable pageable) {
         return ${ConcreteDataStoreApi.varName()}.search(rsqlQuery, pageable);
     }
 
-    /**
-    * Persists a new resource
-    */
+    @Override
     public ${EntityResource.className()} create${endpoint.entityName}( @NonNull @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
         return ${ConcreteDataStoreApi.varName()}.save(resource);
     }
 
-    /**
-     * Updates an existing resource
-     */
+    @Override
     public Optional<${endpoint.pojoName}> update${endpoint.entityName}(@NonNull @Validated(OnUpdate.class) ${endpoint.pojoName} resource ) {
         return ${ConcreteDataStoreApi.varName()}.update(resource);
     }
 
-    /**
-     * delete
-     */
+    @Override
     public Optional<${endpoint.pojoName}> delete${endpoint.entityName}ByResourceId(@NonNull String id) {
         return ${ConcreteDataStoreApi.varName()}.deleteByResourceId(id);
     }
