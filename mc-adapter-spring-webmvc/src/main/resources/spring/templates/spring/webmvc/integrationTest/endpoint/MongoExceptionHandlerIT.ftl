@@ -77,7 +77,7 @@ class ${ControllerExceptionHandler.integrationTestClass()} implements ${Register
             mockMvcTester.perform(post(${Routes.className()}.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
                          .content(jsonMapper.writeValueAsString(payload)))
                          .assertThat()
-                         .hasStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                         .hasStatus(HttpStatus.BAD_REQUEST)
                          .bodyJson()
                          .doesNotHavePath("$.stackTrace")
                          .doesNotHavePath("$.trace");

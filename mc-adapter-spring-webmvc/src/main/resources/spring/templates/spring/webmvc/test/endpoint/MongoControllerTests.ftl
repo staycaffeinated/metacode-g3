@@ -10,6 +10,8 @@ import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${ServiceApi.fqcn()};
 import ${GlobalExceptionHandler.fqcn()};
+import ${EntityResponse.fqcn()};
+import ${ModelTestFixtures.fqcn()};
 import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -78,7 +80,7 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class FindAllTests {
+    class FindAllUseCases {
         /*
         * shouldFetchAll${endpoint.entityName}s
         */
@@ -98,7 +100,7 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class FindByIdTests {
+    class FindByIdUseCases {
         /*
         *  shouldFind${endpoint.entityName}ById
         */
@@ -135,7 +137,7 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class Create${endpoint.entityName}Tests {
+    class Create${endpoint.entityName}UseCases {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given
@@ -158,14 +160,14 @@ class ${Controller.testClass()} {
         void whenDatabaseThrowsException_expectUnprocessableEntityResponse() throws Exception {
             // given the database throws an exception when the entity is saved
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
-            ${EntityResource.className()} resource = ${EntityResource.className()}.builder().build();
+            ${EntityResource.className()} resource = ${ModelTestFixtures.className()}.oneWithResourceId();
 
-            createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
+            createEntity(resource).assertThat().hasStatus(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Nested
-    class Update${endpoint.entityName}Tests {
+    class Update${endpoint.entityName}UseCases {
         @Test
         void shouldUpdate${endpoint.entityName}() throws Exception {
             // given
@@ -185,7 +187,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
             // when/then
-            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(resourceId).text("updated text").build();
+            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(resourceId).text("updated-text").build();
 
             // Attempt to update an entity that does not exist
             updateEntity(resource).assertThat().hasStatus(HttpStatus.NOT_FOUND);
@@ -203,7 +205,7 @@ class ${Controller.testClass()} {
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
             // when the ID in the request body does not match the ID in the query string...
-            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(mismatchingId).text("updated text").build();
+            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(mismatchingId).text("updated-text").build();
 
             // Submit an update request, with the ID in the URL not matching the ID in the body.
             // Expect back an UnprocessableEntity status code
@@ -212,7 +214,7 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class Delete${endpoint.entityName}Tests {
+    class Delete${endpoint.entityName}UseCases {
         @Test
         void shouldDelete${endpoint.entityName}() {
             // given
@@ -242,7 +244,7 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class SearchByTextTests {
+    class SearchUseCases {
         @Test
         @SuppressWarnings("unchecked")
         void shouldReturnListWhenMatchesAreFound() {

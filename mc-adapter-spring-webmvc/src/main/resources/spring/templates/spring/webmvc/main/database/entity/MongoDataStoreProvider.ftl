@@ -84,7 +84,7 @@ public class ${ConcreteDocumentStoreImpl.className()} implements ${ConcreteDocum
     public Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable) {
         Page<${Document.className()}> rs = repository.findByTextContainingIgnoreCase(text, pageable);
         List<${EntityResource.className()}> list = rs.stream().map(documentConverter::convert).toList();
-        return new PageImpl<>(list, pageable, list.size());
+        return new PageImpl<>(list, pageable, rs.getTotalElements());
     }
 
     @Override

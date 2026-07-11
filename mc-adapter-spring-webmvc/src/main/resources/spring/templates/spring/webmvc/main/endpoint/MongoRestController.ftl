@@ -8,6 +8,7 @@ import ${OnUpdateAnnotation.fqcn()};
 import ${ResourceIdAnnotation.fqcn()};
 import ${SearchTextAnnotation.fqcn()};
 import ${ServiceApi.fqcn()};
+import ${EntityResponse.fqcn()};
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,72 +50,61 @@ public class ${Controller.className()} {
 
 
     @GetMapping (value=${Routes.className()}.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<${EntityResource.className()}> getAll${endpoint.entityName}s() {
-        return ${ServiceApi.varName()}.findAll${endpoint.entityName}s();
+    public List<${EntityResponse.className()}> getAll${endpoint.entityName}s() {
+        return ${ServiceApi.varName()}.findAll${endpoint.entityName}s().stream().map(${EntityResponse.className()}::fromDomain).toList();
     }
 
 
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${EntityResource.className()}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
+    public ResponseEntity<${EntityResponse.className()}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
         return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)
+            .map(${EntityResponse.className()}::fromDomain)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<${EntityResource.className()}> create${endpoint.entityName}(@RequestBody @Validated(${OnCreateAnnotation.className()}.class) ${EntityResource.className()} resource ) {
-        try {
-            ${endpoint.pojoName} savedResource = ${ServiceApi.varName()}.create${endpoint.entityName} ( resource );
-            URI uri = ServletUriComponentsBuilder
-                            .fromCurrentRequest()
-                            .path("/{id}")
-                            .buildAndExpand(savedResource.getResourceId())
-                            .toUri();
-            return ResponseEntity.created(uri).body(savedResource);
-        }
-        // if, for example, a database constraint prevents writing the data...
-        catch (org.springframework.transaction.TransactionSystemException e) {
-            log.error(e.getMessage());
-            throw new UnprocessableEntityException();
-        }
+    public ResponseEntity<${EntityResponse.className()}> create${endpoint.entityName}(@RequestBody @Validated(${OnCreateAnnotation.className()}.class) ${EntityRequest.className()} request ) {
+        ${endpoint.pojoName} savedResource = ${ServiceApi.varName()}.create${endpoint.entityName} ( request.toDomain() );
+        URI uri = ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(savedResource.getResourceId())
+                        .toUri();
+        return ResponseEntity.created(uri).body(${EntityResponse.className()}.fromDomain(savedResource));
     }
 
 
     @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.update}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<List<${EntityResource.className()}>> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(${OnUpdateAnnotation.className()}.class) ${EntityResource.className()} ${endpoint.entityVarName}) {
-        if (!id.equals(${endpoint.entityVarName}.getResourceId())) {
+    public ResponseEntity<List<${EntityResponse.className()}>> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(${OnUpdateAnnotation.className()}.class) ${EntityRequest.className()} request) {
+        if (!id.equals(request.resourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
         }
-        List<${EntityResource.className()}> rs = ${ServiceApi.varName()}.update${endpoint.entityName}(${endpoint.entityVarName});
-        if (rs.isEmpty())
-            return ResponseEntity.notFound().build();
-        else
-            return ResponseEntity.ok(rs);
+        List<${EntityResource.className()}> rs = ${ServiceApi.varName()}.update${endpoint.entityName}(request.toDomain());
+        if (rs.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(rs.stream().map(${EntityResponse.className()}::fromDomain).toList());
     }
 
 
     @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.delete})
-    public ResponseEntity<${EntityResource.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
+    public ResponseEntity<${EntityResponse.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
         return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)
                 .map(${endpoint.entityVarName} -> {
                     ${ServiceApi.varName()}.delete${endpoint.entityName}ByResourceId(id);
-                    return ResponseEntity.ok(${endpoint.entityVarName});
+                    return ResponseEntity.ok(${EntityResponse.className()}.fromDomain(${endpoint.entityVarName}));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /*
-     * Find by text
-     */
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PagedModel<EntityModel<${EntityResource.className()}>> searchByText (
+    public PagedModel<EntityModel<${EntityResponse.className()}>> searchByText (
         @RequestParam(name="text", required = true)  Optional< @SearchText String> text,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
         @SortDefault(sort = "text", direction = Sort.Direction.ASC) Pageable pageable,
-        PagedResourcesAssembler<${EntityResource.className()}> resourceAssembler)
+        PagedResourcesAssembler<${EntityResponse.className()}> resourceAssembler)
     {
         Page<${EntityResource.className()}> result = ${ServiceApi.varName()}.findByText(text.orElse(""), pageable);
-        return resourceAssembler.toModel(result);
+        return resourceAssembler.toModel(result.map(${EntityResponse.className()}::fromDomain));
     }
 }
