@@ -2,30 +2,10 @@
 package ${EntityResource.packageName()};
 
 import ${ResourceIdTrait.fqcn()};
-import ${AlphabeticAnnotation.fqcn()};
-import ${OnCreateAnnotation.fqcn()};
-import ${OnUpdateAnnotation.fqcn()};
-import ${ResourceIdAnnotation.fqcn()};
-import com.fasterxml.jackson.annotation.JsonProperty;
-import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonPOJOBuilder;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-/**
- * This is the POJO of ${EntityResource.className()} data exposed to client applications
- *
- * If you migrate this class to use a lombok `@Builder`, you will want the lombok
- * annotation to be `@Builder(builderClassName="DefaultBuilder", toBuilder=true);`
- * This enables lombok and jackson-databind to play nice together.
- * Specifically, it avoids the exception
- * `com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance...`
- * See https://www.thecuriousdev.org/lombok-builder-with-jackson/
- */
-@JsonDeserialize(builder = ${EntityResource.className()}.DefaultBuilder.class)
+
 public class ${EntityResource.className()} implements ${ResourceIdTrait.className()}<String> {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -34,18 +14,7 @@ public class ${EntityResource.className()} implements ${ResourceIdTrait.classNam
         public static final String TEXT = "text";
     }
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @ResourceId
-    @JsonProperty(Fields.RESOURCE_ID)
     private String resourceId;
-
-    /*
-     * An @Pattern can also be used here.
-     * The @Alphabet is used to demonstrate a custom validator
-     */
-    @NotEmpty @Alphabetic
-    @JsonProperty(Fields.TEXT)
     private String text;
 
     /**
@@ -90,7 +59,6 @@ public class ${EntityResource.className()} implements ${ResourceIdTrait.classNam
         ${EntityResource.className()} build();
     }
 
-    @JsonPOJOBuilder(withPrefix = "")
     public static class DefaultBuilder implements Builder {
         private String resourceId;
         private String text;
