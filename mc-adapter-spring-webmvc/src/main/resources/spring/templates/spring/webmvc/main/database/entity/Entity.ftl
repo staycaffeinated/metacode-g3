@@ -2,7 +2,6 @@
 
 package ${Entity.packageName()};
 
-import ${SecureRandomSeries.fqcn()};
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -73,7 +72,7 @@ public class ${Entity.className()} {
     /**
      * This is the identifier exposed to the outside world.
      * This is a secure random value with at least 160 bits of entropy, making it difficult for a hacker to guess.
-     * This is a unique value in the database. This value can be a positive or negative number.
+     * This is a unique value in the database. This value can look like a positive or negative number.
      */
     @Column(name=Columns.RESOURCE_ID, nullable=false)
     private String resourceId;
@@ -82,10 +81,6 @@ public class ${Entity.className()} {
     @NotEmpty(message = "Text cannot be empty")
     private String text;
 
-    @PrePersist
-    public void prePersist() {
-        resourceId = ${SecureRandomSeries.className()}.instance().nextResourceId();
-    }
 
     public static Builder builder() {
         return new DefaultBuilder();
