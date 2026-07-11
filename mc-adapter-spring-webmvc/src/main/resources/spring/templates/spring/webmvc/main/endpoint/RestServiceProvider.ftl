@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class ${ServiceImpl.className()} implements ${ServiceApi.className()}, ${EntityCommandUseCase.className()}, ${EntityQueryUseCase.className()} {
+public class ${ServiceImpl.className()} implements ${EntityCommandUseCase.className()}, ${EntityQueryUseCase.className()} {
 
     private final ${ConcreteDataStoreApi.className()} ${ConcreteDataStoreApi.varName()};
 
@@ -30,27 +30,32 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()}, ${
       this.${ConcreteDataStoreApi.varName()} = ${ConcreteDataStoreApi.varName()};
     }
 
-    @Override
-    public List<${EntityResource.className()}> findAll${endpoint.entityName}s() {
-        return ${ConcreteDataStoreApi.varName()}.findAll();
-    }
+<#--    @Override-->
+<#--    @Transactional(readOnly = true)-->
+<#--    public List<${EntityResource.className()}> findAll${endpoint.entityName}() {-->
+<#--        return ${ConcreteDataStoreApi.varName()}.findAll();-->
+<#--    }-->
 
     @Override
+    @Transactional(readOnly = true)
     public Page<${EntityResource.className()}> findAll${endpoint.entityName}(Pageable pageable) {
         return ${ConcreteDataStoreApi.varName()}.search("", pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id) {
         return ${ConcreteDataStoreApi.varName()}.findByResourceId ( id );
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<${EntityResource.className()}> findByAttribute(@NonNull String attributeValue, Pageable pageable) {
         return ${ConcreteDataStoreApi.varName()}.findByAttribute(attributeValue, pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<${EntityResource.className()}> search(@NonNull String rsqlQuery, Pageable pageable) {
         return ${ConcreteDataStoreApi.varName()}.search(rsqlQuery, pageable);
     }

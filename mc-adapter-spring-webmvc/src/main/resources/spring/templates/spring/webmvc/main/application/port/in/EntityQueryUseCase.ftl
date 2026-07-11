@@ -2,6 +2,7 @@
 package ${EntityQueryUseCase.packageName()};
 
 import ${EntityResource.fqcn()};
+import lombok.NonNull;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,8 @@ public interface ${EntityQueryUseCase.className()} {
     Optional<${EntityResource.className()}> find${EntityResource.className()}ByResourceId(String id);
 
     Page<${EntityResource.className()}> search(String rsqlQuery, Pageable pageable);
+
+    Page<${EntityResource.className()}> findByAttribute(@NonNull String attributeValue, Pageable pageable);
 }
 
 

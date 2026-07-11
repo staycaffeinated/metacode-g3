@@ -58,6 +58,7 @@ class ${ServiceImpl.testClass()} {
     void setUpEachTime() {
         ${endpoint.entityVarName}List = new ArrayList<>();
         ${endpoint.entityVarName}List.addAll(${endpoint.pojoName}TestFixtures.allItems());
+        pageOfData = new PageImpl<>(${endpoint.entityVarName}List);
     }
 
     /**
@@ -68,22 +69,22 @@ class ${ServiceImpl.testClass()} {
 
         @Test
         void shouldReturnAllRowsWhenRepositoryIsNotEmpty() {
-            given(${endpoint.entityVarName}DataStore.findAll() ).willReturn( ${endpoint.entityVarName}List );
+            given(${endpoint.entityVarName}DataStore.search(any(String.class), any(Pageable.class))).willReturn( pageOfData );
 
-            List<${EntityResource.className()}> result = serviceUnderTest.findAll${endpoint.entityName}s();
+            Page<${EntityResource.className()}> result = serviceUnderTest.findAll${endpoint.entityName}(Pageable.unpaged());
 
             then(result).isNotNull();       // must never return null
-            then(result.size()).isEqualTo( ${endpoint.entityVarName}List.size()); // must return all rows
+            then(result.getContent()).hasSameSizeAs(pageOfData.getContent()); // expect all rows returned
         }
 
         @Test
             void shouldReturnEmptyListWhenRepositoryIsEmpty() {
-            given( ${endpoint.entityVarName}DataStore.findAll() ).willReturn(List.of());
+            given( ${endpoint.entityVarName}DataStore.search(any(String.class), any(Pageable.class))).willReturn(Page.empty());
 
-            List<${EntityResource.className()}> result = serviceUnderTest.findAll${endpoint.entityName}s();
+            Page<${EntityResource.className()}> result = serviceUnderTest.findAll${endpoint.entityName}(Pageable.unpaged());
 
-            then(result).isNotNull();       // must never get null back
-            then(result.size()).isZero();   // must have no content for this edge case
+            then(result).isNotNull();               // must never get null back
+            then(result.getContent()).isEmpty();    // expect no content for this edge case
         }
     }
 
