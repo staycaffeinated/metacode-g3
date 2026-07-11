@@ -65,7 +65,7 @@ public class ${DocumentTestFixtures.className()} {
     private static ${Document.className()} aNew${Document.className()}() {
         // @formatter:off
         return ${Document.className()}.builder()
-                .text(faker.book().title()) // TODO: replace with something meaningful to your business object
+                .text(faker.lorem().word())
                 .resourceId(ID_SUPPLIER.nextResourceId())
                 .build();
         // @formatter:on

@@ -92,7 +92,7 @@ public class ${ModelTestFixtures.className()} {
     private static ${EntityResource.className()} aNew${EntityResource.className()}() {
         return ${EntityResource.className()}.builder()
             .resourceId(randomSeries.nextResourceId())
-            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
+            .text(faker.lorem().word())
             .build();
     }
 
@@ -106,7 +106,7 @@ public class ${ModelTestFixtures.className()} {
 
     private static ${EntityResource.className()} aNew${EntityResource.className()}WithNoResourceId() {
         return ${EntityResource.className()}.builder()
-            .text(faker.book().title()) // TODO: replace with a value meaningful to your business object
+            .text(faker.lorem().word()) // TODO: replace with a value meaningful to your business object
             .build();
     }
 }

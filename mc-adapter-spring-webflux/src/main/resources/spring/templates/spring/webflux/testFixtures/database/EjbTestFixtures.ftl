@@ -127,13 +127,13 @@ public class ${EjbTestFixtures.className()} {
     private static ${endpoint.ejbName} aNew${endpoint.ejbName}() {
         return ${endpoint.ejbName}.builder()
                 .resourceId(randomSeries.nextResourceId())
-                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
+                .text(faker.lorem().word())
                 .build();
     }
 
     private static ${endpoint.ejbName} aNew${endpoint.ejbName}WithNoResourceId() {
         return ${endpoint.ejbName}.builder()
-                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
+                .text(faker.lorem().word())
                 .build();
     }
 }

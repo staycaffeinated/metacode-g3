@@ -108,13 +108,13 @@ public class ${ModelTestFixtures.className()} {
     private static ${endpoint.entityName} aNew${endpoint.entityName}() {
         return ${endpoint.entityName}.builder()
                 .resourceId(randomSeries.nextResourceId())
-                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
+                .text(faker.lorem().word())
                 .build();
     }
 
     private static ${endpoint.entityName} aNew${endpoint.entityName}WithNoResourceId() {
         return ${endpoint.entityName}.builder()
-                .text(faker.book().title()) // TODO: replace with something meaningful to your business objects
+                .text(faker.lorem().word())
                 .build();
     }
 }
