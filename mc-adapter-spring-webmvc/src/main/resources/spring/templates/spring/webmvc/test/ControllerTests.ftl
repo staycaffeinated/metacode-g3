@@ -8,7 +8,10 @@ import ${ModelTestFixtures.fqcn()};
 import ${SecureRandomSeries.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${GlobalExceptionHandler.fqcn()};
-import ${ServiceApi.fqcn()};
+import ${EntityCommandUseCase.fqcn()};
+import ${EntityQueryUseCase.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
+import ${SecureRandomSeries.fqcn()};
 import tools.jackson.databind.json.JsonMapper;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
@@ -43,7 +46,10 @@ import static org.mockito.Mockito.reset;
 class ${Controller.testClass()} {
 
     @MockitoBean
-    private ${ServiceApi.className()} ${endpoint.entityVarName}Service;
+    private ${EntityCommandUseCase.className()} commandUseCase;
+
+    @MockitoBean
+    private ${EntityQueryUseCase.className()} queryUseCase;
 
     private MockMvcTester mockMvcTester;
 
@@ -55,10 +61,11 @@ class ${Controller.testClass()} {
 
     @BeforeEach
     void configureSystemUnderTest() {
-        ${endpoint.entityVarName}Service = Mockito.mock(${ServiceApi.className()}.class);
+        commandUseCase = Mockito.mock(${EntityCommandUseCase.className()}.class);
+        queryUseCase = Mockito.mock(${EntityQueryUseCase.className()}.class);
         var pageableResolver = new HateoasPageableHandlerMethodArgumentResolver();
 
-        var mockMvc = MockMvcBuilders.standaloneSetup(new ${Controller.className()}(${endpoint.entityVarName}Service))
+        var mockMvc = MockMvcBuilders.standaloneSetup(new ${Controller.className()}(commandUseCase, queryUseCase))
                                        .setCustomArgumentResolvers(pageableResolver, new PageableHandlerMethodArgumentResolver())
                                        .setControllerAdvice(new GlobalExceptionHandler(new JsonMapper()))
                                        .build();
@@ -70,17 +77,17 @@ class ${Controller.testClass()} {
 
     @AfterEach
     void tearDownEachTime() {
-        reset ( ${endpoint.entityVarName}Service );
+        reset ( commandUseCase, queryUseCase );
     }
 
     @Nested
-    class FindAllTests {
+    class FindAllUseCases {
         /*
          * shouldFetchAll${endpoint.entityName}s
          */
         @Test
         void shouldFetchAll${endpoint.entityName}s() {
-            given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${ModelTestFixtures.className()}.allItems());
+            given(queryUseCase.findAll${endpoint.entityName}(any(Pageable.class))).willReturn(pageOfData);
 
             var jsonPathToId = "$.[0]." + ${endpoint.entityName}.Fields.RESOURCE_ID;
 
@@ -94,7 +101,7 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class FindByIdTests {
+    class FindByIdUseCases {
         /*
          *  shouldFind${endpoint.entityName}ById
          */
@@ -104,7 +111,7 @@ class ${Controller.testClass()} {
             ${endpoint.pojoName} ${endpoint.entityVarName} = ${ModelTestFixtures.className()}.oneWithResourceId();
             String resourceId = ${endpoint.entityVarName}.getResourceId();
 
-            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
+            given(queryUseCase.find${endpoint.entityName}ByResourceId( resourceId ))
                 .willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
@@ -123,7 +130,7 @@ class ${Controller.testClass()} {
         void shouldReturn404WhenFetchingNonExisting${endpoint.entityName}() {
             // given
             String resourceId = randomSeries.nextResourceId();
-            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId )).willReturn(Optional.empty());
+            given(queryUseCase.find${endpoint.entityName}ByResourceId( resourceId )).willReturn(Optional.empty());
 
             // when/then
             findSpecificEntity(resourceId).assertThat().hasStatus(HttpStatus.NOT_FOUND);
@@ -131,14 +138,14 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class Create${endpoint.entityName}Tests {
+    class Create${endpoint.entityName}UseCases {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given
             ${endpoint.pojoName} resourceBeforeSave = ${ModelTestFixtures.className()}.oneWithoutResourceId();
             ${endpoint.pojoName} resourceAfterSave = ${ModelTestFixtures.className()}.copyOf(resourceBeforeSave);
             resourceAfterSave.setResourceId(randomSeries.nextResourceId());
-            given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
+            given(commandUseCase.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
 
             // when/then
             createEntity(resourceBeforeSave)
@@ -154,7 +161,7 @@ class ${Controller.testClass()} {
         @Test
         void whenDatabaseThrowsException_expectUnprocessableEntityResponse() throws Exception {
             // given the database throws an exception when the entity is saved
-            given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
+            given(commandUseCase.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willThrow(TransactionSystemException.class);
             ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().build();
 
             createEntity(resource).assertThat().hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
@@ -162,14 +169,14 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class Update${endpoint.entityName}Tests {
+    class Update${endpoint.entityName}UseCases {
         @Test
         void shouldUpdate${endpoint.entityName}() throws Exception {
             // given
             String resourceId = randomSeries.nextResourceId();
             ${endpoint.pojoName} ${endpoint.entityVarName} = ${EntityResource.className()}.builder().resourceId(resourceId).text("sample text").build();
-            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
-            given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(Optional.of(${endpoint.entityVarName}));
+            given(queryUseCase.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
+            given(commandUseCase.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
             updateEntity(resourceId, ${endpoint.entityVarName}).assertThat().hasStatus(HttpStatus.OK);
@@ -179,7 +186,7 @@ class ${Controller.testClass()} {
         void shouldReturn404WhenUpdatingNonExisting${endpoint.entityName}() throws Exception {
             // given
             String resourceId = randomSeries.nextResourceId();
-            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
+            given(queryUseCase.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
             // when/then
             ${endpoint.pojoName} resource = ${EntityResource.className()}.builder().resourceId(resourceId).text("updated text").build();
@@ -197,7 +204,7 @@ class ${Controller.testClass()} {
             // given
             String resourceId = randomSeries.nextResourceId();
             String mismatchingId = randomSeries.nextResourceId();
-            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
+            given(queryUseCase.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
             // when the ID in the request body does not match the ID in the query string...
             ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(mismatchingId).text("updated text").build();
@@ -209,7 +216,7 @@ class ${Controller.testClass()} {
     }
 
     @Nested
-    class Delete${endpoint.entityName}Tests {
+    class Delete${endpoint.entityName}UseCases {
         @Test
         void shouldDelete${endpoint.entityName}() {
             // given
@@ -217,7 +224,7 @@ class ${Controller.testClass()} {
             String resourceId = ${endpoint.entityVarName}.getResourceId();
 
             // Mock the service layer finding the resource being deleted
-            given(${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
+            given(commandUseCase.delete${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
             deleteEntity(resourceId)
@@ -232,7 +239,7 @@ class ${Controller.testClass()} {
         @Test
         void shouldReturn404WhenDeletingNonExisting${endpoint.entityName}() {
             String resourceId = randomSeries.nextResourceId();
-            given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
+            given(queryUseCase.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
             deleteEntity(resourceId).assertThat().hasStatus(HttpStatus.NOT_FOUND);
         }
@@ -247,7 +254,7 @@ class ${Controller.testClass()} {
             "text*='Foo'",
             "resourceId>0"})
         void shouldReturnSomethingFromQuery(String rsqlQuery) {
-            given (${endpoint.entityVarName}Service.search(any(String.class), any(Pageable.class))).willReturn(pageOfData);
+            given (queryUseCase.search(any(String.class), any(Pageable.class))).willReturn(pageOfData);
             search(rsqlQuery).assertThat().hasStatus(HttpStatus.OK);
         }
     }

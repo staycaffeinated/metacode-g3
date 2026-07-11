@@ -9,7 +9,8 @@ import ${ResourceIdTrait.fqcn()};
 import ${SearchTextAnnotation.fqcn()};
 import ${ResourceIdAnnotation.fqcn()};
 import ${Routes.fqcn()};
-import ${ServiceApi.fqcn()};
+import ${EntityCommandUseCase.fqcn()};
+import ${EntityQueryUseCase.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,10 +51,12 @@ public class ${Controller.className()} {
     private static final int DEFAULT_PAGE_NUMBER = 0;
     private static final int DEFAULT_PAGE_SIZE = 25;
 
-    private final ${ServiceApi.className()} ${ServiceApi.varName()};
+    private final ${EntityCommandUseCase.className()} commandUseCase;
+    private final ${EntityQueryUseCase.className()} queryUseCase;
 
-    public ${Controller.className()}(${ServiceApi.className()} ${ServiceApi.varName()}) {
-        this.${ServiceApi.varName()} = ${ServiceApi.varName()};
+    public ${Controller.className()}(${EntityCommandUseCase.className()} commandUseCase, ${EntityQueryUseCase.className()} queryUseCase) {
+        this.commandUseCase = commandUseCase;
+        this.queryUseCase = queryUseCase;
     }
 
     <#if endpoint.isWithOpenApi()>
@@ -61,8 +64,10 @@ public class ${Controller.className()} {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found all ${endpoint.entityName}")})
     </#if>
     @GetMapping (value=${Routes.className()}.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<${EntityResource.className()}> getAll${endpoint.entityName}s() {
-        return ${ServiceApi.varName()}.findAll${endpoint.entityName}s();
+    public List<${EntityResponse.className()}> getAll${endpoint.entityName}s() {
+        return queryUseCase.findAll${endpoint.entityName}(Pageable.unpaged())
+                   .map(${EntityResponse.className()}::fromDomain)
+                   .getContent();
     }
 
     <#if endpoint.isWithOpenApi()>
@@ -74,8 +79,9 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
     </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${EntityResource.className()}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
-        return ${ServiceApi.varName()}.find${endpoint.entityName}ByResourceId(id)
+    public ResponseEntity<${EntityResponse.className()}> get${endpoint.entityName}ById(@PathVariable @ResourceId String id) {
+        return queryUseCase.find${endpoint.entityName}ByResourceId(id)
+            .map(${EntityResponse.className()}::fromDomain)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -90,21 +96,14 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<${EntityResource.className()}> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
-        try {
-            ${EntityResource.className()} savedResource = ${ServiceApi.varName()}.create${endpoint.entityName} ( resource );
-            URI uri = ServletUriComponentsBuilder
+    public ResponseEntity<${EntityResponse.className()}> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${EntityRequest.className()} request ) {
+        ${EntityResource.className()} savedResource = commandUseCase.create${endpoint.entityName} ( request.toDomain() );
+        URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedResource.getResourceId())
                 .toUri();
-            return ResponseEntity.created(uri).body(savedResource);
-        }
-        // if, for example, a database constraint prevents writing the data...
-        catch (org.springframework.transaction.TransactionSystemException e) {
-            log.error(e.getMessage());
-            throw new UnprocessableEntityException();
-        }
+        return ResponseEntity.created(uri).body(${EntityResponse.className()}.fromDomain(savedResource));
     }
 
 <#if endpoint.isWithOpenApi()>
@@ -113,12 +112,14 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "400", description = "Incorrect data was submitted")})
 </#if>
     @PutMapping(value=${Routes.className()}.${endpoint.routeConstants.update}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${EntityResource.className()}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(OnUpdate.class) ${EntityResource.className()} ${EntityResource.varName()}) {
-        if (!id.equals(${EntityResource.varName()}.getResourceId())) {
+    public ResponseEntity<${EntityResponse.className()}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody @Validated(OnUpdate.class) ${EntityRequest.className()} request) {
+        if (!id.equals(request.resourceId())) {
             throw new UnprocessableEntityException("The identifier in the query string and request body do not match");
         }
-        Optional<${EntityResource.className()}> optional = ${ServiceApi.varName()}.update${endpoint.entityName}( ${EntityResource.varName()} );
-        return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return commandUseCase.update${endpoint.entityName}(request.toDomain())
+            .map(${EntityResponse.className()}::fromDomain)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 <#if endpoint.isWithOpenApi()>
@@ -127,8 +128,9 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "400", description = "An incorrect identifier was submitted")})
 </#if>
     @DeleteMapping(value=${Routes.className()}.${endpoint.routeConstants.delete})
-    public ResponseEntity<${EntityResource.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
-        return ${ServiceApi.varName()}.delete${endpoint.entityName}ByResourceId(id)
+    public ResponseEntity<${EntityResponse.className()}> delete${endpoint.entityName}(@PathVariable @ResourceId String id) {
+        return commandUseCase.delete${endpoint.entityName}ByResourceId(id)
+            .map(${EntityResponse.className()}::fromDomain)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -138,13 +140,15 @@ public class ${Controller.className()} {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found matching entries")})
     </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.search}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PagedModel<EntityModel<${endpoint.pojoName}>> searchByQuery (
+    public PagedModel<EntityModel<${EntityResponse.className()}>> searchByQuery (
     @RequestParam(name="q", required = false) Optional<<#noparse>@SearchText</#noparse> String> rsqlQuery,
         @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
         @SortDefault(sort = ${endpoint.pojoName}.Fields.TEXT, direction = Sort.Direction.ASC)
             <#if endpoint.isWithOpenApi()>@Parameter</#if> Pageable pageable,
-        PagedResourcesAssembler<${endpoint.pojoName}> resourceAssembler)
+        PagedResourcesAssembler<${EntityResponse.className()}> resourceAssembler)
     {
-        return resourceAssembler.toModel( ${ServiceApi.varName()}.search(rsqlQuery.orElse(""), pageable) );
+        Page<${EntityResponse.className()}> responsePage = queryUseCase.search(rsqlQuery.orElse(""), pageable)
+            .map(${EntityResponse.className()}::fromDomain);
+        return resourceAssembler.toModel( responsePage );
     }
 }
