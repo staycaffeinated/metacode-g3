@@ -2,6 +2,7 @@
 package ${SecureRandomSeries.packageName()};
 
 import ${ResourceIdSupplier.fqcn()};
+import ${ResourceIdFormat.fqcn()};
 import lombok.NonNull;
 
 import java.math.BigInteger;
@@ -47,7 +48,7 @@ public class ${SecureRandomSeries.className()} implements ResourceIdSupplier {
     // 22 characters long = 62^22 = 2.7e39 (2.7 x 10^39)
     // 20 characters long = 62^20 = 7.04e35 (7.04 x 10^35) (below the preferred threshold)
     //
-    public static final int ENTROPY_STRING_LENGTH = 27;
+    public static final int ENTROPY_STRING_LENGTH = ${ResourceIdFormat.className()}.RESOURCE_ID_LENGTH;
 
     // If you opt for the numeric resource Ids, this is the max number of digits you'll encounter
     public static final int ENTROPY_MAX_NUMERIC_LENGTH = 49;

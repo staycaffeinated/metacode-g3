@@ -63,7 +63,8 @@
       "package": "{{basePackage}}.domain.shared",
       "archetypes": [
         "ResourceIdTrait",
-        "ResourceIdentity"
+        "ResourceIdentity",
+        "ResourceIdFormat"
       ]
     },
     {

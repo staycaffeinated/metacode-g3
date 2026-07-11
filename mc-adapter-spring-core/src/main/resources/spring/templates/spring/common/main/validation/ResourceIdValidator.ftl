@@ -3,7 +3,7 @@ package ${ResourceIdValidator.packageName()};
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import ${SecureRandomSeries.fqcn()};
+import ${ResourceIdFormat.fqcn()};
 
 /**
  * This constraint verifies a String value is
@@ -37,7 +37,7 @@ public class ResourceIdValidator implements ConstraintValidator<ResourceId, Stri
 
     public boolean isValid(String value) {
         return value != null
-            && value.length() == ResourceIdGenerator.ENTROPY_STRING_LENGTH
+            && value.length() == ${ResourceIdFormat.className()}.RESOURCE_ID_LENGTH
             && value.chars().allMatch(Character::isLetterOrDigit);
     }
 }

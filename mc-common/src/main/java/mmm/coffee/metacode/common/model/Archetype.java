@@ -68,6 +68,7 @@ public enum Archetype {
     ResourceIdAnnotation("ResourceIdAnnotation"),
     ResourceIdValidator("ResourceIdValidator"),
     SecureRandomSeries("SecureRandomSeries"),
+    ResourceIdFormat("ResourceIdFormat"),
     ResourceIdSupplier("ResourceIdSupplier"), // interface for ResourceIdGenerator
     OnUpdateAnnotation("OnUpdateAnnotation"),
     OnCreateAnnotation("OnCreateAnnotation"),

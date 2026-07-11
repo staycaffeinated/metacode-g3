@@ -37,6 +37,7 @@ public class ProjectArchetypeToMap {
             Archetype.SearchTextAnnotation,
             Archetype.ResourceIdSupplier,
             Archetype.ResourceIdTrait,
+            Archetype.ResourceIdFormat,
             Archetype.ResourceIdValidator,
             Archetype.SearchTextValidator,
             Archetype.SecureRandomSeries,

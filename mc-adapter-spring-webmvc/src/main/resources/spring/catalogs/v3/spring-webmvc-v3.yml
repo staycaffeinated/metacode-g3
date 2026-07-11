@@ -135,6 +135,12 @@ entries:
         sourceTemplate: "/spring/webmvc/main/trait/ResourceIdTrait.ftl"
 
   - scope: "project"
+    archetype: "ResourceIdFormat"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/domain/shared/ResourceIdFormat.ftl"
+
+  - scope: "project"
     archetype: "UpdateAwareConverter"
     facets:
       - facet: "main"

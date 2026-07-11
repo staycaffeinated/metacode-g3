@@ -274,6 +274,12 @@ entries:
       - facet: "test"
         sourceTemplate: "/spring/webmvc/test/ArchitectureTest.ftl"
 
+  - scope: "project"
+    archetype: "ResourceIdFormat"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/common/main/domain/shared/ResourceIdFormat.ftl"
+
   # ---------------------------------------------------------------------------------------------------
   # Endpoint artifacts
   # ---------------------------------------------------------------------------------------------------
