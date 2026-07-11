@@ -77,8 +77,6 @@
       "archetypes": [
         "AlphabeticAnnotation",
         "AlphabeticValidator",
-        "OnCreateAnnotation",
-        "OnUpdateAnnotation",
         "ResourceIdAnnotation",
         "ResourceIdValidator",
         "SearchTextAnnotation",
@@ -191,6 +189,13 @@
         "CustomRepository",
         "PersistenceAdapter",
         "AbstractDataStoreApi"
+      ]
+    },
+    {
+      "package": "{{basePackage}}.application.shared.validation",
+      "archetypes": [
+        "OnCreateAnnotation",
+        "OnUpdateAnnotation"
       ]
     },
     {
