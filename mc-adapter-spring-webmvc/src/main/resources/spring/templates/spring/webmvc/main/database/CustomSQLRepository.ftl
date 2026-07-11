@@ -9,6 +9,8 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.Optional;
 
+/** THIS TEMPLATE IS DEPRECATED **/
+/** THIS TEMPLATE IS NO LONGER IN THE CATALOGS **/
 /**
 * A composite of the desired repository APIs, with additional custom methods.
 */
@@ -33,6 +35,3 @@ public interface ${CustomSQLRepository.className()}<T,ID> extends JpaRepository<
     @Transactional
     Long deleteByResourceId(String id);
 }
-
-
-
