@@ -10,6 +10,7 @@ import ${EntityResource.fqcn()};
 import ${Repository.fqcn()};
 import ${ModelTestFixtures.fqcn()};
 import ${EjbTestFixtures.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import cz.jirutka.rsql.parser.RSQLParserException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -44,13 +45,16 @@ public class ${ConcreteDataStoreImpl.testClass()} {
     @Mock
     ${Repository.className()} mockRepository;
 
+    @Mock
+    ${ResourceIdSupplier.className()} mockResourceIdSupplier;
+
     ${EntityToPojoConverter.className()} ejbToPojoConverter = new ${EntityToPojoConverter.className()}();
     ${PojoToEntityConverter.className()} pojoToEjbConverter = new ${PojoToEntityConverter.className()}();
     ${ConcreteDataStoreImpl.className()} dataStoreUnderTest;
 
     @BeforeEach
     void setUp() {
-        dataStoreUnderTest = new ${ConcreteDataStoreImpl.className()}(mockRepository, ejbToPojoConverter, pojoToEjbConverter);
+        dataStoreUnderTest = new ${ConcreteDataStoreImpl.className()}(mockRepository, ejbToPojoConverter, pojoToEjbConverter, mockResourceIdSupplier);
     }
 
     @Nested
@@ -98,7 +102,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
 
             // Create a DataStore that uses the mock converter
             ${ConcreteDataStoreApi.className()} storeUnderTest = new ${ConcreteDataStoreImpl.className()}(
-                                mockRepository, mockEjbToPojoConverter, pojoToEjbConverter);
+                                mockRepository, mockEjbToPojoConverter, pojoToEjbConverter, mockResourceIdSupplier);
 
             // given: the repository is able to find a particular entity
             // but when the entity is converted to a POJO, a NULL value is returned
@@ -186,6 +190,7 @@ public class ${ConcreteDataStoreImpl.testClass()} {
             // returned by the repository should also have a resourceId. When the EJB is
             // transformed into a POJO, the POJO should retain the resourceId
             ${Entity.className()} savedEntity = ${EjbTestFixtures.className()}.oneWithResourceId();
+            given(mockResourceIdSupplier.nextResourceId()).willReturn(savedEntity.getResourceId());
             given(mockRepository.save(any(${Entity.className()}.class))).willReturn(savedEntity);
             ${EntityResource.className()} pojoToSave = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 

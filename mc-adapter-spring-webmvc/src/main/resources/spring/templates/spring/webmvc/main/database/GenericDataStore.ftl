@@ -4,6 +4,7 @@ package ${GenericDataStore.packageName()};
 
 import ${CustomRepository.fqcn()};
 import ${UpdateAwareConverter.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
@@ -39,14 +40,17 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
     private final ${CustomRepository.className()}<B,ID> repository;
     private final Converter<B, D> ejbToPojoConverter;
     private final ${UpdateAwareConverter.className()}<D, B> pojoToEjbConverter;
+    private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
     protected ${GenericDataStore.className()}(${CustomRepository.className()}<B,ID> repository,
                                               Converter<B, D> ejbToPojoConverter,
-                                              ${UpdateAwareConverter.className()}<D, B> pojoToEjbConverter)
+                                              ${UpdateAwareConverter.className()}<D, B> pojoToEjbConverter,
+                                              ${ResourceIdSupplier.className()} resourceIdSupplier)
     {
         this.repository = repository;
         this.ejbToPojoConverter = ejbToPojoConverter;
         this.pojoToEjbConverter = pojoToEjbConverter;
+        this.resourceIdSupplier = resourceIdSupplier;
     }
 
     /**
@@ -127,11 +131,9 @@ public abstract class ${GenericDataStore.className()}<D,B,ID> {
 
     public D save(@NonNull D item) {
         B ejb = converterToEjb().convert(item);
-        if (ejb != null) {
-            B managedEntity = repository().save(ejb);
-            return converterToPojo().convert(managedEntity);
-        }
-        return null;
+        ejb.setResourceId(resourceIdSupplier.nextResourceId());
+        B managedEntity = repository().save(ejb);
+        return mapEjbToPojo.convert(managedEntity);
     }
 
     protected int pageLimit(int preferredLimit) {

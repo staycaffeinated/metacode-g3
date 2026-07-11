@@ -9,6 +9,7 @@ import ${EntityResource.fqcn()};
 import ${ConcreteDataStoreApi.fqcn()};
 import ${Repository.fqcn()};
 import ${UpdateAwareConverter.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import lombok.NonNull;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.github.perplexhub.rsql.RSQLJPASupport;
@@ -36,6 +37,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
     private final ${Repository.className()} repository;
     private final Converter<${Entity.className()},${EntityResource.className()}> mapEjbToPojo;
     private final ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> mapPojoToEjb;
+    private final ${ResourceIdSupplier.className()} resourceIdSupplier;
 
     /**
      * Constructor
@@ -50,11 +52,13 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
     public ${ConcreteDataStoreImpl.className()} (
             ${Repository.className()} repository,
             Converter<${Entity.className()},${EntityResource.className()}> ejbToPojoConverter,
-            ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter)
+            ${UpdateAwareConverter.className()}<${EntityResource.className()}, ${Entity.className()}> pojoToEntityConverter,
+            ${ResourceIdSupplier.className()} resourceIdSupplier)
     {
         this.repository = repository;
         this.mapEjbToPojo = ejbToPojoConverter;
         this.mapPojoToEjb = pojoToEntityConverter;
+        this.resourceIdSupplier = resourceIdSupplier;
     }
 
     @Override
@@ -106,6 +110,7 @@ public class ${ConcreteDataStoreImpl.className()} implements ${ConcreteDataStore
     @Override
     public ${EntityResource.className()} save(@NonNull ${EntityResource.className()} item) {
         ${Entity.className()} ejb = mapPojoToEjb.convert(item);
+        ejb.setResourceId(resourceIdSupplier.nextResourceId());
         ${Entity.className()} managedEntity = repository.save(ejb);
         return mapEjbToPojo.convert(managedEntity);
     }
