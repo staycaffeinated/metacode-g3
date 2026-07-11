@@ -1,6 +1,6 @@
 <#include "/common/Copyright.ftl">
 
-package ${Controller.packageName()};
+package ${ControllerExceptionHandler.packageName()};
 
 <#if (endpoint.isWithTestContainers())>
 import ${ContainerConfiguration.fqcn()};
@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
     DataSourceAutoConfiguration.class
 })
 </#if>
-class ${Controller.className()}ExceptionHandlingIT implements ${RegisterDatabaseProperties.className()} {
+class ${ControllerExceptionHandler.integrationTestClass()} implements ${RegisterDatabaseProperties.className()} {
     @Autowired
     MockMvcTester mockMvcTester;
 
@@ -77,7 +77,7 @@ class ${Controller.className()}ExceptionHandlingIT implements ${RegisterDatabase
             mockMvcTester.perform(post(${Routes.className()}.${endpoint.routeConstants.create}).contentType(MediaType.APPLICATION_JSON)
                          .content(jsonMapper.writeValueAsString(payload)))
                          .assertThat()
-                         .hasStatus(HttpStatus.BAD_REQUEST)
+                         .hasStatus(HttpStatus.INTERNAL_SERVER_ERROR)
                          .bodyJson()
                          .doesNotHavePath("$.stackTrace")
                          .doesNotHavePath("$.trace");
