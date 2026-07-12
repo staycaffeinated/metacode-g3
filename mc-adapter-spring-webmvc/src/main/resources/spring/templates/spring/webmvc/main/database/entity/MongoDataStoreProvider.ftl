@@ -39,7 +39,7 @@ public class ${ConcreteDocumentStoreImpl.className()} implements ${ConcreteDocum
     private final MongoTemplate mongoTemplate;
     private final ${Repository.className()} repository;
 
-    private static final String RESOURCE_ID = "resourceId";
+    private static final String RESOURCE_ID = ${Document.className()}.Columns.RESOURCE_ID;
 
     @Override
     public Optional<${EntityResource.className()}> findByResourceId(@NonNull String publicId)  {

@@ -15,10 +15,9 @@ import java.util.Optional;
 public interface ${Repository.className()} extends MongoRepository<${Document.className()}, String>,
                                                    PagingAndSortingRepository<${Document.className()}, String> {
 
-    @Query("{resourceId:?}")
     Optional<${Document.className()}> findByResourceId(String resourceId);
 
-    @Query("{text:?}")
+    @Query("{text:?0}")
     List<${Document.className()}> findByText(String text);
 
     Page<${Document.className()}> findByTextContainingIgnoreCase(String title, Pageable pageable);

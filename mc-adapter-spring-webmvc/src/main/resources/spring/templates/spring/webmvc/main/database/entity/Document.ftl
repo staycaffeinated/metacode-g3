@@ -2,10 +2,9 @@
 
 package ${Document.packageName()};
 
-import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
@@ -33,7 +32,7 @@ public class ${Document.className()} {
      * database-generated Ids are commonly sequential values that a hacker can easily guess.
      */
     @Id
-    @Column(name=Columns.ID)
+    @Field(name=Columns.ID)
     private String id;
 
     /**
@@ -41,10 +40,10 @@ public class ${Document.className()} {
      * This is a secure random value with at least 160 bits of entropy, making it difficult for a hacker to guess.
      * This is a unique value in the database. This value can be a positive or negative number.
      */
-    @Column(name=Columns.RESOURCE_ID, nullable=false)
+    @Field(name=Columns.RESOURCE_ID, write = Field.Write.NON_NULL)
     private String resourceId;
 
-    @Column(name=Columns.TEXT, nullable = true)
+    @Field(name=Columns.TEXT)
     private String text;
 
     /**

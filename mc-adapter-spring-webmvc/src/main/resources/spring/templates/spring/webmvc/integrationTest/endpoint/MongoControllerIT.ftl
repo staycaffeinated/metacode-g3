@@ -98,7 +98,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     class ValidateFindById {
         @Test
         void shouldFind${endpoint.entityName}ById() {
-            ${Document.className()} item = documentList.get(0);
+            ${Document.className()} item = documentList.getFirst();
 
             findOne(item.getResourceId()).assertThat().hasStatus(HttpStatus.OK);
         }
@@ -138,7 +138,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
         @Test
         @SuppressWarnings("all")
         void shouldUpdate${endpoint.entityName}() throws Exception {
-            ${Document.className()} doc = documentList.get(0);
+            ${Document.className()} doc = documentList.getFirst();
             ${EntityResource.className()} modified = new ${DocumentToPojoConverter.className()}().convert(doc);
             modified.setText("modified");
 
@@ -162,7 +162,7 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     class ValidateDelete${endpoint.entityName} {
         @Test
         void shouldDelete${endpoint.entityName}() {
-            ${Document.className()} document = documentList.get(0);
+            ${Document.className()} document = documentList.getFirst();
 
             deleteOne(document.getResourceId()).assertThat().hasStatus(HttpStatus.OK);
         }
