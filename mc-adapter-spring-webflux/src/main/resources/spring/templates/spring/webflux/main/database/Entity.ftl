@@ -2,7 +2,6 @@
 
 package ${Entity.packageName()};
 
-import ${SecureRandomSeries.fqcn()};
 import ${EntityResource.fqcn()};
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -60,13 +59,6 @@ public class ${Entity.className()} implements Persistable<Long> {
         return id == null;
     }
 
-    /**
-     * This gets invoked by the ${Entity.className()}Callback::onBeforeSave method.
-     * R2DBC does not support @PrePersist, so a callback is used for the same effect.
-     */
-    public void beforeInsert() {
-        resourceId = ${SecureRandomSeries.className()}.instance().nextResourceId();
-    }
 
     public ${Entity.className()} copyMutableFieldsFrom(${EntityResource.className()} pojo) {
         this.text = pojo.getText();

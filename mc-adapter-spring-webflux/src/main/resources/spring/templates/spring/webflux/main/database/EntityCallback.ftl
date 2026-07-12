@@ -3,6 +3,7 @@
 package ${EntityCallback.packageName()};
 
 import ${Entity.fqcn()};
+import ${ResourceIdSupplier.fqcn()};
 import org.reactivestreams.Publisher;
 import org.springframework.data.r2dbc.mapping.OutboundRow;
 import org.springframework.data.r2dbc.mapping.event.BeforeSaveCallback;
@@ -13,10 +14,18 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class ${EntityCallback.className()} implements BeforeSaveCallback<${Entity.className()}> {
+
+    private final ResourceIdSupplier resourceIdSupplier;
+
+    public ${EntityCallback.className()}(ResourceIdSupplier resourceIdSupplier) {
+        this.resourceIdSupplier = resourceIdSupplier;
+    }
+
+
     @Override
     public Publisher<${Entity.className()}> onBeforeSave(${Entity.className()} entity, OutboundRow row, SqlIdentifier table) {
         if (!StringUtils.hasText(entity.getResourceId())) {
-            entity.beforeInsert();
+            entity.setResourceId(resourceIdSupplier.nextResourceId());
         }
         return Mono.just(entity);
     }

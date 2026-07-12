@@ -83,15 +83,6 @@ class ${Entity.testClass()} {
         }
     }
 
-    @Nested
-    class TestBeforeInsert {
-        @Test
-        void shouldAssignResourceId() {
-            ${endpoint.ejbName} sample = new ${endpoint.ejbName}();
-            sample.beforeInsert();
-            assertThat(sample.getResourceId()).isNotBlank().isNotEmpty();
-        }
-    }
 
     @Nested
     class TestCopyMutableFields {
