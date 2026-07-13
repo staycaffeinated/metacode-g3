@@ -212,7 +212,7 @@ class ${Controller.testClass()} {
     }
 
     WebTestClient.ResponseSpec sendDelete${endpoint.entityName}Request(String resourceId) {
-        return webClient.delete().uri(${Routes.className()}.${endpoint.routeConstants.update}.replaceAll("\\{id}", resourceId)).exchange();
+        return webClient.delete().uri(${Routes.className()}.${endpoint.routeConstants.delete}.replaceAll("\\{id}", resourceId)).exchange();
     }
 	
 }
