@@ -23,6 +23,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -42,7 +43,7 @@ class ${ServiceImpl.testClass()} {
     @InjectMocks
     private ${ServiceImpl.className()} serviceUnderTest;
 
-    private final ${ResourceIdSupplier.className()} randomSeries = new ${SecureRandomSeries.className()}();
+    private final ${ResourceIdSupplier.className()} randomSeries = () -> UUID.randomUUID().toString();
 
     @Test
     void shouldFindAll${endpoint.entityName}s() {
@@ -193,37 +194,20 @@ class ${ServiceImpl.testClass()} {
 		assertThrows(NullPointerException.class, () -> serviceUnderTest.create${endpoint.entityName}(null));
 	}
 
-    /**
-     * Per its API, a ConversionService::convert method _could_ return null.
-     * The scope of this test case is to verify our own code's behavior should a null be returned.
-     * In this case, an UnprocessableEntityException is thrown.
-     */
 	@Test
-    @SuppressWarnings("all")
-	void whenConversionToEjbFails_expectUnprocessableEntityException() {
+	void whenTheDataStoreSignalsAConversionFailure_expectUnprocessableEntityException() {
         // given
-        ${Repository.className()} mockRepository = Mockito.mock(${Repository.className()}.class);
-        ${EntityToPojoConverter.className()} mockEjbConverter = Mockito.mock(${EntityToPojoConverter.className()}.class);
-        ${PojoToEntityConverter.className()} dodgyConverter = Mockito.mock(${PojoToEntityConverter.className()}.class);
-        given(dodgyConverter.convert(any(${endpoint.pojoName}.class))).willReturn(null);
+        given(mockDataStore.create${endpoint.pojoName}(any(${endpoint.pojoName}.class)))
+                .willReturn(Mono.error(new UnprocessableEntityException("conversion failed")));
 
-        ${ConcreteDataStoreApi.className()} dodgyDataStore = ${ConcreteDataStoreImpl.className()}.builder()
-                .pojoToEjbConverter(dodgyConverter)
-                .ejbToPojoConverter(mockEjbConverter)
-                .repository(mockRepository)
-                .build();
-
-		${ServiceApi.className()} dodgyService = new ${ServiceImpl.className()}(dodgyDataStore);
-
-		${endpoint.pojoName} sample = ${ModelTestFixtures.className()}.oneWithoutResourceId();
-		
-		Mono<String> publisher = dodgyService.create${endpoint.entityName}(sample);
+        ${endpoint.pojoName} sample = ${ModelTestFixtures.className()}.oneWithoutResourceId();
 
         // when/then
         // @formatter:off
-    		StepVerifier.create(publisher).expectSubscription()
+    	StepVerifier.create(serviceUnderTest.create${endpoint.pojoName}(sample))
+                    .expectSubscription()
 				    .expectError(UnprocessableEntityException.class)
-  				  .verify(Duration.ofMillis(1000));
-  		  // @formatter:on		  
+  				    .verify(Duration.ofMillis(1000));
+  		// @formatter:on
 	}
 }
