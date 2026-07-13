@@ -10,9 +10,6 @@ class ${EntityResponse.testClass()} {
 
     @Test
     void shouldCreateResponse() {
-        // given
-        ${EntityResource.className()} pojo = new ${EntityResource.className()}();
-
         // when
         var response = new ${EntityResponse.className()}("12345", "something about this");
 
