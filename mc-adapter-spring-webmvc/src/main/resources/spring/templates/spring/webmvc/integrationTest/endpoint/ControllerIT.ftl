@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 </#if>
 import ${EntityResource.fqcn()};
+import ${EntityRequest.fqcn()};
 import ${Entity.fqcn()};
 import ${PojoToEntityConverter.fqcn()};
 import ${EntityToPojoConverter.fqcn()};
@@ -241,11 +242,12 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
      * where the ID in the query string and the ID in the payload do not match.
      */
     protected MvcTestResult updateEntity(String resourceId, ${endpoint.pojoName} pojo) throws Exception {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
         return mockMvcTester.put()
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(request))
                     .exchange();
     }
 
@@ -253,12 +255,13 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
      * Create an entity
      */
     protected MvcTestResult createEntity(${endpoint.pojoName} pojo) throws Exception {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
         return mockMvcTester
                     .post()
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(request))
                     .exchange();
     }
 }

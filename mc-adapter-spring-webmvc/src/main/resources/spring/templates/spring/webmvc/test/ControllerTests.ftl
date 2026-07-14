@@ -12,6 +12,7 @@ import ${EntityCommandUseCase.fqcn()};
 import ${EntityQueryUseCase.fqcn()};
 import ${ResourceIdSupplier.fqcn()};
 import ${SecureRandomSeries.fqcn()};
+import ${EntityRequest.fqcn()};
 import tools.jackson.databind.json.JsonMapper;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
@@ -334,12 +335,13 @@ class ${Controller.testClass()} {
      * where the ID in the query string and the ID in the payload do not match.
      */
     protected MvcTestResult updateEntity(String resourceId, ${endpoint.pojoName} pojo) throws Exception {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
         return mockMvcTester
                     .put()
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.update}, resourceId)
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(request))
                     .exchange();
     }
 
@@ -347,12 +349,13 @@ class ${Controller.testClass()} {
      * Create an entity
      */
     protected MvcTestResult createEntity(${endpoint.pojoName} pojo) throws Exception {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
         return mockMvcTester
                     .post()
                     .uri(${endpoint.entityName}Routes.${endpoint.routeConstants.create})
                     .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonMapper.writeValueAsString(pojo))
+                    .content(jsonMapper.writeValueAsString(request))
                     .exchange();
     }
 }
