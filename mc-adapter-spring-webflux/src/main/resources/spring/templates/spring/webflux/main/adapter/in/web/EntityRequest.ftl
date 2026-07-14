@@ -20,6 +20,10 @@ public record ${EntityRequest.className()}(
     @Null(groups = OnCreate.class) @NotNull(groups = OnUpdate.class) @ResourceId String resourceId,
     @NotEmpty @Alphabetic String text)
 {
+    public static ${EntityRequest.className()} fromDomain(${EntityResource.className()} domain) {
+        return new ${EntityRequest.className()}(domain.getResourceId(), domain.getText());
+    }
+
     public ${EntityResource.className()} toDomain() {
         return ${EntityResource.className()}.builder().resourceId(resourceId).text(text).build();
     }

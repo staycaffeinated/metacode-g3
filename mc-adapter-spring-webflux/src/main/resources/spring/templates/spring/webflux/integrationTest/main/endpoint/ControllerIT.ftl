@@ -206,15 +206,19 @@ class ${Controller.integrationTestClass()} implements ${RegisterDatabaseProperti
     }
 
     WebTestClient.ResponseSpec sendCreate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
+
         return this.client.post().uri(${Routes.className()}.${endpoint.routeConstants.create})
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
+            .body(Mono.just(request), ${EntityRequest.className()}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendUpdate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
+
         return this.client.put().uri(${Routes.className()}.${endpoint.routeConstants.update}.replaceAll("\\{id}", pojo.getResourceId()))
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
+            .body(Mono.just(request), ${EntityRequest.className()}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendDelete${endpoint.entityName}Request(String resourceId) {

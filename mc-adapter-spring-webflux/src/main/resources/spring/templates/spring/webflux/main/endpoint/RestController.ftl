@@ -11,6 +11,7 @@ import ${UnprocessableEntityException.fqcn()};
 import ${ResourceNotFoundException.fqcn()};
 import ${ServiceApi.fqcn()};
 import ${EntityRequest.fqcn()};
+import ${EntityResponse.fqcn()};
 
 <#if endpoint.isWithOpenApi()>
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,37 +45,32 @@ public class ${Controller.className()} {
 
     private final ${ServiceApi.className()} ${endpoint.entityVarName}Service;
 
-    /*
-     * Get all
-     */
+
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Retrieve all ${endpoint.entityName}s")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found all ${endpoint.entityName}s")})
 </#if>
     @GetMapping (value=${Routes.className()}.${endpoint.routeConstants.findAll}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public Flux<${endpoint.pojoName}> getAll${endpoint.entityName}s() {
-        return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
+    public Flux<${EntityResponse.className()}> getAll${endpoint.entityName}s() {
+        return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s().map(${EntityResponse.className()}::fromDomain);
     }
 
-    /*
-     * Get one by resourceId
-     *
-     */
+
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Retrieve a single ${endpoint.entityName} based on its public identifier")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Found the ${endpoint.entityName}", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ${endpoint.pojoName}.class))}),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ${EntityResponse.className()}.class))}),
         @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
-    public Mono<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable @${ResourceIdAnnotation.className()} String id) {
+    public Mono<${EntityResponse.className()}> get${endpoint.entityName}ById(@PathVariable @${ResourceIdAnnotation.className()} String id) {
         return ${endpoint.entityVarName}Service.findByResourceId(id)
-                .switchIfEmpty(Mono.error(new ${ResourceNotFoundException.className()}(id)));
+                .switchIfEmpty(Mono.error(new ${ResourceNotFoundException.className()}(id))).map(${EntityResponse.className()}::fromDomain);
     }
     
     /**
-     * If api needs to push items as Streams to ensure Backpressure is applied, we
+     * If the api needs to push items as Streams to ensure Backpressure is applied, we
      * need to set produces to MediaType.TEXT_EVENT_STREAM_VALUE
      *
      * MediaType.TEXT_EVENT_STREAM_VALUE is the official media type for Server Sent
@@ -86,19 +82,19 @@ public class ${Controller.className()} {
 	 */
     @GetMapping(value = ${Routes.className()}.${endpoint.routeConstants.stream}, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public Flux<${endpoint.pojoName}> get${endpoint.entityName}Stream() {
+    public Flux<${EntityResponse.className()}> get${endpoint.entityName}Stream() {
 	    // This is only an example implementation. Modify this line as needed.
-        return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s().delayElements(Duration.ofMillis(250));
+        return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()
+                .delayElements(Duration.ofMillis(250))
+                .map(${EntityResponse.className()}::fromDomain);
     }
 
-    /*
-     * Create
-     */
+
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Create a new ${endpoint.entityName} entry and persist it")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Add a ${endpoint.entityName}", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = ${endpoint.entityName}.class))}),
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ${ResourceIdentity.className()}.class))}),
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -108,9 +104,7 @@ public class ${Controller.className()} {
         return id.map(value -> ResponseEntity.status(HttpStatus.CREATED).body(new ResourceIdentity(value)));
     }
     
-    /*
-     * Update by resourceId
-     */
+
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Update an existing ${endpoint.entityName}")
         @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Updated the ${endpoint.entityName}"),
@@ -118,17 +112,15 @@ public class ${Controller.className()} {
 </#if>
     @PutMapping(value=${endpoint.entityName}Routes.${endpoint.routeConstants.update}, produces = MediaType.APPLICATION_JSON_VALUE )
     @Validated(OnUpdate.class) 
-    public Mono<${endpoint.entityName}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody ${EntityRequest.className()} request) {
+    public Mono<${EntityResponse.className()}> update${endpoint.entityName}(@PathVariable @ResourceId String id, @RequestBody ${EntityRequest.className()} request) {
         if (!Objects.equals(id, request.resourceId())) {
             log.error("Update declined: mismatch between query string identifier, {}, and resource identifier, {}", id, request.resourceId());
             return Mono.error(new UnprocessableEntityException("Mismatch between the identifiers in the URI and the payload"));
         }
-        return ${endpoint.entityVarName}Service.update${endpoint.entityName}(request.toDomain());
+        return ${endpoint.entityVarName}Service.update${endpoint.entityName}(request.toDomain()).map(${EntityResponse.className()}::fromDomain);
     }
 
-    /*
-     * Delete one
-     */
+
 <#if endpoint.isWithOpenApi()>
     @Operation(summary = "Delete an existing ${endpoint.entityName}")
     @ApiResponses(value = {

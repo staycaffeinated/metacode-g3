@@ -388,6 +388,16 @@ entries:
     facets:
       - facet: "main"
         sourceTemplate: "/spring/webflux/main/adapter/in/web/EntityRequest.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webflux/test/adapter/in/web/EntityRequestTest.ftl"
+
+  - scope: "endpoint"
+    archetype: "EntityResponse"
+    facets:
+      - facet: "main"
+        sourceTemplate: "/spring/webflux/main/adapter/in/web/EntityResponse.ftl"
+      - facet: "test"
+        sourceTemplate: "/spring/webflux/test/adapter/in/web/EntityResponseTest.ftl"
 
   #
   # Resource files

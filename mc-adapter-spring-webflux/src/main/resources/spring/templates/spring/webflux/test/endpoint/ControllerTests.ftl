@@ -123,7 +123,9 @@ class ${Controller.testClass()} {
     @Test
     void shouldUpdate${endpoint.entityName}() {
         ${endpoint.pojoName} pojo = ${ModelTestFixtures.className()}.oneWithResourceId();
-        
+        when(mock${endpoint.entityName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class)))
+                .thenReturn(Mono.just(pojo));
+
         sendUpdate${endpoint.entityName}Request(pojo).expectStatus().isOk();
     }
 
@@ -200,15 +202,17 @@ class ${Controller.testClass()} {
     }
 
     WebTestClient.ResponseSpec sendCreate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
         return webClient.post().uri(${Routes.className()}.${endpoint.routeConstants.create})
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
+            .body(Mono.just(request), ${EntityRequest.className()}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendUpdate${endpoint.entityName}Request(${endpoint.entityName} pojo) {
+        ${EntityRequest.className()} request = ${EntityRequest.className()}.fromDomain(pojo);
         return webClient.put().uri(${Routes.className()}.${endpoint.routeConstants.update}.replaceAll("\\{id}", pojo.getResourceId()))
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(pojo), ${endpoint.entityName}.class).exchange();
+            .body(Mono.just(request), ${EntityRequest.className()}.class).exchange();
     }
 
     WebTestClient.ResponseSpec sendDelete${endpoint.entityName}Request(String resourceId) {
