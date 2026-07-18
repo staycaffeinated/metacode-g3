@@ -1,6 +1,8 @@
 plugins {
     id 'buildlogic.application-conventions'
+<#if (!project.isSpringBoot())>
     id 'buildlogic.integration-test'
+</#if>
     id 'jacoco-report-aggregation'
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.dependency.management)
@@ -71,15 +73,8 @@ sonar {
  * remove the dependency on `integrationTestCodeCoverageReport`.
  */
 tasks.named('check') {
+<#if (!project.isSpringBoot())>
     dependsOn tasks.named('integrationTestCodeCoverageReport')
+</#if>
     dependsOn tasks.named('testCodeCoverageReport')
-}
-
-// --------------------------------------------------------------------------------
-// Enable Mockito's Agent
-// --------------------------------------------------------------------------------
-tasks.withType(Test).configureEach {
-    doFirst {
-        <#noparse>jvmArgs "-javaagent:${configurations.mockitoAgent.asPath}"</#noparse>
-    }
 }
