@@ -44,6 +44,7 @@ dependencies {
 </#if>
 
     testImplementation libs.spring.boot.starter.test
+    testImplementation libs.spring.boot.starter.jdbc.test
     testImplementation libs.junit.jupiter
     testImplementation libs.spring.batch.test
 <#if (project.isWithKafka())>
