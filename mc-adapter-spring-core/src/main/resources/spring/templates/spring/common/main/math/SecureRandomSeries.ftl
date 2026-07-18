@@ -28,7 +28,7 @@ import java.security.SecureRandom;
  *
  */
 public class ${SecureRandomSeries.className()} implements ResourceIdSupplier {
-    private SecureRandom random;
+    private final SecureRandom random;
 
     // If you want the resource Id to use alphanumeric, this constant
     // defines the cipher alphabet that will be used. Add other characters as desired.
@@ -76,11 +76,13 @@ public class ${SecureRandomSeries.className()} implements ResourceIdSupplier {
      * Constructor with a preferred algorithm
      */
     public ${SecureRandomSeries.className()}(@NonNull String algorithm) {
+        SecureRandom sr;
         try {
-            random = SecureRandom.getInstance(algorithm);
+            sr =  SecureRandom.getInstance(algorithm);
         } catch (NoSuchAlgorithmException e) {
-            random = new SecureRandom();
+            sr = new SecureRandom();
         }
+        random = sr;
     }
 
     public static ${SecureRandomSeries.className()} instance() { return instance; }
