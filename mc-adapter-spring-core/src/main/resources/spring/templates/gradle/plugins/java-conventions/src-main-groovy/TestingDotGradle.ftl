@@ -7,6 +7,10 @@ configurations {
     mockitoAgent
 }
 
+dependencies {
+    mockitoAgent(libs.mockito) { transitive = false }
+}
+
 // --------------------------------------------------------------------------------
 // Make all tests use JUnit 5
 // --------------------------------------------------------------------------------
