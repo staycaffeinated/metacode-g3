@@ -72,7 +72,7 @@ class ${ControllerExceptionHandler.integrationTestClass()} implements ${Register
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(jsonMapper.writeValueAsString(payload)))
                     .assertThat()
-                    .hasStatus(HttpStatus.NOT_FOUND)
+                    .hasStatus4xxClientError()
                     .hasContentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON)
                     .bodyJson()
                     .doesNotHavePath("$.stackTrace")
