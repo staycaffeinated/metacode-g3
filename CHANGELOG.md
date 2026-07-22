@@ -1,5 +1,11 @@
 ## Uncommitted
 
+## [14.1.0] - 2026-07-22
+
+### Fixes:
+    * Projects created with the `spring-boot` template (i.e.: `create project spring-boot`) were failing to build because the `buildlogic.integration-test` was being applied even though no integration tests are generated with this template. (This project template generates a bare minimum code base). For this specific project template, the integration-test plugin is not automatically added to the generated `application/build.gradle` file.
+
+
 ## [14.0.0] - 2026-07-14
 
 
