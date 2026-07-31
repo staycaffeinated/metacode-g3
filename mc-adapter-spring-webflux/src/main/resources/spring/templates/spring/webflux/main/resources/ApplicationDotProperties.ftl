@@ -4,6 +4,12 @@
 # -------------------------------------------------------------------------
 server:
   port: 8080
+  shutdown: graceful
+  compression:
+    enabled: true
+      mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,application/javascript,application/json
+      # responses over 1K in size are gzip-compressed to reduce bandwidth
+      min-response-size: 1024
 
 
 # -------------------------------------------------------------------------
@@ -32,6 +38,11 @@ management:
     health:
       probes:
         enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
 
 # -------------------------------------------------------------------------
 # Spring
@@ -51,9 +62,9 @@ spring:
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
     serialization:
-      indent_output: false
+      indent-output: false
     deserialization:
-      fail_on_unknown_properties: false
+      fail-on-unknown-properties: false
 
   main:
     web-application-type: reactive
@@ -69,7 +80,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
-      connection-timeout: "2000"
+      connection-timeout: 2000
       maximum-pool-size: 20
       minimum-idle: 2
       pool-name: springboot-hikari-cp
@@ -168,3 +179,10 @@ spring:
             exception:
               handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
 </#if>
+
+  # -------------------------------------------------------------------------
+  # Threading
+  # -------------------------------------------------------------------------
+  threads:
+    virtual:
+      enabled: true

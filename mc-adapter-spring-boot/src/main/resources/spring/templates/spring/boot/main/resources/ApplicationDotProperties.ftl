@@ -1,6 +1,7 @@
 
 server:
   port: 8080
+  shutdown: graceful
   servlet:
 <#if (project.basePath)??>
     context-path: ${project.basePath}
@@ -21,6 +22,11 @@ management:
     health:
       probes:
         enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
 
 spring:
   application:
@@ -97,3 +103,10 @@ spring:
             exception:
               handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
 </#if>
+
+  # -------------------------------------------------------------------------
+  # Threading
+  # -------------------------------------------------------------------------
+  threads:
+    virtual:
+      enabled: true

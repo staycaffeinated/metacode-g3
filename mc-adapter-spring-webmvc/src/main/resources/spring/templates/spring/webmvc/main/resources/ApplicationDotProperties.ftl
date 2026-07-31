@@ -10,6 +10,12 @@ application:
 # -------------------------------------------------------------------------------------------------------
 server:
   port: 8080
+  shutdown: graceful
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,application/javascript,application/json
+    # responses over 1K in size are gzip-compressed to reduce bandwidth
+    min-response-size: 1024
   servlet:
 <#if (project.basePath)??>
     context-path: ${project.basePath}
@@ -42,6 +48,12 @@ management:
     health:
       probes:
         enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+
 
 # -------------------------------------------------------------------------
 # Spring properties
@@ -62,9 +74,9 @@ spring:
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
     serialization:
-      indent_output: false
+      indent-output: false
     deserialization:
-      fail_on_unknown_properties: false
+      fail-on-unknown-properties: false
 
   jpa:
     show-sql: true
@@ -73,8 +85,6 @@ spring:
 </#if>
     properties:
       hibernate:
-        id:
-          new_generator_mappings: false
 <#if (project.schema?has_content)>
         default_schema: <#noparse>"${spring.application.schema-name}"</#noparse>
 </#if>
@@ -110,7 +120,7 @@ spring:
     # Hikari connection pool properties. See: https://github.com/brettwooldridge/HikariCP
     # -------------------------------------------------------------------------------------------
     hikari:
-      connection-timeout: "2000"
+      connection-timeout: 2000
       maximum-pool-size: 20
       minimum-idle: 2
       pool-name: "springboot-hikari-cp"
@@ -201,6 +211,13 @@ spring:
               handler: 'org.apache.kafka.streams.errors.LogAndContinueExceptionHandler'
 
 </#if>
+
+  # -------------------------------------------------------------------------
+  # Threading
+  # -------------------------------------------------------------------------
+  threads:
+    virtual:
+      enabled: true
 
 # -------------------------------------------------------------------------
 # Logging
