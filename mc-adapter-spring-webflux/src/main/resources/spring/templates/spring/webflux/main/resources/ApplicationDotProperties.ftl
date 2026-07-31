@@ -7,10 +7,6 @@ server:
   shutdown: graceful
   compression:
     enabled: true
-      mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,application/javascript,application/json
-      # responses over 1K in size are gzip-compressed to reduce bandwidth
-      min-response-size: 1024
-
 
 # -------------------------------------------------------------------------
 # Logging
