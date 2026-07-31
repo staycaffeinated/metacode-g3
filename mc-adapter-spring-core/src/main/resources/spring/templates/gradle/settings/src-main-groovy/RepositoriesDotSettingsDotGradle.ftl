@@ -5,6 +5,9 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        gradlePluginPortal()
         mavenCentral()
+        mavenLocal()
+        maven { url "https://packages.confluent.io/maven/" }
     }
 }
