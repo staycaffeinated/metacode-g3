@@ -1,5 +1,16 @@
 ## Uncommitted
 
+### Changes:
+  * Added new properties to the `application.yml` files
+    * server.shutdown=graceful
+    * management.health.livenessState.enabled=true
+    * management.health.readinessState.enabled=true
+    * spring.threads.virtual.enabled=true
+  * These properties use dashes, not underscores:
+    * jackson.serialization.indent-output
+    * jackson.deserialization.fail-on-unknown-properties
+
+
 ## [14.1.0] - 2026-07-22
 
 ### Fixes:
