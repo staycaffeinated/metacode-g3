@@ -18,6 +18,10 @@ springdoc:
 </#if>
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
   endpoint:
     health:
       probes:

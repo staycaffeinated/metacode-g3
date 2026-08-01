@@ -30,6 +30,10 @@ springdoc:
 # Actuator
 # -------------------------------------------------------------------------
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
   endpoint:
     health:
       probes:

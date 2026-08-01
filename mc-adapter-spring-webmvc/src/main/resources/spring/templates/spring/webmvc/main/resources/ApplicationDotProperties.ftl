@@ -44,6 +44,10 @@ springdoc:
 # Actuator properties
 # -------------------------------------------------------------------------
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
   endpoint:
     health:
       probes:
