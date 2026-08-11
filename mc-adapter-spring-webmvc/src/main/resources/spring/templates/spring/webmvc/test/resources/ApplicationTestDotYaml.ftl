@@ -35,10 +35,10 @@ spring:
         init:
             mode: "embedded"
 </#if>
-h2:
-    console:
-    enabled: true
-    path: "/h2-console"
-    settings:
-        trace: false
-        web-allow-others: false
+    h2:
+        console:
+            enabled: true
+            path: "/h2-console"
+            settings:
+                trace: false
+                web-allow-others: false
