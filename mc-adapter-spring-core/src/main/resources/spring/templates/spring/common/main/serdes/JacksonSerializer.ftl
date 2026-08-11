@@ -13,7 +13,7 @@ import org.apache.kafka.common.serialization.Serializer;
 @Slf4j
 public class ${JacksonSerializer.className()}<T> implements Serializer<T> {
 
-    private JsonMapper jsonMapper;
+    private final JsonMapper jsonMapper;
 
     public ${JacksonSerializer.className()}(@Nonnull JsonMapper jsonMapper) {
         this.jsonMapper = Objects.requireNonNull(jsonMapper, "The JsonMapper must not be null");
