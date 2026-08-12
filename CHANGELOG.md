@@ -3,12 +3,19 @@
 ### Changes:
   * Added new properties to the `application.yml` files
     * server.shutdown=graceful
+    * server.compression.enabled=true
+    * server.compression.mime-type=(some reasonable defaults)
+    * server.compression.min-response-size=1024
     * management.health.livenessState.enabled=true
     * management.health.readinessState.enabled=true
     * spring.threads.virtual.enabled=true
   * These properties use dashes, not underscores:
     * jackson.serialization.indent-output
     * jackson.deserialization.fail-on-unknown-properties
+  * Added repositories to buildlogic.repositories.settings.gradle
+  * For Kafka consumers, the default `client-id` is changed to
+    be the application name and hostname. 
+
 
 
 ## [14.1.0] - 2026-07-22
