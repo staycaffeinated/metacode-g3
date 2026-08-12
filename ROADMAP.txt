@@ -1,3 +1,18 @@
+14.2:
+
+In buildlogic.repositories.settings.gradle, use:
+
+dependencyResolutionManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+
+
+
 14.x:
 
 Add ApplicationException:
