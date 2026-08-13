@@ -16,7 +16,13 @@
   * For Kafka consumers, the default `client-id` is changed to
     be the application name and hostname. 
 
-
+### Maintenance:
+    * Bumped ArchUnit to 1.5.0
+    * Bumped Ben Manes' Versions plugin to 0.61.0 
+    * Bumped SonarQube plugin to 7.4.0.8496
+    * Bumped Flyway to 13.3.0
+    * Bumped R2DBC Postgres to 1.1.2.RELEASE 
+    * Bumped OpenAPI to 3.1.0
 
 ## [14.1.0] - 2026-07-22
 
