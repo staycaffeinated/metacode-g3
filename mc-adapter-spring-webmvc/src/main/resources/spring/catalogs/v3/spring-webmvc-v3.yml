@@ -413,11 +413,11 @@ entries:
         sourceTemplate: "spring/webmvc/integrationTest/endpoint/ExceptionHandlingIT.ftl"
 
 
-  - scope: "endpoint"
-    archetype: "ServiceApi"
-    facets:
-      - facet: "main"
-        sourceTemplate: "/spring/webmvc/main/endpoint/RestService.ftl"
+#  - scope: "endpoint"
+#    archetype: "ServiceApi"
+#    facets:
+#      - facet: "main"
+#        sourceTemplate: "/spring/webmvc/main/endpoint/RestService.ftl"
 
   - scope: "endpoint"
     archetype: "ServiceImpl"
