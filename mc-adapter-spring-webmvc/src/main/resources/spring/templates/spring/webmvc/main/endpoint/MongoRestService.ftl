@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +20,9 @@ public interface ${ServiceApi.className()} {
 
     Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable);
 
-    ${EntityResource.className()} create${endpoint.entityName}(@NonNull @Validated(${OnCreateAnnotation.className()}.class) ${EntityResource.className()} resource);
+    ${EntityResource.className()} create${endpoint.entityName}(@NonNull ${EntityResource.className()} resource);
 
-    List<${EntityResource.className()}> update${endpoint.entityName}(@NonNull @Validated(${OnUpdateAnnotation.className()}.class) @Valid ${EntityResource.className()} resource);
+    List<${EntityResource.className()}> update${endpoint.entityName}(@NonNull ${EntityResource.className()} resource);
 
     void delete${endpoint.entityName}ByResourceId(@NonNull String id);
 }

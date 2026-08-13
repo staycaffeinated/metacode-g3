@@ -13,7 +13,6 @@ import ${ResourceNotFoundException.fqcn()};
 import ${ServiceApi.fqcn()};
 
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,7 +20,6 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Validated
 public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
 
     private final ${ConcreteDataStoreApi.className()} dataStore;

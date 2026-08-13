@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 @Slf4j
 @Validated
 @RequiredArgsConstructor
@@ -32,6 +31,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /*
      * findAll
      */
+    @Transactional(readOnly = true)
     public List<${EntityResource.className()}> findAll${endpoint.entityName}s() {
         return ${endpoint.lowerCaseEntityName}DataStore.findAll();
     }
@@ -39,6 +39,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /**
      * findByResourceId
      */
+    @Transactional(readOnly = true)
     public Optional<${EntityResource.className()}> find${endpoint.entityName}ByResourceId(String id) {
         return ${endpoint.lowerCaseEntityName}DataStore.findByResourceId(id);
     }
@@ -46,6 +47,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /*
      * findByText
      */
+    @Transactional(readOnly = true)
     public Page<${EntityResource.className()}> findByText(@NonNull String text, Pageable pageable) {
         return ${endpoint.lowerCaseEntityName}DataStore.findByText(text, pageable);
     }
@@ -53,6 +55,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /**
      * Persists a new resource
      */
+    @Transactional
     public ${EntityResource.className()} create${endpoint.entityName}(@NonNull @Validated(${OnCreateAnnotation.className()}.class) ${EntityResource.className()} resource) {
         return ${endpoint.lowerCaseEntityName}DataStore.create(resource);
     }
@@ -60,6 +63,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /**
      * Updates an existing resource
      */
+    @Transactional
     public List<${EntityResource.className()}> update${endpoint.entityName}(@NonNull @Validated(${OnUpdateAnnotation.className()}.class) @Valid ${EntityResource.className()} resource) {
         return ${endpoint.lowerCaseEntityName}DataStore.update(resource);
     }
@@ -67,6 +71,7 @@ public class ${ServiceImpl.className()} implements ${ServiceApi.className()} {
     /**
      * delete
      */
+    @Transactional
     public void delete${endpoint.entityName}ByResourceId(@NonNull String id) {
         ${endpoint.lowerCaseEntityName}DataStore.deleteByResourceId(id);
     }

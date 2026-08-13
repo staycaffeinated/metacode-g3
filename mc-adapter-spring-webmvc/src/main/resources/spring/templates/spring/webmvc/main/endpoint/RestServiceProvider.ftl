@@ -14,13 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ${ServiceImpl.className()} implements ${EntityCommandUseCase.className()}, ${EntityQueryUseCase.className()} {
 
     private final ${ConcreteDataStoreApi.className()} ${ConcreteDataStoreApi.varName()};
@@ -30,11 +28,6 @@ public class ${ServiceImpl.className()} implements ${EntityCommandUseCase.classN
       this.${ConcreteDataStoreApi.varName()} = ${ConcreteDataStoreApi.varName()};
     }
 
-<#--    @Override-->
-<#--    @Transactional(readOnly = true)-->
-<#--    public List<${EntityResource.className()}> findAll${endpoint.entityName}() {-->
-<#--        return ${ConcreteDataStoreApi.varName()}.findAll();-->
-<#--    }-->
 
     @Override
     @Transactional(readOnly = true)
@@ -61,16 +54,19 @@ public class ${ServiceImpl.className()} implements ${EntityCommandUseCase.classN
     }
 
     @Override
-    public ${EntityResource.className()} create${endpoint.entityName}( @NonNull @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
+    @Transactional
+    public ${EntityResource.className()} create${endpoint.entityName}( @NonNull ${endpoint.pojoName} resource ) {
         return ${ConcreteDataStoreApi.varName()}.save(resource);
     }
 
     @Override
-    public Optional<${endpoint.pojoName}> update${endpoint.entityName}(@NonNull @Validated(OnUpdate.class) ${endpoint.pojoName} resource ) {
+    @Transactional
+    public Optional<${endpoint.pojoName}> update${endpoint.entityName}(@NonNull ${endpoint.pojoName} resource ) {
         return ${ConcreteDataStoreApi.varName()}.update(resource);
     }
 
     @Override
+    @Transactional
     public Optional<${endpoint.pojoName}> delete${endpoint.entityName}ByResourceId(@NonNull String id) {
         return ${ConcreteDataStoreApi.varName()}.deleteByResourceId(id);
     }

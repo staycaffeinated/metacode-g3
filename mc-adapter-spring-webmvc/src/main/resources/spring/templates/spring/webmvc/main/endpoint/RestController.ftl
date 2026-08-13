@@ -75,7 +75,7 @@ public class ${Controller.className()} {
     @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Found the pet", content = {
     @Content(mediaType = "application/json",
-    schema = @Schema(implementation = ${endpoint.pojoName}.class))}),
+    schema = @Schema(implementation = ${EntityResponse.className()}.class))}),
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
     </#if>
     @GetMapping(value=${Routes.className()}.${endpoint.routeConstants.findOne}, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -92,7 +92,7 @@ public class ${Controller.className()} {
     @ApiResponse(responseCode = "200", description = "Add a ${endpoint.entityName}",
     content = {
     @Content(mediaType = "application/json",
-    schema = @Schema(implementation = ${endpoint.pojoName}.class))}),
+    schema = @Schema(implementation = ${EntityResponse.className()}.class))}),
     @ApiResponse(responseCode = "400", description = "An invalid ID was supplied")})
 </#if>
     @PostMapping (value=${Routes.className()}.${endpoint.routeConstants.create}, produces = MediaType.APPLICATION_JSON_VALUE)
