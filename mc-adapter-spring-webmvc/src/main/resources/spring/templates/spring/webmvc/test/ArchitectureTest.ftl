@@ -128,4 +128,17 @@ class ${Architecture.testClass()} {
             .should()
             .beAnnotatedWith(Autowired.class);
 
+    // ──────────────────────────────────────────────────────────────────────
+    // Domain purity
+    // ──────────────────────────────────────────────────────────────────────
+
+    @ArchTest
+    static final ArchRule domain_must_not_depend_on_springframework =
+        noClasses()
+            .that()
+            .resideInAPackage("${project.basePackage}.domain..")
+            .should()
+            .dependOnClassesThat()
+            .resideInAPackage("org.springframework..");
+
 }
