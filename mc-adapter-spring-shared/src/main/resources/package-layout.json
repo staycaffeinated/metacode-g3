@@ -188,8 +188,7 @@
       "package": "{{basePackage}}.application.shared.port.outbound",
       "archetypes": [
         "CustomRepository",
-        "PersistenceAdapter",
-        "AbstractDataStoreApi"
+        "PersistenceAdapter"
       ]
     },
     {
@@ -234,8 +233,8 @@
       ]
     },
     {
-      "package": "{{basePackage}}.application.shared.port.outbound",
-      "archetypes": [ "ResourceIdSupplier" ]
+      "package": "{{basePackage}}.application.port.outbound",
+      "archetypes": [ "ResourceIdSupplier", "AbstractDataStoreApi" ]
     },
     {
       "package": "{{basePackage}}.domain.model",
