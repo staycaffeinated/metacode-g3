@@ -18,11 +18,15 @@
 
 ### Maintenance:
     * Bumped ArchUnit to 1.5.0
-    * Bumped Ben Manes' Versions plugin to 0.61.0 
-    * Bumped SonarQube plugin to 7.4.0.8496
     * Bumped Flyway to 13.3.0
     * Bumped R2DBC Postgres to 1.1.2.RELEASE 
     * Bumped OpenAPI to 3.1.0
+    * Bumped Spotless plugin to 8.9.0
+    * Bumped Lombok plugin to 9.5.0
+    * Bumped Nebula Lint plugin to 21.2.1
+    * Bumped Jib plugin to 3.5.4
+    * Bumped Ben Manes' Versions plugin to 0.61.0 
+    * Bumped SonarQube plugin to 7.4.0.8496
 
 ## [14.1.0] - 2026-07-22
 
