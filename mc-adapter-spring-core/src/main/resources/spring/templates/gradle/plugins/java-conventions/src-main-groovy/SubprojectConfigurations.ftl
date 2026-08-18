@@ -2,7 +2,11 @@ subprojects {
     sonarqube {
         properties {
             property "sonar.sources", "src/main"
-            property "sonar.tests", [ "src/test", "src/integrationTest" ]
+            def testDirs = ["src/test", "src/integrationTest"].findAll {
+                new File(projectDir, it).exists() }
+            if (!testDirs.isEmpty()) {
+                property "sonar.tests", testDirs
+            }
             property "sonar.coverage.jacoco.xmlReportPaths", [
 <#noparse>
                 "${project.buildDir}/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml",
