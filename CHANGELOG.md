@@ -1,5 +1,8 @@
 ## Uncommitted
 
+
+## [14.2.0] - 2026-08-18
+
 ### Changes:
   * Added new properties to the `application.yml` files
     * server.shutdown=graceful
@@ -15,6 +18,13 @@
   * Added repositories to buildlogic.repositories.settings.gradle
   * For Kafka consumers, the default `client-id` is changed to
     be the application name and hostname. 
+  * The `buildlogic.subproject-configuration.gradle` plugin was changed to dynamically
+    add `src/test` and `src/integrationTest` directories to
+    the `sonar.test` property. This changes enables modules that _don't_
+    contain `src/test` or `src/integrationTest` folders to still work
+    when running `./gradlew sonar`.  The original code configuration 
+    caused the `sonar` task to fail if a module was missing either a
+    `src/test` or `src/integrationTest` folder.  
 
 ### Maintenance:
     * Bumped ArchUnit to 1.5.0
