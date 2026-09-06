@@ -1,7 +1,29 @@
 ## Uncommitted
 
 
+### Changes:
+  * Added `spring-boot-starter-flyway` and `spring-boot-starter-flyway-test`
+    to the `libs.version.toml` file and to the `build.gradle` file when Flyway
+    is used.  
+  * Added `spring-boot-starter-liquibase` and `spring-boot-starter-liquibase-test`
+    to the `libs.version.toml` file and to the `build.gradle` file when 
+    Liquibase is used
+  * Made tweaks to the `buildlogic.docker.gradle`. 
+  * The `buildlogic.integration-test.gradle` plugin adds integration tests to
+    the `check` task, along with integration test code coverage. This was being
+    handled in the `build.gradle` file but, thanks to an improvment in the
+    `buildlogic.sonar-jacoco.gradle` plugin, it can be moved.
+  * The `buildlogic.sonar-jacoco.gradle` plugin was improved to dynamically
+    check for the presence of a `src/test` and `src/integrationTest` folder.
+    There are use cases when either one may not exist (e.g., a module with AVRO
+    artifacts usually won't have either a `src/test` or `src/integrationTest` 
+    folder.  This means its no longer a burden on the developer to modify 
+    a module's `build.gradle` to include integration test coverage in the Jacoco/Sonar
+    reports, these new mods will handle that. 
+
+
 ## [14.2.0] - 2026-08-18
+
 
 ### Changes:
   * Added new properties to the `application.yml` files

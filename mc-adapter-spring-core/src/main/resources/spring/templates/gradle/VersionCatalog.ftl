@@ -106,6 +106,8 @@ spring-boot-starter-data-r2dbc = { module = "org.springframework.boot:spring-boo
 spring-boot-starter-flyway = { module = "org.springframework.boot:spring-boot-starter-flyway" }
 spring-boot-starter-flyway-test = { module = "org.springframework.boot:spring-boot-starter-flyway-test" }
 spring-boot-starter-kafka = { module = "org.springframework.boot:spring-boot-starter-kafka" }
+spring-boot-starter-liquibase = { module = "org.springframework.boot:spring-boot-starter-liquibase" }
+spring-boot-starter-liquibase-test = { module = "org.springframework.boot:spring-boot-starter-liquibase-test" }
 spring-boot-starter-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas" }
 spring-boot-starter-integration = { module = "org.springframework.boot:spring-boot-starter-integration" }
 spring-boot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail" }

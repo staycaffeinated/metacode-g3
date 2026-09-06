@@ -30,6 +30,7 @@ dependencies {
 </#if>
 <#if (project.isWithLiquibase())>
     implementation libs.liquibase.core
+    implementation libs.spring.boot.starter.liquibase
 </#if>
 <#if (project.isWithFlyway())>
     implementation libs.flyway.core
@@ -74,6 +75,9 @@ dependencies {
     testImplementation libs.flyway.spring.test
     testImplementation libs.flyway.test
     testImplementation libs.spring.boot.starter.flyway.test
+</#if>
+<#if (project.isWithLiquibase())>
+    testImplementation libs.spring.boot.starter.liquibase.test
 </#if>
 <#if (project.isWithMongoDb())>
     testImplementation libs.spring.boot.data.mongodb.test
