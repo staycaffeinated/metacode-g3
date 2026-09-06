@@ -65,16 +65,3 @@ sonar {
     }
 }
 
-/*
- * This task dependency is defined per module (subproject) since it cannot
- * be guaranteed that all modules of this application will have integration tests.
- * Thus, for any module that does not contain integration tests
- * (i.e., there's no `src/integrationTest/` folder), simply
- * remove the dependency on `integrationTestCodeCoverageReport`.
- */
-tasks.named('check') {
-<#if (!project.isSpringBoot())>
-    dependsOn tasks.named('integrationTestCodeCoverageReport')
-</#if>
-    dependsOn tasks.named('testCodeCoverageReport')
-}

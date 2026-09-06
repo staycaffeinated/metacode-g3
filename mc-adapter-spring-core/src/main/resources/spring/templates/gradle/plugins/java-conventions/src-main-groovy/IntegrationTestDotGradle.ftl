@@ -37,8 +37,9 @@ testing {
 }
 
 /*
- * The 'check' task will trigger integration tests.
+ * The 'check' task will trigger integration tests and generate the coverage report.
  */
 tasks.named('check') {
-    dependsOn(testing.suites.integrationTest)
+  dependsOn(testing.suites.integrationTest)
+  dependsOn tasks.matching { it.name == 'integrationTestCodeCoverageReport' }
 }
