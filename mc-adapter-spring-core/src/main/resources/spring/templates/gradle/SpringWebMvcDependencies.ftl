@@ -33,6 +33,7 @@ dependencies {
 </#if>
 <#if (project.isWithFlyway())>
     implementation libs.flyway.core
+    implementation libs.spring.boot.starter.flyway
 </#if>
 <#if (project.isWithKafka())>
     implementation libs.spring.boot.starter.kafka
@@ -72,6 +73,7 @@ dependencies {
 <#if (project.isWithFlyway())>
     testImplementation libs.flyway.spring.test
     testImplementation libs.flyway.test
+    testImplementation libs.spring.boot.starter.flyway.test
 </#if>
 <#if (project.isWithMongoDb())>
     testImplementation libs.spring.boot.data.mongodb.test
