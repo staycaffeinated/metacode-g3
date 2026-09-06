@@ -15,12 +15,12 @@ plugins {
 // file found in the root project. Fall back to version 17 if anything goes wrong.
 // --------------------------------------------------------------------------------
 java {
-    def javaVersion = 17
+    def javaVersion = 21
     try {
         javaVersion = rootProject.file('.java-version').text.trim()
     }
     catch (Exception e) {
-        javaVersion = 17
+        javaVersion = 21
     }
     toolchain {
         languageVersion = JavaLanguageVersion.of(javaVersion as String)
