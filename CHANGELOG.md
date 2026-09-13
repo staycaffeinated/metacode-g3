@@ -21,6 +21,15 @@
     a module's `build.gradle` to include integration test coverage in the Jacoco/Sonar
     reports, these new mods will handle that. 
 
+### Maintenance:
+   * Bumped Version plugin to 0.62.0
+   * Bumped H2 library to 2.5.250
+   * Bumped JUnit to 6.1.3
+   * Bumped OpenAPI library to 3.1.1
+   * Bumped Swagger Annotations library to 2.2.55
+   * Bumped Sonarqube Gradle plugin to 7.5.0.8588
+   * Bumped Spotless plugin to 8.10.2 
+
 
 ## [14.2.0] - 2026-08-18
 

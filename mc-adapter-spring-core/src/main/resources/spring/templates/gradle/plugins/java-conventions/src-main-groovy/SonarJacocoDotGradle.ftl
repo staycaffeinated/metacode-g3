@@ -36,4 +36,5 @@ sonarqube {
  */
 tasks.named('sonar') {
     dependsOn tasks.named('jacocoTestReport')
+    dependsOn tasks.matching { it.name == 'testCodeCoverageReport' }
 }

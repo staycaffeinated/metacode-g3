@@ -35,7 +35,7 @@ MetaCode is a CLI code generator that produces working Spring applications (WebM
 ./gradlew dependencyUpdates
 ```
 
-Java toolchain is set to Java 17.
+Java toolchain is set to Java 21.
 
 ## Module Structure
 
