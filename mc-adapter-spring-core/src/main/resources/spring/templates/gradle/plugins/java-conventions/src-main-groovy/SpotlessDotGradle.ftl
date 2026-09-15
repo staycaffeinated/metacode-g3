@@ -10,6 +10,7 @@ subprojects {
 
 spotless {
     java {
+        target fileTree(projectDir) { include 'src/**/*.java' }
         palantirJavaFormat()
         removeUnusedImports()
         importOrder()           // imports are ordered
