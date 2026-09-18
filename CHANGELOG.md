@@ -1,25 +1,39 @@
-## Uncommitted
+## [14.3.0] - 2026-09-18
 
 
 ### Changes:
+  * Java 21 is now the default JVM toolchain. ([46601c0](../../commit/46601c0))
   * Added `spring-boot-starter-flyway` and `spring-boot-starter-flyway-test`
     to the `libs.version.toml` file and to the `build.gradle` file when Flyway
-    is used.  
+    is used. ([0c0ae1f](../../commit/0c0ae1f))
   * Added `spring-boot-starter-liquibase` and `spring-boot-starter-liquibase-test`
     to the `libs.version.toml` file and to the `build.gradle` file when 
-    Liquibase is used
+    Liquibase is used. ([c60393c](../../commit/c60393c))
+  * Added initial heap size properties to generated `application.yml` files. ([e109b5b](../../commit/e109b5b))
   * Made tweaks to the `buildlogic.docker.gradle`. 
-  * The `buildlogic.integration-test.gradle` plugin adds integration tests to
-    the `check` task, along with integration test code coverage. This was being
-    handled in the `build.gradle` file but, thanks to an improvment in the
-    `buildlogic.sonar-jacoco.gradle` plugin, it can be moved.
+  * The `buildlogic.integration-test.gradle` plugin now owns the responsibility of
+    adding integration tests to the `check` task, including integration test code 
+    coverage. This was previously handled in each module's `build.gradle` file but
+    can now be moved into the plugin itself. ([a7e5e4e](../../commit/a7e5e4e))
   * The `buildlogic.sonar-jacoco.gradle` plugin was improved to dynamically
     check for the presence of a `src/test` and `src/integrationTest` folder.
     There are use cases when either one may not exist (e.g., a module with AVRO
     artifacts usually won't have either a `src/test` or `src/integrationTest` 
-    folder.  This means its no longer a burden on the developer to modify 
+    folder). This means it is no longer a burden on the developer to modify 
     a module's `build.gradle` to include integration test coverage in the Jacoco/Sonar
-    reports, these new mods will handle that. 
+    reports — the plugin handles it automatically.
+
+### Fixes:
+  * Spotless 8.x requires Guava on the plugin classpath; this was not included,
+    causing build failures. ([f87c71b](../../commit/f87c71b))
+  * Integration test coverage report is now guaranteed to be up-to-date before
+    the Sonar task runs. ([928a8f9](../../commit/928a8f9))
+  * Spotless is now configured to target all Java files in any directory,
+    not just those under `src/main`. ([5941792](../../commit/5941792))
+  * Fixed Groovy space-assignment deprecation warning for Maven repository URL
+    declarations. ([1bedbd9](../../commit/1bedbd9))
+  * Handled `bootRun`/`bootJar` configuration nuances when using Jib vs. 
+    standard `bootRun`. ([2efc92c](../../commit/2efc92c))
 
 ### Maintenance:
    * Bumped Version plugin to 0.62.0
@@ -28,7 +42,7 @@
    * Bumped OpenAPI library to 3.1.1
    * Bumped Swagger Annotations library to 2.2.55
    * Bumped Sonarqube Gradle plugin to 7.5.0.8588
-   * Bumped Spotless plugin to 8.10.2 
+   * Bumped Spotless plugin to 8.10.2
 
 
 ## [14.2.0] - 2026-08-18
